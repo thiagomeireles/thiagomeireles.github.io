@@ -1,23 +1,23 @@
 title: "Thiago Meireles"
-description: "Site em construÁ„o"
+description: "Site em constru√ß√£o"
 url: "https://thiagomeireles.github.io"
 baseurl: ""
 
-# --- AQUI EST¡ O TRUQUE ---
-# Usamos a vers„o v0.14.0 para funcionar no GitHub Pages padr„o
+# --- AQUI EST√Å O TRUQUE ---
+# Usamos a vers√£o v0.14.0 para funcionar no GitHub Pages padr√£o
 remote_theme: chrisrhymes/bulma-clean-theme@v0.14.0
 
-# Plugins necess·rios para esse tema funcionar bem
+# Plugins necess√°rios para esse tema funcionar bem
 plugins:
   - jekyll-seo-tag
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-paginate
 
-# ConfiguraÁ„o da PaginaÁ„o (para o blog)
+# Configura√ß√£o da Pagina√ß√£o (para o blog)
 paginate: 5
 paginate_path: "/blog/page:num/"
 
-# ConfiguraÁıes do Menu (Bulma Clean precisa disso)
+# Configura√ß√µe do Menu (Bulma Clean precisa disso)
 #hero_image: /assets/images/hero.jpg # Opcional: imagem de fundo do topo
 show_sidebar: true # Se quer barra lateral
