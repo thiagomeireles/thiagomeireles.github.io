@@ -4,11 +4,14 @@ title: ""
 permalink: /
 ---
   
+<style>
+  /* Isso esconde o H1 padrão que o tema gera automaticamente */
+  .title.is-1 { display: none; } 
+</style>
 
-<figure class="image is-fullwidth" style="margin-bottom: 2rem; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-  <img src="/assets/images/teste.png" alt="Banner Thiago Meireles" style="object-fit: cover; max-height: 400px;">
-</figure>
-
+<div style="text-align: center; margin-bottom: 2rem;">
+  <img src="/assets/images/banner_novo.jpg" alt="Thiago Meireles" style="max-width: 100%; border-radius: 5px;">
+</div>
 
 ### Olá!
 
