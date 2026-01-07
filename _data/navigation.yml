@@ -1,13 +1,8 @@
 - name: Home
-link: /
-  - name: Blog
-link: /blog/
-  - name: Sobre
-link: /about/
-  - name: Dropdown Exemplo
-link: #
-  dropdown:
-  - name: Item 1
-link: /item1/
-  - name: Item 2
-link: /item2/
+  link: /
+- name: Blog
+  link: /blog/
+- name: Sobre
+  link: /about/
+- name: CV
+  link: /cv/
