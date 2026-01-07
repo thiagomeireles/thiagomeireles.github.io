@@ -1,0 +1,39 @@
+title: Thiago Meireles
+name: Thiago Meireles
+description: "PhD Candidate in Political Science (USP) | Data Scientist @ Cetic.br"
+url: "https://thiagomeireles.github.io"
+baseurl: ""
+
+# Configurações do Tema (Minimal Mistakes)
+remote_theme: "mmistakes/minimal-mistakes"
+minimal_mistakes_skin: "contrast" # Opções: "default", "air", "contrast", "dark"
+
+# Seus Dados (Aparecem na barra lateral)
+author:
+  name: "Thiago Meireles"
+  avatar: "/assets/images/profile.jpg" # Coloque uma foto sua nessa pasta
+  bio: "Pesquisador focado em **IA**, **Mercado de Trabalho** e **Desigualdade**. PhD Candidate na USP e Cientista de Dados no Cetic.br."
+  location: "São Paulo, BR"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/thiagomeireles"
+    - label: "Lattes"
+      icon: "fas fa-fw fa-graduation-cap"
+      url: "http://lattes.cnpq.br/SEU_ID_LATTES" # Atualize aqui
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://linkedin.com/in/seu-perfil"
+
+# Plugins Essenciais para DS (MathJax e Sitemap)
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-include-cache
+
+markdown: kramdown
+highlighter: rouge # Deixa o código R/Python colorido
+kramdown:
+  input: GFM
+  syntax_highlighter_opts:
+    css_class: 'highlight'
