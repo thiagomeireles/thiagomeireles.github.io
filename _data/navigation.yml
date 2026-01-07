@@ -1,9 +1,0 @@
-main:
-  - title: "Sobre"
-    url: "/"
-  - title: "Projetos (DS)"
-    url: "/portfolio/"
-  - title: "Publicações & CV"
-    url: "/cv/"
-  - title: "Blog"
-    url: "/blog/"
