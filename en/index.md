@@ -1,7 +1,7 @@
 ---
 layout: page
-title: "English Version"
-permalink: /en/
+title: "Home"
+permalink: /
 ---
 
 <style>
@@ -9,6 +9,12 @@ permalink: /en/
   .hero-body { display: none !important; }
   .hero { min-height: 0 !important; }
   .skill-tag { margin-bottom: 0.5rem; }
+</style>
+
+
+<style>
+  .hero-body { display: none !important; }
+  .hero { min-height: 0 !important; }
 </style>
 
 <div style="text-align: center; margin-bottom: 2rem;">
@@ -33,11 +39,17 @@ permalink: /en/
   <div class="columns is-variable is-6">
     <div class="column is-two-thirds">
       <h4 class="title is-5"><i class="fas fa-briefcase"></i> O que faço</h4>
+      
       <p>
-        Atualmente, lidero projetos de inovação metodológica no <strong>Cetic.br (NIC.br)</strong>, aplicando Processamento de Linguagem Natural (NLP) e estatística para entender o ecossistema digital brasileiro.
+        No <strong>Cetic.br (NIC.br)</strong>, atuo na inovação metodológica desenvolvendo ferramentas de visualização e aplicando <strong>NLP</strong> e <strong>Web Scraping</strong> para a produção de estatísticas TIC.
       </p>
+      
       <p>
-        Tenho uma base acadêmica sólida como <strong>Doutor em Ciência Política pela USP</strong>, onde investiguei os impactos da Inteligência Artificial no mercado de trabalho e na desigualdade. Também atuo como consultor independente, desenhando modelos preditivos e testes A/B para estratégias corporativas.
+        Como consultor independente, foco em <strong>automação de análises (R/Python)</strong> e <strong>Inferência Causal</strong> (incluindo Testes A/B) para resolver problemas de negócio complexos.
+      </p>
+
+      <p>
+        Doutor em Ciência Política pela <strong>USP</strong>, com tese sobre os impactos da Inteligência Artificial na estrutura do emprego e renda.
       </p>
     </div>
     
