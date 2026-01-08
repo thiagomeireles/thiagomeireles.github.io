@@ -1,18 +1,49 @@
 ---
 layout: page
-title: "Thiago Meireles"
+title: "Home"
 permalink: /
 ---
-  
 
 <style>
-  .title.is-1 { display: none; } /* Esconde o título padrão */
+  /* 1. Esconde a caixa grande colorida do título padrão */
+  .hero-body {
+    display: none !important;
+  }
+  
+  /* 2. (Opcional) Se quiser que a barra de menu fique mais fina/compacta */
+  .hero {
+    min-height: 0 !important;
+  }
 </style>
 
 <div style="text-align: center; margin-bottom: 2rem;">
   <img src="/assets/images/banner_novo.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
 
+<div class="content">
+  <p class="is-size-5">
+    Olá! Sou <strong>Data Scientist</strong> e <strong>Pesquisador</strong> baseado em São Paulo.
+  </p>
+  
+  <p>
+    Atualmente, atuo no <strong>Cetic.br (NIC.br)</strong> e sou Doutorando em Ciência Política pela <strong>USP</strong>. Meu foco é entender como a Inteligência Artificial impacta o mercado de trabalho e a desigualdade.
+  </p>
+
+  <div class="columns is-centered" style="margin-top: 2rem;">
+    <div class="column is-half">
+      <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">
+        <span class="icon"><i class="fas fa-chart-line"></i></span>
+        <span>Ver Portfólio</span>
+      </a>
+    </div>
+    <div class="column is-half">
+      <a href="/cv/" class="button is-link is-outlined is-fullwidth">
+        <span class="icon"><i class="fas fa-file-pdf"></i></span>
+        <span>Ver Currículo</span>
+      </a>
+    </div>
+  </div>
+</div>
 
 <div class="content">
   <p class="is-size-5">
