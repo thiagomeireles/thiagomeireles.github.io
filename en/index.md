@@ -9,12 +9,6 @@ permalink: /en/
   .hero { min-height: 0 !important; }
 </style>
 
-<div style="text-align: right; margin-bottom: 10px;">
-  <a href="/" class="button is-small is-text" style="text-decoration: none;">
-    Versão em Português 🇧🇷
-  </a>
-</div>
-
 <div style="text-align: center; margin-bottom: 2rem;">
   <img src="/assets/images/banner_novo.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
