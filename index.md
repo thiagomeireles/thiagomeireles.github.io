@@ -11,21 +11,27 @@ permalink: /
   .skill-tag { margin-bottom: 0.5rem; }
 </style>
 
+
+<style>
+  .hero-body { display: none !important; }
+  .hero { min-height: 0 !important; }
+</style>
+
 <div style="text-align: center; margin-bottom: 2rem;">
   <img src="/assets/images/banner_novo.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
 
 <div class="content">
   <h3 class="title is-4 has-text-centered">
-    Transformando dados complexos em estratégia e impacto social
+  Ciência de Dados, Inferência Causal e Inovação
   </h3>
   
   <p class="is-size-5 has-text-centered">
-    Olá! Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Pesquisador (Ph.D.).
+    Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Doutor em Ciência Política pela USP.
   </p>
 
   <p>
-    Atuo na interseção entre <strong>Ciência Social Computacional</strong>, <strong>Estatística</strong> e <strong>Negócios</strong>. Minha missão é traduzir métodos quantitativos avançados em narrativas claras para tomada de decisão.
+    Lidero projetos de análise de dados e inovação metodológica no <strong>Cetic.br</strong>, combinando técnicas avançadas de <strong>Machine Learning</strong> e <strong>Estatística</strong> para resolver problemas complexos e oferecer soluções acessíveis para gestores e stakeholders.
   </p>
 
   <hr>
