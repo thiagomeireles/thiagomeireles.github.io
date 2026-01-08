@@ -1,0 +1,10 @@
+- name: Home
+  link: /en/
+- name: About
+  link: /en/about/   # Você precisará criar essa página depois, se quiser
+- name: Portfolio
+  link: /en/portfolio/  # Pode mandar para o mesmo se não tiver traduzido ainda
+- name: CV
+  link: /en/cv/
+- name: Português 🇧🇷
+  link: /
