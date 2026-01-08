@@ -5,8 +5,10 @@ permalink: /en/
 ---
 
 <style>
+  /* Ajustes visuais para limpar a home */
   .hero-body { display: none !important; }
   .hero { min-height: 0 !important; }
+  .skill-tag { margin-bottom: 0.5rem; }
 </style>
 
 <div style="text-align: center; margin-bottom: 2rem;">
