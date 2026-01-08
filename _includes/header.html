@@ -41,3 +41,30 @@
     </div>
   </div>
 </nav> 
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // 1. Pega todos os elementos que são "navbar-burger"
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+    // 2. Verifica se existe algum burger na página
+    if ($navbarBurgers.length > 0) {
+
+      // 3. Adiciona um evento de clique em cada um deles
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+
+          // Pega o alvo do atributo "data-target" (que é o ID do menu)
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+
+          // Alterna a classe "is-active" tanto no botão quanto no menu
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+
+        });
+      });
+    }
+  });
+</script>
