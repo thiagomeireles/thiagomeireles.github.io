@@ -19,12 +19,7 @@ permalink: /en/
   <img src="/assets/images/banner_novo.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
 
-<div style="text-align: right; margin-bottom: 1rem;">
-  <a href="/" class="button is-small is-light">
-    <span class="icon"><i class="fas fa-globe-americas"></i></span>
-    <span>Mudar para Português 🇧🇷</span>
-  </a>
-</div>
+
 
 <div class="content">
   <p class="is-size-5">
