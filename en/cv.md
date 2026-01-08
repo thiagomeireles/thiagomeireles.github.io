@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "CV"
-permalink: /cv/
+permalink: /en/cv/
 ---
 
 <div style="text-align: center; margin-bottom: 20px;">
