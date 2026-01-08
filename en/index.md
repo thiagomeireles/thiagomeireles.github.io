@@ -1,52 +1,48 @@
 ---
 layout: page
-title: "Home"
-permalink: /
+title: "English Version"
+permalink: /en/
 ---
 
 <style>
-  /* Remove o título padrão do tema para limpar o visual */
   .hero-body { display: none !important; }
   .hero { min-height: 0 !important; }
-  
-  /* Ajuste fino para espaçamento */
-  .content-wrapper {
-    max-width: 900px;
-    margin: 0 auto;
-  }
 </style>
 
 <div style="text-align: center; margin-bottom: 2rem;">
   <img src="/assets/images/banner_novo.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
 
-<div class="content content-wrapper">
-  
-  <h3 class="title is-4 has-text-centered" style="margin-bottom: 1.5rem;">
-    Ciência de Dados, Inferência Causal e Inovação
+<div class="content">
+  <h3 class="title is-4 has-text-centered">
+  Ciência de Dados, Inferência Causal e Inovação
   </h3>
   
-  <p class="is-size-5 has-text-centered" style="line-height: 1.8;">
+  <p class="is-size-5 has-text-centered">
     Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Doutor em Ciência Política pela USP.
   </p>
 
-  <p class="has-text-centered">
+  <p>
     Lidero projetos de análise de dados e inovação metodológica no <strong>Cetic.br</strong>, combinando técnicas avançadas de <strong>Machine Learning</strong> e <strong>Estatística</strong> para resolver problemas complexos e oferecer soluções acessíveis para gestores e stakeholders.
   </p>
 
   <hr>
 
-  <div class="columns is-variable is-6" style="margin-top: 2rem;">
-    
+  <div class="columns is-variable is-6">
     <div class="column is-two-thirds">
-      <h4 class="title is-5"><i class="fas fa-bullseye"></i> Foco de Atuação</h4>
+      <h4 class="title is-5"><i class="fas fa-briefcase"></i> O que faço</h4>
       <p>
-        Minha trajetória une o rigor da pesquisa acadêmica à agilidade do mercado. Tenho expertise em transformar grandes volumes de dados (Big Data) em estratégias claras, atuando desde a concepção de <strong>modelos preditivos</strong> até a mensuração de impacto com <strong>Inferência Causal</strong>.
+        Atualmente, lidero projetos de inovação metodológica no <strong>Cetic.br (NIC.br)</strong>, aplicando Processamento de Linguagem Natural (NLP) e estatística para entender o ecossistema digital brasileiro.
+      </p>
+      <p>
+        Tenho uma base acadêmica sólida como <strong>Doutor em Ciência Política pela USP</strong>, onde investiguei os impactos da Inteligência Artificial no mercado de trabalho e na desigualdade. Também atuo como consultor independente, desenhando modelos preditivos e testes A/B para estratégias corporativas.
       </p>
     </div>
     
     <div class="column">
-      <h4 class="title is-5"><i class="fas fa-code"></i> Tecnologias</h4>
+      <h4 class="title is-5"><i class="fas fa-tools"></i> Expertise</h4>
+      
+      <strong>Tecnologias:</strong><br>
       <div class="tags">
         <span class="tag is-info is-light">R (Expert)</span>
         <span class="tag is-info is-light">Python</span>
@@ -54,27 +50,26 @@ permalink: /
         <span class="tag is-info is-light">Git</span>
       </div>
 
-      <h4 class="title is-5 is-size-6" style="margin-top: 1rem;"><i class="fas fa-layer-group"></i> Métodos</h4>
+      <strong>Métodos:</strong><br>
       <div class="tags">
-        <span class="tag is-success is-light">Causal Inference</span>
+        <span class="tag is-success is-light">Inferência Causal</span>
+        <span class="tag is-success is-light">Machine Learning</span>
         <span class="tag is-success is-light">NLP</span>
         <span class="tag is-success is-light">Survey Analysis</span>
-        <span class="tag is-success is-light">Machine Learning</span>
       </div>
     </div>
-
   </div>
 
 </div>
 
-<div class="columns is-centered" style="margin-top: 3rem;">
+<div class="columns is-centered" style="margin-top: 2rem;">
   
   <div class="column is-half">
     <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
         <p class="title is-5"><i class="fas fa-project-diagram has-text-primary"></i> Portfólio</p>
-        <p class="subtitle is-6">Projetos de Data Science</p>
-        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Ver Projetos</a>
+        <p class="subtitle is-6">Veja meus projetos práticos</p>
+        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Acessar Projetos</a>
       </div>
     </div>
   </div>
@@ -82,8 +77,8 @@ permalink: /
   <div class="column is-half">
     <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
-        <p class="title is-5"><i class="fas fa-file-alt has-text-link"></i> Currículo</p>
-        <p class="subtitle is-6">Publicações e Trajetória</p>
+        <p class="title is-5"><i class="fas fa-file-pdf has-text-link"></i> Currículo</p>
+        <p class="subtitle is-6">Publicações e trajetória acadêmica</p>
         <a href="/cv/" class="button is-link is-outlined is-fullwidth">Ver CV Completo</a>
       </div>
     </div>
