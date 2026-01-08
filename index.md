@@ -5,15 +5,10 @@ permalink: /
 ---
 
 <style>
-  /* 1. Esconde a caixa grande colorida do título padrão */
-  .hero-body {
-    display: none !important;
-  }
-  
-  /* 2. (Opcional) Se quiser que a barra de menu fique mais fina/compacta */
-  .hero {
-    min-height: 0 !important;
-  }
+  /* Ajustes visuais para limpar a home */
+  .hero-body { display: none !important; }
+  .hero { min-height: 0 !important; }
+  .skill-tag { margin-bottom: 0.5rem; }
 </style>
 
 <div style="text-align: center; margin-bottom: 2rem;">
@@ -21,82 +16,71 @@ permalink: /
 </div>
 
 <div class="content">
-  <p class="is-size-5">
-    Olá! Sou <strong>Data Scientist</strong> e <strong>Pesquisador</strong> baseado em São Paulo.
-  </p>
+  <h3 class="title is-4 has-text-centered">
+    Transformando dados complexos em estratégia e impacto social
+  </h3>
   
-  <p>
-    Atualmente, atuo no <strong>Cetic.br (NIC.br)</strong> e sou Doutorando em Ciência Política pela <strong>USP</strong>. Meu foco é entender como a Inteligência Artificial impacta o mercado de trabalho e a desigualdade.
+  <p class="is-size-5 has-text-centered">
+    Olá! Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Pesquisador (Ph.D.).
   </p>
 
-  <div class="columns is-centered" style="margin-top: 2rem;">
-    <div class="column is-half">
-      <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">
-        <span class="icon"><i class="fas fa-chart-line"></i></span>
-        <span>Ver Portfólio</span>
-      </a>
+  <p>
+    Atuo na interseção entre <strong>Ciência Social Computacional</strong>, <strong>Estatística</strong> e <strong>Negócios</strong>. Minha missão é traduzir métodos quantitativos avançados em narrativas claras para tomada de decisão.
+  </p>
+
+  <hr>
+
+  <div class="columns is-variable is-6">
+    <div class="column is-two-thirds">
+      <h4 class="title is-5"><i class="fas fa-briefcase"></i> O que faço</h4>
+      <p>
+        Atualmente, lidero projetos de inovação metodológica no <strong>Cetic.br (NIC.br)</strong>, aplicando Processamento de Linguagem Natural (NLP) e estatística para entender o ecossistema digital brasileiro.
+      </p>
+      <p>
+        Tenho uma base acadêmica sólida como <strong>Doutor em Ciência Política pela USP</strong>, onde investiguei os impactos da Inteligência Artificial no mercado de trabalho e na desigualdade. Também atuo como consultor independente, desenhando modelos preditivos e testes A/B para estratégias corporativas.
+      </p>
     </div>
-    <div class="column is-half">
-      <a href="/cv/" class="button is-link is-outlined is-fullwidth">
-        <span class="icon"><i class="fas fa-file-pdf"></i></span>
-        <span>Ver Currículo</span>
-      </a>
+    
+    <div class="column">
+      <h4 class="title is-5"><i class="fas fa-tools"></i> Expertise</h4>
+      
+      <strong>Tecnologias:</strong><br>
+      <div class="tags">
+        <span class="tag is-info is-light">R (Expert)</span>
+        <span class="tag is-info is-light">Python</span>
+        <span class="tag is-info is-light">SQL</span>
+        <span class="tag is-info is-light">Git</span>
+      </div>
+
+      <strong>Métodos:</strong><br>
+      <div class="tags">
+        <span class="tag is-success is-light">Inferência Causal</span>
+        <span class="tag is-success is-light">Machine Learning</span>
+        <span class="tag is-success is-light">NLP</span>
+        <span class="tag is-success is-light">Survey Analysis</span>
+      </div>
     </div>
   </div>
+
 </div>
 
-<div class="content">
-  <p class="is-size-5">
-    Olá! Sou <strong>Data Scientist</strong> e <strong>Pesquisador</strong> baseado em São Paulo.
-  </p>
-  
-  <p>
-    Atualmente, atuo no <strong>Cetic.br (NIC.br)</strong>, onde aplico métodos estatísticos avançados para entender o ecossistema digital brasileiro. Paralelamente, sou Doutorando em Ciência Política pela <strong>Universidade de São Paulo (USP)</strong>.
-  </p>
-
-  <p>
-    Meu trabalho situa-se na interseção entre <strong>Ciência Social Computacional</strong> e <strong>Machine Learning</strong>. Tenho interesse especial em como a Inteligência Artificial impacta o mercado de trabalho e a desigualdade de renda, utilizando métodos rigorosos de Inferência Causal.
-  </p>
-
-  <div class="columns is-multiline is-mobile" style="margin-top: 1rem;">
-    <div class="column is-half">
-      <span class="icon has-text-primary"><i class="fas fa-code"></i></span>
-      <strong>Tech:</strong> R (Expert), Python, SQL
-    </div>
-    <div class="column is-half">
-      <span class="icon has-text-primary"><i class="fas fa-chart-line"></i></span>
-      <strong>Foco:</strong> Causal Inference & AI
-    </div>
-    <div class="column is-half">
-      <span class="icon has-text-primary"><i class="fas fa-university"></i></span>
-      <strong>Academia:</strong> PhD Cand. (USP), MA (USP)
-    </div>
-    <div class="column is-half">
-      <span class="icon has-text-primary"><i class="fas fa-map-marker-alt"></i></span>
-      <strong>Local:</strong> São Paulo, SP
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<div class="columns is-centered">
+<div class="columns is-centered" style="margin-top: 2rem;">
   
   <div class="column is-half">
-    <div class="card h-100">
+    <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
-        <p class="title is-5"><i class="fas fa-project-diagram"></i> Portfólio</p>
-        <p class="subtitle is-6">Veja meus projetos de Data Science</p>
-        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Ver Projetos</a>
+        <p class="title is-5"><i class="fas fa-project-diagram has-text-primary"></i> Portfólio</p>
+        <p class="subtitle is-6">Veja meus projetos práticos</p>
+        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Acessar Projetos</a>
       </div>
     </div>
   </div>
 
   <div class="column is-half">
-    <div class="card h-100">
+    <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
-        <p class="title is-5"><i class="fas fa-file-pdf"></i> Currículo</p>
-        <p class="subtitle is-6">Publicações e Trajetória Acadêmica</p>
+        <p class="title is-5"><i class="fas fa-file-pdf has-text-link"></i> Currículo</p>
+        <p class="subtitle is-6">Publicações e trajetória acadêmica</p>
         <a href="/cv/" class="button is-link is-outlined is-fullwidth">Ver CV Completo</a>
       </div>
     </div>
