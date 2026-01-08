@@ -10,7 +10,7 @@ permalink: /
 </style>
 
 <div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_novo.jpg" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+  <img src="/assets/images/banner_novo.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
 
 
