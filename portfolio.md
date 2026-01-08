@@ -1,11 +1,11 @@
 ---
-  layout: page
+layout: page
 title: "Portfólio de Projetos"
 permalink: /portfolio/
-  show_sidebar: true
+show_sidebar: true
 ---
   
-  Aqui estão alguns dos projetos desenvolvidos ao longo da minha trajetória acadêmica e profissional, focados em **Ciência de Dados**, **Visualização** e **Inferência Causal**.
+Aqui estão alguns dos projetos desenvolvidos ao longo da minha trajetória acadêmica e profissional, focados em **Ciência de Dados**, **Visualização** e **Inferência Causal**.
 
 ---
   
