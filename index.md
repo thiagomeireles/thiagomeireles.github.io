@@ -5,15 +5,70 @@ permalink: /
 ---
   
 
-<figure class="image is-fullwidth" style="margin-bottom: 2rem; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-  <img src="/assets/images/teste.png" alt="Banner Thiago Meireles" style="object-fit: cover; max-height: 400px;">
-</figure>
+<style>
+  .title.is-1 { display: none; } /* Esconde o título padrão */
+</style>
+
+<div style="text-align: center; margin-bottom: 2rem;">
+  <img src="/assets/images/banner_novo.jpg" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+</div>
 
 
-### Olá!
+<div class="content">
+  <p class="is-size-5">
+    Olá! Sou <strong>Data Scientist</strong> e <strong>Pesquisador</strong> baseado em São Paulo.
+  </p>
+  
+  <p>
+    Atualmente, atuo no <strong>Cetic.br (NIC.br)</strong>, onde aplico métodos estatísticos avançados para entender o ecossistema digital brasileiro. Paralelamente, sou Doutorando em Ciência Política pela <strong>Universidade de São Paulo (USP)</strong>.
+  </p>
 
-Sou Data Scientist no Cetic.br e pesquisador focado em **Inteligência Artificial**, **Inferência Causal** e **Desigualdade**.
+  <p>
+    Meu trabalho situa-se na interseção entre <strong>Ciência Social Computacional</strong> e <strong>Machine Learning</strong>. Tenho interesse especial em como a Inteligência Artificial impacta o mercado de trabalho e a desigualdade de renda, utilizando métodos rigorosos de Inferência Causal.
+  </p>
 
-Neste espaço, centralizo meus códigos, análises de dados e publicações acadêmicas.
+  <div class="columns is-multiline is-mobile" style="margin-top: 1rem;">
+    <div class="column is-half">
+      <span class="icon has-text-primary"><i class="fas fa-code"></i></span>
+      <strong>Tech:</strong> R (Expert), Python, SQL
+    </div>
+    <div class="column is-half">
+      <span class="icon has-text-primary"><i class="fas fa-chart-line"></i></span>
+      <strong>Foco:</strong> Causal Inference & AI
+    </div>
+    <div class="column is-half">
+      <span class="icon has-text-primary"><i class="fas fa-university"></i></span>
+      <strong>Academia:</strong> PhD Cand. (USP), MA (USP)
+    </div>
+    <div class="column is-half">
+      <span class="icon has-text-primary"><i class="fas fa-map-marker-alt"></i></span>
+      <strong>Local:</strong> São Paulo, SP
+    </div>
+  </div>
+</div>
 
-[Link para meu LinkedIn](https://linkedin.com/in/seu-perfil)
+<hr>
+
+<div class="columns is-centered">
+  
+  <div class="column is-half">
+    <div class="card h-100">
+      <div class="card-content has-text-centered">
+        <p class="title is-5"><i class="fas fa-project-diagram"></i> Portfólio</p>
+        <p class="subtitle is-6">Veja meus projetos de Data Science</p>
+        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Ver Projetos</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-half">
+    <div class="card h-100">
+      <div class="card-content has-text-centered">
+        <p class="title is-5"><i class="fas fa-file-pdf"></i> Currículo</p>
+        <p class="subtitle is-6">Publicações e Trajetória Acadêmica</p>
+        <a href="/cv/" class="button is-link is-outlined is-fullwidth">Ver CV Completo</a>
+      </div>
+    </div>
+  </div>
+
+</div>
