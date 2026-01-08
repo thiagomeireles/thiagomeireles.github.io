@@ -68,3 +68,35 @@
     }
   });
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    if ($navbarBurgers.length > 0) {
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Quando a tela for menor que 1024px (Tablets e Celulares) */
+  @media screen and (max-width: 1023px) {
+    .navbar-menu {
+      background-color: white; /* Fundo branco para não ficar transparente */
+      box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1); /* Uma sombra leve */
+      padding: 0.5rem 0; /* Espaçamento interno */
+    }
+    
+    /* Ajuste para os links não ficarem colados na borda */
+    .navbar-item {
+      padding-left: 1.5rem; 
+    }
+  }
+</style>
