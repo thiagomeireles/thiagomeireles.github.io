@@ -144,6 +144,36 @@ permalink: /
 
 </div>
 
+<div class="content margem-desktop">
+  <div class="columns is-centered" style="margin-top: 2rem;">
+    
+    <div class="column is-half">
+      <div class="card h-100" style="border: 1px solid #eee;">
+        <div class="card-content">
+          <p class="title is-5 has-text-centered">Título do Formulário 1</p>
+          
+          <iframe data-tally-src="https://tally.so/embed/SEU_ID_FORM_1?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="200" frameborder="0" marginheight="0" marginwidth="0" title="Formulário 1"></iframe>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-half">
+      <div class="card h-100" style="border: 1px solid #eee;">
+        <div class="card-content">
+          <p class="title is-5 has-text-centered">Título do Formulário 2</p>
+          
+          <iframe data-tally-src="https://tally.so/embed/SEU_ID_FORM_2?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="200" frameborder="0" marginheight="0" marginwidth="0" title="Formulário 2"></iframe>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script async src="https://tally.so/widgets/embed.js"></script>
+
 <div class="content has-text-centered" style="margin-top: 4rem; margin-bottom: 3rem;">
   
   <hr>
