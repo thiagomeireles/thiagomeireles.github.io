@@ -1,7 +1,7 @@
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
   <div class="container">
     <div class="navbar-brand">
-      <a class="navbar-item is-size-3" href="{{ site.baseurl }}/{% if page.url contains '/en/' %}en/{% endif %}">
+      <a class="navbar-item is-size-4" href="{{ site.baseurl }}/{% if page.url contains '/en/' %}en/{% endif %}">
         <strong>{{ site.title }}</strong>
       </a>
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -22,16 +22,16 @@
 
         {% for item in navigation %}
           {% if item.dropdown %}
-            <div class="navbar-item is-size-3 has-dropdown is-hoverable">
-              <a class="navbar-link is-size-3">{{ item.name }}</a>
+            <div class="navbar-item is-size-4 has-dropdown is-hoverable">
+              <a class="navbar-link is-size-4">{{ item.name }}</a>
               <div class="navbar-dropdown">
                 {% for subitem in item.dropdown %}
-                  <a class="navbar-item is-size-3" href="{{ subitem.link | relative_url }}">{{ subitem.name }}</a>
+                  <a class="navbar-item is-size-4" href="{{ subitem.link | relative_url }}">{{ subitem.name }}</a>
                 {% endfor %}
               </div>
             </div>
           {% else %}
-            <a class="navbar-item is-size-3" href="{{ item.link | relative_url }}">
+            <a class="navbar-item is-size-4" href="{{ item.link | relative_url }}">
               {{ item.name }}
             </a>
           {% endif %}
@@ -80,7 +80,7 @@
     }
   }
 
-  /* Ajuste de espaçamento vertical para a fonte grande (is-size-3) não cortar */
+  /* Ajuste de espaçamento vertical para a fonte grande (is-size-4) não cortar */
   .navbar-item, .navbar-link {
       padding-top: 1rem;
       padding-bottom: 1rem;
