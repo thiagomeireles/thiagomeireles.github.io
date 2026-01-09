@@ -150,16 +150,16 @@ permalink: /
     <div class="column is-half">
       <div class="card h-100" style="border: 1px solid #eee;">
         <div class="card-content has-text-centered">
-          <p class="title is-5"><i class="fas fa-comments has-text-primary"></i> Contato Rápido</p>
-          <p class="subtitle is-6">Tem alguma dúvida ou proposta?</p>
+          <p class="title is-5"><i class="fas fa-comments has-text-primary"></i> Solicitação de Entrevistas e Palestras</p>
+          <p class="subtitle is-6">TQuer me convidar para um evento, podcast ou entrevista?</p>
           
           <button class="button is-primary is-outlined" 
                   data-tally-open="J9pykz" 
                   data-tally-layout="modal" 
                   data-tally-overlay="1" 
-                  data-tally-emoji-text="👋" 
+                  data-tally-emoji-text="🎙️"
                   data-tally-emoji-animation="wave">
-            Abrir Formulário de Contato
+            Solicitar Participação
           </button>
           
         </div>
