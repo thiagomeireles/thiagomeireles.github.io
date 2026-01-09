@@ -17,13 +17,8 @@ permalink: /
   .hero { min-height: 0 !important; }
 </style>
 
-<div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
-       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
-</div>
-
 <div class="content">
-    
+  
   <div class="columns is-vcentered">
   
   <div class="column is-4 has-text-centered">
@@ -44,7 +39,15 @@ permalink: /
     </div>
   </div>
 
-  </div>
+</div>
+
+<div style="text-align: center; margin-bottom: 2rem;">
+  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
+       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
+</div>
+
+<div class="content">
+   
   <hr>
 
   <div class="columns is-variable is-6">
