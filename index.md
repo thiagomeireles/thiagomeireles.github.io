@@ -5,6 +5,21 @@ permalink: /
 ---
 
 <style>
+  /* ... Seus outros estilos (hero, margins, etc) continuam aqui ... */
+
+  /* NOVO: Aumenta a fonte do Navbar para tamanho 3 */
+  .navbar-item, .navbar-link {
+    font-size: 2rem !important; /* 2rem é o equivalente técnico ao is-size-3 */
+  }
+  
+  /* Ajuste opcional: Se o logo (seu nome) ficar desalinhado, use isso: */
+  .navbar-brand .navbar-item {
+    font-weight: bold;
+    font-size: 2rem !important;
+  }
+</style>
+
+<style>
   /* Ajustes visuais para limpar a home */
   .hero-body { display: none !important; }
   .hero { min-height: 0 !important; }
