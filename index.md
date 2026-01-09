@@ -66,10 +66,13 @@ permalink: /
 
       <strong>Métodos:</strong><br>
       <div class="tags">
+        <span class="tag is-success is-light">Survey Analysis</span>
+        <span class="tag is-success is-light">Survey Design</span>
         <span class="tag is-success is-light">Inferência Causal</span>
         <span class="tag is-success is-light">Machine Learning</span>
         <span class="tag is-success is-light">NLP</span>
-        <span class="tag is-success is-light">Survey Analysis</span>
+        <span class="tag is-success is-light">Web Scraping</span>
+        <span class="tag is-success is-light">Análise geoespacial</span>
       </div>
     </div>
   </div>
@@ -93,6 +96,40 @@ permalink: /
       <div class="card-content has-text-centered">
         <p class="title is-5"><i class="fas fa-file-pdf has-text-link"></i> Currículo</p>
         <p class="subtitle is-6">Publicações e trajetória acadêmica</p>
+        <a href="/cv/" class="button is-link is-outlined is-fullwidth">Ver CV Completo</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="columns is-centered" style="margin-top: 2rem;">
+  
+  <div class="column is-one-third">
+    <div class="card h-100" style="border: 1px solid #eee;">
+      <div class="card-content has-text-centered">
+        <p class="title is-5"><i class="fas fa-project-diagram has-text-primary"></i> Portfólio</p>
+        <p class="subtitle is-6">Veja meus projetos práticos</p>
+        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Acessar Projetos</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-one-third">
+    <div class="card h-100" style="border: 1px solid #eee;">
+      <div class="card-content has-text-centered">
+        <p class="title is-5"><i class="fas fa-rss has-text-info"></i> Blog</p>
+        <p class="subtitle is-6">Sobre Causalidade, Survey e Representatividade</p>
+        <a href="/blog/" class="button is-info is-outlined is-fullwidth">Ler Artigos</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-one-third">
+    <div class="card h-100" style="border: 1px solid #eee;">
+      <div class="card-content has-text-centered">
+        <p class="title is-5"><i class="fas fa-file-pdf has-text-link"></i> Currículo</p>
+        <p class="subtitle is-6">Minha trajetória acadêmica e profissional</p>
         <a href="/cv/" class="button is-link is-outlined is-fullwidth">Ver CV Completo</a>
       </div>
     </div>
