@@ -17,6 +17,18 @@ permalink: /
   .hero { min-height: 0 !important; }
 </style>
 
+<style>
+  /* Outros estilos que você já tem... */
+
+  /* Regra aplicada apenas para telas maiores que 1024px (Computadores/Laptops) */
+  @media screen and (min-width: 1024px) {
+    .margem-desktop {
+      padding-left: 3rem;  /* Ajuste o valor conforme necessário */
+      padding-right: 3rem; /* Use padding para evitar quebrar a largura total */
+    }
+  }
+</style>
+
 <div class="content">
   <div class="columns is-vcentered">
   
