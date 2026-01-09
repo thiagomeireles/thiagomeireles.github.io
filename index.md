@@ -154,7 +154,7 @@ permalink: /
 
   <div class="buttons is-centered">
     
-    <a href="www.linkedin.com/in/thiago-meireles-84605823" class="button is-medium is-white" target="_blank" title="LinkedIn">
+    <a href="https://www.linkedin.com/in/thiago-meireles-84605823" class="button is-medium is-white" target="_blank" title="LinkedIn">
       <span class="icon is-medium has-text-link">
         <i class="fab fa-linkedin fa-lg"></i>
       </span>
