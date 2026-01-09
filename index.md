@@ -29,7 +29,7 @@ permalink: /
   }
 </style>
 
-<div class="content">
+<div class="content margem-desktop">
   <div class="columns is-vcentered">
   
     <div class="column is-3 has-text-centered">
@@ -63,7 +63,7 @@ permalink: /
   </div>
 </div>
 
-<div class="content">
+<div class="content margem-desktop">
   <hr>
 
   <div class="columns is-variable is-6">
