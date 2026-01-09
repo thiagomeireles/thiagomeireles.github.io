@@ -1,0 +1,21 @@
+<style>
+  /* 1. Limpeza do layout padrão */
+  .hero-body { display: none !important; }
+  .hero { min-height: 0 !important; background-color: transparent !important; }
+  .navbar { background-color: #00d1b2 !important; }
+  .skill-tag { margin-bottom: 0.5rem; }
+
+  /* 2. Lógica da Margem Lateral */
+  .meu-conteudo-centralizado {
+    width: 100%;
+  }
+
+  /* Apenas em Computadores (telas maiores que 1024px) */
+  @media screen and (min-width: 1024px) {
+    .meu-conteudo-centralizado {
+      max-width: 850px; /* Largura máxima do conteúdo */
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+</style>
