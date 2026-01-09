@@ -151,7 +151,7 @@ permalink: /
       <div class="card h-100" style="border: 1px solid #eee;">
         <div class="card-content has-text-centered">
           <p class="title is-5"><i class="fas fa-comments has-text-primary"></i> Solicitação de Entrevistas e Palestras</p>
-          <p class="subtitle is-6">TQuer me convidar para um evento, podcast ou entrevista?</p>
+          <p class="subtitle is-6">Quer me convidar para um evento, podcast ou entrevista?</p>
           
           <button class="button is-primary is-outlined" 
                   data-tally-open="J9pykz" 
