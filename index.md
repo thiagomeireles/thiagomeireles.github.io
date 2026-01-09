@@ -146,14 +146,11 @@ permalink: /
 
 </div>
 
-<div class="content margem-desktop">
-
 <div class="content has-text-centered" style="margin-top: 4rem; margin-bottom: 3rem;">
   
   <hr>
   
   <h4 class="title is-5">Vamos conectar?</h4>
-  <p class="is-size-6 mb-4">Acompanhe minhas publicações e projetos</p>
 
   <div class="buttons is-centered">
     
@@ -194,5 +191,4 @@ permalink: /
     </a>
 
   </div>
-</div>
 </div>
