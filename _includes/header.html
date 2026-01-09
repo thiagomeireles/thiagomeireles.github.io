@@ -1,9 +1,11 @@
-<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation" style="background-color: #00d1b2 !important;">
   <div class="container">
     <div class="navbar-brand">
-      <a class="navbar-item is-size-3" href="{{ site.baseurl }}/{% if page.url contains '/en/' %}en/{% endif %}">
-        <strong>{{ site.title }}</strong>
+      
+      <a class="navbar-item is-size-3" href="{{ site.baseurl }}/{% if page.url contains '/en/' %}en/{% endif %}" style="font-weight: bold;">
+        {{ site.title }}
       </a>
+
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -26,7 +28,9 @@
               <a class="navbar-link is-size-3">{{ item.name }}</a>
               <div class="navbar-dropdown">
                 {% for subitem in item.dropdown %}
-                  <a class="navbar-item is-size-4" href="{{ subitem.link | relative_url }}">{{ subitem.name }}</a>
+                  <a class="navbar-item is-size-4" href="{{ subitem.link | relative_url }}">
+                    {{ subitem.name }}
+                  </a>
                 {% endfor %}
               </div>
             </div>
@@ -59,19 +63,32 @@
 </script>
 
 <style>
+  /* Garante que o texto seja branco no Desktop para contrastar com o verde */
+  @media screen and (min-width: 1024px) {
+    .navbar-item, .navbar-link {
+      color: white !important;
+    }
+    /* Muda a cor ao passar o mouse para dar feedback visual */
+    .navbar-item:hover, .navbar-link:hover {
+      color: #fafafa !important;
+      background-color: rgba(0,0,0,0.1) !important;
+    }
+  }
+
+  /* Ajustes do Mobile */
   @media screen and (max-width: 1023px) {
     .navbar-menu {
       background-color: white;
       box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
       padding: 0.5rem 0;
     }
-    .navbar-item {
+    .navbar-item, .navbar-link {
+      color: #333 !important; /* Texto escuro no mobile (fundo branco) */
       padding-left: 1.5rem; 
-      color: #333; 
     }
   }
   
-  /* Ajuste fino: como a fonte is-size-3 é grande, aumentamos o padding para o menu ficar bonito */
+  /* Espaçamento extra para a fonte grande não ficar colada */
   .navbar-item, .navbar-link {
     padding-top: 1rem;
     padding-bottom: 1rem;
