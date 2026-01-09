@@ -5,4 +5,4 @@ permalink: /en/blog/
 #hero_image: /assets/images/blog-banner.jpg
 ---
 
-Aqui compartilho textos sobre tecnologia, estatística e mercado de trabalho.
+Here I share posts about statistics and machine learning, particularly Causal Inference, Survey Methodology, and Representativeness.
