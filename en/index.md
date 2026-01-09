@@ -5,7 +5,7 @@ permalink: /en/
 ---
 
 <style>
-  /* Ajustes visuais para limpar a home */
+  /* Visual adjustments to clean up home */
   .hero-body { display: none !important; }
   .hero { min-height: 0 !important; }
   .skill-tag { margin-bottom: 0.5rem; }
@@ -17,23 +17,36 @@ permalink: /en/
   .hero { min-height: 0 !important; }
 </style>
 
-<div class="content" style="margin-bottom: 2rem;">
-  <p class="is-size-5 has-text-centered">
-    I am <strong>Thiago Meireles</strong>, Data Scientist and Ph.D. in Political Science from USP.
-  </p>
+<div class="content">
+  <div class="columns is-vcentered">
+  
+    <div class="column is-4 has-text-centered">
+      <figure class="image is-square" style="max-width: 250px; margin: 0 auto;">
+        <img class="is-rounded" src="/assets/images/perfil.png" alt="Photo of Thiago Meireles" style="border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+      </figure>
+    </div>
 
-  <p class="has-text-centered">
-    I lead data analysis and methodological innovation projects at <strong>Cetic.br</strong>, combining advanced <strong>Machine Learning</strong> and <strong>Statistics</strong> techniques to solve complex problems and offer accessible solutions for managers and stakeholders.
-  </p>
+    <div class="column">
+      <div class="content">
+        <p class="is-size-4">
+          I am <strong>Thiago Meireles</strong>, Data Scientist and Ph.D. in Political Science from USP.
+        </p>
+        
+        <p class="is-size-5">
+          I lead data analysis and methodological innovation projects at <strong>Cetic.br</strong>, combining advanced <strong>Machine Learning</strong> and <strong>Statistics</strong> techniques to solve complex problems and offer accessible solutions for managers and stakeholders.
+        </p>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_en.jpg" alt="Thiago Meireles" 
+<div style="text-align: center; margin-bottom: 2rem; margin-top: 1rem;">
+  <img src="/assets/images/banner_en_grey.png" alt="Thiago Meireles" 
        style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
 </div>
 
 <div class="content">
-    
   <hr>
 
   <div class="columns is-variable is-6">
