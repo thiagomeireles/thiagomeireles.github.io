@@ -23,14 +23,27 @@ permalink: /
 
 <div class="content">
     
-  <p class="is-size-5 has-text-centered">
-    Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Doutor em Ciência Política pela USP.
-  </p>
+  <div class="columns is-vcentered">
+  
+  <div class="column is-4 has-text-centered">
+    <figure class="image is-square" style="max-width: 250px; margin: 0 auto;">
+      <img class="is-rounded" src="/assets/images/perfil.jpg" alt="Foto de Thiago Meireles" style="border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    </figure>
+  </div>
 
-  <p>
-    Lidero projetos de análise de dados e inovação metodológica no <strong>Cetic.br</strong>, combinando técnicas avançadas de <strong>Machine Learning</strong> e <strong>Estatística</strong> para resolver problemas complexos e oferecer soluções acessíveis para gestores e stakeholders.
-  </p>
+  <div class="column">
+    <div class="content">
+      <p class="is-size-4">
+        Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Doutor em Ciência Política pela USP.
+      </p>
+      
+      <p class="is-size-5">
+        Lidero projetos de análise de dados e inovação metodológica no <strong>Cetic.br</strong>, combinando técnicas avançadas de <strong>Machine Learning</strong> e <strong>Estatística</strong> para resolver problemas complexos e oferecer soluções acessíveis para gestores e stakeholders.
+      </p>
+    </div>
+  </div>
 
+  </div>
   <hr>
 
   <div class="columns is-variable is-6">
