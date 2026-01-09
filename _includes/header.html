@@ -70,7 +70,6 @@
   @media screen and (max-width: 1023px) {
     .navbar-menu {
       background-color: white; /* Fundo branco para não ficar transparente */
-      box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1); /* Uma sombra leve */
       padding: 0.5rem 0; /* Espaçamento interno */
     }
     
@@ -79,5 +78,10 @@
       padding-left: 1.5rem;
     }
   }
- 
+
+  /* Ajuste de espaçamento vertical para a fonte grande (is-size-2) não cortar */
+  .navbar-item, .navbar-link {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+  }
 </style>
