@@ -109,6 +109,7 @@ permalink: /
 
 </div>
 
+<div class="content margem-desktop">
 <div class="columns is-centered" style="margin-top: 2rem;">
   
   <div class="column is-one-third">
@@ -140,5 +141,7 @@ permalink: /
       </div>
     </div>
   </div>
+
+</div>
 
 </div>
