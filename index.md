@@ -20,8 +20,8 @@ permalink: /
 <div class="content">
   <div class="columns is-vcentered">
   
-    <div class="column is-4 has-text-centered">
-      <figure class="image is-square" style="max-width: 250px; margin: 0 auto;">
+    <div class="column is-5 has-text-centered">
+      <figure class="image is-square" style="max-width: 350px; margin: 0 auto;">
         <img class="is-rounded" src="/assets/images/perfil.png" alt="Foto de Thiago Meireles" style="border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
       </figure>
     </div>
@@ -35,15 +35,16 @@ permalink: /
         <p class="is-size-5">
           Lidero projetos de análise de dados e inovação metodológica no <strong>Cetic.br</strong>, combinando técnicas avançadas de <strong>Machine Learning</strong> e <strong>Estatística</strong> para resolver problemas complexos e oferecer soluções acessíveis para gestores e stakeholders.
         </p>
+
+        <div style="margin-top: 1.5rem;">
+          <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
+               style="width: 100%; height: auto; object-fit: cover; border-radius: 6px;">
+        </div>
+        
       </div>
     </div>
 
   </div>
-</div>
-
-<div style="text-align: center; margin-bottom: 2rem; margin-top: 1rem;">
-  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
-       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
 </div>
 
 <div class="content">
