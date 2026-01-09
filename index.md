@@ -5,23 +5,29 @@ permalink: /
 ---
 
 <style>
-  /* Ajustes visuais gerais */
+  /* 1. Limpeza do layout padrão */
   .hero-body { display: none !important; }
   .hero { min-height: 0 !important; background-color: transparent !important; }
   .navbar { background-color: #00d1b2 !important; }
   .skill-tag { margin-bottom: 0.5rem; }
 
-  /* --- O TRUQUE ESTÁ AQUI EMBAIXO --- */
-  /* Só aplica esse espaçamento se a tela for maior que 1024px (Computadores) */
+  /* 2. Lógica da Margem Lateral (O PULO DO GATO) */
+  /* No celular, ele usa 100% da largura (padrão). */
+  .meu-conteudo-centralizado {
+    width: 100%;
+  }
+
+  /* Apenas em Computadores (telas maiores que 1024px) */
   @media screen and (min-width: 1024px) {
-    .desktop-wrapper {
-      padding-left: 10%;
-      padding-right: 10%;
+    .meu-conteudo-centralizado {
+      max-width: 850px; /* Trava a largura do texto */
+      margin-left: auto; /* Centraliza automaticamente */
+      margin-right: auto; /* Centraliza automaticamente */
     }
   }
 </style>
 
-<div class="desktop-wrapper">
+<div class="meu-conteudo-centralizado">
 
   <div class="content">
     <div class="columns is-vcentered">
@@ -50,7 +56,7 @@ permalink: /
 
   <div style="text-align: center; margin-bottom: 2rem;">
     <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
-         style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
+         style="width: 100%; height: auto; object-fit: cover; border-radius: 6px;">
   </div>
 
   <div class="content">
