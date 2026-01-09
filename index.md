@@ -18,7 +18,8 @@ permalink: /
 </style>
 
 <div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_pt.png" alt="Thiago Meireles" style="height: 250px; width: auto; border-radius: 6px;">
+  <img src="/assets/images/banner_pt.png" alt="Thiago Meireles" 
+       style="width: 100%; height: 200px; object-fit: cover; border-radius: 6px;">
 </div>
 
 <div class="content">
