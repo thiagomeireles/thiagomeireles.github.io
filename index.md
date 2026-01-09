@@ -22,12 +22,12 @@ permalink: /
   <div class="columns is-vcentered">
   
  <div class="column is-4 has-text-centered">
-  
-  <figure class="image" style="max-width: 200px; margin: 0 auto;">
-    
-    <img src="/assets/images/perfil.png" alt="Foto de Thiago Meireles" 
-         style="width: 100%; height: auto; border-radius: 12px; border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-  
+
+  <figure class="image is-square" style="max-width: 200px; margin: 0 auto;">
+
+    <img class="is-rounded" src="/assets/images/perfil.png" alt="Foto de Thiago Meireles"
+         style="object-fit: cover; border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+
   </figure>
 
 </div>
