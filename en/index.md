@@ -42,7 +42,7 @@ permalink: /en/
 </div>
 
 <div style="text-align: center; margin-bottom: 2rem; margin-top: 1rem;">
-  <img src="/assets/images/banner_en_grey.png" alt="Thiago Meireles" 
+  <img src="/assets/images/banner_en.jpg" alt="Thiago Meireles" 
        style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
 </div>
 
