@@ -144,6 +144,51 @@ permalink: /en/
 
 </div>
 
+<div class="content margem-desktop">
+  <div class="columns is-centered" style="margin-top: 2rem;">
+    
+    <div class="column is-half">
+      <div class="card h-100" style="border: 1px solid #eee;">
+        <div class="card-content has-text-centered">
+          <p class="title is-5"><i class="fas fa-comments has-text-primary"></i> Speaking & Media Inquiries</p>
+          <p class="subtitle is-6">Invite me to an event, podcast, or interview</p>
+          
+          <button class="button is-primary is-outlined is-fullwidth" 
+                  data-tally-open="KY5XkX" 
+                  data-tally-layout="modal" 
+                  data-tally-overlay="1" 
+                  data-tally-emoji-text="🎙️"
+                  data-tally-emoji-animation="wave">
+            Request Appearance
+          </button>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-half">
+      <div class="card h-100" style="border: 1px solid #eee;">
+        <div class="card-content has-text-centered">
+          
+          <p class="title is-5">
+            <i class="fas fa-chart-line has-text-info"></i> Consulting & Projects
+          </p>
+          <p class="subtitle is-6">Causal Inference & ML solutions for your business</p>
+          
+          <button class="button is-info is-outlined is-fullwidth"
+                  data-tally-open="WOE4dN" 
+                  data-tally-emoji-text="📊" 
+                  data-tally-emoji-animation="heart-beat">
+            Discuss a Project
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="content has-text-centered" style="margin-top: 4rem; margin-bottom: 3rem;">
   
   <hr>
@@ -190,3 +235,5 @@ permalink: /en/
 
   </div> 
 </div>
+
+<script async src="https://tally.so/widgets/embed.js"></script>
