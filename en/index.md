@@ -17,22 +17,23 @@ permalink: /en/
   .hero { min-height: 0 !important; }
 </style>
 
-
-
-<div class="content">
-    
+<div class="content" style="margin-bottom: 2rem;">
   <p class="is-size-5 has-text-centered">
     I am <strong>Thiago Meireles</strong>, Data Scientist and Ph.D. in Political Science from USP.
   </p>
 
-  <p>
+  <p class="has-text-centered">
     I lead data analysis and methodological innovation projects at <strong>Cetic.br</strong>, combining advanced <strong>Machine Learning</strong> and <strong>Statistics</strong> techniques to solve complex problems and offer accessible solutions for managers and stakeholders.
   </p>
-
-<div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_en_grey.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
 
+<div style="text-align: center; margin-bottom: 2rem;">
+  <img src="/assets/images/banner_en.jpg" alt="Thiago Meireles" 
+       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
+</div>
+
+<div class="content">
+    
   <hr>
 
   <div class="columns is-variable is-6">
