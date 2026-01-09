@@ -1,7 +1,7 @@
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
   <div class="container">
     <div class="navbar-brand">
-      <a class="navbar-item" href="{{ site.baseurl }}/{% if page.url contains '/en/' %}en/{% endif %}">
+      <a class="navbar-item is-size-3" href="{{ site.baseurl }}/{% if page.url contains '/en/' %}en/{% endif %}">
         <strong>{{ site.title }}</strong>
       </a>
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -23,15 +23,15 @@
         {% for item in navigation %}
           {% if item.dropdown %}
             <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link">{{ item.name }}</a>
+              <a class="navbar-link is-size-3">{{ item.name }}</a>
               <div class="navbar-dropdown">
                 {% for subitem in item.dropdown %}
-                  <a class="navbar-item" href="{{ subitem.link | relative_url }}">{{ subitem.name }}</a>
+                  <a class="navbar-item is-size-4" href="{{ subitem.link | relative_url }}">{{ subitem.name }}</a>
                 {% endfor %}
               </div>
             </div>
           {% else %}
-            <a class="navbar-item" href="{{ item.link | relative_url }}">
+            <a class="navbar-item is-size-3" href="{{ item.link | relative_url }}">
               {{ item.name }}
             </a>
           {% endif %}
@@ -44,19 +44,12 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // 1. Pega todos os elementos que são "navbar-burger"
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-    // 2. Verifica se existe algum burger na página
     if ($navbarBurgers.length > 0) {
-      // 3. Adiciona um evento de clique em cada um deles
       $navbarBurgers.forEach( el => {
         el.addEventListener('click', () => {
-          // Pega o alvo do atributo "data-target" (que é o ID do menu)
           const target = el.dataset.target;
           const $target = document.getElementById(target);
-
-          // Alterna a classe "is-active" tanto no botão quanto no menu
           el.classList.toggle('is-active');
           $target.classList.toggle('is-active');
         });
@@ -66,12 +59,21 @@
 </script>
 
 <style>
-  /* Quando a tela for menor que 1024px (Tablets e Celulares) */
   @media screen and (max-width: 1023px) {
     .navbar-menu {
-      background-color: white; /* Fundo branco para não ficar transparente */
-      box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1); /* Uma sombra leve */
-      padding: 0.5rem 0; /* Espaçamento interno */
+      background-color: white;
+      box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
+      padding: 0.5rem 0;
     }
-    
-    /* Ajuste para os links não ficarem colados na borda */
+    .navbar-item {
+      padding-left: 1.5rem; 
+      color: #333; 
+    }
+  }
+  
+  /* Ajuste fino: como a fonte is-size-3 é grande, aumentamos o padding para o menu ficar bonito */
+  .navbar-item, .navbar-link {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+</style>
