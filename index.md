@@ -5,43 +5,54 @@ permalink: /
 ---
 
 <style>
-  /* ... Seus outros estilos (hero, margins, etc) continuam aqui ... */
-
-  /* NOVO: Aumenta a fonte do Navbar para tamanho 3 */
+  /* --- 1. NOVO: Aumenta a fonte do Menu (Navbar) --- */
+  /* Tamanho 2rem é equivalente ao is-size-3 */
   .navbar-item, .navbar-link {
-    font-size: 2rem !important; /* 2rem é o equivalente técnico ao is-size-3 */
+    font-size: 2rem !important; 
+    padding-top: 1rem !important;    /* Mais espaço vertical para não ficar espremido */
+    padding-bottom: 1rem !important;
   }
   
-  /* Ajuste opcional: Se o logo (seu nome) ficar desalinhado, use isso: */
+  /* Garante que o seu nome (Logo) também fique grande */
   .navbar-brand .navbar-item {
-    font-weight: bold;
     font-size: 2rem !important;
+    font-weight: bold;
   }
-</style>
 
-<style>
-  /* Ajustes visuais para limpar a home */
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-  .skill-tag { margin-bottom: 0.5rem; }
-</style>
+  /* --- 2. REMOÇÃO DO BANNER PADRÃO (Hero) --- */
+  /* Esconde o corpo do banner gigante */
+  .hero-body { 
+    display: none !important; 
+  }
+  /* Remove a altura mínima e tira o fundo verde que vazava */
+  .hero { 
+    min-height: 0 !important; 
+    background-color: transparent !important; 
+  }
 
+  /* --- 3. COR DO MENU --- */
+  /* Garante que o fundo do menu seja da cor sólida do tema */
+  .navbar { 
+    background-color: #00d1b2 !important; 
+  }
 
-<style>
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-</style>
+  /* --- 4. CENTRALIZAÇÃO E MARGENS (Desktop) --- */
+  /* No celular, usa 100% da tela */
+  .meu-conteudo-centralizado {
+    width: 100%;
+  }
 
-<style>
-  /* Outros estilos que você já tem... */
-
-  /* Regra aplicada apenas para telas maiores que 1024px (Computadores/Laptops) */
+  /* No PC (acima de 1024px), trava a largura e centraliza */
   @media screen and (min-width: 1024px) {
-    .margem-desktop {
-      padding-left: 3rem;  /* Ajuste o valor conforme necessário */
-      padding-right: 3rem; /* Use padding para evitar quebrar a largura total */
+    .meu-conteudo-centralizado {
+      max-width: 850px; 
+      margin-left: auto;
+      margin-right: auto;
     }
   }
+  
+  /* Ajuste menor para tags de skills */
+  .skill-tag { margin-bottom: 0.5rem; }
 </style>
 
 <div class="content margem-desktop">
