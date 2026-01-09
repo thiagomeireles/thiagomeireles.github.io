@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Currículo Acadêmico"
+title: "Currículo"
 permalink: /cv/
 ---
 
