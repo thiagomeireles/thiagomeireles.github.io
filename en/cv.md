@@ -29,7 +29,7 @@ permalink: /en/cv/
 </div>
 
 <div style="width: 100%; height: 800px;">
-    <object data="/assets/pdf/cv.pdf" type="application/pdf" width="100%" height="100%">
+    <object data="/assets/pdf/cv_en.pdf" type="application/pdf" width="100%" height="100%">
         <p>Your browser does not support PDF viewing. 
         <a href="/assets/pdf/cv_en.pdf">Click here to download.</a></p>
     </object>
