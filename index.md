@@ -145,3 +145,54 @@ permalink: /
 </div>
 
 </div>
+
+<div class="content margem-desktop">
+
+<div class="content has-text-centered" style="margin-top: 4rem; margin-bottom: 3rem;">
+  
+  <hr>
+  
+  <h4 class="title is-5">Vamos conectar?</h4>
+  <p class="is-size-6 mb-4">Acompanhe minhas publicações e projetos</p>
+
+  <div class="buttons is-centered">
+    
+    <a href="www.linkedin.com/in/thiago-meireles-84605823" class="button is-medium is-white" target="_blank" title="LinkedIn">
+      <span class="icon is-medium has-text-link">
+        <i class="fab fa-linkedin fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="https://substack.com/@thiagomeireles1" class="button is-medium is-white" target="_blank" title="Newsletter / Substack">
+      <span class="icon is-medium has-text-warning">
+        <i class="fas fa-bookmark fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="https://github.com/thiagomeireles" class="button is-medium is-white" target="_blank" title="GitHub">
+      <span class="icon is-medium has-text-dark">
+        <i class="fab fa-github fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="https://x.com/thiago_meireles" class="button is-medium is-white" target="_blank" title="X / Twitter">
+      <span class="icon is-medium has-text-grey-dark">
+        <i class="fab fa-twitter fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="http://lattes.cnpq.br/8257251303675712" class="button is-medium is-white" target="_blank" title="Currículo Lattes">
+      <span class="icon is-medium has-text-info">
+        <i class="fas fa-graduation-cap fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="mailto:thiago.omeireles@gmail.com" class="button is-medium is-white" title="Entre em contato">
+      <span class="icon is-medium has-text-danger">
+        <i class="fas fa-envelope fa-lg"></i>
+      </span>
+    </a>
+
+  </div>
+</div>
+</div>
