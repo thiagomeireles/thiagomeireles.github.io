@@ -149,10 +149,18 @@ permalink: /
     
     <div class="column is-half">
       <div class="card h-100" style="border: 1px solid #eee;">
-        <div class="card-content">
-          <p class="title is-5 has-text-centered">Título do Formulário 1</p>
+        <div class="card-content has-text-centered">
+          <p class="title is-5"><i class="fas fa-comments has-text-primary"></i> Contato Rápido</p>
+          <p class="subtitle is-6">Tem alguma dúvida ou proposta?</p>
           
-          <iframe data-tally-src="https://tally.so/embed/SEU_ID_FORM_1?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="200" frameborder="0" marginheight="0" marginwidth="0" title="Formulário 1"></iframe>
+          <button class="button is-primary is-outlined" 
+                  data-tally-open="J9pykz" 
+                  data-tally-layout="modal" 
+                  data-tally-overlay="1" 
+                  data-tally-emoji-text="👋" 
+                  data-tally-emoji-animation="wave">
+            Abrir Formulário de Contato
+          </button>
           
         </div>
       </div>
@@ -160,10 +168,16 @@ permalink: /
 
     <div class="column is-half">
       <div class="card h-100" style="border: 1px solid #eee;">
-        <div class="card-content">
-          <p class="title is-5 has-text-centered">Título do Formulário 2</p>
+        <div class="card-content has-text-centered">
+          <p class="title is-5"><i class="fas fa-poll has-text-info"></i> Pesquisa</p>
+          <p class="subtitle is-6">Participe da minha pesquisa sobre IA</p>
           
-          <iframe data-tally-src="https://tally.so/embed/SEU_ID_FORM_2?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="200" frameborder="0" marginheight="0" marginwidth="0" title="Formulário 2"></iframe>
+          <button class="button is-info is-outlined" 
+                  data-tally-open="ID_DO_SEU_FORM_2" 
+                  data-tally-layout="modal" 
+                  data-tally-overlay="1">
+            Responder Pesquisa
+          </button>
 
         </div>
       </div>
@@ -171,8 +185,6 @@ permalink: /
 
   </div>
 </div>
-
-<script async src="https://tally.so/widgets/embed.js"></script>
 
 <div class="content has-text-centered" style="margin-top: 4rem; margin-bottom: 3rem;">
   
@@ -220,3 +232,5 @@ permalink: /
 
   </div> 
 </div>
+
+<script async src="https://tally.so/widgets/embed.js"></script>
