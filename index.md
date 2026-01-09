@@ -169,14 +169,17 @@ permalink: /
     <div class="column is-half">
       <div class="card h-100" style="border: 1px solid #eee;">
         <div class="card-content has-text-centered">
-          <p class="title is-5"><i class="fas fa-poll has-text-info"></i> Pesquisa</p>
-          <p class="subtitle is-6">Participe da minha pesquisa sobre IA</p>
           
-          <button class="button is-info is-outlined" 
-                  data-tally-open="ID_DO_SEU_FORM_2" 
-                  data-tally-layout="modal" 
-                  data-tally-overlay="1">
-            Responder Pesquisa
+          <p class="title is-5">
+            <i class="fas fa-chart-line has-text-info"></i> Consultoria & Projetos
+          </p>
+          <p class="subtitle is-6">Soluções em Causalidade e ML para seu negócio</p>
+          
+          <button class="button is-info is-outlined is-fullwidth"
+                  data-tally-open="44JZqX" 
+                  data-tally-emoji-text="📊" 
+                  data-tally-emoji-animation="heart-beat">
+            Discutir um Projeto
           </button>
 
         </div>
