@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Home"
-permalink: /
+permalink: /en/
 ---
 
 <style>
@@ -18,45 +18,42 @@ permalink: /
 </style>
 
 <div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_novo.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+  <img src="/assets/images/banner_en_grey.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
 
 <div class="content">
-  <h3 class="title is-4 has-text-centered">
-  Ciência de Dados, Inferência Causal e Inovação
-  </h3>
-  
+    
   <p class="is-size-5 has-text-centered">
-    Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Doutor em Ciência Política pela USP.
+    I am <strong>Thiago Meireles</strong>, Data Scientist and Ph.D. in Political Science from USP.
   </p>
 
   <p>
-    Lidero projetos de análise de dados e inovação metodológica no <strong>Cetic.br</strong>, combinando técnicas avançadas de <strong>Machine Learning</strong> e <strong>Estatística</strong> para resolver problemas complexos e oferecer soluções acessíveis para gestores e stakeholders.
+    I lead data analysis and methodological innovation projects at <strong>Cetic.br</strong>, combining advanced <strong>Machine Learning</strong> and <strong>Statistics</strong> techniques to solve complex problems and offer accessible solutions for managers and stakeholders.
   </p>
 
   <hr>
 
   <div class="columns is-variable is-6">
     <div class="column is-two-thirds">
-      <h4 class="title is-5"><i class="fas fa-briefcase"></i> O que faço</h4>
+      <h4 class="title is-5"><i class="fas fa-briefcase"></i> What I do</h4>
       
       <p>
-        No <strong>Cetic.br (NIC.br)</strong>, atuo na inovação metodológica desenvolvendo ferramentas de visualização e aplicando <strong>NLP</strong> e <strong>Web Scraping</strong> para a produção de estatísticas TIC.
+        At <strong>Cetic.br (NIC.br)</strong>, I work on methodological innovation by developing visualization tools and applying <strong>NLP</strong> and <strong>Web Scraping</strong> for the production of ICT statistics.
       </p>
       
       <p>
-        Como consultor independente, foco em <strong>automação de análises (R/Python)</strong> e <strong>Inferência Causal</strong> (incluindo Testes A/B) para resolver problemas de negócio complexos.
+        As an independent consultant, I focus on <strong>analysis automation (R/Python)</strong> and <strong>Causal Inference</strong> (including A/B Testing) to solve complex business problems.
       </p>
 
       <p>
-        Doutor em Ciência Política pela <strong>USP</strong>, com tese sobre os impactos da Inteligência Artificial na estrutura do emprego e renda.
+        Ph.D. in Political Science from <strong>USP</strong>, with a thesis on the impacts of Artificial Intelligence on employment structure and income.
       </p>
     </div>
     
     <div class="column">
       <h4 class="title is-5"><i class="fas fa-tools"></i> Expertise</h4>
       
-      <strong>Tecnologias:</strong><br>
+      <strong>Technologies:</strong><br>
       <div class="tags">
         <span class="tag is-info is-light">R (Expert)</span>
         <span class="tag is-info is-light">Python</span>
@@ -64,12 +61,15 @@ permalink: /
         <span class="tag is-info is-light">Git</span>
       </div>
 
-      <strong>Métodos:</strong><br>
+      <strong>Methods:</strong><br>
       <div class="tags">
-        <span class="tag is-success is-light">Inferência Causal</span>
+        <span class="tag is-success is-light">Survey Analysis</span>
+        <span class="tag is-success is-light">Survey Design</span>
+        <span class="tag is-success is-light">Causal Inference</span>
         <span class="tag is-success is-light">Machine Learning</span>
         <span class="tag is-success is-light">NLP</span>
-        <span class="tag is-success is-light">Survey Analysis</span>
+        <span class="tag is-success is-light">Web Scraping</span>
+        <span class="tag is-success is-light">Geospatial Analysis</span>
       </div>
     </div>
   </div>
@@ -78,22 +78,32 @@ permalink: /
 
 <div class="columns is-centered" style="margin-top: 2rem;">
   
-  <div class="column is-half">
+  <div class="column is-one-third">
     <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
-        <p class="title is-5"><i class="fas fa-project-diagram has-text-primary"></i> Portfólio</p>
-        <p class="subtitle is-6">Veja meus projetos práticos</p>
-        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Acessar Projetos</a>
+        <p class="title is-5"><i class="fas fa-project-diagram has-text-primary"></i> Portfolio</p>
+        <p class="subtitle is-6">See practical applications in my projects</p>
+        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">View Projects</a>
       </div>
     </div>
   </div>
 
-  <div class="column is-half">
+  <div class="column is-one-third">
     <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
-        <p class="title is-5"><i class="fas fa-file-pdf has-text-link"></i> Currículo</p>
-        <p class="subtitle is-6">Publicações e trajetória acadêmica</p>
-        <a href="/cv/" class="button is-link is-outlined is-fullwidth">Ver CV Completo</a>
+        <p class="title is-5"><i class="fas fa-rss has-text-info"></i> Blog</p>
+        <p class="subtitle is-6">On Causality, Surveys, and Representativeness</p>
+        <a href="/blog/" class="button is-info is-outlined is-fullwidth">Read Articles</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-one-third">
+    <div class="card h-100" style="border: 1px solid #eee;">
+      <div class="card-content has-text-centered">
+        <p class="title is-5"><i class="fas fa-file-pdf has-text-link"></i> CV</p>
+        <p class="subtitle is-6">My academic and professional background</p>
+        <a href="/cv/" class="button is-link is-outlined is-fullwidth">View Full CV</a>
       </div>
     </div>
   </div>
