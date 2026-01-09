@@ -188,5 +188,5 @@ permalink: /
       </span>
     </a>
 
-  </div>
+  </div> 
 </div>
