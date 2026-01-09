@@ -5,4 +5,4 @@ permalink: /blog/
 #hero_image: /assets/images/blog-banner.jpg
 ---
 
-Aqui compartilho textos sobre tecnologia, estatística e mercado de trabalho.
+Aqui compartilho textos sobre estatística e machine learning, especialmente Causalidade, Survey e Representatividade Amostral.
