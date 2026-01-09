@@ -18,14 +18,11 @@ permalink: /
 </style>
 
 <div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_novo.png" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" style="width: 100%; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 </div>
 
 <div class="content">
-  <h3 class="title is-4 has-text-centered">
-  Ciência de Dados, Inferência Causal e Inovação
-  </h3>
-  
+    
   <p class="is-size-5 has-text-centered">
     Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Doutor em Ciência Política pela USP.
   </p>
