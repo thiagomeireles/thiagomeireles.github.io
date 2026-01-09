@@ -81,35 +81,11 @@ permalink: /
 
 <div class="columns is-centered" style="margin-top: 2rem;">
   
-  <div class="column is-half">
-    <div class="card h-100" style="border: 1px solid #eee;">
-      <div class="card-content has-text-centered">
-        <p class="title is-5"><i class="fas fa-project-diagram has-text-primary"></i> Portfólio</p>
-        <p class="subtitle is-6">Veja meus projetos práticos</p>
-        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Acessar Projetos</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="column is-half">
-    <div class="card h-100" style="border: 1px solid #eee;">
-      <div class="card-content has-text-centered">
-        <p class="title is-5"><i class="fas fa-file-pdf has-text-link"></i> Currículo</p>
-        <p class="subtitle is-6">Publicações e trajetória acadêmica</p>
-        <a href="/cv/" class="button is-link is-outlined is-fullwidth">Ver CV Completo</a>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<div class="columns is-centered" style="margin-top: 2rem;">
-  
   <div class="column is-one-third">
     <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
         <p class="title is-5"><i class="fas fa-project-diagram has-text-primary"></i> Portfólio</p>
-        <p class="subtitle is-6">Veja meus projetos práticos</p>
+        <p class="subtitle is-6">Veja a aplicação prática em meus projetos</p>
         <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Acessar Projetos</a>
       </div>
     </div>
