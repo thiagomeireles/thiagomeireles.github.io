@@ -107,4 +107,106 @@ permalink: /en/
       <strong class="is-size-5">Technologies:</strong><br>
       <div class="tags">
         <span class="tag is-info is-light is-medium">R (Expert)</span>
-        <span class="tag is-info is-light is
+        <span class="tag is-info is-light is-medium">Python</span>
+        <span class="tag is-info is-light is-medium">SQL</span>
+        <span class="tag is-info is-light is-medium">Git</span>
+      </div>
+
+      <strong class="is-size-5">Methods:</strong><br>
+      <div class="tags">
+        <span class="tag is-success is-light is-medium">Survey Analysis</span>
+        <span class="tag is-success is-light is-medium">Survey Design</span>
+        <span class="tag is-success is-light is-medium">Causal Inference</span>
+        <span class="tag is-success is-light is-medium">Machine Learning</span>
+        <span class="tag is-success is-light is-medium">NLP</span>
+        <span class="tag is-success is-light is-medium">Web Scraping</span>
+        <span class="tag is-success is-light is-medium">Geospatial Analysis</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="content margem-desktop">
+<div class="columns is-centered" style="margin-top: 2rem;">
+  
+  <div class="column is-one-third">
+    <div class="card h-100" style="border: 1px solid #eee;">
+      <div class="card-content has-text-centered">
+        <p class="title is-5"><i class="fas fa-project-diagram has-text-primary"></i> Portfolio</p>
+        <p class="subtitle is-6">See practical applications in my projects</p>
+        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">View Projects</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-one-third">
+    <div class="card h-100" style="border: 1px solid #eee;">
+      <div class="card-content has-text-centered">
+        <p class="title is-5"><i class="fas fa-rss has-text-info"></i> Blog</p>
+        <p class="subtitle is-6">On Causality, Surveys, and Representativeness</p>
+        <a href="/blog/" class="button is-info is-outlined is-fullwidth">Read Articles</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="column is-one-third">
+    <div class="card h-100" style="border: 1px solid #eee;">
+      <div class="card-content has-text-centered">
+        <p class="title is-5"><i class="fas fa-file-pdf has-text-link"></i> CV</p>
+        <p class="subtitle is-6">My academic and professional background</p>
+        <a href="/cv/" class="button is-link is-outlined is-fullwidth">View Full CV</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<div class="content has-text-centered" style="margin-top: 4rem; margin-bottom: 3rem;">
+  
+  <hr>
+  
+  <h4 class="title is-5">Let's connect?</h4>
+
+  <div class="buttons is-centered">
+    
+    <a href="https://www.linkedin.com/in/thiago-meireles-84605823" class="button is-medium is-white" target="_blank" title="LinkedIn">
+      <span class="icon is-medium has-text-link">
+        <i class="fab fa-linkedin fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="https://substack.com/@thiagomeireles1" class="button is-medium is-white" target="_blank" title="Newsletter / Substack">
+      <span class="icon is-medium has-text-warning">
+        <i class="fas fa-bookmark fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="https://github.com/thiagomeireles" class="button is-medium is-white" target="_blank" title="GitHub">
+      <span class="icon is-medium has-text-dark">
+        <i class="fab fa-github fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="https://x.com/thiago_meireles" class="button is-medium is-white" target="_blank" title="X / Twitter">
+      <span class="icon is-medium has-text-grey-dark">
+        <i class="fab fa-twitter fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="http://lattes.cnpq.br/8257251303675712" class="button is-medium is-white" target="_blank" title="Lattes CV">
+      <span class="icon is-medium has-text-info">
+        <i class="fas fa-graduation-cap fa-lg"></i>
+      </span>
+    </a>
+
+    <a href="mailto:thiago.omeireles@gmail.com" class="button is-medium is-white" title="Get in touch">
+      <span class="icon is-medium has-text-danger">
+        <i class="fas fa-envelope fa-lg"></i>
+      </span>
+    </a>
+
+  </div> 
+</div>
