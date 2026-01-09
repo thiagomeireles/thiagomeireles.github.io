@@ -23,7 +23,7 @@ permalink: /
   
   <div class="column is-4 has-text-centered">
     <figure class="image is-square" style="max-width: 250px; margin: 0 auto;">
-      <img class="is-rounded" src="/assets/images/perfil.png" alt="Foto de Thiago Meireles" style="border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+      <img class="is-rounded" src="/assets/images/perfil.png" alt="Foto de Thiago Meireles" style="border: 4px solid #f5f5f5; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
     </figure>
   </div>
 
