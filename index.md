@@ -227,11 +227,42 @@ permalink: /
       </span>
     </a>
 
-    <a href="mailto:thiago.omeireles@gmail.com" class="button is-medium is-white" title="Entre em contato">
-      <span class="icon is-medium has-text-danger">
-        <i class="fas fa-envelope fa-lg"></i>
-      </span>
-    </a>
+    <button class="button is-medium is-white" title="Clique para copiar o e-mail" onclick="copiarEmail()">
+  <span class="icon is-medium has-text-danger">
+    <i class="fas fa-envelope fa-lg" id="icon-email"></i>
+  </span>
+</button>
+
+<script>
+  function copiarEmail() {
+    // 1. Define o e-mail
+    const email = "thiago.omeireles@gmail.com";
+    
+    // 2. Copia para a área de transferência
+    navigator.clipboard.writeText(email).then(() => {
+      
+      // 3. Feedback Visual: Troca o ícone de carta por um check
+      const icon = document.getElementById('icon-email');
+      
+      // Remove o envelope e põe o check
+      icon.classList.remove('fa-envelope');
+      icon.classList.add('fa-check');
+      
+      // (Opcional) Muda a cor para verde para reforçar o sucesso
+      icon.parentElement.classList.remove('has-text-danger');
+      icon.parentElement.classList.add('has-text-success');
+
+      // 4. Espera 2 segundos e volta ao normal
+      setTimeout(() => {
+        icon.classList.remove('fa-check');
+        icon.classList.add('fa-envelope');
+        
+        icon.parentElement.classList.remove('has-text-success');
+        icon.parentElement.classList.add('has-text-danger');
+      }, 2000);
+    });
+  }
+</script>
 
   </div> 
 </div>
