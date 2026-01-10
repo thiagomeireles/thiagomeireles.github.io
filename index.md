@@ -215,12 +215,6 @@ permalink: /
       </span>
     </a>
 
-    <a href="https://x.com/thiago_meireles" class="button is-medium is-white" target="_blank" title="X / Twitter">
-      <span class="icon is-medium has-text-grey-dark">
-        <i class="fab fa-twitter fa-lg"></i>
-      </span>
-    </a>
-
     <a href="http://lattes.cnpq.br/8257251303675712" class="button is-medium is-white" target="_blank" title="Currículo Lattes">
       <span class="icon is-medium has-text-info">
         <i class="fas fa-graduation-cap fa-lg"></i>
