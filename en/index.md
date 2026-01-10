@@ -221,11 +221,42 @@ permalink: /en/
       </span>
     </a>
 
-    <a href="mailto:thiago.omeireles@gmail.com" class="button is-medium is-white" title="Get in touch">
-      <span class="icon is-medium has-text-danger">
-        <i class="fas fa-envelope fa-lg"></i>
-      </span>
-    </a>
+    <button class="button is-medium is-white" title="Click to copy email" onclick="copyEmail()">
+  <span class="icon is-medium has-text-danger">
+    <i class="fas fa-envelope fa-lg" id="icon-email"></i>
+  </span>
+</button>
+
+<script>
+  function copyEmail() {
+    // 1. Define the email
+    const email = "thiago.omeireles@gmail.com";
+    
+    // 2. Copy to clipboard
+    navigator.clipboard.writeText(email).then(() => {
+      
+      // 3. Visual Feedback: Change envelope to checkmark
+      const icon = document.getElementById('icon-email');
+      
+      // Remove envelope, add check
+      icon.classList.remove('fa-envelope');
+      icon.classList.add('fa-check');
+      
+      // Change color to green (success)
+      icon.parentElement.classList.remove('has-text-danger');
+      icon.parentElement.classList.add('has-text-success');
+
+      // 4. Wait 2 seconds and revert
+      setTimeout(() => {
+        icon.classList.remove('fa-check');
+        icon.classList.add('fa-envelope');
+        
+        icon.parentElement.classList.remove('has-text-success');
+        icon.parentElement.classList.add('has-text-danger');
+      }, 2000);
+    });
+  }
+</script>
 
   </div> 
 </div>
