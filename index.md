@@ -51,7 +51,7 @@ permalink: /
         </p>
         
         <p class="is-size-4">
-          Lidero projetos de análise de dados e inovação metodológica no <strong>Cetic.br</strong>, combinando técnicas avançadas de <strong>Machine Learning</strong> e <strong>Estatística</strong> para resolver problemas complexos e oferecer soluções acessíveis para gestores e stakeholders.
+          Lidero projetos de análise de dados e inovação metodológica, combinando técnicas avançadas de <strong>Machine Learning</strong> e <strong>Estatística</strong> para resolver problemas complexos e oferecer soluções acessíveis para gestores e stakeholders.
         </p>
 
       </div>
@@ -73,7 +73,7 @@ permalink: /
       </p>
       
       <p class="is-size-5">
-        Como consultor independente, foco em <strong>automação de análises (R/Python)</strong> e <strong>Inferência Causal</strong> (incluindo Testes A/B) para resolver problemas de negócio complexos.
+        Como consultor, foco em <strong>automação de análises (R/Python)</strong> e <strong>Inferência Causal</strong> (incluindo Testes A/B) para resolver problemas de negócio complexos.
       </p>
 
       <p class="is-size-5">

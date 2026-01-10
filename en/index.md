@@ -51,7 +51,7 @@ permalink: /en/
         </p>
         
         <p class="is-size-4">
-          I lead data analysis and methodological innovation projects at <strong>Cetic.br</strong>, combining advanced <strong>Machine Learning</strong> and <strong>Statistics</strong> techniques to solve complex problems and offer accessible solutions for managers and stakeholders.
+          I lead data analysis and methodological innovation projects, combining advanced <strong>Machine Learning</strong> and <strong>Statistics</strong> techniques to solve complex problems and offer accessible solutions for managers and stakeholders.
         </p>
 
       </div>
@@ -73,7 +73,7 @@ permalink: /en/
       </p>
       
       <p class="is-size-5">
-        As an independent consultant, I focus on <strong>analysis automation (R/Python)</strong> and <strong>Causal Inference</strong> (including A/B Testing) to solve complex business problems.
+        As consultant, I focus on <strong>analysis automation (R/Python)</strong> and <strong>Causal Inference</strong> (including A/B Testing) to solve complex business problems.
       </p>
 
       <p class="is-size-5">
