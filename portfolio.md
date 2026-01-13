@@ -217,6 +217,8 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
 
   <h2 class="section-title" style="margin-top: 4rem;">Relatórios Técnicos</h2>
   
+  <div class="news-grid">
+
  <div class="news-card">
   <div>
     <div class="news-source-date">NOV 2024 | Inteligência Artificial
@@ -236,6 +238,7 @@ e mercado de trabalho</div>
   <a href="https://cetic.br/media/docs/publicacoes/6/20241218183020/ano-xvi-n-4-ia-mercado-trabalho.pdf" target="_blank" class="news-link-btn">
     Acessar Publicação
   </a>
+</div>
 
 </div>
 
