@@ -1,12 +1,12 @@
 - name: Sobre Mim
   link: /sobre/
-- name: CV
-  link: /cv/
 - name: Portfólio
   link: /portfolio/
-- name: Blog
-  link: /blog/
+- name: CV
+  link: /cv/
 - name: Imprensa
   link: /imprensa/
+- name: Blog
+  link: /blog/
 - name: English 🇺🇸
   link: /en/
