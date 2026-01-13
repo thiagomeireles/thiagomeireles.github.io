@@ -2,7 +2,7 @@
 layout: page
 title: "Imprensa"
 permalink: /imprensa/
-show_sidebar: true
+show_sidebar: false
 ---
 
 <style>
@@ -177,15 +177,15 @@ show_sidebar: true
         <iframe src="https://www.youtube.com/embed/NPUyT9El5cQ" 
                 title="Programa Opinião (27/06/2025) - Seu emprego está em Risco? Os impactos da IA no mundo do trabalho" allowfullscreen></iframe>
       </div>
-      <div class="video-caption">Opinião Completo</div>
+      <div class="video-caption">Programa Opinião (27/06/2025) - Seu emprego está em Risco? Os impactos da IA no mundo do trabalho</div>
     </div>
 
     <div>
       <div class="video-wrapper">
         <iframe src="https://www.youtube.com/embed/p4t6fqXmPWA" 
-                title="Corte: Thiago Meireles revela que engenharia será uma das carreiras mais prejudicadas pela IA, no #Opinião" allowfullscreen></iframe>
+                title="Programa Opinião (27/06/2025) - Seu emprego está em Risco? Os impactos da IA no mundo do trabalho" allowfullscreen></iframe>
       </div>
-      <div class="video-caption">Corte Opinião</div>
+      <div class="video-caption">Programa Opinião (27/06/2025) - Seu emprego está em Risco? Os impactos da IA no mundo do trabalho</div>
     </div>
 
   </div>
@@ -197,12 +197,12 @@ show_sidebar: true
 
     <div class="news-card">
       <div>
-        <div class="news-source-date">15 MAR 2023 | INSTITUTO CLARO</div>
+        <div class="news-source-date">28 MAR 2023 | INSTITUTO CLARO</div>
         <a href="https://www.institutoclaro.org.br/cidadania/nossas-novidades/reportagens/desemprego-tecnologico-inteligencias-artificiais-podem-realmente-substituir-profissoes/" target="_blank" class="news-title">
           Desemprego tecnológico: inteligências artificiais podem realmente substituir profissões?
         </a>
         <p class="news-snippet">
-          Resumo curto da matéria. Pesquisadores apontam os limites de tecnologias como o ChatGPT no mercado de trabalho
+          Pesquisadores apontam os limites de tecnologias como o ChatGPT no mercado de trabalho
 
 Autor.
         </p>
