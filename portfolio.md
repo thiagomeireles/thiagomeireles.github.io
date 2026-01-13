@@ -232,7 +232,7 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
     <p class="news-snippet">
       This study explores methodological alternatives for analysing open-ended responses in large-scale digital surveys, using the ICT Panel Survey in Brazil as a case study. It integrates qualitative and quantitative approaches through supervised machine learning models to enhance text classification.
       <br><br>
-      <strong>Autores:</strong> Thiago Meireles.
+      <strong>Autores:</strong> Thiago Meireles, Winston Oyadomari & Marcelo Pitta.
     </p>
   </div>
 
