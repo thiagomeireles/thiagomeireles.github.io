@@ -254,7 +254,7 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
     <p class="news-snippet">
       Pensar em indicadores para medir o impacto da Inteligência Artificial sobre o mundo do trabalho passa por saber o que os trabalhadores fazem.
       <br><br>
-      <strong>Autores:</strong> Thiago Meireles.
+      <strong>Autor:</strong> Thiago Meireles.
     </p>
   </div>
 
@@ -263,7 +263,26 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
   </a>
 </div>
 
+<div class="news-card">
+  <div>
+    <div class="news-source-date">NOV 2025 | VI Escola de Amostragem e Métodos de Pesquisa</div>
+    
+    <a href="assets/pdf/esamp2023.pdf" target="_blank" class="news-title">
+      Ponderação da base de dados de medições Simet em escolas públicas
 
+    </a>
+    
+    <p class="news-snippet">
+      Sendo a população de escolas básicas conhecida e suas características medidas pelo Censo Escolar, a metodologia de ponderação apresentada tem como objetivo permitir a estimação de medidas de qualidade da Internet para o conjunto de todas as escolas a partir das medições disponíveis somente para as escolas da amostra de escolas participantes no Simet.
+      <br><br>
+      <strong>Autores:</strong> Marcelo Pitta, Thiago Meireles & Pedro Luis do Nascimento Silva.
+    </p>
+  </div>
+
+  <a href="/assets/pdf/esamp2023.pdf" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+</div>
 
 </div>
 
