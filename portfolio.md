@@ -219,6 +219,29 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
   
   <div class="news-grid">
 
+
+<div class="news-card">
+  <div>
+    <div class="news-source-date">MAI 2025 | Exploring Methodological Alternatives in the ICT Panel Survey: Insights from Open-Ended Questions</div>
+    
+    <a href="https://access.wapor.org/conf18/uploads/wapor/53/4193/26/Exploring_Methodological_Alternatives_in_the_ICT_Panel_Survey.pdf?" target="_blank" class="news-title">
+      Exploring Methodological Alternatives in the ICT Panel Survey: Insights from Open-Ended Questions
+
+    </a>
+    
+    <p class="news-snippet">
+      This study explores methodological alternatives for analysing open-ended responses in large-scale digital surveys, using the ICT Panel Survey in Brazil as a case study. It integrates qualitative and quantitative approaches through supervised machine learning models to enhance text classification.
+      <br><br>
+      <strong>Autores:</strong> Thiago Meireles.
+    </p>
+  </div>
+
+  <a href="https://access.wapor.org/conf18/uploads/wapor/53/4193/26/Exploring_Methodological_Alternatives_in_the_ICT_Panel_Survey.pdf?" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+</div>
+
+
  <div class="news-card">
   <div>
     <div class="news-source-date">NOV 2024 | Inteligência Artificial
@@ -239,6 +262,8 @@ e mercado de trabalho</div>
     Acessar Publicação
   </a>
 </div>
+
+
 
 </div>
 
