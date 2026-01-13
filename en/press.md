@@ -2,7 +2,7 @@
 layout: page
 title: "Media coverage"
 permalink: /en/press/
-show_sidebar: true
+show_sidebar: false
 ---
 
 <style>
