@@ -2,7 +2,7 @@
 layout: page
 title: "Portfólio"
 permalink: /portfolio/
-show_sidebar: true
+show_sidebar: false
 ---
   
 <style>
@@ -191,13 +191,6 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
   }
 </style>
 
-
-<div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
-       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
-</div>
-
-
 <div class="margem-desktop">
 
   <h2 class="section-title">Webinários</h2>
@@ -206,7 +199,7 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
     
     <div>
       <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/p4t6fqXmPWA" 
+        <iframe src="https://www.youtube.com/embed/SUVZkIjpfms" 
                 title="Leveraging non-probability samples and organic data for producing public statistics" allowfullscreen></iframe>
       </div>
       <div class="video-caption">UN Stats (Inter-Secretariat Working Group on Household Surveys (ISWGHS) and the Global Network of Data Officers and Statisticians): Leveraging non-probability samples and organic data for producing public statistics</div>
@@ -222,5 +215,10 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
 
   </div>
 
-### Outros Projetos
-Para ver a lista completa de repositórios, acesse meu [GitHub](https://github.com/thiagomeireles).
+  <h2 class="section-title" style="margin-top: 4rem;">Outros Projetos</h2>
+  <p>
+    Para a lista completa de repositórios, visite meu 
+    <a href="https://github.com/thiagomeireles" target="_blank" style="color: #0056b3; font-weight: bold;">GitHub</a>.
+  </p>
+
+</div>
