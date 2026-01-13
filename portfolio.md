@@ -284,13 +284,108 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
   </a>
 </div>
 
+<div class="news-card">
+  <div>
+    <div class="news-source-date">28 AGO 2020 | Rede de Políticas Públicas & Sociedade</div>
+    
+    <a href="https://redepesquisasolidaria.org/boletins/boletim-22/sem-diretrizes-para-o-ensino-remoto-e-a-volta-as-aulas-governo-federal-repete-na-educacao-a-tragedia-da-saude-milhoes-de-criancas-ficaram-em-casa-sem-atividades-escolares-e-os-mais-pobres-perderam-a/" target="_blank" class="news-title">
+      Nota Técnica N° 22: Sem diretrizes para o ensino remoto e a volta às aulas, governo Federal repete na educação a tragédia da saúde. Milhões de crianças ficaram em casa sem atividades escolares e os mais pobres perderam até 50 dias letivos de aula
+    </a>
+    
+    <p class="news-snippet">
+     Na pandemia, o Ministério da Educação não orientou nem difundiu metodologias bem-sucedidas de ensino à distância. Os estados definiram suas próprias estratégias e colheram resultados bem diferentes com as atividades escolares realizadas remotamente. Mais de 8 milhões de crianças entre 6 e 14 anos ficaram sem atividades escolares para fazer em casa.
+     <strong>Autores:</strong> Ian Prates, Hellen Guicheney, Thiago Meireles, et al.
+    </p>
+  </div>
+
+  <a href="https://redepesquisasolidaria.org/boletins/boletim-22/sem-diretrizes-para-o-ensino-remoto-e-a-volta-as-aulas-governo-federal-repete-na-educacao-a-tragedia-da-saude-milhoes-de-criancas-ficaram-em-casa-sem-atividades-escolares-e-os-mais-pobres-perderam-a/" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+</div>
+
+<div class="news-card">
+  <div>
+    <div class="news-source-date">17 JUL 2020 | Rede de Políticas Públicas & Sociedade</div>
+    
+    <a href="https://redepesquisasolidaria.org/boletins/boletim-16/crise-altera-o-perfil-do-trabalho-em-casa-e-do-teletrabalho-desigualdade-digital-reduz-rendimentos-e-rebaixa-atividade-economica/" target="_blank" class="news-title">
+      Nota Técnica N° 17: Crise altera o perfil do trabalho em casa e do teletrabalho. Desigualdade digital reduz rendimentos e rebaixa atividade econômica
+    </a>
+    
+    <p class="news-snippet">
+     Antes da pandemia, o percentual de pessoas que trabalhavam de casa no Brasil (4,9%) não era muito diferente do que ocorria, por exemplo, nos países da União Europeia (5,4%). Com a pandemia, o trabalho em casa mudou, em volume e em qualidade. O percentual de pessoas que trabalha a partir de suas residências saltou de 4,9%, em 2019, para 10,3% em maio de 2020. Se em 2019 os autônomos eram 88,3% do total das pessoas que trabalhavam em casa, hoje representam menos que 15% do total.
+     <strong>Autores:</strong> Rogério Jerônimo Barbosa, Ian Prates, Fábio Senne, Leonardo Lins, Thiago Meireles, et al.
+    </p>
+  </div>
+
+  <a href="https://redepesquisasolidaria.org/boletins/boletim-16/crise-altera-o-perfil-do-trabalho-em-casa-e-do-teletrabalho-desigualdade-digital-reduz-rendimentos-e-rebaixa-atividade-economica/" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+</div>
+
+<div class="news-card">
+  <div>
+    <div class="news-source-date">03 JUL 2020 | Rede de Políticas Públicas & Sociedade</div>
+    
+    <a href="https://redepesquisasolidaria.org/boletins/boletim-14/situacao-dramatica-do-desemprego-esta-oculta-nos-indicadores-oficiais-sem-renda-emergencial-de-r-60000-a-pobreza-atingiria-30-da-populacao/" target="_blank" class="news-title">
+      Nota Técnica N° 14: Situação dramática do desemprego está oculta nos indicadores oficiais. Sem renda emergencial de R$ 600,00 a pobreza atingiria 30% da população
+    </a>
+    
+    <p class="news-snippet">
+     Pela primeira vez na história, o nível de ocupação entre março e abril ficou abaixo de 50%, ou seja, mais pessoas estavam sem trabalho do que trabalhando em todo o país, segundo a PNAD-Covid do IBGE.
+     <strong>Autores:</strong> Ian Prates, Rogério Jerônimo Barbosa, Thiago Meireles, et al.
+    </p>
+  </div>
+
+  <a href="https://redepesquisasolidaria.org/boletins/boletim-14/situacao-dramatica-do-desemprego-esta-oculta-nos-indicadores-oficiais-sem-renda-emergencial-de-r-60000-a-pobreza-atingiria-30-da-populacao/" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+</div>
+
+<div class="news-card">
+  <div>
+    <div class="news-source-date">29 MAI 2020 | Rede de Políticas Públicas & Sociedade</div>
+    
+    <a href="https://redepesquisasolidaria.org/boletins/boletim-8/auxilio-de-r-60000-precisa-continuar-e-pode-ser-financiado-por-contribuicao-emergencial-sobre-altas-rendas/" target="_blank" class="news-title">
+      Nota Técnica N° 8: Auxílio de R$ 600,00 precisa continuar e pode ser financiado por contribuição emergencial sobre altas rendas
+    </a>
+    
+    <p class="news-snippet">
+     O prolongamento do distanciamento social desestruturou o mercado de trabalho e afetou o emprego dos trabalhadores e a renda das famílias. O debate público sobre a prorrogação da Renda Básica Emergencial tornou-se inevitável, na sociedade e no Congresso nacional.
+     <strong>Autores:</strong> Ian Prates, Rogério Jerônimo Barbosa, Thiago Meireles, et al.
+    </p>
+  </div>
+
+  <a href="https://redepesquisasolidaria.org/boletins/boletim-8/auxilio-de-r-60000-precisa-continuar-e-pode-ser-financiado-por-contribuicao-emergencial-sobre-altas-rendas/" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+</div>
+
+<div class="news-card">
+  <div>
+    <div class="news-source-date">08 MAI 2020 | Rede de Políticas Públicas & Sociedade</div>
+    
+    <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim5.pdf" target="_blank" class="news-title">
+      Nota Técnica N° 5: Dificuldades com aplicativo e não uso da rede de proteção atual limitam acesso ao auxílio de emergência
+
+    </a>
+    
+    <p class="news-snippet">
+     O governo optou pela implementação tecnológica que apresenta problemas por conta da baixa familiaridade e acesso da população de baixa renda às Tecnologias de Informação e Comunicação (aplicativos, telefones e computadores).
+     <strong>Autores:</strong> Rogério Jerônimo Barbosa, Ian Prates, Thiago Meireles, et al.
+    </p>
+  </div>
+
+  <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim5.pdf" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+</div>
 
 <div class="news-card">
   <div>
     <div class="news-source-date">17 ABR 2020 | Rede de Políticas Públicas & Sociedade</div>
     
     <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim2.pdf" target="_blank" class="news-title">
-      A vulnerabilidade dos trabalhadores brasileiros na pandemia da Covid-19
+      Nota Técnica N° 2: A vulnerabilidade dos trabalhadores brasileiros na pandemia da Covid-19
 
     </a>
     
