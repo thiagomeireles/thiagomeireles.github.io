@@ -284,6 +284,27 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
   </a>
 </div>
 
+
+<div class="news-card">
+  <div>
+    <div class="news-source-date">17 ABR 2020 | Rede de Políticas Públicas & Sociedade</div>
+    
+    <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim2.pdf" target="_blank" class="news-title">
+      A vulnerabilidade dos trabalhadores brasileiros na pandemia da Covid-19
+
+    </a>
+    
+    <p class="news-snippet">
+Identificar os segmentos mais frágeis de trabalhadores brasileiros e mensurar o grau de sua vulnerabilidade como procedimento chave para a execução de políticas públicas de qualidade.      <br><br>
+      <strong>Autores:</strong> Rogério Jerônimo Barbosa, Ian Prates e Thiago Meireles.
+    </p>
+  </div>
+
+  <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim2.pdf" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+</div>
+
 </div>
 
   <h2 class="section-title" style="margin-top: 4rem;">Outros Projetos</h2>
