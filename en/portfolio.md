@@ -35,7 +35,7 @@ show_sidebar: false
        style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
 </div>
 
-Here are some of the projects developed throughout my academic and professional journey, focused on Data Science, Visualization, and Causal Inference.
+Here are some of the projects developed throughout my academic and professional journey, focused on **Data Science**, **Visualization**, and **Causal Inference**.
 
 <style>
   /* --- Ajustes da Página Base (Seus originais) --- */
