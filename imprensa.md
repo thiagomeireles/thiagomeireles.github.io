@@ -183,9 +183,9 @@ show_sidebar: false
     <div>
       <div class="video-wrapper">
         <iframe src="https://www.youtube.com/embed/p4t6fqXmPWA" 
-                title="Programa Opinião (27/06/2025) - Seu emprego está em Risco? Os impactos da IA no mundo do trabalho" allowfullscreen></iframe>
+                title="Corte: Thiago Meireles revela que engenharia será uma das carreiras mais prejudicadas pela IA, no #Opinião" allowfullscreen></iframe>
       </div>
-      <div class="video-caption">Programa Opinião (27/06/2025) - Seu emprego está em Risco? Os impactos da IA no mundo do trabalho</div>
+      <div class="video-caption">Corte: Thiago Meireles revela que engenharia será uma das carreiras mais prejudicadas pela IA, no #Opinião</div>
     </div>
 
   </div>
