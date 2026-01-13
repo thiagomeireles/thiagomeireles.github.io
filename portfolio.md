@@ -6,44 +6,12 @@ show_sidebar: false
 ---
   
 <style>
-  /* Ajustes visuais para limpar a home */
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-  .skill-tag { margin-bottom: 0.5rem; }
-</style>
-
-
-<style>
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-</style>
-
-<style>
-  /* Outros estilos que você já tem... */
-
-  /* Regra aplicada apenas para telas maiores que 1024px (Computadores/Laptops) */
-  @media screen and (min-width: 1024px) {
-    .margem-desktop {
-      padding-left: 3rem;  /* Ajuste o valor conforme necessário */
-      padding-right: 3rem; /* Use padding para evitar quebrar a largura total */
-    }
-  }
-</style>
-
-<div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
-       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
-</div>
-
-Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória acadêmica e profissional, focados em **Ciência de Dados**, **Visualização** e **Inferência Causal**.
-
-<style>
-  /* --- Ajustes da Página Base (Seus originais) --- */
+  /* --- Ajustes da Página Base --- */
   .hero-body { display: none !important; }
   .hero { min-height: 0 !important; }
   .skill-tag { margin-bottom: 0.5rem; }
 
-  /* Ajuste de margem desktop */
+  /* --- Ajuste de margem desktop --- */
   @media screen and (min-width: 1024px) {
     .margem-desktop {
       padding-left: 3rem;
@@ -51,7 +19,7 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
     }
   }
 
-  /* Títulos das Seções */
+  /* --- Títulos das Seções --- */
   .section-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -65,14 +33,14 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
   /* --- GRID 1: VÍDEOS DO YOUTUBE --- */
   .video-grid {
     display: grid;
-    grid-template-columns: 1fr; /* 1 coluna no celular */
+    grid-template-columns: 1fr;
     gap: 2rem;
     margin-bottom: 2rem;
   }
 
   @media (min-width: 768px) {
     .video-grid {
-      grid-template-columns: repeat(2, 1fr); /* 2 colunas no computador */
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
@@ -107,11 +75,10 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
   /* --- GRID 2: MATÉRIAS E NOTÍCIAS --- */
   .news-grid {
     display: grid;
-    grid-template-columns: 1fr; /* 1 coluna no celular */
+    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
-  /* Responsividade para notícias: até 3 cartões por linha em telas grandes */
   @media (min-width: 768px) {
     .news-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -131,9 +98,9 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Empurra o botão para o final */
+    justify-content: space-between;
     transition: transform 0.2s, box-shadow 0.2s;
-    height: 100%; /* Faz todos os cards da linha terem a mesma altura */
+    height: 100%;
   }
 
   .news-card:hover {
@@ -168,7 +135,7 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
     font-size: 0.95rem;
     color: #666;
     margin-bottom: 1.5rem;
-    flex-grow: 1; /* Ocupa espaço disponível para alinhar botões */
+    flex-grow: 1;
   }
 
   .news-link-btn {
@@ -190,6 +157,8 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
     text-decoration: none;
   }
 </style>
+
+Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória acadêmica e profissional, focados em **Ciência de Dados**, **Visualização** e **Inferência Causal**.
 
 <div class="margem-desktop">
 
