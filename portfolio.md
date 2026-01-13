@@ -222,7 +222,8 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
 
 <div class="news-card">
   <div>
-    <div class="news-source-date">MAI 2025 | Exploring Methodological Alternatives in the ICT Panel Survey: Insights from Open-Ended Questions</div>
+    <div class="news-source-date">MAI 2025 | WAPOR Annual Conference
+</div>
     
     <a href="https://access.wapor.org/conf18/uploads/wapor/53/4193/26/Exploring_Methodological_Alternatives_in_the_ICT_Panel_Survey.pdf?" target="_blank" class="news-title">
       Exploring Methodological Alternatives in the ICT Panel Survey: Insights from Open-Ended Questions
@@ -244,8 +245,7 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
 
  <div class="news-card">
   <div>
-    <div class="news-source-date">NOV 2024 | Inteligência Artificial
-e mercado de trabalho</div>
+    <div class="news-source-date">NOV 2024 | Panorama Setorial da Internet, Número 4, Ano 16</div>
     
     <a href="https://cetic.br/media/docs/publicacoes/6/20241218183020/ano-xvi-n-4-ia-mercado-trabalho.pdf" target="_blank" class="news-title">
       Inteligência Artificial e mercado de trabalho. Dessa vez é diferente?
