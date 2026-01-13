@@ -215,6 +215,30 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
 
   </div>
 
+  <h2 class="section-title" style="margin-top: 4rem;">Relatórios Técnicos</h2>
+  
+ <div class="news-card">
+  <div>
+    <div class="news-source-date">NOV 2024 | Inteligência Artificial
+e mercado de trabalho</div>
+    
+    <a href="https://cetic.br/media/docs/publicacoes/6/20241218183020/ano-xvi-n-4-ia-mercado-trabalho.pdf" target="_blank" class="news-title">
+      Inteligência Artificial e mercado de trabalho. Dessa vez é diferente?
+    </a>
+    
+    <p class="news-snippet">
+      Pensar em indicadores para medir o impacto da Inteligência Artificial sobre o mundo do trabalho passa por saber o que os trabalhadores fazem.
+      <br><br>
+      <strong>Autores:</strong> Thiago Meireles.
+    </p>
+  </div>
+
+  <a href="https://cetic.br/media/docs/publicacoes/6/20241218183020/ano-xvi-n-4-ia-mercado-trabalho.pdf" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+
+</div>
+
   <h2 class="section-title" style="margin-top: 4rem;">Outros Projetos</h2>
   <p>
     Para a lista completa de repositórios, visite meu 
