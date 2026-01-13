@@ -265,7 +265,7 @@ Aqui estarão alguns dos projetos desenvolvidos ao longo da minha trajetória ac
 
 <div class="news-card">
   <div>
-    <div class="news-source-date">NOV 2025 | VI Escola de Amostragem e Métodos de Pesquisa</div>
+    <div class="news-source-date">NOV 2023 | VI Escola de Amostragem e Métodos de Pesquisa</div>
     
     <a href="assets/pdf/esamp2023.pdf" target="_blank" class="news-title">
       Ponderação da base de dados de medições Simet em escolas públicas
