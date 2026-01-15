@@ -156,9 +156,12 @@ show_sidebar: false
   }
 </style>
 
-<p>
-  Here are some of the projects developed throughout my academic and professional career, focusing on **Data Science**, **Visualization**, and **Causal Inference**.
-</p>
+<div style="text-align: center; margin-bottom: 2rem;">
+  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
+       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
+</div>
+
+Here are some of the projects developed throughout my academic and professional journey, focused on **Data Science**, **Visualization**, and **Causal Inference**.
 
 <div class="margem-desktop">
 
