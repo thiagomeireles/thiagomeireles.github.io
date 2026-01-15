@@ -161,7 +161,9 @@ show_sidebar: false
        style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
 </div>
 
-Here are some of the projects developed throughout my academic and professional journey, focused on **Data Science**, **Visualization**, and **Causal Inference**.
+Aqui está a tradução para o português, mantendo o tom profissional:
+
+"Aqui estão alguns dos projetos desenvolvidos ao longo da minha trajetória acadêmica e profissional, com foco em Ciência de Dados, Visualização e Inferência Causal.
 
 <div class="margem-desktop">
 
