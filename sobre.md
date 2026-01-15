@@ -5,26 +5,24 @@ permalink: /sobre/
 ---
 
 <style>
-  /* Ajustes visuais para limpar a home */
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-  .skill-tag { margin-bottom: 0.5rem; }
-</style>
+  /* 1. Ajustes Globais (Limpando a Home e Geral) */
+  .hero-body { 
+    display: none !important; 
+  }
 
+  .hero { 
+    min-height: 0 !important; 
+  }
 
-<style>
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-</style>
+  .skill-tag { 
+    margin-bottom: 0.5rem; 
+  }
 
-<style>
-  /* Outros estilos que você já tem... */
-
-  /* Regra aplicada apenas para telas maiores que 1024px (Computadores/Laptops) */
+  /* 2. Regras para Telas Maiores (Desktop - acima de 1024px) */
   @media screen and (min-width: 1024px) {
     .margem-desktop {
-      padding-left: 3rem;  /* Ajuste o valor conforme necessário */
-      padding-right: 3rem; /* Use padding para evitar quebrar a largura total */
+      padding-left: 3rem;
+      padding-right: 3rem;
     }
   }
 </style>
