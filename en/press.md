@@ -6,12 +6,12 @@ show_sidebar: false
 ---
 
 <style>
-  /* --- Ajustes da Página Base (Seus originais) --- */
+  /* --- Base Page Adjustments --- */
   .hero-body { display: none !important; }
   .hero { min-height: 0 !important; }
   .skill-tag { margin-bottom: 0.5rem; }
 
-  /* Ajuste de margem desktop */
+  /* Desktop margin adjustment */
   @media screen and (min-width: 1024px) {
     .margem-desktop {
       padding-left: 3rem;
@@ -19,7 +19,7 @@ show_sidebar: false
     }
   }
 
-  /* Títulos das Seções */
+  /* Section Titles */
   .section-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -30,21 +30,21 @@ show_sidebar: false
     color: #333;
   }
 
-  /* --- GRID 1: VÍDEOS DO YOUTUBE --- */
+  /* --- GRID 1: YOUTUBE VIDEOS --- */
   .video-grid {
     display: grid;
-    grid-template-columns: 1fr; /* 1 coluna no celular */
+    grid-template-columns: 1fr; /* 1 column on mobile */
     gap: 2rem;
     margin-bottom: 2rem;
   }
 
   @media (min-width: 768px) {
     .video-grid {
-      grid-template-columns: repeat(2, 1fr); /* 2 colunas no computador */
+      grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
     }
   }
 
-  /* Mantém o vídeo responsivo (16:9) */
+  /* Responsive video wrapper (16:9) */
   .video-wrapper {
     position: relative;
     padding-bottom: 56.25%; 
@@ -72,14 +72,13 @@ show_sidebar: false
     line-height: 1.3;
   }
 
-  /* --- GRID 2: MATÉRIAS E NOTÍCIAS --- */
+  /* --- GRID 2: ARTICLES & NEWS --- */
   .news-grid {
     display: grid;
-    grid-template-columns: 1fr; /* 1 coluna no celular */
+    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
-  /* Responsividade para notícias: até 3 cartões por linha em telas grandes */
   @media (min-width: 768px) {
     .news-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -91,7 +90,7 @@ show_sidebar: false
     }
   }
 
-  /* Estilo do Cartão de Notícia */
+  /* News Card Style */
   .news-card {
     background-color: #fff;
     border: 1px solid #e0e0e0;
@@ -99,9 +98,9 @@ show_sidebar: false
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Empurra o botão para o final */
+    justify-content: space-between;
     transition: transform 0.2s, box-shadow 0.2s;
-    height: 100%; /* Faz todos os cards da linha terem a mesma altura */
+    height: 100%;
   }
 
   .news-card:hover {
@@ -136,7 +135,7 @@ show_sidebar: false
     font-size: 0.95rem;
     color: #666;
     margin-bottom: 1.5rem;
-    flex-grow: 1; /* Ocupa espaço disponível para alinhar botões */
+    flex-grow: 1;
   }
 
   .news-link-btn {
@@ -161,7 +160,7 @@ show_sidebar: false
 
 
 <div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
+  <img src="/assets/images/banner_en.jpg" alt="Thiago Meireles" 
        style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
 </div>
 
@@ -175,21 +174,17 @@ show_sidebar: false
     <div>
       <div class="video-wrapper">
         <iframe src="https://www.youtube.com/embed/NPUyT9El5cQ" 
-                title="Opinião Program (Jun 27, 2025) - Is your job at risk? The impacts of AI on the labor market" allowfullscreen></iframe>
+                title="Opinião Program (06/27/2025) - Is your job at risk? AI impacts on the world of work" allowfullscreen></iframe>
       </div>
-      <div class="video-caption">
-        Opinião Program (Jun 27, 2025) – Is your job at risk? The impacts of AI on the labor market
-      </div>
+      <div class="video-caption">Opinião Program (June 2025) - Is your job at risk? The impacts of AI on the world of work</div>
     </div>
 
     <div>
       <div class="video-wrapper">
         <iframe src="https://www.youtube.com/embed/p4t6fqXmPWA" 
-                title="Clip: Thiago Meireles reveals that engineering will be one of the careers most affected by AI, on #Opinião" allowfullscreen></iframe>
+                title="Highlight: Thiago Meireles reveals that Engineering will be one of the most affected careers by AI" allowfullscreen></iframe>
       </div>
-      <div class="video-caption">
-        Clip: Thiago Meireles reveals that engineering will be one of the careers most affected by AI, on #Opinião
-      </div>
+      <div class="video-caption">Highlight: Thiago Meireles discusses how engineering careers will be impacted by AI</div>
     </div>
 
   </div>
@@ -201,12 +196,12 @@ show_sidebar: false
 
     <div class="news-card">
       <div>
-        <div class="news-source-date">MAR 28, 2023 | INSTITUTO CLARO</div>
+        <div class="news-source-date">MAR 28, 2023 | CLARO INSTITUTE</div>
         <a href="https://www.institutoclaro.org.br/cidadania/nossas-novidades/reportagens/desemprego-tecnologico-inteligencias-artificiais-podem-realmente-substituir-profissoes/" target="_blank" class="news-title">
-          Technological unemployment: can artificial intelligence really replace professions?
+          Technological unemployment: can artificial intelligence truly replace professions?
         </a>
         <p class="news-snippet">
-          Researchers point out the limits of technologies like ChatGPT in the labor market.
+          Researchers point out the limitations of technologies like ChatGPT within the labor market.
         </p>
       </div>
       <a href="https://www.institutoclaro.org.br/cidadania/nossas-novidades/reportagens/desemprego-tecnologico-inteligencias-artificiais-podem-realmente-substituir-profissoes/" target="_blank" class="news-link-btn">Read Article</a>
