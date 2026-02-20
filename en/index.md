@@ -16,6 +16,10 @@ permalink: /en/
     <div class="column">
       <div class="content">
 
+        <div style="margin-top: 1.5rem;">
+          {% include banner_en.html %}
+        </div>
+
         <p class="is-size-3">
           I am <strong>Thiago Meireles</strong>, Data Scientist and Ph.D. in Political Science from USP.
         </p>

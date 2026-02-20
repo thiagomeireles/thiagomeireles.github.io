@@ -4,7 +4,7 @@ title: "Currículo"
 permalink: /cv/
 ---
 
-
+{% include banner.html %}
 
 <div style="text-align: center; margin-bottom: 20px;">
   <a href="/assets/pdf/cv.pdf" class="button is-link is-outlined" target="_blank">

@@ -132,6 +132,8 @@ show_sidebar: false
   }
 </style>
 
+{% include banner_en.html %}
+
 Here are some of the projects developed throughout my academic and professional journey, focused on **Data Science**, **Visualization**, and **Causal Inference**.
 
 <div class="margem-desktop">

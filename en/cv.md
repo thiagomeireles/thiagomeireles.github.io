@@ -4,6 +4,8 @@ title: "Resume"
 permalink: /en/cv/
 ---
 
+{% include banner_en.html %}
+
 <div style="text-align: center; margin-bottom: 20px;">
   <a href="/assets/pdf/cv_en.pdf" class="button is-link is-outlined" target="_blank">
     <span class="icon"><i class="fas fa-download"></i></span>
