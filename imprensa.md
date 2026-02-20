@@ -6,29 +6,6 @@ show_sidebar: false
 ---
 
 <style>
-  /* --- Ajustes da Página Base (Seus originais) --- */
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-  .skill-tag { margin-bottom: 0.5rem; }
-
-  /* Ajuste de margem desktop */
-  @media screen and (min-width: 1024px) {
-    .margem-desktop {
-      padding-left: 3rem;
-      padding-right: 3rem;
-    }
-  }
-
-  /* Títulos das Seções */
-  .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #eaeaea;
-    padding-bottom: 0.5rem;
-    color: #333;
-  }
 
   /* --- GRID 1: VÍDEOS DO YOUTUBE --- */
   .video-grid {
@@ -160,10 +137,7 @@ show_sidebar: false
 </style>
 
 
-<div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
-       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
-</div>
+{% include banner.html %}
 
 
 <div class="margem-desktop">
