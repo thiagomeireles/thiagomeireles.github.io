@@ -4,29 +4,6 @@ title: "Home"
 permalink: /en/
 ---
 
-<style>
-  /* 1. Ajustes Globais (Limpando a Home e Geral) */
-  .hero-body { 
-    display: none !important; 
-  }
-
-  .hero { 
-    min-height: 0 !important; 
-  }
-
-  .skill-tag { 
-    margin-bottom: 0.5rem; 
-  }
-
-  /* 2. Regras para Telas Maiores (Desktop - acima de 1024px) */
-  @media screen and (min-width: 1024px) {
-    .margem-desktop {
-      padding-left: 3rem;
-      padding-right: 3rem;
-    }
-  }
-</style>
-
 <div class="content margem-desktop">
   <div class="columns is-vcentered">
   
@@ -38,11 +15,6 @@ permalink: /en/
 
     <div class="column">
       <div class="content">
-
-        <div style="margin-top: 1.5rem;">
-          <img src="/assets/images/banner_en.jpg" alt="Thiago Meireles" 
-               style="width: 100%; height: auto; object-fit: cover; border-radius: 6px;">
-        </div>
 
         <p class="is-size-3">
           I am <strong>Thiago Meireles</strong>, Data Scientist and Ph.D. in Political Science from USP.
@@ -227,28 +199,16 @@ permalink: /en/
 
 <script>
   function copyEmail() {
-    // 1. Define the email
     const email = "thiago.omeireles@gmail.com";
-    
-    // 2. Copy to clipboard
     navigator.clipboard.writeText(email).then(() => {
-      
-      // 3. Visual Feedback: Change envelope to checkmark
       const icon = document.getElementById('icon-email');
-      
-      // Remove envelope, add check
       icon.classList.remove('fa-envelope');
       icon.classList.add('fa-check');
-      
-      // Change color to green (success)
       icon.parentElement.classList.remove('has-text-danger');
       icon.parentElement.classList.add('has-text-success');
-
-      // 4. Wait 2 seconds and revert
       setTimeout(() => {
         icon.classList.remove('fa-check');
         icon.classList.add('fa-envelope');
-        
         icon.parentElement.classList.remove('has-text-success');
         icon.parentElement.classList.add('has-text-danger');
       }, 2000);

@@ -6,77 +6,20 @@ show_sidebar: false
 ---
 
 <style>
-  /* Ajustes visuais para limpar a home */
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-  .skill-tag { margin-bottom: 0.5rem; }
-</style>
-
-
-<style>
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-</style>
-
-<style>
-  /* Outros estilos que você já tem... */
-
-  /* Regra aplicada apenas para telas maiores que 1024px (Computadores/Laptops) */
-  @media screen and (min-width: 1024px) {
-    .margem-desktop {
-      padding-left: 3rem;  /* Ajuste o valor conforme necessário */
-      padding-right: 3rem; /* Use padding para evitar quebrar a largura total */
-    }
-  }
-</style>
-
-<div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_en.jpg" alt="Thiago Meireles" 
-       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
-</div>
-
-Here are some of the projects developed throughout my academic and professional journey, focused on **Data Science**, **Visualization**, and **Causal Inference**.
-
-<style>
-  /* --- Ajustes da Página Base (Seus originais) --- */
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-  .skill-tag { margin-bottom: 0.5rem; }
-
-  /* Ajuste de margem desktop */
-  @media screen and (min-width: 1024px) {
-    .margem-desktop {
-      padding-left: 3rem;
-      padding-right: 3rem;
-    }
-  }
-
-  /* Títulos das Seções */
-  .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #eaeaea;
-    padding-bottom: 0.5rem;
-    color: #333;
-  }
-
-  /* --- GRID 1: VÍDEOS DO YOUTUBE --- */
+  /* --- GRID 1: YOUTUBE VIDEOS --- */
   .video-grid {
     display: grid;
-    grid-template-columns: 1fr; /* 1 coluna no celular */
+    grid-template-columns: 1fr;
     gap: 2rem;
     margin-bottom: 2rem;
   }
 
   @media (min-width: 768px) {
     .video-grid {
-      grid-template-columns: repeat(2, 1fr); /* 2 colunas no computador */
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  /* Mantém o vídeo responsivo (16:9) */
   .video-wrapper {
     position: relative;
     padding-bottom: 56.25%; 
@@ -104,14 +47,13 @@ Here are some of the projects developed throughout my academic and professional 
     line-height: 1.3;
   }
 
-  /* --- GRID 2: MATÉRIAS E NOTÍCIAS --- */
+  /* --- GRID 2: ARTICLES & NEWS --- */
   .news-grid {
     display: grid;
-    grid-template-columns: 1fr; /* 1 coluna no celular */
+    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
-  /* Responsividade para notícias: até 3 cartões por linha em telas grandes */
   @media (min-width: 768px) {
     .news-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -123,7 +65,6 @@ Here are some of the projects developed throughout my academic and professional 
     }
   }
 
-  /* Estilo do Cartão de Notícia */
   .news-card {
     background-color: #fff;
     border: 1px solid #e0e0e0;
@@ -131,9 +72,9 @@ Here are some of the projects developed throughout my academic and professional 
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Empurra o botão para o final */
+    justify-content: space-between;
     transition: transform 0.2s, box-shadow 0.2s;
-    height: 100%; /* Faz todos os cards da linha terem a mesma altura */
+    height: 100%;
   }
 
   .news-card:hover {
@@ -168,7 +109,7 @@ Here are some of the projects developed throughout my academic and professional 
     font-size: 0.95rem;
     color: #666;
     margin-bottom: 1.5rem;
-    flex-grow: 1; /* Ocupa espaço disponível para alinhar botões */
+    flex-grow: 1;
   }
 
   .news-link-btn {
@@ -191,9 +132,11 @@ Here are some of the projects developed throughout my academic and professional 
   }
 </style>
 
+Here are some of the projects developed throughout my academic and professional journey, focused on **Data Science**, **Visualization**, and **Causal Inference**.
+
 <div class="margem-desktop">
 
-  <h2 class="section-title">Webinários</h2>
+  <h2 class="section-title">Webinars</h2>
   
   <div class="video-grid">
     
