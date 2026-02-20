@@ -6,29 +6,7 @@ show_sidebar: false
 ---
   
 <style>
-  /* --- Base Page Adjustments --- */
-  .hero-body { display: none !important; }
-  .hero { min-height: 0 !important; }
-  .skill-tag { margin-bottom: 0.5rem; }
 
-  /* --- Desktop Margin Adjustment --- */
-  @media screen and (min-width: 1024px) {
-    .margem-desktop {
-      padding-left: 3rem;
-      padding-right: 3rem;
-    }
-  }
-
-  /* --- Section Titles --- */
-  .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #eaeaea;
-    padding-bottom: 0.5rem;
-    color: #333;
-  }
 
   /* --- GRID 1: YOUTUBE VIDEOS --- */
   .video-grid {
@@ -156,10 +134,7 @@ show_sidebar: false
   }
 </style>
 
-<div style="text-align: center; margin-bottom: 2rem;">
-  <img src="/assets/images/banner_pt.jpg" alt="Thiago Meireles" 
-       style="width: auto; height: auto; object-fit: cover; border-radius: 6px;">
-</div>
+{% include banner.html %}
 
 Aqui estão alguns dos projetos desenvolvidos ao longo da minha trajetória acadêmica e profissional, com foco em Ciência de Dados, Visualização e Inferência Causal.
 
