@@ -18,9 +18,7 @@ permalink: /
     <div class="column">
       <div class="content">
 
-        <div style="margin-top: 1.5rem;">
-          {% include banner.html %}
-        </div>
+
 
         <p class="is-size-3">
           Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Doutor em Ciência Política pela USP.

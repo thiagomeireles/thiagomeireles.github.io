@@ -7,6 +7,4 @@ permalink: /blog/
 
 
 
-{% include banner.html %}
-
 Aqui compartilho textos sobre estatística e machine learning, especialmente Causalidade, Survey e Representatividade Amostral.

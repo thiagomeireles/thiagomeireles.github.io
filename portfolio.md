@@ -134,7 +134,6 @@ show_sidebar: false
   }
 </style>
 
-{% include banner.html %}
 
 Aqui estão alguns dos projetos desenvolvidos ao longo da minha trajetória acadêmica e profissional, com foco em Ciência de Dados, Visualização e Inferência Causal.
 
