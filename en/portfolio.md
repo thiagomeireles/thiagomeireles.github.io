@@ -254,6 +254,51 @@ Here are some of the projects developed throughout my academic and professional 
       <a href="..." target="_blank" class="news-link-btn">Access Publication</a>
     </div>
 
+    <div class="news-card">
+      <div>
+        <div class="news-source-date">MAY 2020 | Solidarity Research Network</div>
+        <a href="https://redepesquisasolidaria.org/boletins/boletim-8/auxilio-de-r-60000-precisa-continuar-e-pode-ser-financiado-por-contribuicao-emergencial-sobre-altas-rendas/" target="_blank" class="news-title">
+          Technical Note No. 8: R$ 600.00 aid must continue and can be financed by emergency contribution on high incomes
+        </a>
+        <p class="news-snippet">
+          The prolonged social distancing has disrupted the labor market and affected workers' employment and families' income. The public debate on the extension of the Emergency Basic Income has become inevitable, both in society and in the National Congress.
+          <br><br>
+          <strong>Authors:</strong> Ian Prates, Rogério Jerônimo Barbosa, Thiago Meireles, et al.
+        </p>
+      </div>
+      <a href="https://redepesquisasolidaria.org/boletins/boletim-8/auxilio-de-r-60000-precisa-continuar-e-pode-ser-financiado-por-contribuicao-emergencial-sobre-altas-rendas/" target="_blank" class="news-link-btn">Access Publication</a>
+    </div>
+
+    <div class="news-card">
+      <div>
+        <div class="news-source-date">MAY 2020 | Solidarity Research Network</div>
+        <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim5.pdf" target="_blank" class="news-title">
+          Technical Note No. 5: Difficulties with the application and non-use of the current protection network limit access to emergency aid
+        </a>
+        <p class="news-snippet">
+          The government opted for a technological implementation that presents problems due to the low-income population's low familiarity with and access to Information and Communication Technologies (applications, phones, and computers).
+          <br><br>
+          <strong>Authors:</strong> Rogério Jerônimo Barbosa, Ian Prates, Thiago Meireles, et al.
+        </p>
+      </div>
+      <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim5.pdf" target="_blank" class="news-link-btn">Access Publication</a>
+    </div>
+
+    <div class="news-card">
+      <div>
+        <div class="news-source-date">APR 2020 | Solidarity Research Network</div>
+        <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim2.pdf" target="_blank" class="news-title">
+          Technical Note No. 2: The vulnerability of Brazilian workers in the Covid-19 pandemic
+        </a>
+        <p class="news-snippet">
+          Identifying the most fragile segments of Brazilian workers and measuring their degree of vulnerability as a key procedure for the execution of quality public policies.
+          <br><br>
+          <strong>Authors:</strong> Rogério Jerônimo Barbosa, Ian Prates and Thiago Meireles.
+        </p>
+      </div>
+      <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim2.pdf" target="_blank" class="news-link-btn">Access Publication</a>
+    </div>
+
   </div>
 
   <h2 class="section-title" style="margin-top: 4rem;">Other Projects</h2>
