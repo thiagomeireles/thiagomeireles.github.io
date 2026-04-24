@@ -2,11 +2,14 @@
 layout: post
 title: "Comparação de Análise de Pesquisa: R vs Python"
 subtitle: "Usando o dataset TIC Domicílios 2025"
+excerpt: "Este guia demonstra como replicar uma análise de amostra complexa utilizando os pacotes `survey` (R) e `svy` (Python), garantindo a consistência das estimativas e erros padrão."
 date: 2026-04-24 09:25:00 -0300
 categories: [estatistica]
 tags: [survey, R, Python]
 # image: /assets/images/seu-banner-aqui.jpg # Descomente para adicionar uma imagem de capa
 ---
+
+# Comparação de Análise de Pesquisa: R vs Python
 
 Este guia demonstra como replicar uma análise de amostra complexa utilizando os pacotes [`survey`](https://cran.r-project.org/web/packages/survey/index.html) (R) e [`svy`](https://svylab.com/learn/notes/posts/design-based-survey-analysis-in-python/) (Python), garantindo a consistência das estimativas e erros padrão.
 

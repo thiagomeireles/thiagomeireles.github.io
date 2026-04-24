@@ -2,6 +2,7 @@
 layout: post
 title: "Survey Analysis Comparison: R vs Python"
 subtitle: "Using the ICT Households 2025 dataset"
+excerpt: "This guide demonstrates how to replicate a complex survey analysis using the `survey` (R) and `svy` (Python) packages, ensuring consistency in estimates and standard errors."
 date: 2026-04-24 09:25:00 -0300
 categories: [statistics]
 tags: [survey, R, Python]
