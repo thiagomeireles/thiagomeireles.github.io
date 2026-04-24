@@ -21,3 +21,14 @@ paginate_path: "/blog/page:num/"
 # Configuraçõe do Menu (Bulma Clean precisa disso)
 #hero_image: /assets/images/hero.jpg # Opcional: imagem de fundo do topo
 show_sidebar: true # Se quer barra lateral
+
+# Autor Padrão do site
+author: "Thiago Meireles"
+
+# Aplica o autor padrão a todos os posts
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      author: "Thiago Meireles"
