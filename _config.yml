@@ -31,4 +31,15 @@ defaults:
       path: ""
       type: "posts"
     values:
-      author: "Thiago Meireles"
+      author: "Thiago Meireles"
+
+# --- COMENTÁRIOS COM GISCUS ---
+# Passo 1: Habilite Discussions no repositório GitHub
+# Passo 2: Acesse https://giscus.app, configure e copie os IDs abaixo
+giscus:
+  repo: "thiagomeireles/thiagomeireles.github.io"
+  repo_id: "R_kgDOQ1mjhw"
+  category: "Announcements"
+  category_id: "DIC_kwDOQ1mjh84C7mi2"
+  theme: "light"
+  lang: "pt"
