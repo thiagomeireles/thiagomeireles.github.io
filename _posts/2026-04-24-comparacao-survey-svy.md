@@ -11,7 +11,7 @@ tags: [survey, R, Python]
 Este guia demonstra como replicar uma análise de amostra complexa utilizando os pacotes [`survey`](https://cran.r-project.org/web/packages/survey/index.html) (R) e [`svy`](https://svylab.com/learn/notes/posts/design-based-survey-analysis-in-python/) (Python), garantindo a consistência das estimativas e erros padrão.
 
 
-Este repositório no GitHub [https://github.com/thiagomeireles/survey_svy_tic_dom25](https://github.com/thiagomeireles/survey_svy_tic_dom25) contém todo o material para replicação.
+Este [`repositório no GitHub`](https://github.com/thiagomeireles/survey_svy_tic_dom25) contém todo o material para replicação.
 
 
 **Download dos Dados:** Os microdados utilizados nesta análise podem ser obtidos diretamente aqui: [TIC Domicílios 2025 (SAV)](https://cetic.br/media/microdados/983/tic_domicilios_2025_domicilios_base_de_microdados_v1.0.sav).
