@@ -56,11 +56,6 @@ show_sidebar: false
 
   @media (min-width: 768px) {
     .news-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media (min-width: 1100px) {
-    .news-grid {
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -178,8 +173,6 @@ Here are some of the projects developed throughout my academic and professional 
       </div>
       <a href="https://access.wapor.org/conf18/uploads/wapor/195/4193/92/Classifying_Open_Ended_Questions.pdf?" target="_blank" class="news-link-btn">Access Publication</a>
     </div>
-
-<div class="news-grid">
 
     <div class="news-card">
       <div>
