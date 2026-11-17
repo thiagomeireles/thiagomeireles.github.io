@@ -166,6 +166,23 @@ Here are some of the projects developed throughout my academic and professional 
 
     <div class="news-card">
       <div>
+        <div class="news-source-date">OCT 2026 | WAPOR Annual Conference</div>
+        <a href="https://access.wapor.org/conf18/uploads/wapor/195/4193/92/Classifying_Open_Ended_Questions.pdf?" target="_blank" class="news-title">
+          Classifying Open-Ended Questions: A Comparison of Supervised Learning and Large Language Models
+        </a>
+        <p class="news-snippet">
+          This study compares two strategies for classifying the question “What does privacy mean to you?” into six predefined categories, using the 2025 edition of the ICT Web Panel, dedicated to privacy on the Internet and conducted by Cetic.br .
+          <br><br>
+          <strong>Authors:</strong> Thiago Meireles & Winston Oyadomari.
+        </p>
+      </div>
+      <a href="https://access.wapor.org/conf18/uploads/wapor/195/4193/92/Classifying_Open_Ended_Questions.pdf?" target="_blank" class="news-link-btn">Access Publication</a>
+    </div>
+
+<div class="news-grid">
+
+    <div class="news-card">
+      <div>
         <div class="news-source-date">MAY 2025 | WAPOR Annual Conference</div>
         <a href="https://access.wapor.org/conf18/uploads/wapor/53/4193/26/Exploring_Methodological_Alternatives_in_the_ICT_Panel_Survey.pdf?" target="_blank" class="news-title">
           Exploring Methodological Alternatives in the ICT Panel Survey: Insights from Open-Ended Questions
