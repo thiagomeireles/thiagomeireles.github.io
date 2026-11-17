@@ -58,11 +58,6 @@ show_sidebar: false
 
   @media (min-width: 768px) {
     .news-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media (min-width: 1100px) {
-    .news-grid {
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -166,6 +161,25 @@ Aqui estão alguns dos projetos desenvolvidos ao longo da minha trajetória acad
   
   <div class="news-grid">
 
+<div class="news-card">
+  <div>
+    <div class="news-source-date">OUT 2026 | WAPOR Annual Conference</div>
+    
+    <a href="https://access.wapor.org/conf18/uploads/wapor/195/4193/92/Classifying_Open_Ended_Questions.pdf?" target="_blank" class="news-title">
+      Classifying Open-Ended Questions: A Comparison of Supervised Learning and Large Language Models
+    </a>
+    
+    <p class="news-snippet">
+      Este estudo compara duas estratégias para classificar as respostas à pergunta “O que privacidade significa para você?” em seis categorias predefinidas, usando a edição de 2025 do Painel TIC, dedicada à privacidade na Internet e conduzida pelo Cetic.br.
+      <br><br>
+      <strong>Autores:</strong> Thiago Meireles & Winston Oyadomari.
+    </p>
+  </div>
+
+  <a href="https://access.wapor.org/conf18/uploads/wapor/195/4193/92/Classifying_Open_Ended_Questions.pdf?" target="_blank" class="news-link-btn">
+    Acessar Publicação
+  </a>
+</div>
 
 <div class="news-card">
   <div>
