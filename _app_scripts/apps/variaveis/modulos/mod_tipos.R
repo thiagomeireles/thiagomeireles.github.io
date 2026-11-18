@@ -152,9 +152,10 @@ texto_intro_tipos <- function() {
     shiny::tagList(
       shiny::h4("Que tipo de variável é esta?"),
       shiny::p(
-        "Antes de calcular qualquer estatística, é preciso saber o que os valores representam.",
-        "Categorias ou números? Com ordem ou sem ordem? Contagem ou medição? A resposta define quais",
-        "resumos fazem sentido. Uma média de CEPs pode ser calculada, mas não quer dizer nada."
+        "Antes de calcular qualquer estatística, é preciso saber o que os valores representam. A classificação",
+        "depende de duas perguntas: se os valores são categorias ou números e, em seguida, se as categorias têm",
+        "ordem ou se os números vêm de uma contagem ou de uma medição. Dessa forma, o tipo define quais resumos",
+        "fazem sentido. A média de CEPs pode ser calculada, mas não quer dizer nada, uma vez que o CEP é um rótulo."
       ),
       shiny::p(
         class = "mb-0",
@@ -165,9 +166,10 @@ texto_intro_tipos <- function() {
     shiny::tagList(
       shiny::h4("What type of variable is this?"),
       shiny::p(
-        "Before computing any statistic, you need to know what the values represent.",
-        "Categories or numbers? Ordered or unordered? Counted or measured? The answer decides which",
-        "summaries make sense. You can compute the mean of ZIP codes, but it means nothing."
+        "Before computing any statistic, you need to know what the values represent. Classifying a variable",
+        "comes down to two questions: whether the values are categories or numbers and, then, whether the",
+        "categories have an order or the numbers come from counting or measuring. The type, in turn, decides which",
+        "summaries make sense. You can compute the mean of ZIP codes, but it means nothing, since a ZIP code is a label."
       ),
       shiny::p(
         class = "mb-0",

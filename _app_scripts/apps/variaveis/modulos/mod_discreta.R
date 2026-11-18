@@ -19,8 +19,9 @@ texto_discreta <- function() {
         "dispersão (amplitude, distância interquartil, variância, desvio padrão)."
       ),
       shiny::p(
-        "A média pode dar um valor impossível, como 1,6 filho. Não é erro: a média é um resumo do conjunto,",
-        "não uma observação. Ela diz que 100 famílias como essas têm, juntas, cerca de 160 filhos."
+        "A média pode dar um valor impossível, como 1,6 filho, e isso não é erro, uma vez que a média resume o",
+        "conjunto e não descreve nenhuma observação. Em outras palavras, 100 famílias como essas têm, juntas,",
+        "cerca de 160 filhos."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -37,8 +38,9 @@ texto_discreta <- function() {
         "of variability (range, interquartile range, variance, standard deviation)."
       ),
       shiny::p(
-        "The mean can be an impossible value, such as 1.6 children. That is not a mistake: the mean summarizes",
-        "the group, it is not an observation. It says that 100 families like these have about 160 children in total."
+        "The mean can be an impossible value, such as 1.6 children, and that is not a mistake, since the mean",
+        "summarizes the group and does not describe any single observation. In other words, 100 families like",
+        "these have about 160 children in total."
       ),
       shiny::p(
         shiny::strong("Try it:"),
@@ -56,13 +58,13 @@ cuidados_discreta <- function() {
       "Valores extremos" = "puxam a média e inflam o desvio padrão. Quando houver, informe também a mediana e a distância interquartil.",
       "Média com casas decimais" = "é normal numa contagem. Não arredonde para inteiro só porque os dados são inteiros.",
       "Histograma com classes largas" = "pode esconder que só existem valores inteiros. Com poucos valores distintos, use barras por valor.",
-      "Muitos valores distintos" = "(como número de seguidores) fazem a discreta se comportar como contínua. Aí o histograma volta a ser útil."
+      "Muitos valores distintos" = "(como número de seguidores) fazem a discreta se comportar como contínua. Nesse caso, o histograma volta a ser útil."
     ),
     c(
       "Extreme values" = "pull the mean and inflate the standard deviation. When they occur, also report the median and the interquartile range.",
       "A mean with decimals" = "is normal for a count. Do not round it to a whole number just because the data are whole numbers.",
       "Histograms with wide bins" = "can hide the fact that only whole values exist. With few distinct values, use one bar per value.",
-      "Many distinct values" = "(such as follower counts) make a discrete variable behave like a continuous one. Then the histogram is useful again."
+      "Many distinct values" = "(such as follower counts) make a discrete variable behave like a continuous one. In that case, the histogram is useful again."
     )
   )
 }

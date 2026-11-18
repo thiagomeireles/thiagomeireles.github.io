@@ -8,8 +8,8 @@
   slug_en: variables
   titulo: Tipos de variáveis
   title: Types of variables
-  descricao: Nominal, ordinal, discreta ou contínua? Classifique variáveis num quiz e veja quais estatísticas fazem sentido para cada tipo.
-  description: Nominal, ordinal, discrete or continuous? Classify variables in a quiz and see which statistics make sense for each type.
+  descricao: Como classificar uma variável em nominal, ordinal, discreta ou contínua e quais estatísticas fazem sentido para cada tipo, com quiz.
+  description: How to classify a variable as nominal, ordinal, discrete or continuous and which statistics make sense for each type, with a quiz.
   novo: true
 
 - slug: probabilidade

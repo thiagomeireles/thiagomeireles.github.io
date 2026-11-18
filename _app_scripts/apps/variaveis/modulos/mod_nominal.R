@@ -19,15 +19,15 @@ texto_nominal <- function() {
         "e qual categoria aparece mais (moda)."
       ),
       shiny::p(
-        "A razão de variação (1 menos a proporção da moda) faz o papel de medida de dispersão. Vale 0 quando",
-        "todas as observações estão na mesma categoria e cresce à medida que elas se espalham por igual, até",
-        "1 − 1/k para k categorias (0,80 com cinco categorias). A medida é de Freeman (1965) e não aparece",
-        "em Morettin e Bussab nem em Agresti e Finlay, que descrevem nominais só pela tabela de frequências e pela moda."
+        "Para a dispersão, o app usa a razão de variação, proposta por Freeman (1965): 1 menos a proporção da moda.",
+        "Ela vale 0 quando todas as observações estão na mesma categoria e cresce à medida que elas se espalham",
+        "por igual, até 1 − 1/k para k categorias (0,80 com cinco). Morettin e Bussab e Agresti e Finlay não",
+        "a apresentam; nos dois livros, a nominal é descrita pela tabela de frequências e pela moda."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
         "clique em \"Trocar os códigos\" várias vezes. A moda e as frequências não mudam, mas a \"média dos códigos\"",
-        "muda a cada clique. Ela depende de uma escolha arbitrária, e não da variável."
+        "muda a cada clique, porque depende da codificação, que é arbitrária, e não da variável."
       )
     ),
     shiny::tagList(
@@ -38,15 +38,15 @@ texto_nominal <- function() {
         "and which category appears most often (mode)."
       ),
       shiny::p(
-        "The variation ratio (1 minus the share in the modal category) plays the role of a measure of spread. It is 0",
-        "when all observations are in the same category and grows as they spread evenly across categories, up to",
-        "1 − 1/k for k categories (0.80 with five categories). The measure is Freeman's (1965) and does not appear",
-        "in Agresti and Finlay or in Morettin and Bussab, who describe nominal data only through the frequency table and the mode."
+        "For spread, the app uses the variation ratio proposed by Freeman (1965): 1 minus the share in the modal",
+        "category. It is 0 when all observations are in the same category and grows as they spread evenly across",
+        "categories, up to 1 − 1/k for k categories (0.80 with five). Agresti and Finlay and Morettin and Bussab do",
+        "not cover it; both books describe nominal data through the frequency table and the mode."
       ),
       shiny::p(
         shiny::strong("Try it:"),
         "click \"Shuffle the codes\" a few times. The mode and the frequencies do not change, but the \"mean of",
-        "the codes\" changes with every click. It depends on an arbitrary choice, not on the variable."
+        "the codes\" changes with every click, because it depends on the coding, which is arbitrary, not on the variable."
       )
     )
   )

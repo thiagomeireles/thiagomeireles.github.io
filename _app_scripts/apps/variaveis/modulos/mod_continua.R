@@ -20,10 +20,10 @@ texto_continua <- function() {
       ),
       shiny::p(
         "O coeficiente de assimetria resume a forma. Pela regra prática usada aqui, entre −0,5 e 0,5 a",
-        "distribuição é tratada como aproximadamente simétrica, e média e mediana ficam próximas. Positivo, há",
-        "uma cauda longa à direita (comum em renda e tempos de espera), e a média costuma ficar acima da mediana,",
-        "puxada pela cauda. O boxplot mostra o mesmo de outra forma: numa distribuição assimétrica à direita, a",
-        "distância da mediana ao terceiro quartil e ao máximo é maior que a distância até o primeiro quartil e o mínimo."
+        "distribuição é tratada como aproximadamente simétrica, e média e mediana ficam próximas. Quando o",
+        "coeficiente é positivo, há uma cauda longa à direita (comum em renda e tempos de espera), e a média",
+        "costuma ficar acima da mediana, puxada pela cauda. No boxplot, a mesma assimetria aparece nas distâncias,",
+        "já que a mediana fica mais longe do terceiro quartil e do máximo do que do primeiro quartil e do mínimo."
       ),
       shiny::p(
         "Em dados com forma de sino, como a altura, cerca de 68% das observações ficam a até 1 desvio padrão",
@@ -47,8 +47,8 @@ texto_continua <- function() {
         "The skewness coefficient summarizes the shape. By the rule of thumb used here, between −0.5 and 0.5 the",
         "distribution is treated as roughly symmetric, and the mean and median are close. When it is positive,",
         "there is a long right tail (common for income and waiting times), and the mean usually sits above the",
-        "median, pulled toward the tail. The boxplot shows the same thing another way: in a right-skewed",
-        "distribution, the median is farther from the third quartile and the maximum than from the first quartile and the minimum."
+        "median, pulled toward the tail. In the boxplot, the same skew shows up in the distances, since the median",
+        "is farther from the third quartile and the maximum than from the first quartile and the minimum."
       ),
       shiny::p(
         "For bell-shaped data such as height, about 68% of the observations fall within 1 standard deviation of",
@@ -71,9 +71,15 @@ cuidados_continua <- function() {
         "quase nenhum valor contínuo se repete, então a moda dos valores brutos não informa nada.",
         "Use a classe modal (ou o seu ponto médio, como em Morettin e Bussab), que depende da escolha das classes."
       ),
-      "Número de classes" = "muda a cara do histograma. Poucas classes escondem detalhes; muitas mostram ruído.",
-      "Distribuições assimétricas" = "afastam média e mediana. Para descrever o valor típico de renda, a mediana costuma ser melhor.",
-      "Coeficiente de variação" = "só faz sentido quando o zero da escala significa ausência (altura, renda, tempo). Para temperatura em °C, não use.",
+      "Número de classes" = "muda a forma do histograma. Poucas classes escondem detalhes; muitas mostram ruído.",
+      "Distribuições assimétricas" = paste(
+        "afastam média e mediana. Para descrever o valor típico de renda, a mediana costuma ser melhor,",
+        "porque não é puxada pelas poucas rendas muito altas."
+      ),
+      "Coeficiente de variação" = paste(
+        "só faz sentido quando o zero da escala significa ausência (altura, renda, tempo). Não use com",
+        "temperatura em °C, cujo zero é uma convenção."
+      ),
       "Agrupar em faixas" = "transforma a variável em ordinal: a leitura fica mais fácil, mas o detalhe dentro de cada faixa se perde."
     ),
     c(
@@ -82,8 +88,14 @@ cuidados_continua <- function() {
         "Use the modal class (or its midpoint), which depends on how the bins are chosen."
       ),
       "Number of bins" = "changes how the histogram looks. Few bins hide detail; many bins show noise.",
-      "Skewed distributions" = "pull the mean and median apart. To describe typical income, the median is usually better.",
-      "Coefficient of variation" = "only makes sense when zero on the scale means absence (height, income, time). Do not use it for temperature in °C.",
+      "Skewed distributions" = paste(
+        "pull the mean and median apart. To describe typical income, the median is usually better,",
+        "because it is not pulled up by the few very high incomes."
+      ),
+      "Coefficient of variation" = paste(
+        "only makes sense when zero on the scale means absence (height, income, time). Do not use it for",
+        "temperature in °C, whose zero is a convention."
+      ),
       "Grouping into ranges" = "turns the variable into an ordinal one: easier to read, but the detail within each range is lost."
     )
   )
