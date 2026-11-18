@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+
+# Memória local do projeto (não versionar)
+memory/

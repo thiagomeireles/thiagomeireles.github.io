@@ -2,6 +2,8 @@
   link: /en/about/   # Você precisará criar essa página depois, se quiser
 - name: Portfolio
   link: /en/portfolio/  # Pode mandar para o mesmo se não tiver traduzido ainda
+- name: Apps
+  link: /en/apps/
 - name: Resume
   link: /en/cv/
 - name: Media coverage
