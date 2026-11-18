@@ -52,12 +52,13 @@ cuidados_ordinal <- function() {
   tr(
     c(
       "Média dos códigos" = paste(
-        "é comum em escalas de 1 a 5, mas supõe que as categorias são igualmente espaçadas. Use com cautela,",
-        "sempre ao lado da distribuição, e nunca como único resumo."
+        "não é indicada, mas é comum em escalas de 1 a 5. Ela pressupõe que as categorias são igualmente",
+        "espaçadas, um pressuposto forte que a escala ordinal não garante. Se usar, mostre junto a distribuição",
+        "e a mediana, nunca a média sozinha."
       ),
       "Desvio padrão e variância" = paste(
-        "dependem da mesma suposição de distâncias iguais que a média dos códigos. Se informar a média,",
-        "o desvio padrão pode acompanhá-la, com a mesma cautela."
+        "também não são indicados, porque dependem do mesmo pressuposto de distâncias iguais. Se a média",
+        "for informada, o desvio padrão pode acompanhá-la, com a mesma ressalva."
       ),
       "Amplitude e distância interquartil" = paste(
         "como diferenças numéricas, não fazem sentido. Informe as categorias extremas e os quartis",
@@ -67,12 +68,13 @@ cuidados_ordinal <- function() {
     ),
     c(
       "Mean of the codes" = paste(
-        "is common for 1-to-5 scales, but it assumes the categories are equally spaced. Use it with caution,",
-        "always next to the distribution, and never as the only summary."
+        "is not recommended, but it is common for 1-to-5 scales. It assumes the categories are equally spaced,",
+        "a strong assumption that an ordinal scale does not guarantee. If you use it, show the distribution and",
+        "the median alongside it, never the mean on its own."
       ),
       "Standard deviation and variance" = paste(
-        "rest on the same equal-spacing assumption as the mean of the codes. If you report the mean,",
-        "the standard deviation can go with it, with the same caution."
+        "are not recommended either, because they rest on the same equal-spacing assumption. If the mean is",
+        "reported, the standard deviation can go with it, with the same caveat."
       ),
       "Range and interquartile range" = paste(
         "make no sense as numeric differences. Report the extreme categories and the quartiles",
@@ -162,11 +164,11 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
         tr(
           c(
             "Tamanho da amostra (n)", "Moda", "Mediana", "1º quartil (Q1)", "3º quartil (Q3)",
-            "Categorias mínima e máxima", "Média dos códigos (com cautela)"
+            "Categorias mínima e máxima", "Média dos códigos (não indicada)"
           ),
           c(
             "Sample size (n)", "Mode", "Median", "1st quartile (Q1)", "3rd quartile (Q3)",
-            "Minimum and maximum categories", "Mean of the codes (with caution)"
+            "Minimum and maximum categories", "Mean of the codes (not recommended)"
           )
         ),
         c(
@@ -182,7 +184,7 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
             "Pelo menos 25% das observações estão até esta categoria",
             "Pelo menos 75% das observações estão até esta categoria",
             "Categorias extremas observadas na amostra",
-            sprintf("Códigos de 1 a %d; supõe distâncias iguais entre categorias", nrow(f))
+            sprintf("Códigos de 1 a %d; pressupõe distâncias iguais entre categorias, um pressuposto forte", nrow(f))
           ),
           c(
             "Number of observations",
@@ -191,7 +193,7 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
             "At least 25% of the observations are up to this category",
             "At least 75% of the observations are up to this category",
             "Extreme categories observed in the sample",
-            sprintf("Codes from 1 to %d; assumes equal distances between categories", nrow(f))
+            sprintf("Codes from 1 to %d; assumes equal distances between categories, a strong assumption", nrow(f))
           )
         )
       )

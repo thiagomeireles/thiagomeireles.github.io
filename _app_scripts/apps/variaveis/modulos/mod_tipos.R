@@ -50,7 +50,7 @@ banco_quiz <- data.frame(
       "Há uma ordem natural, mas a \"distância\" entre médio e superior não é um número.",
       paste(
         "Os códigos 1 a 5 indicam ordem, mas nada garante que a distância entre 4 e 5 seja igual à distância entre 2 e 3.",
-        "Tratar a escala como numérica, com escores, é uma decisão de análise que acrescenta essa suposição."
+        "Tratar a escala como numérica, com escores, é uma decisão de análise que acrescenta esse pressuposto, e ele é forte."
       ),
       "Indica ordem, mas não distância: o 1º pode ter chegado um segundo ou dez minutos antes do 2º.",
       "A renda em reais é contínua, mas agrupada em faixas ordenadas vira ordinal.",
@@ -81,7 +81,7 @@ banco_quiz <- data.frame(
       "There is a natural order, but the \"distance\" between high school and college is not a number.",
       paste(
         "The codes 1 to 5 show order, but nothing guarantees that the gap between 4 and 5 equals the gap between 2 and 3.",
-        "Treating the scale as numeric, with scores, is an analysis choice that adds that assumption."
+        "Treating the scale as numeric, with scores, is an analysis choice that adds that assumption, and it is a strong one."
       ),
       "It shows order, not distance: 1st place may have finished one second or ten minutes ahead of 2nd.",
       "Income in reais is continuous, but grouped into ordered brackets it becomes ordinal.",
@@ -107,7 +107,8 @@ banco_quiz <- data.frame(
 )
 
 matriz_estatisticas <- function() {
-  cautela <- tr("Com cautela", "With caution")
+  # Média e desvio padrão de ordinal: não indicados, com a ressalva da nota †
+  nao_indicado <- tr("Não indicado†", "Not recommended†")
   tabela <- data.frame(
     tr(
       c(
@@ -122,7 +123,7 @@ matriz_estatisticas <- function() {
       )
     ),
     c("✓", "✗", "✓", "✗", "✗", "✗", "✗", "✗", "✗", "✗", tr("Barras (qualquer ordem)", "Bars (any order)")),
-    c("✓", "✓", "✓", "✓", tr("✓ (categorias)", "✓ (categories)"), "✗", cautela, cautela, "✗", "✗", tr("Barras na ordem natural", "Bars in natural order")),
+    c("✓", "✓", "✓", "✓", tr("✓ (categorias)", "✓ (categories)"), "✗", nao_indicado, nao_indicado, "✗", "✗", tr("Barras na ordem natural", "Bars in natural order")),
     c("✓", "✓", "✓", "✓", "✓", "✓", "✓", "✓", "✓", "✓", tr("Barras por valor", "One bar per value")),
     c(tr("✓ (por classes)", "✓ (by class)"), "✓", tr("Classe modal", "Modal class"), "✓", "✓", "✓", "✓", "✓", "✓*", "✓", tr("Histograma e boxplot", "Histogram and boxplot"))
   )
@@ -255,14 +256,36 @@ mod_tipos_ui <- function(id) {
             paste(
               "* Só na escala de razão, em que o zero significa ausência (altura, renda, tempo). A temperatura em °C",
               "está em escala intervalar: as distâncias têm sentido, mas o zero não, e o coeficiente de variação perde",
-              "a interpretação. Na ordinal, média e desvio padrão dos códigos dependem da mesma suposição de",
-              "distâncias iguais entre categorias, por isso aparecem com cautela."
+              "a interpretação."
             ),
             paste(
               "* Only on a ratio scale, where zero means none of the quantity (height, income, time). Temperature in °C",
               "is on an interval scale: distances are meaningful but zero is not, so the coefficient of variation loses",
-              "its interpretation. For ordinal data, the mean and standard deviation of the codes rest on the same",
-              "assumption of equal distances between categories, which is why they come with a caution."
+              "its interpretation."
+            )
+          )
+        ),
+        shiny::p(
+          class = "small text-muted",
+          tr(
+            paste(
+              "† Não é indicado, mas aparece com frequência, sobretudo em escalas de 1 a 5. Agresti e Finlay aceitam",
+              "atribuir escores às categorias (1, 2, 3…) e calcular média e desvio padrão; Morettin e Bussab não usam",
+              "média para variáveis qualitativas. Ainda que a prática tenha respaldo em Agresti e Finlay, ela",
+              "pressupõe que as distâncias entre categorias vizinhas são iguais, ou seja, que ir de \"Insatisfeito\" a",
+              "\"Neutro\" equivale a ir de \"Satisfeito\" a \"Muito satisfeito\". É um pressuposto forte, que a escala",
+              "ordinal não garante e que raramente pode ser verificado, e o resultado muda quando os escores mudam.",
+              "Se a média for usada, deve vir acompanhada da distribuição e da mediana, nunca sozinha."
+            ),
+            paste(
+              "† Not recommended, but common, especially for 1-to-5 scales. Agresti and Finlay accept assigning scores",
+              "to the categories (1, 2, 3…) and computing the mean and standard deviation; Morettin and Bussab do not",
+              "use the mean for categorical variables. Even though the practice has support in Agresti and Finlay, it",
+              "assumes that the distances between neighboring categories are equal, that is, that going from",
+              "\"Dissatisfied\" to \"Neutral\" is the same as going from \"Satisfied\" to \"Very satisfied\". That is a",
+              "strong assumption, which an ordinal scale does not guarantee and which can rarely be checked, and the",
+              "result changes when the scores change. If the mean is used, it should come with the distribution and",
+              "the median, never on its own."
             )
           )
         ),
