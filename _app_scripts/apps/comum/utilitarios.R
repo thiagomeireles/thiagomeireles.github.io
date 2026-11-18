@@ -122,9 +122,11 @@ item_em_breve <- function(rotulo) {
 # Página padrão de um tema: os tópicos (nav_panel/nav_menu) vão em `...`.
 # Para trocar de aba pelo server: bslib::nav_select("abas", "<value do nav_panel>").
 # fillable = FALSE: as abas têm várias linhas de cards e rolam como página comum.
+# Todo app abre na aba "Sobre" (value = "sobre"), padrão de todos os temas.
 pagina_tema <- function(titulo, ..., descricao, versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)")) {
   bslib::page_navbar(
     id           = "abas",
+    selected     = "sobre",
     fillable     = FALSE,
     lang         = tr("pt-BR", "en"),
     title        = titulo,
@@ -133,7 +135,7 @@ pagina_tema <- function(titulo, ..., descricao, versao = tr("0.2 (novembro de 20
     header       = shiny::tagList(dependencia_tema(), estilo_app()),
     ...,
     bslib::nav_spacer(),
-    bslib::nav_panel(tr("Sobre", "About"), pagina_sobre(titulo, descricao, versao)),
+    bslib::nav_panel(tr("Sobre", "About"), value = "sobre", pagina_sobre(titulo, descricao, versao)),
     bslib::nav_item(shiny::tags$a(class = "nav-link", href = url_temas, target = "_top", tr("Outros temas", "Other topics"))),
     bslib::nav_item(bslib::input_dark_mode(id = "modo"))
   )

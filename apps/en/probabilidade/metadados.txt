@@ -2,11 +2,11 @@ App: Probabilidade (Estatística na prática)
 Autor: Thiago Meireles
 Idioma: en
 Criado em: 2026-11-18
-Modificado em: 2026-11-18 13:05:44 -03
+Modificado em: 2026-11-18 17:26:39 -03
 Fonte: _app_scripts/apps/probabilidade/ (+ _app_scripts/apps/comum/)
 Gerado por: _app_scripts/shinylive/exportar_apps.R
 Runtime: apps/shinylive/ (compartilhado entre os temas)
 Tema: Bootswatch zephyr (CSS pré-compilado em tema/)
 shinylive (pacote R): 0.5.0
-bslib local / webR: 0.10.0 / 0.11.0
-R: R version 4.6.0 (2026-04-24 ucrt)
+bslib local / webR: 0.12.0 / 0.11.0
+R: R version 4.6.1 (2026-06-24 ucrt)
