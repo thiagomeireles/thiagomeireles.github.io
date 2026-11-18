@@ -1,0 +1,23 @@
+# Temas do app "Estatística na prática" (um app Shinylive por tema)
+# Autor: Thiago Meireles | Atualizado: 2026-11-18
+# Usado por aplicativos.md e en/apps.md. O slug é a pasta em apps/ gerada por
+# _app_scripts/shinylive/exportar_apps.R (lista `temas` no script).
+
+- slug: descritiva
+  titulo: Estatística descritiva
+  title: Descriptive statistics
+  descricao: Tipos de variáveis (nominal, ordinal, discreta e contínua) e as estatísticas que fazem sentido para cada uma, com quiz.
+  description: Types of variables (nominal, ordinal, discrete and continuous) and the statistics that make sense for each, with a quiz.
+  novo: true
+
+- slug: probabilidade
+  titulo: Probabilidade
+  title: Probability
+  descricao: Distribuição normal padrão (Z) e t de Student, com áreas e valores críticos.
+  description: Standard normal (Z) and Student's t distributions, with areas and critical values.
+
+- slug: teoremas-limite
+  titulo: Teoremas limite
+  title: Limit theorems
+  descricao: Lei dos Grandes Números e Teorema Central do Limite, com simulações.
+  description: Law of Large Numbers and Central Limit Theorem, with simulations.

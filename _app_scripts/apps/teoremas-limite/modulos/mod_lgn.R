@@ -4,7 +4,7 @@
 # Atualizado: 2026-11-18
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/app_estatistica/app.R)
+#   - nenhuma (carregado por _app_scripts/apps/teoremas-limite/app.R)
 # Saída:
 #   - funções mod_lgn_ui() e mod_lgn_server()
 # =============================================================================

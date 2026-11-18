@@ -4,7 +4,7 @@
 # Atualizado: 2026-11-18
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/app_estatistica/app.R)
+#   - nenhuma (carregado por _app_scripts/apps/probabilidade/app.R)
 # Saída:
 #   - funções mod_normal_ui() e mod_normal_server()
 # =============================================================================
