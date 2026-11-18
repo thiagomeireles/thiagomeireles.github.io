@@ -20,10 +20,11 @@ options(timeout = 600) # os pacotes webR são baixados de repo.r-wasm.org e pode
 
 pacman::p_load(here, shinylive, httpuv, bslib, htmltools, purrr, jsonlite)
 
-# Um app por tema. A pasta de origem e a URL publicada usam o mesmo nome.
+# Um app por tema. A URL publicada usa o nome da pasta de origem; `slug_en`,
+# quando existe, dá outro nome à versão em inglês (apps/en/<slug_en>/).
 # Para criar um tema novo: crie _app_scripts/apps/<nome>/ e inclua-o aqui.
 temas <- list(
-  list(pasta = "descritiva",      titulo = "Estatística descritiva"),
+  list(pasta = "variaveis",       titulo = "Tipos de variáveis", slug_en = "variables"),
   list(pasta = "probabilidade",   titulo = "Probabilidade"),
   list(pasta = "teoremas-limite", titulo = "Teoremas limite")
 )
@@ -36,12 +37,18 @@ idiomas <- list(
 )
 
 # Combinações tema x idioma, com o subdiretório publicado de cada uma
-subdir_versao <- function(prefixo, pasta) {
-  if (nzchar(prefixo)) file.path(prefixo, pasta) else pasta
+slug_versao <- function(tema, idioma) {
+  if (identical(idioma, "en") && !is.null(tema$slug_en)) tema$slug_en else tema$pasta
+}
+
+subdir_versao <- function(prefixo, slug) {
+  if (nzchar(prefixo)) file.path(prefixo, slug) else slug
 }
 
 versoes <- idiomas |>
-  purrr::map(\(i) purrr::map(temas, \(t) c(t, idioma = i$codigo, subdir = subdir_versao(i$prefixo, t$pasta)))) |>
+  purrr::map(\(i) purrr::map(temas, \(t) {
+    c(t, idioma = i$codigo, subdir = subdir_versao(i$prefixo, slug_versao(t, i$codigo)))
+  })) |>
   purrr::list_flatten()
 
 origem_apps  <- here::here("_app_scripts", "apps")
@@ -178,6 +185,6 @@ purrr::walk(versoes, exportar_versao, origem_apps = origem_apps, destino_raiz = 
 versoes_bslib <- verificar_bslib(destino_raiz)
 purrr::walk2(versoes, datas_criacao, gravar_metadados, destino_raiz = destino_raiz, versoes_bslib = versoes_bslib)
 
-# Pré-visualização local (só em sessão interativa). Abre http://127.0.0.1:7446/descritiva/
-# (ou /en/descritiva/ para a versão em inglês)
+# Pré-visualização local (só em sessão interativa). Abre http://127.0.0.1:7446/variaveis/
+# (ou /en/variables/ para a versão em inglês)
 if (interactive()) httpuv::runStaticServer(destino_raiz, port = 7446)

@@ -4,7 +4,7 @@
 # Atualizado: 2026-11-18
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/apps/descritiva/app.R)
+#   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
 # Saída:
 #   - funções mod_ordinal_ui() e mod_ordinal_server()
 # =============================================================================
@@ -19,8 +19,8 @@ texto_ordinal <- function() {
         "entre \"Neutro\" e \"Satisfeito\" é igual à diferença entre \"Satisfeito\" e \"Muito satisfeito\"."
       ),
       shiny::p(
-        "A mediana é a categoria em que a frequência acumulada passa de 50%. No gráfico, é a barra em destaque:",
-        "a linha da frequência acumulada cruza a marca de 50% sobre ela."
+        "A mediana é a primeira categoria em que a frequência acumulada atinge 50%. No gráfico, é a barra em",
+        "destaque: a primeira cujo ponto da frequência acumulada fica na linha tracejada de 50% ou acima dela."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -30,14 +30,14 @@ texto_ordinal <- function() {
     ),
     shiny::tagList(
       shiny::p(
-        "In an ordinal variable, the categories have a natural order: \"Secondary\" comes after \"Primary\".",
+        "In an ordinal variable, the categories have a natural order: \"High school\" comes after \"Elementary/middle school\".",
         "That unlocks everything that depends on ranking the observations: cumulative frequency, median,",
         "quartiles and minimum and maximum categories. What is still missing is distance. You cannot say that",
         "the gap between \"Neutral\" and \"Satisfied\" equals the gap between \"Satisfied\" and \"Very satisfied\"."
       ),
       shiny::p(
-        "The median is the category where the cumulative frequency passes 50%. In the chart it is the highlighted",
-        "bar: the cumulative frequency line crosses the 50% mark above it."
+        "The median is the first category where the cumulative frequency reaches 50%. In the chart it is the",
+        "highlighted bar: the first one whose cumulative point is at or above the dashed 50% line."
       ),
       shiny::p(
         shiny::strong("Try it:"),
@@ -55,8 +55,11 @@ cuidados_ordinal <- function() {
         "é comum em escalas de 1 a 5, mas supõe que as categorias são igualmente espaçadas. Use com cautela,",
         "sempre ao lado da distribuição, e nunca como único resumo."
       ),
-      "Desvio padrão e variância" = "dependem de distâncias entre valores, que a escala ordinal não define.",
-      "Amplitude e intervalo interquartil" = paste(
+      "Desvio padrão e variância" = paste(
+        "dependem da mesma suposição de distâncias iguais que a média dos códigos. Se informar a média,",
+        "o desvio padrão pode acompanhá-la, com a mesma cautela."
+      ),
+      "Amplitude e distância interquartil" = paste(
         "como diferenças numéricas, não fazem sentido. Informe as categorias extremas e os quartis",
         "como categorias (\"de Insatisfeito a Satisfeito\")."
       ),
@@ -67,7 +70,10 @@ cuidados_ordinal <- function() {
         "is common for 1-to-5 scales, but it assumes the categories are equally spaced. Use it with caution,",
         "always next to the distribution, and never as the only summary."
       ),
-      "Standard deviation and variance" = "depend on distances between values, which an ordinal scale does not define.",
+      "Standard deviation and variance" = paste(
+        "rest on the same equal-spacing assumption as the mean of the codes. If you report the mean,",
+        "the standard deviation can go with it, with the same caution."
+      ),
       "Range and interquartile range" = paste(
         "make no sense as numeric differences. Report the extreme categories and the quartiles",
         "as categories (\"from Dissatisfied to Satisfied\")."

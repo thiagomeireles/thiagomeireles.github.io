@@ -4,7 +4,7 @@
 # Atualizado: 2026-11-18
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/apps/descritiva/app.R)
+#   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
 # Saída:
 #   - funções mod_nominal_ui() e mod_nominal_server()
 # =============================================================================
@@ -20,7 +20,9 @@ texto_nominal <- function() {
       ),
       shiny::p(
         "A razão de variação (1 menos a proporção da moda) faz o papel de medida de dispersão. Vale 0 quando",
-        "todas as observações estão na mesma categoria e se aproxima de 1 quando elas se espalham por muitas categorias."
+        "todas as observações estão na mesma categoria e cresce à medida que elas se espalham por igual, até",
+        "1 − 1/k para k categorias (0,80 com cinco categorias). A medida é de Freeman (1965) e não aparece",
+        "em Morettin e Bussab nem em Agresti e Finlay, que descrevem nominais só pela tabela de frequências e pela moda."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -36,8 +38,10 @@ texto_nominal <- function() {
         "and which category appears most often (mode)."
       ),
       shiny::p(
-        "The variation ratio (1 minus the proportion of the mode) plays the role of a measure of spread. It is 0",
-        "when all observations are in the same category and approaches 1 when they spread across many categories."
+        "The variation ratio (1 minus the share in the modal category) plays the role of a measure of spread. It is 0",
+        "when all observations are in the same category and grows as they spread evenly across categories, up to",
+        "1 − 1/k for k categories (0.80 with five categories). The measure is Freeman's (1965) and does not appear",
+        "in Agresti and Finlay or in Morettin and Bussab, who describe nominal data only through the frequency table and the mode."
       ),
       shiny::p(
         shiny::strong("Try it:"),
@@ -55,16 +59,16 @@ cuidados_nominal <- function() {
         "exigem números com distância entre si. Códigos como 1 = Norte, 2 = Nordeste são só rótulos:",
         "trocar a codificação muda a \"média\", como mostra o botão ao lado."
       ),
-      "Mediana e quartis" = "exigem ordem. Não existe uma região \"do meio\".",
+      "Mediana e quartis" = "exigem ordem. Não existe uma categoria \"do meio\".",
       "Mínimo, máximo e amplitude" = "também exigem ordem. Não há categoria menor nem maior.",
       "Ordem das barras" = "é livre. Ordenar pela frequência costuma facilitar a leitura."
     ),
     c(
       "Mean and standard deviation" = paste(
         "require numbers with distances between them. Codes like 1 = North, 2 = Northeast are just labels:",
-        "changing the coding changes the \"mean\", as the button on the side shows."
+        "changing the coding changes the \"mean\", as the button in the sidebar shows."
       ),
-      "Median and quartiles" = "require order. There is no region \"in the middle\".",
+      "Median and quartiles" = "require order. There is no \"middle\" category.",
       "Minimum, maximum and range" = "also require order. No category is smaller or larger.",
       "Bar order" = "is free. Sorting by frequency usually makes the chart easier to read."
     )
@@ -104,7 +108,7 @@ mod_nominal_ui <- function(id) {
       bslib::value_box(title = tr("Moda", "Mode"), value = shiny::textOutput(ns("moda")), shiny::textOutput(ns("moda_desc")), theme = "primary"),
       bslib::value_box(
         title = tr("Razão de variação", "Variation ratio"), value = shiny::textOutput(ns("rv")),
-        tr("1 − proporção da moda", "1 − proportion of the mode"), theme = "info"
+        tr("1 − proporção da moda; máximo 1 − 1/k", "1 − share in the modal category; maximum 1 − 1/k"), theme = "info"
       ),
       bslib::value_box(
         title = tr("Média dos códigos (não use!)", "Mean of the codes (don't use it!)"), value = shiny::textOutput(ns("media_codigos")),
@@ -168,7 +172,7 @@ mod_nominal_server <- function(id, modo = shiny::reactive("light")) {
       tabela <- data.frame(
         tr(
           c("Tamanho da amostra (n)", "Moda", "Proporção da moda", "Categorias observadas", "Razão de variação"),
-          c("Sample size (n)", "Mode", "Proportion of the mode", "Observed categories", "Variation ratio")
+          c("Sample size (n)", "Mode", "Share in the modal category", "Observed categories", "Variation ratio")
         ),
         c(
           fmt_num(sum(f$n), 0), moda_tabela(f), fmt_pct(max(f$prop)),
@@ -180,14 +184,14 @@ mod_nominal_server <- function(id, modo = shiny::reactive("light")) {
             "A categoria mais frequente",
             "Fração do total que está na moda",
             "Categorias com pelo menos uma observação",
-            "Perto de 0: concentrada numa categoria; perto de 1: espalhada"
+            sprintf("0: tudo numa categoria; quanto maior, mais espalhada (máximo 1 − 1/k = %s)", fmt_num(1 - 1 / nrow(f), 2))
           ),
           c(
             "Number of observations",
             "The most frequent category",
             "Share of the total in the mode",
             "Categories with at least one observation",
-            "Near 0: concentrated in one category; near 1: spread out"
+            sprintf("0: all in one category; higher means more spread out (maximum 1 − 1/k = %s)", fmt_num(1 - 1 / nrow(f), 2))
           )
         )
       )

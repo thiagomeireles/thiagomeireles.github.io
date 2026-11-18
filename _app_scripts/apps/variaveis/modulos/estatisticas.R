@@ -1,10 +1,10 @@
 # =============================================================================
-# Script:  estatisticas.R (dados simulados e estatísticas do tema Descritiva)
+# Script:  estatisticas.R (dados simulados e estatísticas do tema Tipos de variáveis)
 # Autor:  Thiago Meireles
 # Atualizado: 2026-11-18
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/apps/descritiva/app.R)
+#   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
 # Saída:
 #   - objetos em memória: tipos_variavel, exemplos_*, formatos_ordinal e funções
 #     de resumo usadas pelos módulos mod_*.R
@@ -15,8 +15,8 @@
 # Descrição dos quatro tipos, usada na visão geral e no topo de cada aba
 tipos_variavel <- list(
   nominal = list(
-    nome = tr("Categórica nominal", "Nominal categorical"),
-    grupo = tr("Categórica (qualitativa)", "Categorical (qualitative)"),
+    nome = tr("Qualitativa nominal", "Nominal categorical"),
+    grupo = tr("Qualitativa (categórica)", "Categorical (qualitative)"),
     definicao = tr(
       "Categorias sem ordem natural. Dá para dizer se duas observações são iguais ou diferentes, e só.",
       "Categories with no natural order. You can tell whether two observations are equal or different, and nothing more."
@@ -27,8 +27,8 @@ tipos_variavel <- list(
     grafico = tr("barras, em qualquer ordem", "bars, in any order")
   ),
   ordinal = list(
-    nome = tr("Categórica ordinal", "Ordinal categorical"),
-    grupo = tr("Categórica (qualitativa)", "Categorical (qualitative)"),
+    nome = tr("Qualitativa ordinal", "Ordinal categorical"),
+    grupo = tr("Qualitativa (categórica)", "Categorical (qualitative)"),
     definicao = tr(
       "Categorias com ordem natural, mas sem distância definida entre elas.",
       "Categories with a natural order, but no defined distance between them."
@@ -48,8 +48,8 @@ tipos_variavel <- list(
     nome = tr("Quantitativa discreta", "Discrete quantitative"),
     grupo = tr("Quantitativa (numérica)", "Quantitative (numeric)"),
     definicao = tr(
-      "Números que vêm de contagens: valores inteiros, separados entre si.",
-      "Numbers that come from counting: whole values, separated from each other."
+      "Números cujos valores possíveis são separados entre si, em geral vindos de contagens (0, 1, 2…).",
+      "Numbers whose possible values are separate from each other, usually counts (0, 1, 2…)."
     ),
     exemplos = tr("número de filhos, de moradores, de gols", "number of children, household members, goals"),
     operacoes = "= ≠ < > + −",
@@ -81,7 +81,7 @@ exemplos_nominal <- list(
     rotulo = tr("Região de residência", "Region of residence (Brazil)"),
     categorias = tr(
       c("Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"),
-      c("North", "Northeast", "Center-West", "Southeast", "South")
+      c("North", "Northeast", "Central-West", "Southeast", "South")
     ),
     prob = c(0.085, 0.269, 0.080, 0.418, 0.147),
     nota = tr("proporções próximas às do Censo 2022", "proportions close to Brazil's 2022 Census")
@@ -115,14 +115,14 @@ exemplos_ordinal <- list(
     rotulo = tr("Escolaridade", "Education level"),
     categorias = tr(
       c("Sem instrução", "Fundamental", "Médio", "Superior", "Pós-graduação"),
-      c("No schooling", "Primary", "Secondary", "Undergraduate", "Graduate")
+      c("No schooling", "Elementary/middle school", "High school", "College", "Graduate degree")
     )
   ),
   risco = list(
     rotulo = tr("Classificação de risco no pronto-socorro", "Emergency room triage category"),
     categorias = tr(
       c("Não urgente", "Pouco urgente", "Urgente", "Muito urgente", "Emergência"),
-      c("Non-urgent", "Standard", "Urgent", "Very urgent", "Immediate")
+      c("Non-urgent", "Less urgent", "Urgent", "Very urgent", "Emergency")
     )
   )
 )
@@ -212,6 +212,8 @@ assimetria <- function(x) {
   mean(d^3) / mean(d^2)^1.5
 }
 
+# Corte de |g| < 0,5 para "aproximadamente simétrica": regra prática, não vem
+# de Morettin e Bussab nem de Agresti e Finlay
 leitura_assimetria <- function(g) {
   if (abs(g) < 0.5) return(tr("aproximadamente simétrica", "approximately symmetric"))
   if (g > 0) {
@@ -226,6 +228,9 @@ moda_valores <- function(x) {
   as.numeric(names(contagem)[contagem == max(contagem)])
 }
 
+# Variância e desvio padrão com divisor n − 1 (stats::var), como em Agresti e
+# Finlay; Morettin e Bussab usam n na descritiva. Quartis pelo método padrão do
+# R (type = 7), que difere pouco dos métodos dos dois livros com n >= 10.
 resumo_quantitativo <- function(x) {
   q <- stats::quantile(x, c(0.25, 0.75), names = FALSE)
   list(
@@ -302,11 +307,11 @@ tabela_estatisticas_quant <- function(r, unidade, digitos, extras = NULL) {
     estatistica = tr(
       c(
         "Tamanho da amostra (n)", "Média", "Mediana", "Mínimo e máximo", "Amplitude",
-        "1º e 3º quartis", "Intervalo interquartil", "Variância", "Desvio padrão", "Coeficiente de variação"
+        "1º e 3º quartis", "Distância interquartil (d_q)", "Variância (S²)", "Desvio padrão (S)", "Coeficiente de variação"
       ),
       c(
         "Sample size (n)", "Mean", "Median", "Minimum and maximum", "Range",
-        "1st and 3rd quartiles", "Interquartile range", "Variance", "Standard deviation", "Coefficient of variation"
+        "1st and 3rd quartiles", "Interquartile range (IQR)", "Variance (s²)", "Standard deviation (s)", "Coefficient of variation"
       )
     ),
     valor = c(
@@ -317,26 +322,26 @@ tabela_estatisticas_quant <- function(r, unidade, digitos, extras = NULL) {
       c(
         "Número de observações",
         "Soma dos valores dividida por n; sensível a extremos",
-        "Metade das observações está abaixo e metade acima",
+        "Valor do meio dos dados ordenados: pelo menos metade das observações está nele ou abaixo, e pelo menos metade nele ou acima",
         "Menor e maior valor observados",
         "Máximo menos mínimo; depende só dos dois extremos",
-        "25% das observações estão abaixo de Q1; 75% abaixo de Q3",
+        "Cerca de 25% das observações estão em Q1 ou abaixo, e cerca de 75% em Q3 ou abaixo",
         "Q3 − Q1: largura dos 50% centrais; resiste a extremos",
-        "Média dos desvios ao quadrado, em unidade ao quadrado",
-        "Distância típica até a média, na unidade original",
-        "Desvio padrão como % da média; compara variabilidade entre variáveis"
+        "Soma dos desvios ao quadrado em relação à média, dividida por n − 1; em unidade ao quadrado",
+        "Raiz da variância: distância típica até a média, na unidade original",
+        "Desvio padrão como % da média; compara a variabilidade de variáveis em unidades diferentes"
       ),
       c(
         "Number of observations",
         "Sum of the values divided by n; sensitive to extremes",
-        "Half of the observations are below it and half above",
+        "Middle value of the sorted data: at least half of the observations are at or below it, and at least half at or above it",
         "Smallest and largest observed values",
         "Maximum minus minimum; depends only on the two extremes",
-        "25% of the observations are below Q1; 75% below Q3",
+        "About 25% of the observations are at or below Q1, and about 75% at or below Q3",
         "Q3 − Q1: width of the middle 50%; resistant to extremes",
-        "Average squared deviation, in squared units",
-        "Typical distance from the mean, in the original unit",
-        "Standard deviation as a % of the mean; compares variability across variables"
+        "Sum of squared deviations from the mean divided by n − 1, in squared units",
+        "Square root of the variance: typical distance from the mean, in the original unit",
+        "Standard deviation as a % of the mean; compares variability across variables measured in different units"
       )
     )
   )

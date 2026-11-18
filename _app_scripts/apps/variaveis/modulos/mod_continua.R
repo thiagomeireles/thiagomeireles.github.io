@@ -4,7 +4,7 @@
 # Atualizado: 2026-11-18
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/apps/descritiva/app.R)
+#   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
 # Saída:
 #   - funções mod_continua_ui() e mod_continua_server()
 # =============================================================================
@@ -19,14 +19,20 @@ texto_continua <- function() {
         "os dados são agrupados em classes (histograma e tabela de frequências por classes)."
       ),
       shiny::p(
-        "O coeficiente de assimetria resume a forma. Perto de 0, a distribuição é aproximadamente simétrica",
-        "e média e mediana ficam próximas. Positivo, há uma cauda longa à direita (comum em renda e tempos de",
-        "espera) e a média fica acima da mediana."
+        "O coeficiente de assimetria resume a forma. Pela regra prática usada aqui, entre −0,5 e 0,5 a",
+        "distribuição é tratada como aproximadamente simétrica, e média e mediana ficam próximas. Positivo, há",
+        "uma cauda longa à direita (comum em renda e tempos de espera), e a média costuma ficar acima da mediana,",
+        "puxada pela cauda. O boxplot mostra o mesmo de outra forma: numa distribuição assimétrica à direita, a",
+        "distância da mediana ao terceiro quartil e ao máximo é maior que a distância até o primeiro quartil e o mínimo."
+      ),
+      shiny::p(
+        "Em dados com forma de sino, como a altura, cerca de 68% das observações ficam a até 1 desvio padrão",
+        "da média e cerca de 95% a até 2 (a regra empírica). Isso não vale para dados assimétricos, como a renda."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
         "compare altura e renda. Na altura, média e mediana quase coincidem; na renda, a média fica bem acima,",
-        "puxada pelos salários altos. Depois mude o número de classes e veja a forma do histograma mudar,",
+        "puxada por poucas rendas altas. Depois mude o número de classes e veja a forma do histograma mudar,",
         "sem que nenhum dado tenha mudado."
       )
     ),
@@ -38,14 +44,20 @@ texto_continua <- function() {
         "are grouped into bins (histogram and frequency table by class)."
       ),
       shiny::p(
-        "The skewness coefficient summarizes the shape. Near 0, the distribution is roughly symmetric and the",
-        "mean and median are close. When it is positive, there is a long right tail (common for income and",
-        "waiting times) and the mean sits above the median."
+        "The skewness coefficient summarizes the shape. By the rule of thumb used here, between −0.5 and 0.5 the",
+        "distribution is treated as roughly symmetric, and the mean and median are close. When it is positive,",
+        "there is a long right tail (common for income and waiting times), and the mean usually sits above the",
+        "median, pulled toward the tail. The boxplot shows the same thing another way: in a right-skewed",
+        "distribution, the median is farther from the third quartile and the maximum than from the first quartile and the minimum."
+      ),
+      shiny::p(
+        "For bell-shaped data such as height, about 68% of the observations fall within 1 standard deviation of",
+        "the mean and about 95% within 2 (the Empirical Rule). It does not hold for skewed data such as income."
       ),
       shiny::p(
         shiny::strong("Try it:"),
         "compare height and income. For height, the mean and median almost coincide; for income, the mean is",
-        "well above, pulled up by high salaries. Then change the number of bins and watch the histogram's shape",
+        "well above, pulled up by a few high incomes. Then change the number of bins and watch the histogram's shape",
         "change without any data changing."
       )
     )
@@ -57,7 +69,7 @@ cuidados_continua <- function() {
     c(
       "Moda" = paste(
         "quase nenhum valor contínuo se repete, então a moda dos valores brutos não informa nada.",
-        "Use a classe modal, que depende da escolha das classes."
+        "Use a classe modal (ou o seu ponto médio, como em Morettin e Bussab), que depende da escolha das classes."
       ),
       "Número de classes" = "muda a cara do histograma. Poucas classes escondem detalhes; muitas mostram ruído.",
       "Distribuições assimétricas" = "afastam média e mediana. Para descrever o valor típico de renda, a mediana costuma ser melhor.",
@@ -67,7 +79,7 @@ cuidados_continua <- function() {
     c(
       "Mode" = paste(
         "almost no continuous value repeats, so the mode of the raw values tells you nothing.",
-        "Use the modal class, which depends on how the bins are chosen."
+        "Use the modal class (or its midpoint), which depends on how the bins are chosen."
       ),
       "Number of bins" = "changes how the histogram looks. Few bins hide detail; many bins show noise.",
       "Skewed distributions" = "pull the mean and median apart. To describe typical income, the median is usually better.",
@@ -122,7 +134,7 @@ mod_continua_ui <- function(id) {
       col_widths = c(7, 5),
       bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico"), height = "440px"))),
       bslib::card(
-        bslib::card_header(tr("Tabela de frequências por classes", "Frequency table by class")),
+        bslib::card_header(tr("Tabela de frequências por classes", "Grouped frequency table")),
         max_height = "520px",
         bslib::card_body(shiny::uiOutput(ns("tabela")))
       )
@@ -180,8 +192,16 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
       shiny::tagList(
         shiny::p(class = "small text-muted", sprintf(
           tr(
-            "Unidade: %s. Cada classe inclui o limite inferior e exclui o superior.",
-            "Unit: %s. Each class includes its lower limit and excludes the upper one."
+            paste(
+              "Unidade: %s. Cada classe inclui o limite inferior e exclui o superior, exceto a última, que inclui",
+              "os dois. Como as classes têm a mesma amplitude, a altura das barras do histograma pode ser a frequência;",
+              "com amplitudes diferentes, seria preciso usar a densidade (frequência relativa dividida pela amplitude)."
+            ),
+            paste(
+              "Unit: %s. Each class includes its lower limit and excludes the upper one, except the last, which",
+              "includes both. Because all classes have the same width, the histogram bars can show frequencies;",
+              "with unequal widths, they would have to show density (relative frequency divided by width)."
+            )
           ),
           un()
         )),
@@ -196,7 +216,10 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
         tr(c("Classe modal", "Coeficiente de assimetria"), c("Modal class", "Skewness coefficient")),
         c(juntar(cl$classe[cl$n == max(cl$n)]), fmt_num(r$assimetria, 2)),
         c(
-          tr("Classe com mais observações; muda com o número de classes", "Class with the most observations; changes with the number of bins"),
+          tr(
+            "Classe com mais observações; o ponto médio dela pode servir de moda. Muda com o número de classes",
+            "Class with the most observations; its midpoint can serve as the mode. Changes with the number of bins"
+          ),
           paste(tr("Distribuição", "Distribution is"), leitura_assimetria(r$assimetria))
         )
       )
@@ -243,7 +266,13 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
               "Dados simulados, n = %s | Tracejada: média | Contínua: mediana%s",
               "Simulated data, n = %s | Dashed: mean | Solid: median%s"
             ),
-            fmt_num(r$n, 0), if (isTRUE(input$boxplot)) tr(" | Abaixo: boxplot", " | Below: boxplot") else ""
+            fmt_num(r$n, 0),
+            if (isTRUE(input$boxplot)) {
+              tr(
+                "\nAbaixo: boxplot (pontos vermelhos: valores atípicos, a mais de 1,5 × d_q da caixa)",
+                "\nBelow: boxplot (red dots: potential outliers, more than 1.5 × IQR beyond the box)"
+              )
+            } else ""
           )
         ) +
         tema_grafico(modo())

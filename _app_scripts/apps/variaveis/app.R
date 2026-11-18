@@ -1,13 +1,14 @@
 # =============================================================================
-# Script:  app.R (tema Estatística descritiva: tipos de variáveis)
+# Script:  app.R (tema Tipos de variáveis)
 # Autor:  Thiago Meireles
 # Atualizado: 2026-11-18
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
-#   - _app_scripts/apps/descritiva/modulos/*.R
+#   - _app_scripts/apps/variaveis/modulos/*.R
 # Saída:
-#   - aplicativo Shiny (publicado via Shinylive em apps/descritiva/)
+#   - aplicativo Shiny (publicado via Shinylive em apps/variaveis/ e,
+#     em inglês, em apps/en/variables/)
 # =============================================================================
 
 # Este arquivo roda dentro do navegador (webR) depois de exportado. Por isso não
@@ -22,18 +23,20 @@ c(
   purrr::walk(source)
 
 ui <- pagina_tema(
-  titulo = tr("Estatística descritiva", "Descriptive statistics"),
+  titulo = tr("Tipos de variáveis", "Types of variables"),
   descricao = tr(
     paste(
-      "Demonstrações interativas sobre os tipos de variáveis (categóricas nominais e ordinais,",
-      "quantitativas discretas e contínuas) e as estatísticas descritivas que fazem sentido para cada uma."
+      "Como classificar uma variável (qualitativa nominal ou ordinal, quantitativa discreta ou contínua) e",
+      "quais estatísticas descritivas fazem sentido para cada tipo, com quiz e dados simulados. Os conceitos",
+      "seguem Morettin e Bussab (Estatística Básica) e Agresti e Finlay (Statistical Methods for the Social Sciences)."
     ),
     paste(
-      "Interactive demos on the types of variables (nominal and ordinal categorical, discrete and",
-      "continuous quantitative) and the descriptive statistics that make sense for each one."
+      "How to classify a variable (nominal or ordinal categorical, discrete or continuous quantitative) and",
+      "which descriptive statistics make sense for each type, with a quiz and simulated data. The concepts",
+      "follow Agresti and Finlay (Statistical Methods for the Social Sciences) and Morettin and Bussab (Estatística Básica)."
     )
   ),
-  bslib::nav_panel(tr("Tipos de variáveis", "Types of variables"), value = "tipos", mod_tipos_ui("tipos")),
+  bslib::nav_panel(tr("Como classificar", "How to classify"), value = "tipos", mod_tipos_ui("tipos")),
   bslib::nav_panel("Nominal", value = "nominal", mod_nominal_ui("nominal")),
   bslib::nav_panel("Ordinal", value = "ordinal", mod_ordinal_ui("ordinal")),
   bslib::nav_panel(tr("Discreta", "Discrete"), value = "discreta", mod_discreta_ui("discreta")),

@@ -4,7 +4,7 @@
 # Atualizado: 2026-11-18
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/apps/descritiva/app.R)
+#   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
 # Saída:
 #   - funções mod_discreta_ui() e mod_discreta_server()
 # =============================================================================
@@ -13,9 +13,10 @@ texto_discreta <- function() {
   tr(
     shiny::tagList(
       shiny::p(
-        "Uma variável discreta vem de uma contagem: 0, 1, 2 filhos, nunca 1,5. Como os valores são números de",
-        "verdade, as contas fazem sentido e todas as estatísticas descritivas se aplicam: medidas de posição",
-        "(média, mediana, moda, quartis) e de dispersão (amplitude, intervalo interquartil, variância, desvio padrão)."
+        "Numa variável discreta, os valores possíveis são separados entre si. O caso mais comum é a contagem:",
+        "0, 1, 2 filhos, nunca 1,5. Como os valores são quantidades de verdade, as contas fazem sentido e todas",
+        "as estatísticas descritivas se aplicam: medidas de posição (média, mediana, moda, quartis) e de",
+        "dispersão (amplitude, distância interquartil, variância, desvio padrão)."
       ),
       shiny::p(
         "A média pode dar um valor impossível, como 1,6 filho. Não é erro: a média é um resumo do conjunto,",
@@ -24,15 +25,16 @@ texto_discreta <- function() {
       shiny::p(
         shiny::strong("Experimente:"),
         "marque \"Incluir um valor extremo\". Uma única observação muda a média, o desvio padrão e a amplitude,",
-        "enquanto a mediana, a moda e o intervalo interquartil quase não se mexem. Diminua o tamanho da amostra",
+        "enquanto a mediana, a moda e a distância interquartil quase não se mexem. Diminua o tamanho da amostra",
         "e veja o efeito ficar maior."
       )
     ),
     shiny::tagList(
       shiny::p(
-        "A discrete variable comes from counting: 0, 1, 2 children, never 1.5. Because the values are real",
-        "numbers, arithmetic makes sense and every descriptive statistic applies: measures of location",
-        "(mean, median, mode, quartiles) and of spread (range, interquartile range, variance, standard deviation)."
+        "In a discrete variable, the possible values are separate from each other. The most common case is a",
+        "count: 0, 1, 2 children, never 1.5. Because the values are actual quantities, arithmetic makes sense and",
+        "every descriptive statistic applies: measures of center and position (mean, median, mode, quartiles) and",
+        "of variability (range, interquartile range, variance, standard deviation)."
       ),
       shiny::p(
         "The mean can be an impossible value, such as 1.6 children. That is not a mistake: the mean summarizes",
@@ -51,7 +53,7 @@ texto_discreta <- function() {
 cuidados_discreta <- function() {
   tr(
     c(
-      "Valores extremos" = "puxam a média e inflam o desvio padrão. Quando houver, informe também a mediana e o intervalo interquartil.",
+      "Valores extremos" = "puxam a média e inflam o desvio padrão. Quando houver, informe também a mediana e a distância interquartil.",
       "Média com casas decimais" = "é normal numa contagem. Não arredonde para inteiro só porque os dados são inteiros.",
       "Histograma com classes largas" = "pode esconder que só existem valores inteiros. Com poucos valores distintos, use barras por valor.",
       "Muitos valores distintos" = "(como número de seguidores) fazem a discreta se comportar como contínua. Aí o histograma volta a ser útil."

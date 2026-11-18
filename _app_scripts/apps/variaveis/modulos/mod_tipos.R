@@ -4,7 +4,7 @@
 # Atualizado: 2026-11-18
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/apps/descritiva/app.R)
+#   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
 # Saída:
 #   - funções mod_tipos_ui() e mod_tipos_server()
 # =============================================================================
@@ -14,27 +14,31 @@ opcoes_tipo <- stats::setNames(names(tipos_variavel), purrr::map_chr(tipos_varia
 banco_quiz <- data.frame(
   variavel = tr(
     c(
-      "Estado civil", "CEP de residência", "Número da camisa de um jogador", "Tipo sanguíneo",
+      "Estado civil", "CEP de residência", "Número da camisa de um jogador", "Tipo sanguíneo", "Religião",
       "Escolaridade (fundamental, médio, superior)", "Grau de concordância numa escala de 1 a 5",
-      "Posição de chegada numa corrida (1º, 2º, 3º…)", "Faixa de renda (até 1 salário mínimo, de 1 a 3, mais de 3)",
-      "Classificação de risco no pronto-socorro", "Número de filhos", "Acessos a um site em um dia",
-      "Disciplinas em que o aluno foi reprovado", "Altura", "Tempo de deslocamento até o trabalho",
-      "Renda mensal em reais", "Temperatura máxima do dia (°C)"
+      "Posição de chegada numa corrida (1º, 2º, 3º…)", "Faixa de renda (até 1 salário mínimo, mais de 1 a 3, mais de 3)",
+      "Classificação de risco no pronto-socorro", "Faixa etária (0 a 14, 15 a 29, 30 a 59, 60 anos ou mais)",
+      "Número de filhos", "Número de acessos a um site em um dia", "Número de disciplinas em que o aluno foi reprovado",
+      "Nota numa prova corrigida de meio em meio ponto (0; 0,5; 1… 10)",
+      "Altura", "Tempo de deslocamento até o trabalho", "Renda mensal em reais", "Temperatura máxima do dia (°C)",
+      "Idade em anos completos"
     ),
     c(
-      "Marital status", "ZIP code of residence", "A player's jersey number", "Blood type",
-      "Education level (primary, secondary, higher)", "Level of agreement on a 1-to-5 scale",
-      "Finishing position in a race (1st, 2nd, 3rd…)", "Income bracket (up to 1 minimum wage, 1 to 3, more than 3)",
-      "Emergency room triage category", "Number of children", "Visits to a website in one day",
-      "Courses a student has failed", "Height", "Commuting time to work",
-      "Monthly income in reais", "Daily maximum temperature (°C)"
+      "Marital status", "ZIP code of residence", "A player's jersey number", "Blood type", "Religious affiliation",
+      "Education level (elementary, high school, college)", "Level of agreement on a 1-to-5 scale",
+      "Finishing position in a race (1st, 2nd, 3rd…)", "Income bracket (up to 1 monthly minimum wage, over 1 to 3, over 3)",
+      "Emergency room triage category", "Age group (0 to 14, 15 to 29, 30 to 59, 60 and over)",
+      "Number of children", "Number of visits to a website in one day", "Number of courses a student has failed",
+      "Score on a test graded in half points (0, 0.5, 1… 10)",
+      "Height", "Commute time to work", "Monthly income in reais", "Daily high temperature (°C)",
+      "Age in completed years"
     )
   ),
   tipo = c(
-    "nominal", "nominal", "nominal", "nominal",
-    "ordinal", "ordinal", "ordinal", "ordinal", "ordinal",
-    "discreta", "discreta", "discreta",
-    "continua", "continua", "continua", "continua"
+    "nominal", "nominal", "nominal", "nominal", "nominal",
+    "ordinal", "ordinal", "ordinal", "ordinal", "ordinal", "ordinal",
+    "discreta", "discreta", "discreta", "discreta",
+    "continua", "continua", "continua", "continua", "continua"
   ),
   explicacao = tr(
     c(
@@ -42,36 +46,62 @@ banco_quiz <- data.frame(
       "É escrito com números, mas é um rótulo. Somar ou tirar a média de CEPs não tem sentido.",
       "O 10 não é \"maior\" que o 7 em nada que importe: o número só identifica o jogador.",
       "As categorias não têm ordem, e o fator Rh não muda isso.",
+      "As categorias (católica, evangélica, sem religião…) não têm ordem natural.",
       "Há uma ordem natural, mas a \"distância\" entre médio e superior não é um número.",
-      "Os códigos 1 a 5 indicam ordem, mas nada garante que a distância entre 4 e 5 seja igual à distância entre 2 e 3.",
+      paste(
+        "Os códigos 1 a 5 indicam ordem, mas nada garante que a distância entre 4 e 5 seja igual à distância entre 2 e 3.",
+        "Tratar a escala como numérica, com escores, é uma decisão de análise que acrescenta essa suposição."
+      ),
       "Indica ordem, mas não distância: o 1º pode ter chegado um segundo ou dez minutos antes do 2º.",
       "A renda em reais é contínua, mas agrupada em faixas ordenadas vira ordinal.",
       "Os níveis vão de não urgente a emergência, numa ordem clara e sem distância definida.",
+      "A idade é contínua, mas agrupada em faixas vira ordinal. As faixas têm ordem; o detalhe dentro de cada uma se perde.",
       "É uma contagem: 0, 1, 2… e nunca 1,5.",
       "É uma contagem de eventos, com valores inteiros.",
       "Conta quantas disciplinas, então só assume valores inteiros.",
+      paste(
+        "Os valores possíveis são separados entre si (não existe nota entre 7 e 7,5), por isso é discreta,",
+        "mesmo sem ser inteira. Discreta não quer dizer inteira."
+      ),
       "É uma medição: entre 1,70 m e 1,71 m cabem infinitos valores.",
       "Tempo é medido numa escala contínua, mesmo que seja registrado em minutos inteiros.",
-      "Varia de centavo em centavo, mas tem tantos valores possíveis que é tratada como contínua.",
-      "É uma medição contínua. Repare que o zero em °C não é ausência de calor: por isso não faz sentido dizer que 20 °C é \"o dobro\" de 10 °C."
+      "A rigor, varia de centavo em centavo, mas tem tantos valores possíveis que é tratada como contínua.",
+      paste(
+        "É uma medição contínua, em escala intervalar: o zero em °C não é ausência de calor.",
+        "Por isso não faz sentido dizer que 20 °C é \"o dobro\" de 10 °C."
+      ),
+      "A idade mede o tempo vivido. Registrar em anos completos arredonda a medida, mas não a transforma em contagem."
     ),
     c(
       "The categories (single, married, divorced…) have no order.",
       "It is written with digits, but it is a label. Adding up or averaging ZIP codes makes no sense.",
       "Number 10 is not \"greater\" than 7 in any way that matters: the number only identifies the player.",
       "The categories have no order, and the Rh factor does not change that.",
-      "There is a natural order, but the \"distance\" between secondary and higher education is not a number.",
-      "The codes 1 to 5 show order, but nothing guarantees that the gap between 4 and 5 equals the gap between 2 and 3.",
+      "The categories (Catholic, Protestant, no religion…) have no natural order.",
+      "There is a natural order, but the \"distance\" between high school and college is not a number.",
+      paste(
+        "The codes 1 to 5 show order, but nothing guarantees that the gap between 4 and 5 equals the gap between 2 and 3.",
+        "Treating the scale as numeric, with scores, is an analysis choice that adds that assumption."
+      ),
       "It shows order, not distance: 1st place may have finished one second or ten minutes ahead of 2nd.",
       "Income in reais is continuous, but grouped into ordered brackets it becomes ordinal.",
-      "The levels go from non-urgent to immediate, in a clear order with no defined distance.",
+      "The levels go from non-urgent to emergency, in a clear order with no defined distance.",
+      "Age is continuous, but grouped into ranges it becomes ordinal. The ranges are ordered; the detail within each one is lost.",
       "It is a count: 0, 1, 2… and never 1.5.",
       "It counts events, so it takes whole values.",
       "It counts courses, so it only takes whole values.",
+      paste(
+        "The possible values are separate from each other (no score falls between 7 and 7.5), so it is discrete",
+        "even though the values are not whole numbers. Discrete does not mean whole."
+      ),
       "It is a measurement: between 1.70 m and 1.71 m there are infinitely many values.",
       "Time is measured on a continuous scale, even when it is recorded in whole minutes.",
-      "It moves cent by cent, but it has so many possible values that it is treated as continuous.",
-      "It is a continuous measurement. Note that zero in °C is not the absence of heat: that is why it makes no sense to say 20 °C is \"twice\" 10 °C."
+      "Strictly, it moves cent by cent, but it has so many possible values that it is treated as continuous.",
+      paste(
+        "It is a continuous measurement on an interval scale: zero in °C is not the absence of heat.",
+        "That is why it makes no sense to say 20 °C is \"twice\" 10 °C."
+      ),
+      "Age measures time lived. Recording it in completed years rounds the measurement, but does not turn it into a count."
     )
   )
 )
@@ -82,7 +112,7 @@ matriz_estatisticas <- function() {
     tr(
       c(
         "Frequências e proporções", "Frequência acumulada", "Moda", "Mediana, quartis e percentis",
-        "Mínimo e máximo", "Amplitude e intervalo interquartil", "Média", "Variância e desvio padrão",
+        "Mínimo e máximo", "Amplitude e distância interquartil", "Média", "Variância e desvio padrão",
         "Coeficiente de variação", "Assimetria", "Gráfico típico"
       ),
       c(
@@ -92,7 +122,7 @@ matriz_estatisticas <- function() {
       )
     ),
     c("✓", "✗", "✓", "✗", "✗", "✗", "✗", "✗", "✗", "✗", tr("Barras (qualquer ordem)", "Bars (any order)")),
-    c("✓", "✓", "✓", "✓", tr("✓ (categorias)", "✓ (categories)"), "✗", cautela, "✗", "✗", "✗", tr("Barras na ordem natural", "Bars in natural order")),
+    c("✓", "✓", "✓", "✓", tr("✓ (categorias)", "✓ (categories)"), "✗", cautela, cautela, "✗", "✗", tr("Barras na ordem natural", "Bars in natural order")),
     c("✓", "✓", "✓", "✓", "✓", "✓", "✓", "✓", "✓", "✓", tr("Barras por valor", "One bar per value")),
     c(tr("✓ (por classes)", "✓ (by class)"), "✓", tr("Classe modal", "Modal class"), "✓", "✓", "✓", "✓", "✓", "✓*", "✓", tr("Histograma e boxplot", "Histogram and boxplot"))
   )
@@ -128,8 +158,8 @@ texto_intro_tipos <- function() {
       ),
       shiny::p(
         class = "mb-0",
-        "Teste seu olho no quiz, use o assistente para classificar uma variável sua e, depois, visite a aba",
-        "de cada tipo para ver as estatísticas em ação."
+        "Treine no quiz, use o assistente para classificar uma variável sua e, depois, visite a aba",
+        "de cada tipo para ver as estatísticas calculadas em dados simulados."
       )
     ),
     shiny::tagList(
@@ -141,8 +171,8 @@ texto_intro_tipos <- function() {
       ),
       shiny::p(
         class = "mb-0",
-        "Test your eye with the quiz, use the assistant to classify a variable of your own, and then visit",
-        "the tab for each type to see the statistics in action."
+        "Test yourself with the quiz, use the assistant to classify a variable of your own, and then visit",
+        "the tab for each type to see the statistics computed on simulated data."
       )
     )
   )
@@ -194,12 +224,12 @@ mod_tipos_ui <- function(id) {
           shiny::conditionalPanel(
             "input.q1 == 'num'", ns = ns,
             shiny::radioButtons(
-              ns("q2_num"), tr("2. Os valores vêm de uma contagem ou de uma medição?", "2. Do the values come from counting or from measuring?"),
+              ns("q2_num"), tr("2. Os valores possíveis são separados ou formam um contínuo?", "2. Are the possible values separate or do they form a continuum?"),
               choices = stats::setNames(
                 c("discreta", "continua"),
                 tr(
-                  c("Contagem: só inteiros (0, 1, 2…)", "Medição: qualquer valor num intervalo"),
-                  c("Counting: whole numbers only (0, 1, 2…)", "Measuring: any value within a range")
+                  c("Separados, como numa contagem (0, 1, 2…)", "Contínuos, como numa medição: qualquer valor num intervalo"),
+                  c("Separate, as in a count (0, 1, 2…)", "Continuous, as in a measurement: any value within a range")
                 )
               ),
               selected = character(0)
@@ -218,17 +248,37 @@ mod_tipos_ui <- function(id) {
       bslib::card_body(
         tabela_html(matriz_estatisticas()),
         shiny::p(
+          class = "small text-muted",
+          tr(
+            paste(
+              "* Só na escala de razão, em que o zero significa ausência (altura, renda, tempo). A temperatura em °C",
+              "está em escala intervalar: as distâncias têm sentido, mas o zero não, e o coeficiente de variação perde",
+              "a interpretação. Na ordinal, média e desvio padrão dos códigos dependem da mesma suposição de",
+              "distâncias iguais entre categorias, por isso aparecem com cautela."
+            ),
+            paste(
+              "* Only on a ratio scale, where zero means none of the quantity (height, income, time). Temperature in °C",
+              "is on an interval scale: distances are meaningful but zero is not, so the coefficient of variation loses",
+              "its interpretation. For ordinal data, the mean and standard deviation of the codes rest on the same",
+              "assumption of equal distances between categories, which is why they come with a caution."
+            )
+          )
+        ),
+        shiny::p(
           class = "small text-muted mb-0",
           tr(
             paste(
-              "* Só quando o zero da escala significa ausência (altura, renda, tempo). Para temperatura em °C, o",
-              "coeficiente de variação não tem interpretação. A divisão entre nominal e ordinal vem das escalas de",
-              "medida de Stevens (1946); entre as quantitativas, a separação aqui é entre contagens e medições."
+              "A classificação em quatro tipos segue Morettin e Bussab (Estatística Básica, cap. 2) e Agresti e Finlay",
+              "(Statistical Methods for the Social Sciences, cap. 2); a divisão entre nominal e ordinal vem das escalas",
+              "de medida de Stevens (1946). Variância e desvio padrão usam divisor n − 1, como em Agresti e Finlay.",
+              "Morettin e Bussab dividem por n na análise descritiva, e a diferença some à medida que a amostra cresce."
             ),
             paste(
-              "* Only when zero on the scale means absence (height, income, time). For temperature in °C, the",
-              "coefficient of variation has no interpretation. The split between nominal and ordinal comes from",
-              "Stevens' (1946) levels of measurement; among quantitative variables, the split here is between counts and measurements."
+              "The four-way classification follows Agresti and Finlay (Statistical Methods for the Social Sciences,",
+              "ch. 2) and Morettin and Bussab (Estatística Básica, ch. 2); the split between nominal and ordinal comes",
+              "from Stevens' (1946) levels of measurement. Variance and standard deviation use the n − 1 divisor, as in",
+              "Agresti and Finlay. Morettin and Bussab divide by n in descriptive analysis, and the difference fades as",
+              "the sample grows."
             )
           )
         )

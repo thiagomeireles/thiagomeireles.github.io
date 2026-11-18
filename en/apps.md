@@ -18,10 +18,13 @@ author: "Thiago Meireles"
 
 Interactive demos of statistics and sampling concepts, organized by topic. Pick a topic below; new topics and demos will be added over time.
 
+{%- comment -%} The English URL uses slug_en when the topic has one (apps/en/<slug_en>/) {%- endcomment -%}
+{%- assign primeiro_slug = site.data.apps[0].slug_en | default: site.data.apps[0].slug -%}
 <div class="columns is-multiline app-temas">
 {%- for app in site.data.apps -%}
+  {%- assign slug = app.slug_en | default: app.slug -%}
   <div class="column is-one-third">
-    <a class="card" href="#{{ app.slug }}" data-app="{{ app.slug }}" data-titulo="{{ app.title }}">
+    <a class="card" href="#{{ slug }}" data-app="{{ slug }}" data-titulo="{{ app.title }}">
       <div class="card-content">
         <p class="title is-5">{{ app.title }}{% if app.novo %}<span class="tag is-info is-light">new</span>{% endif %}</p>
         <p class="content">{{ app.description }}</p>
@@ -33,11 +36,11 @@ Interactive demos of statistics and sampling concepts, organized by topic. Pick 
 
 <div class="notification is-light">
   The apps run entirely in your browser (R compiled to WebAssembly). The first load takes a few seconds; after that, the R engine is cached and the other topics open faster.
-  <a id="app-tela-cheia" href="{{ '/apps/en/' | relative_url }}{{ site.data.apps[0].slug }}/" target="_blank" rel="noopener">Open this topic full screen</a>.
+  <a id="app-tela-cheia" href="{{ '/apps/en/' | relative_url }}{{ primeiro_slug }}/" target="_blank" rel="noopener">Open this topic full screen</a>.
 </div>
 
 <iframe id="app-frame" class="app-frame"
-        src="{{ '/apps/en/' | relative_url }}{{ site.data.apps[0].slug }}/"
+        src="{{ '/apps/en/' | relative_url }}{{ primeiro_slug }}/"
         title="{{ site.data.apps[0].title }}: interactive app"
         loading="lazy"></iframe>
 
