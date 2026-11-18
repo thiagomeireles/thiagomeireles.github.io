@@ -1,7 +1,8 @@
 App: Estatística descritiva (Estatística na prática)
 Autor: Thiago Meireles
+Idioma: pt
 Criado em: 2026-11-18
-Modificado em: 2026-11-18 12:52:00 -03
+Modificado em: 2026-11-18 13:05:44 -03
 Fonte: _app_scripts/apps/descritiva/ (+ _app_scripts/apps/comum/)
 Gerado por: _app_scripts/shinylive/exportar_apps.R
 Runtime: apps/shinylive/ (compartilhado entre os temas)

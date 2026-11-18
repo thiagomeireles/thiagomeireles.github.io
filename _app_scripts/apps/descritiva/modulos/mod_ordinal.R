@@ -10,37 +10,72 @@
 # =============================================================================
 
 texto_ordinal <- function() {
-  shiny::tagList(
-    shiny::p(
-      "Numa variável ordinal, as categorias têm uma ordem natural: \"Médio\" vem depois de \"Fundamental\".",
-      "Isso libera tudo o que depende de ordenar as observações: frequência acumulada, mediana, quartis e",
-      "categorias mínima e máxima. O que continua faltando é a distância. Não dá para dizer que a diferença",
-      "entre \"Neutro\" e \"Satisfeito\" é igual à diferença entre \"Satisfeito\" e \"Muito satisfeito\"."
+  tr(
+    shiny::tagList(
+      shiny::p(
+        "Numa variável ordinal, as categorias têm uma ordem natural: \"Médio\" vem depois de \"Fundamental\".",
+        "Isso libera tudo o que depende de ordenar as observações: frequência acumulada, mediana, quartis e",
+        "categorias mínima e máxima. O que continua faltando é a distância. Não dá para dizer que a diferença",
+        "entre \"Neutro\" e \"Satisfeito\" é igual à diferença entre \"Satisfeito\" e \"Muito satisfeito\"."
+      ),
+      shiny::p(
+        "A mediana é a categoria em que a frequência acumulada passa de 50%. No gráfico, é a barra em destaque:",
+        "a linha da frequência acumulada cruza a marca de 50% sobre ela."
+      ),
+      shiny::p(
+        shiny::strong("Experimente:"),
+        "escolha o formato \"Polarizada\". As modas ficam nos extremos, mas a mediana cai no meio, numa categoria",
+        "que pouca gente escolheu. Nenhum resumo de um número só descreve bem esse caso: olhe a distribuição inteira."
+      )
     ),
-    shiny::p(
-      "A mediana é a categoria em que a frequência acumulada passa de 50%. No gráfico, é a barra em destaque:",
-      "a linha da frequência acumulada cruza a marca de 50% sobre ela."
-    ),
-    shiny::p(
-      shiny::strong("Experimente:"),
-      "escolha o formato \"Polarizada\". As modas ficam nos extremos, mas a mediana cai no meio, numa categoria",
-      "que pouca gente escolheu. Nenhum resumo de um número só descreve bem esse caso: olhe a distribuição inteira."
+    shiny::tagList(
+      shiny::p(
+        "In an ordinal variable, the categories have a natural order: \"Secondary\" comes after \"Primary\".",
+        "That unlocks everything that depends on ranking the observations: cumulative frequency, median,",
+        "quartiles and minimum and maximum categories. What is still missing is distance. You cannot say that",
+        "the gap between \"Neutral\" and \"Satisfied\" equals the gap between \"Satisfied\" and \"Very satisfied\"."
+      ),
+      shiny::p(
+        "The median is the category where the cumulative frequency passes 50%. In the chart it is the highlighted",
+        "bar: the cumulative frequency line crosses the 50% mark above it."
+      ),
+      shiny::p(
+        shiny::strong("Try it:"),
+        "choose the \"Polarized\" shape. The modes sit at the extremes, but the median falls in the middle, in a",
+        "category few people chose. No single-number summary describes this case well: look at the whole distribution."
+      )
     )
   )
 }
 
-cuidados_ordinal <- list(
-  "Média dos códigos" = paste(
-    "é comum em escalas de 1 a 5, mas supõe que as categorias são igualmente espaçadas. Use com cautela,",
-    "sempre ao lado da distribuição, e nunca como único resumo."
-  ),
-  "Desvio padrão e variância" = "dependem de distâncias entre valores, que a escala ordinal não define.",
-  "Amplitude e intervalo interquartil" = paste(
-    "como diferenças numéricas, não fazem sentido. Informe as categorias extremas e os quartis",
-    "como categorias (\"de Insatisfeito a Satisfeito\")."
-  ),
-  "Ordem das barras" = "deve seguir a ordem das categorias. Reordenar pela frequência esconde a estrutura da variável."
-)
+cuidados_ordinal <- function() {
+  tr(
+    c(
+      "Média dos códigos" = paste(
+        "é comum em escalas de 1 a 5, mas supõe que as categorias são igualmente espaçadas. Use com cautela,",
+        "sempre ao lado da distribuição, e nunca como único resumo."
+      ),
+      "Desvio padrão e variância" = "dependem de distâncias entre valores, que a escala ordinal não define.",
+      "Amplitude e intervalo interquartil" = paste(
+        "como diferenças numéricas, não fazem sentido. Informe as categorias extremas e os quartis",
+        "como categorias (\"de Insatisfeito a Satisfeito\")."
+      ),
+      "Ordem das barras" = "deve seguir a ordem das categorias. Reordenar pela frequência esconde a estrutura da variável."
+    ),
+    c(
+      "Mean of the codes" = paste(
+        "is common for 1-to-5 scales, but it assumes the categories are equally spaced. Use it with caution,",
+        "always next to the distribution, and never as the only summary."
+      ),
+      "Standard deviation and variance" = "depend on distances between values, which an ordinal scale does not define.",
+      "Range and interquartile range" = paste(
+        "make no sense as numeric differences. Report the extreme categories and the quartiles",
+        "as categories (\"from Dissatisfied to Satisfied\")."
+      ),
+      "Bar order" = "must follow the category order. Sorting by frequency hides the structure of the variable."
+    )
+  )
+}
 
 mod_ordinal_ui <- function(id) {
   ns <- shiny::NS(id)
@@ -48,30 +83,33 @@ mod_ordinal_ui <- function(id) {
   bslib::layout_sidebar(
     sidebar = bslib::sidebar(
       width = 300,
-      shiny::selectInput(ns("exemplo"), "Variável", choices = opcoes_exemplo(exemplos_ordinal)),
-      shiny::selectInput(ns("formato"), "Formato da distribuição", choices = opcoes_exemplo(formatos_ordinal)),
-      shiny::sliderInput(ns("n"), "Tamanho da amostra", min = 20, max = 2000, value = 200, step = 10, sep = "."),
-      shiny::checkboxInput(ns("acumulada"), "Mostrar frequência acumulada", value = TRUE),
+      seletor_exemplo(ns("exemplo"), exemplos_ordinal),
+      shiny::selectInput(ns("formato"), tr("Formato da distribuição", "Distribution shape"), choices = opcoes_exemplo(formatos_ordinal)),
+      slider_amostra(ns("n"), min = 20, max = 2000, value = 200),
+      shiny::checkboxInput(ns("acumulada"), tr("Mostrar frequência acumulada", "Show cumulative frequency"), value = TRUE),
       botao_sortear(ns("sortear"))
     ),
     cabecalho_tipo("ordinal"),
     bslib::layout_columns(
       fill = FALSE,
-      bslib::value_box(title = "Moda", value = shiny::textOutput(ns("moda")), shiny::textOutput(ns("moda_desc")), theme = "primary"),
-      bslib::value_box(title = "Mediana", value = shiny::textOutput(ns("mediana")), shiny::textOutput(ns("mediana_desc")), theme = "primary"),
-      bslib::value_box(title = "Quartis (Q1 a Q3)", value = shiny::textOutput(ns("quartis")), "Onde estão os 50% centrais", theme = "info")
+      bslib::value_box(title = tr("Moda", "Mode"), value = shiny::textOutput(ns("moda")), shiny::textOutput(ns("moda_desc")), theme = "primary"),
+      bslib::value_box(title = tr("Mediana", "Median"), value = shiny::textOutput(ns("mediana")), shiny::textOutput(ns("mediana_desc")), theme = "primary"),
+      bslib::value_box(
+        title = tr("Quartis (Q1 a Q3)", "Quartiles (Q1 to Q3)"), value = shiny::textOutput(ns("quartis")),
+        tr("Onde estão os 50% centrais", "Where the middle 50% are"), theme = "info"
+      )
     ),
     bslib::layout_columns(
       col_widths = c(7, 5),
       bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico"), height = "420px"))),
-      bslib::card(bslib::card_header("Tabela de frequências"), bslib::card_body(shiny::uiOutput(ns("tabela"))))
+      bslib::card(bslib::card_header(tr("Tabela de frequências", "Frequency table")), bslib::card_body(shiny::uiOutput(ns("tabela"))))
     ),
     bslib::layout_columns(
       col_widths = c(6, 6),
-      bslib::card(bslib::card_header("Estatísticas aplicáveis"), bslib::card_body(shiny::uiOutput(ns("estatisticas")))),
-      cartao_cuidados("O que não usar, e por quê", cuidados_ordinal)
+      bslib::card(bslib::card_header(tr("Estatísticas aplicáveis", "Applicable statistics")), bslib::card_body(shiny::uiOutput(ns("estatisticas")))),
+      cartao_cuidados(tr("O que não usar, e por quê", "What not to use, and why"), cuidados_ordinal())
     ),
-    bslib::card(bslib::card_header("Entenda"), bslib::card_body(texto_ordinal()))
+    bslib::card(bslib::card_header(rotulo_entenda()), bslib::card_body(texto_ordinal()))
   )
 }
 
@@ -90,27 +128,23 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
     freq <- shiny::reactive(tabela_frequencias(dados()))
     mediana <- shiny::reactive(quantil_ordinal(dados(), 0.5))
     quartis <- shiny::reactive(quantil_ordinal(dados(), c(0.25, 0.75)))
+    de_a <- \(a, b) if (a == b) a else paste(a, tr("a", "to"), b)
 
     output$moda <- shiny::renderText(moda_tabela(freq()))
-    output$moda_desc <- shiny::renderText(sprintf("%s das observações", fmt_pct(max(freq()$prop))))
+    output$moda_desc <- shiny::renderText(sprintf(tr("%s das observações", "%s of the observations"), fmt_pct(max(freq()$prop))))
     output$mediana <- shiny::renderText(mediana())
     output$mediana_desc <- shiny::renderText({
-      sprintf("%s das observações estão nesta categoria", fmt_pct(freq()$prop[freq()$categoria == mediana()]))
+      sprintf(
+        tr("%s das observações estão nesta categoria", "%s of the observations are in this category"),
+        fmt_pct(freq()$prop[freq()$categoria == mediana()])
+      )
     })
-    output$quartis <- shiny::renderText({
-      q <- quartis()
-      if (q[1] == q[2]) q[1] else paste(q[1], "a", q[2])
-    })
+    output$quartis <- shiny::renderText(de_a(quartis()[1], quartis()[2]))
 
     output$tabela <- shiny::renderUI({
       f <- freq()
-      tabela <- data.frame(
-        "Categoria" = f$categoria,
-        "n" = fmt_num(f$n, 0),
-        "%" = fmt_pct(f$prop),
-        "% acumulada" = fmt_pct(f$acum),
-        check.names = FALSE
-      )
+      tabela <- data.frame(f$categoria, fmt_num(f$n, 0), fmt_pct(f$prop), fmt_pct(f$acum))
+      names(tabela) <- nomes_freq(tr("Categoria", "Category"))
       tabela_html(tabela, classes = c("", "num", "num", "num"))
     })
 
@@ -119,26 +153,43 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
       observadas <- f$categoria[f$n > 0]
       q <- quartis()
       tabela <- data.frame(
-        "Estatística" = c(
-          "Tamanho da amostra (n)", "Moda", "Mediana", "1º quartil (Q1)", "3º quartil (Q3)",
-          "Categorias mínima e máxima", "Média dos códigos (com cautela)"
+        tr(
+          c(
+            "Tamanho da amostra (n)", "Moda", "Mediana", "1º quartil (Q1)", "3º quartil (Q3)",
+            "Categorias mínima e máxima", "Média dos códigos (com cautela)"
+          ),
+          c(
+            "Sample size (n)", "Mode", "Median", "1st quartile (Q1)", "3rd quartile (Q3)",
+            "Minimum and maximum categories", "Mean of the codes (with caution)"
+          )
         ),
-        "Valor" = c(
+        c(
           fmt_num(sum(f$n), 0), moda_tabela(f), mediana(), q[1], q[2],
-          paste(observadas[1], "a", observadas[length(observadas)]),
+          de_a(observadas[1], observadas[length(observadas)]),
           fmt_num(mean(as.integer(dados())), 2)
         ),
-        "Como ler" = c(
-          "Número de observações",
-          "A categoria mais frequente",
-          "Pelo menos metade está nesta categoria ou abaixo, e pelo menos metade nesta ou acima",
-          "Pelo menos 25% das observações estão até esta categoria",
-          "Pelo menos 75% das observações estão até esta categoria",
-          "Categorias extremas observadas na amostra",
-          sprintf("Códigos de 1 a %d; supõe distâncias iguais entre categorias", nrow(f))
-        ),
-        check.names = FALSE
+        tr(
+          c(
+            "Número de observações",
+            "A categoria mais frequente",
+            "Pelo menos metade está nesta categoria ou abaixo, e pelo menos metade nesta ou acima",
+            "Pelo menos 25% das observações estão até esta categoria",
+            "Pelo menos 75% das observações estão até esta categoria",
+            "Categorias extremas observadas na amostra",
+            sprintf("Códigos de 1 a %d; supõe distâncias iguais entre categorias", nrow(f))
+          ),
+          c(
+            "Number of observations",
+            "The most frequent category",
+            "At least half are in this category or below, and at least half in this one or above",
+            "At least 25% of the observations are up to this category",
+            "At least 75% of the observations are up to this category",
+            "Extreme categories observed in the sample",
+            sprintf("Codes from 1 to %d; assumes equal distances between categories", nrow(f))
+          )
+        )
       )
+      names(tabela) <- nomes_estatisticas()
       tabela_html(tabela, classes = c("", "num", "leitura"))
     })
 
@@ -147,7 +198,7 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
       pal <- paleta_modo(modo())
       f$categoria <- factor(f$categoria, levels = f$categoria)
       f$e_mediana <- as.character(f$categoria) == mediana()
-      f$rotulo <- ifelse(f$n == max(f$n), paste0(fmt_pct(f$prop), "\nmoda"), fmt_pct(f$prop))
+      f$rotulo <- ifelse(f$n == max(f$n), paste0(fmt_pct(f$prop), "\n", tr("moda", "mode")), fmt_pct(f$prop))
 
       grafico <- ggplot2::ggplot(f, ggplot2::aes(x = categoria)) +
         ggplot2::geom_col(ggplot2::aes(y = 100 * prop, fill = e_mediana), width = 0.7) +
@@ -165,12 +216,12 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
         ggplot2::scale_x_discrete(labels = scales::label_wrap(12)) +
         ggplot2::scale_y_continuous(limits = c(0, 108), breaks = seq(0, 100, 25)) +
         ggplot2::labs(
-          title = "Frequência por categoria, na ordem natural",
+          title = tr("Frequência por categoria, na ordem natural", "Frequency by category, in natural order"),
           subtitle = exemplo()$rotulo,
           x = NULL, y = "%",
           caption = paste(
-            "Dados simulados | Em destaque: categoria mediana",
-            if (isTRUE(input$acumulada)) "| Linha vermelha: % acumulada" else ""
+            tr("Dados simulados | Em destaque: categoria mediana", "Simulated data | Highlighted: median category"),
+            if (isTRUE(input$acumulada)) tr("| Linha vermelha: % acumulada", "| Red line: cumulative %") else ""
           )
         ) +
         tema_grafico(modo()) +

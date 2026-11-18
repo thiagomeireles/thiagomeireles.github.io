@@ -55,23 +55,44 @@ rotulo_prob <- function(tipo, a, b) {
 }
 
 texto_normal <- function() {
-  shiny::withMathJax(
-    shiny::p(
-      "A normal padrão (Z) tem média 0 e desvio padrão 1. Qualquer variável normal",
-      "\\(X\\) com média \\(\\mu\\) e desvio padrão \\(\\sigma\\) pode ser levada a ela pela padronização",
-      "\\(Z = \\dfrac{X - \\mu}{\\sigma}\\). Por isso uma única tabela (ou uma única curva) serve para",
-      "calcular probabilidades de qualquer normal."
+  tr(
+    shiny::withMathJax(
+      shiny::p(
+        "A normal padrão (Z) tem média 0 e desvio padrão 1. Qualquer variável normal",
+        "\\(X\\) com média \\(\\mu\\) e desvio padrão \\(\\sigma\\) pode ser levada a ela pela padronização",
+        "\\(Z = \\dfrac{X - \\mu}{\\sigma}\\). Por isso uma única tabela (ou uma única curva) serve para",
+        "calcular probabilidades de qualquer normal."
+      ),
+      shiny::p(
+        "A t de Student aparece quando o desvio padrão da população não é conhecido e precisa ser",
+        "estimado pela amostra: \\(t = \\dfrac{\\bar{X} - \\mu}{s / \\sqrt{n}}\\), com \\(n - 1\\) graus de liberdade.",
+        "As caudas da t são mais pesadas que as da Z, o que traduz a incerteza extra de estimar \\(\\sigma\\).",
+        "Conforme os graus de liberdade crescem, a t se aproxima da Z."
+      ),
+      shiny::p(
+        shiny::strong("Experimente:"),
+        "escolha a t com 1 grau de liberdade e compare o valor crítico de 95% com o da Z (1,96).",
+        "Depois aumente os graus de liberdade e veja a diferença diminuir. Com 30 gl ela já é pequena."
+      )
     ),
-    shiny::p(
-      "A t de Student aparece quando o desvio padrão da população não é conhecido e precisa ser",
-      "estimado pela amostra: \\(t = \\dfrac{\\bar{X} - \\mu}{s / \\sqrt{n}}\\), com \\(n - 1\\) graus de liberdade.",
-      "As caudas da t são mais pesadas que as da Z, o que traduz a incerteza extra de estimar \\(\\sigma\\).",
-      "Conforme os graus de liberdade crescem, a t se aproxima da Z."
-    ),
-    shiny::p(
-      shiny::strong("Experimente:"),
-      "escolha a t com 1 grau de liberdade e compare o valor crítico de 95% com o da Z (1,96).",
-      "Depois aumente os graus de liberdade e veja a diferença diminuir. Com 30 gl ela já é pequena."
+    shiny::withMathJax(
+      shiny::p(
+        "The standard normal (Z) has mean 0 and standard deviation 1. Any normal variable",
+        "\\(X\\) with mean \\(\\mu\\) and standard deviation \\(\\sigma\\) can be brought to it by standardizing,",
+        "\\(Z = \\dfrac{X - \\mu}{\\sigma}\\). That is why a single table (or a single curve) is enough to",
+        "compute probabilities for any normal."
+      ),
+      shiny::p(
+        "Student's t appears when the population standard deviation is unknown and has to be estimated",
+        "from the sample: \\(t = \\dfrac{\\bar{X} - \\mu}{s / \\sqrt{n}}\\), with \\(n - 1\\) degrees of freedom.",
+        "The tails of t are heavier than those of Z, reflecting the extra uncertainty of estimating \\(\\sigma\\).",
+        "As the degrees of freedom grow, t approaches Z."
+      ),
+      shiny::p(
+        shiny::strong("Try it:"),
+        "choose t with 1 degree of freedom and compare its 95% critical value with Z's (1.96).",
+        "Then increase the degrees of freedom and watch the gap shrink. With 30 df it is already small."
+      )
     )
   )
 }
@@ -83,21 +104,19 @@ mod_normal_ui <- function(id) {
     sidebar = bslib::sidebar(
       width = 300,
       shiny::radioButtons(
-        ns("dist"), "Distribuição",
-        choices = c("Normal padrão (Z)" = "z", "t de Student" = "t")
+        ns("dist"), tr("Distribuição", "Distribution"),
+        choices = stats::setNames(c("z", "t"), tr(c("Normal padrão (Z)", "t de Student"), c("Standard normal (Z)", "Student's t")))
       ),
       shiny::conditionalPanel(
         condition = "input.dist == 't'", ns = ns,
-        shiny::sliderInput(ns("gl"), "Graus de liberdade (gl)", min = 1, max = 60, value = 5, step = 1),
-        shiny::checkboxInput(ns("comparar"), "Sobrepor a curva Z", value = TRUE)
+        shiny::sliderInput(ns("gl"), tr("Graus de liberdade (gl)", "Degrees of freedom (df)"), min = 1, max = 60, value = 5, step = 1),
+        shiny::checkboxInput(ns("comparar"), tr("Sobrepor a curva Z", "Overlay the Z curve"), value = TRUE)
       ),
       shiny::selectInput(
-        ns("tipo"), "Probabilidade a calcular",
-        choices = c(
-          "P(X ≤ a)"          = "inferior",
-          "P(X ≥ a)"          = "superior",
-          "P(a ≤ X ≤ b)" = "entre",
-          "P(|X| ≥ a), bicaudal" = "bicaudal"
+        ns("tipo"), tr("Probabilidade a calcular", "Probability to compute"),
+        choices = stats::setNames(
+          c("inferior", "superior", "entre", "bicaudal"),
+          c("P(X ≤ a)", "P(X ≥ a)", "P(a ≤ X ≤ b)", tr("P(|X| ≥ a), bicaudal", "P(|X| ≥ a), two-tailed"))
         )
       ),
       shiny::numericInput(ns("a"), "a", value = 1.96, step = 0.01),
@@ -106,18 +125,18 @@ mod_normal_ui <- function(id) {
         shiny::numericInput(ns("b"), "b", value = -1.96, step = 0.01)
       ),
       shiny::hr(),
-      shiny::sliderInput(ns("nivel"), "Nível de confiança (%)", min = 80, max = 99.9, value = 95, step = 0.1)
+      shiny::sliderInput(ns("nivel"), tr("Nível de confiança (%)", "Confidence level (%)"), min = 80, max = 99.9, value = 95, step = 0.1)
     ),
     bslib::layout_columns(
       fill = FALSE,
       bslib::value_box(
-        title = "Probabilidade da área destacada",
+        title = tr("Probabilidade da área destacada", "Probability of the shaded area"),
         value = shiny::textOutput(ns("prob")),
         shiny::textOutput(ns("prob_desc")),
         theme = "primary"
       ),
       bslib::value_box(
-        title = "Valor crítico bicaudal",
+        title = tr("Valor crítico bicaudal", "Two-tailed critical value"),
         value = shiny::textOutput(ns("critico")),
         shiny::textOutput(ns("critico_desc")),
         theme = "info"
@@ -128,7 +147,7 @@ mod_normal_ui <- function(id) {
       bslib::card_body(shiny::plotOutput(ns("grafico"), height = "420px"))
     ),
     bslib::card(
-      bslib::card_header("Entenda"),
+      bslib::card_header(rotulo_entenda()),
       bslib::card_body(texto_normal())
     )
   )
@@ -162,9 +181,9 @@ mod_normal_server <- function(id, modo = shiny::reactive("light")) {
 
     output$critico_desc <- shiny::renderText({
       p_sup  <- 1 - (1 - input$nivel / 100) / 2
-      base   <- sprintf("Para %s%% de confiança", fmt_num(input$nivel, 1))
+      base   <- sprintf(tr("Para %s%% de confiança", "For %s%% confidence"), fmt_num(input$nivel, 1))
       if (input$dist == "z") return(base)
-      sprintf("%s. Com Z seria ± %s", base, fmt_num(stats::qnorm(p_sup), 3))
+      sprintf(tr("%s. Com Z seria ± %s", "%s. With Z it would be ± %s"), base, fmt_num(stats::qnorm(p_sup), 3))
     })
 
     output$grafico <- shiny::renderPlot({
@@ -174,7 +193,11 @@ mod_normal_server <- function(id, modo = shiny::reactive("light")) {
       y <- dens_dist(x, p$dist, p$gl)
       dados <- data.frame(x = x, y = y, area = ifelse(dentro_area(x, p$intervalos), y, 0))
 
-      titulo <- if (p$dist == "z") "Normal padrão: Z ~ N(0, 1)" else sprintf("t de Student com %d gl", p$gl)
+      titulo <- if (p$dist == "z") {
+        tr("Normal padrão: Z ~ N(0, 1)", "Standard normal: Z ~ N(0, 1)")
+      } else {
+        sprintf(tr("t de Student com %d gl", "Student's t with %d df"), p$gl)
+      }
       comparar <- p$dist == "t" && isTRUE(input$comparar)
 
       grafico <- ggplot2::ggplot(dados, ggplot2::aes(x = x)) +
@@ -190,13 +213,16 @@ mod_normal_server <- function(id, modo = shiny::reactive("light")) {
           )
       }
 
+      legenda_area <- tr("Área azul: probabilidade calculada", "Blue area: computed probability")
+
       grafico +
         ggplot2::scale_x_continuous(breaks = -5:5) +
+        ggplot2::scale_y_continuous(labels = rotulos_eixo()) +
         ggplot2::labs(
           title    = titulo,
           subtitle = sprintf("%s = %s", p$rotulo, fmt_num(p$prob, 4)),
-          x = "Valor", y = "Densidade",
-          caption  = if (comparar) "Área azul: probabilidade calculada | Tracejado vermelho: normal padrão Z" else "Área azul: probabilidade calculada"
+          x = tr("Valor", "Value"), y = tr("Densidade", "Density"),
+          caption  = if (comparar) paste(legenda_area, tr("| Tracejado vermelho: normal padrão Z", "| Red dashed: standard normal Z")) else legenda_area
         ) +
         tema_grafico(modo())
     })

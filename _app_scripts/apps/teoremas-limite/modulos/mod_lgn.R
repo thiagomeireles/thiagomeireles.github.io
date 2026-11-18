@@ -11,25 +11,25 @@
 
 experimentos_lgn <- list(
   moeda = list(
-    rotulo = "Moeda honesta (proporção de caras)",
+    rotulo = tr("Moeda honesta (proporção de caras)", "Fair coin (proportion of heads)"),
     gerar  = \(n) stats::rbinom(n, size = 1, prob = 0.5),
     media  = 0.5,
     dp     = 0.5
   ),
   moeda_viciada = list(
-    rotulo = "Moeda viciada, p = 0,7 (proporção de caras)",
+    rotulo = tr("Moeda viciada, p = 0,7 (proporção de caras)", "Biased coin, p = 0.7 (proportion of heads)"),
     gerar  = \(n) stats::rbinom(n, size = 1, prob = 0.7),
     media  = 0.7,
     dp     = sqrt(0.7 * 0.3)
   ),
   dado = list(
-    rotulo = "Dado de seis faces (média das faces)",
+    rotulo = tr("Dado de seis faces (média das faces)", "Six-sided die (mean of the faces)"),
     gerar  = \(n) sample(1:6, n, replace = TRUE),
     media  = 3.5,
     dp     = sqrt(35 / 12)
   ),
   exponencial = list(
-    rotulo = "Tempo de espera exponencial (média = 1)",
+    rotulo = tr("Tempo de espera exponencial (média = 1)", "Exponential waiting time (mean = 1)"),
     gerar  = \(n) stats::rexp(n, rate = 1),
     media  = 1,
     dp     = 1
@@ -52,25 +52,48 @@ simular_trajetoria <- function(id_trajetoria, experimento, n_max, pontos) {
 }
 
 texto_lgn <- function() {
-  shiny::withMathJax(
-    shiny::p(
-      "Repita um experimento várias vezes e acompanhe a média acumulada dos resultados.",
-      "A Lei dos Grandes Números diz que essa média se aproxima do valor esperado \\(\\mu\\) à medida que",
-      "o número de repetições \\(n\\) cresce. Cada linha do gráfico é uma sequência independente de repetições."
+  tr(
+    shiny::withMathJax(
+      shiny::p(
+        "Repita um experimento várias vezes e acompanhe a média acumulada dos resultados.",
+        "A Lei dos Grandes Números diz que essa média se aproxima do valor esperado \\(\\mu\\) à medida que",
+        "o número de repetições \\(n\\) cresce. Cada linha do gráfico é uma sequência independente de repetições."
+      ),
+      shiny::p(
+        "A faixa sombreada mostra \\(\\mu \\pm 1{,}96\\,\\sigma / \\sqrt{n}\\). Para \\(n\\) não muito pequeno,",
+        "cerca de 95% das trajetórias passam dentro dela em cada ponto. A faixa estreita devagar: para cortar a",
+        "largura pela metade, é preciso quadruplicar \\(n\\)."
+      ),
+      shiny::p(
+        "LGN e TCL se complementam. A LGN diz para onde a média vai (\\(\\mu\\)). O TCL descreve a forma",
+        "da variação da média em torno de \\(\\mu\\)."
+      ),
+      shiny::p(
+        shiny::strong("Experimente:"),
+        "olhe as primeiras 10 ou 20 jogadas da moeda. Sequências curtas se afastam bastante de 0,5, e isso",
+        "é esperado. A lei não promete que os resultados \"se compensam\" no curto prazo."
+      )
     ),
-    shiny::p(
-      "A faixa sombreada mostra \\(\\mu \\pm 1{,}96\\,\\sigma / \\sqrt{n}\\). Para \\(n\\) não muito pequeno,",
-      "cerca de 95% das trajetórias passam dentro dela em cada ponto. A faixa estreita devagar: para cortar a",
-      "largura pela metade, é preciso quadruplicar \\(n\\)."
-    ),
-    shiny::p(
-      "LGN e TCL se complementam. A LGN diz para onde a média vai (\\(\\mu\\)). O TCL descreve a forma",
-      "da variação da média em torno de \\(\\mu\\)."
-    ),
-    shiny::p(
-      shiny::strong("Experimente:"),
-      "olhe as primeiras 10 ou 20 jogadas da moeda. Sequências curtas se afastam bastante de 0,5, e isso",
-      "é esperado. A lei não promete que os resultados \"se compensam\" no curto prazo."
+    shiny::withMathJax(
+      shiny::p(
+        "Repeat an experiment many times and follow the running mean of the results.",
+        "The Law of Large Numbers says this mean approaches the expected value \\(\\mu\\) as the",
+        "number of repetitions \\(n\\) grows. Each line in the chart is an independent sequence of repetitions."
+      ),
+      shiny::p(
+        "The shaded band shows \\(\\mu \\pm 1.96\\,\\sigma / \\sqrt{n}\\). For \\(n\\) that is not too small,",
+        "about 95% of the paths are inside it at each point. The band narrows slowly: to halve its width,",
+        "you need to quadruple \\(n\\)."
+      ),
+      shiny::p(
+        "The LLN and the CLT complement each other. The LLN says where the mean is heading (\\(\\mu\\)). The CLT",
+        "describes the shape of the mean's variation around \\(\\mu\\)."
+      ),
+      shiny::p(
+        shiny::strong("Try it:"),
+        "look at the first 10 or 20 coin tosses. Short sequences stray quite far from 0.5, and that is",
+        "expected. The law does not promise that results \"even out\" in the short run."
+      )
     )
   )
 }
@@ -82,24 +105,24 @@ mod_lgn_ui <- function(id) {
     sidebar = bslib::sidebar(
       width = 300,
       shiny::selectInput(
-        ns("experimento"), "Experimento",
+        ns("experimento"), tr("Experimento", "Experiment"),
         choices = stats::setNames(names(experimentos_lgn), purrr::map_chr(experimentos_lgn, "rotulo"))
       ),
-      shiny::sliderInput(ns("n_max"), "Número de repetições", min = 100, max = 10000, value = 2000, step = 100),
-      shiny::sliderInput(ns("trajetorias"), "Número de trajetórias", min = 1, max = 20, value = 5, step = 1),
-      shiny::checkboxInput(ns("escala_log"), "Eixo x em escala logarítmica", value = TRUE),
-      shiny::checkboxInput(ns("faixa"), "Mostrar faixa de 95%", value = TRUE),
-      shiny::actionButton(ns("sortear"), "Sortear novamente", class = "btn-primary", icon = shiny::icon("dice"))
+      shiny::sliderInput(ns("n_max"), tr("Número de repetições", "Number of repetitions"), min = 100, max = 10000, value = 2000, step = 100, sep = sep_milhar()),
+      shiny::sliderInput(ns("trajetorias"), tr("Número de trajetórias", "Number of paths"), min = 1, max = 20, value = 5, step = 1),
+      shiny::checkboxInput(ns("escala_log"), tr("Eixo x em escala logarítmica", "Logarithmic x axis"), value = TRUE),
+      shiny::checkboxInput(ns("faixa"), tr("Mostrar faixa de 95%", "Show 95% band"), value = TRUE),
+      shiny::actionButton(ns("sortear"), tr("Sortear novamente", "Draw again"), class = "btn-primary", icon = shiny::icon("dice"))
     ),
     bslib::layout_columns(
       fill = FALSE,
       bslib::value_box(
-        title = "Valor esperado (μ)",
+        title = tr("Valor esperado (μ)", "Expected value (μ)"),
         value = shiny::textOutput(ns("mu")),
         theme = "primary"
       ),
       bslib::value_box(
-        title = "Médias ao final das trajetórias",
+        title = tr("Médias ao final das trajetórias", "Means at the end of the paths"),
         value = shiny::textOutput(ns("finais")),
         shiny::textOutput(ns("finais_desc")),
         theme = "info"
@@ -110,7 +133,7 @@ mod_lgn_ui <- function(id) {
       bslib::card_body(shiny::plotOutput(ns("grafico"), height = "440px"))
     ),
     bslib::card(
-      bslib::card_header("Entenda"),
+      bslib::card_header(rotulo_entenda()),
       bslib::card_body(texto_lgn())
     )
   )
@@ -141,12 +164,15 @@ mod_lgn_server <- function(id, modo = shiny::reactive("light")) {
     output$finais <- shiny::renderText({
       f <- medias_finais()
       if (length(f) == 1) return(fmt_num(f, 3))
-      sprintf("%s a %s", fmt_num(min(f), 3), fmt_num(max(f), 3))
+      sprintf(tr("%s a %s", "%s to %s"), fmt_num(min(f), 3), fmt_num(max(f), 3))
     })
 
     output$finais_desc <- shiny::renderText({
       desvio <- max(abs(medias_finais() - simulacao()$experimento$media))
-      sprintf("Maior distância de μ após %s repetições: %s", fmt_num(simulacao()$n_max, 0), fmt_num(desvio, 3))
+      sprintf(
+        tr("Maior distância de μ após %s repetições: %s", "Largest distance from μ after %s repetitions: %s"),
+        fmt_num(simulacao()$n_max, 0), fmt_num(desvio, 3)
+      )
     })
 
     output$grafico <- shiny::renderPlot({
@@ -158,7 +184,7 @@ mod_lgn_server <- function(id, modo = shiny::reactive("light")) {
         inf = mu - 1.96 * s$experimento$dp / sqrt(s$pontos),
         sup = mu + 1.96 * s$experimento$dp / sqrt(s$pontos)
       )
-      rotulos <- scales::label_number(big.mark = ".", decimal.mark = ",")
+      rotulos <- rotulos_eixo()
 
       grafico <- ggplot2::ggplot()
 
@@ -177,10 +203,10 @@ mod_lgn_server <- function(id, modo = shiny::reactive("light")) {
         ggplot2::scale_colour_viridis_d(option = "mako", begin = pal$trajetorias[1], end = pal$trajetorias[2]) +
         ggplot2::scale_y_continuous(labels = rotulos) +
         ggplot2::labs(
-          title    = "Média acumulada conforme as repetições aumentam",
+          title    = tr("Média acumulada conforme as repetições aumentam", "Running mean as repetitions increase"),
           subtitle = s$experimento$rotulo,
-          x = "Número de repetições (n)", y = "Média acumulada",
-          caption  = "Tracejado: valor esperado μ | Faixa: μ ± 1,96 σ/√n"
+          x = tr("Número de repetições (n)", "Number of repetitions (n)"), y = tr("Média acumulada", "Running mean"),
+          caption  = tr("Tracejado: valor esperado μ | Faixa: μ ± 1,96 σ/√n", "Dashed: expected value μ | Band: μ ± 1.96 σ/√n")
         ) +
         tema_grafico(modo())
 

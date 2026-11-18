@@ -8,8 +8,9 @@
 #   - _app_scripts/apps/<tema>/ (app.R e modulos/ de cada tema)
 # Saída:
 #   - apps/shinylive/ e apps/shinylive-sw.js (runtime webR, compartilhado)
-#   - apps/<tema>/ (um app por tema, publicado pelo GitHub Pages)
-#   - apps/<tema>/metadados.txt
+#   - apps/<tema>/ (versão em português de cada tema, publicada pelo GitHub Pages)
+#   - apps/en/<tema>/ (versão em inglês)
+#   - metadados.txt dentro de cada pasta de app
 # =============================================================================
 
 rm(list = ls()); gc()
@@ -27,6 +28,22 @@ temas <- list(
   list(pasta = "teoremas-limite", titulo = "Teoremas limite")
 )
 
+# Cada tema sai em dois idiomas. Os textos ficam lado a lado no código, via
+# tr() (comum/utilitarios.R); o idioma de cada cópia vai em idioma.txt.
+idiomas <- list(
+  list(codigo = "pt", prefixo = ""),
+  list(codigo = "en", prefixo = "en")
+)
+
+# Combinações tema x idioma, com o subdiretório publicado de cada uma
+subdir_versao <- function(prefixo, pasta) {
+  if (nzchar(prefixo)) file.path(prefixo, pasta) else pasta
+}
+
+versoes <- idiomas |>
+  purrr::map(\(i) purrr::map(temas, \(t) c(t, idioma = i$codigo, subdir = subdir_versao(i$prefixo, t$pasta)))) |>
+  purrr::list_flatten()
+
 origem_apps  <- here::here("_app_scripts", "apps")
 destino_raiz <- here::here("apps")
 
@@ -39,8 +56,8 @@ ler_data_criacao <- function(destino) {
 }
 
 # Apaga só o que este script gera: o runtime compartilhado e as pastas dos temas
-limpar_destino <- function(destino_raiz, temas) {
-  alvos <- file.path(destino_raiz, c("shinylive", "shinylive-sw.js", purrr::map_chr(temas, "pasta")))
+limpar_destino <- function(destino_raiz, versoes) {
+  alvos <- file.path(destino_raiz, c("shinylive", "shinylive-sw.js", purrr::map_chr(versoes, "subdir")))
   unlink(alvos[file.exists(alvos)], recursive = TRUE)
   if (!dir.exists(destino_raiz)) dir.create(destino_raiz, recursive = TRUE)
   invisible(destino_raiz)
@@ -85,25 +102,26 @@ compilar_tema <- function(pasta_comum) {
   pasta_tema
 }
 
-# Cópia temporária do app com comum/ e tema/ dentro, para o código-fonte
-# continuar limpo e o app exportado não depender de ../comum
-preparar_copia <- function(pasta, origem_apps, pasta_tema) {
-  copia <- file.path(tempdir(), "apps_exportacao", pasta)
+# Cópia temporária do app com comum/, tema/ e idioma.txt dentro, para o
+# código-fonte continuar limpo e o app exportado não depender de ../comum
+preparar_copia <- function(versao, origem_apps, pasta_tema) {
+  copia <- file.path(tempdir(), "apps_exportacao", versao$idioma, versao$pasta)
   if (dir.exists(copia)) unlink(copia, recursive = TRUE)
   dir.create(copia, recursive = TRUE)
-  file.copy(list.files(file.path(origem_apps, pasta), full.names = TRUE), copia, recursive = TRUE)
+  file.copy(list.files(file.path(origem_apps, versao$pasta), full.names = TRUE), copia, recursive = TRUE)
   file.copy(file.path(origem_apps, "comum"), copia, recursive = TRUE)
   file.copy(pasta_tema, copia, recursive = TRUE)
   file.rename(file.path(copia, basename(pasta_tema)), file.path(copia, "tema"))
+  writeLines(versao$idioma, file.path(copia, "idioma.txt"))
   copia
 }
 
-# Todos os temas vão para o mesmo destdir, cada um no seu subdir: o runtime
+# Todas as versões vão para o mesmo destdir, cada uma no seu subdir: o runtime
 # (shinylive/) é gravado uma vez só, e o navegador o reaproveita do cache
-exportar_tema <- function(tema, origem_apps, destino_raiz, pasta_tema) {
-  copia <- preparar_copia(tema$pasta, origem_apps, pasta_tema)
-  shinylive::export(appdir = copia, destdir = destino_raiz, subdir = tema$pasta)
-  invisible(file.path(destino_raiz, tema$pasta))
+exportar_versao <- function(versao, origem_apps, destino_raiz, pasta_tema) {
+  copia <- preparar_copia(versao, origem_apps, pasta_tema)
+  shinylive::export(appdir = copia, destdir = destino_raiz, subdir = versao$subdir)
+  invisible(file.path(destino_raiz, versao$subdir))
 }
 
 # Versão de um pacote dentro da biblioteca base do webR exportada
@@ -132,14 +150,15 @@ verificar_bslib <- function(destino_raiz) {
   invisible(c(local = local, webr = webr))
 }
 
-gravar_metadados <- function(tema, destino_raiz, criado_em, versoes_bslib) {
+gravar_metadados <- function(versao, destino_raiz, criado_em, versoes_bslib) {
   writeLines(
     c(
-      paste("App:", tema$titulo, "(Estatística na prática)"),
+      paste("App:", versao$titulo, "(Estatística na prática)"),
       "Autor: Thiago Meireles",
+      paste("Idioma:", versao$idioma),
       paste("Criado em:", criado_em),
       paste("Modificado em:", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z")),
-      paste0("Fonte: _app_scripts/apps/", tema$pasta, "/ (+ _app_scripts/apps/comum/)"),
+      paste0("Fonte: _app_scripts/apps/", versao$pasta, "/ (+ _app_scripts/apps/comum/)"),
       "Gerado por: _app_scripts/shinylive/exportar_apps.R",
       "Runtime: apps/shinylive/ (compartilhado entre os temas)",
       "Tema: Bootswatch zephyr (CSS pré-compilado em tema/)",
@@ -147,17 +166,18 @@ gravar_metadados <- function(tema, destino_raiz, criado_em, versoes_bslib) {
       paste("bslib local / webR:", versoes_bslib[["local"]], "/", versoes_bslib[["webr"]]),
       paste("R:", R.version.string)
     ),
-    file.path(destino_raiz, tema$pasta, "metadados.txt"),
+    file.path(destino_raiz, versao$subdir, "metadados.txt"),
     useBytes = TRUE
   )
 }
 
-datas_criacao <- purrr::map_chr(temas, \(t) ler_data_criacao(file.path(destino_raiz, t$pasta)))
-limpar_destino(destino_raiz, temas)
+datas_criacao <- purrr::map_chr(versoes, \(v) ler_data_criacao(file.path(destino_raiz, v$subdir)))
+limpar_destino(destino_raiz, versoes)
 pasta_tema <- compilar_tema(file.path(origem_apps, "comum"))
-purrr::walk(temas, exportar_tema, origem_apps = origem_apps, destino_raiz = destino_raiz, pasta_tema = pasta_tema)
+purrr::walk(versoes, exportar_versao, origem_apps = origem_apps, destino_raiz = destino_raiz, pasta_tema = pasta_tema)
 versoes_bslib <- verificar_bslib(destino_raiz)
-purrr::walk2(temas, datas_criacao, gravar_metadados, destino_raiz = destino_raiz, versoes_bslib = versoes_bslib)
+purrr::walk2(versoes, datas_criacao, gravar_metadados, destino_raiz = destino_raiz, versoes_bslib = versoes_bslib)
 
 # Pré-visualização local (só em sessão interativa). Abre http://127.0.0.1:7446/descritiva/
+# (ou /en/descritiva/ para a versão em inglês)
 if (interactive()) httpuv::runStaticServer(destino_raiz, port = 7446)

@@ -22,14 +22,20 @@ c(
   purrr::walk(source)
 
 ui <- pagina_tema(
-  titulo = "Probabilidade",
-  descricao = paste(
-    "Demonstrações interativas de distribuições de probabilidade: como calcular áreas,",
-    "valores críticos e comparar distribuições."
+  titulo = tr("Probabilidade", "Probability"),
+  descricao = tr(
+    paste(
+      "Demonstrações interativas de distribuições de probabilidade: como calcular áreas,",
+      "valores críticos e comparar distribuições."
+    ),
+    paste(
+      "Interactive demos of probability distributions: how to compute areas,",
+      "critical values and compare distributions."
+    )
   ),
-  bslib::nav_panel("Distribuição Normal (Z e t)", mod_normal_ui("normal")),
+  bslib::nav_panel(tr("Distribuição Normal (Z e t)", "Normal distribution (Z and t)"), mod_normal_ui("normal")),
   bslib::nav_menu(
-    "Outras distribuições",
+    tr("Outras distribuições", "Other distributions"),
     item_em_breve("Binomial"),
     item_em_breve("Poisson")
   )

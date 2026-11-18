@@ -22,13 +22,19 @@ c(
   purrr::walk(source)
 
 ui <- pagina_tema(
-  titulo = "Teoremas limite",
-  descricao = paste(
-    "Demonstrações interativas dos dois resultados que sustentam boa parte da inferência estatística:",
-    "a Lei dos Grandes Números e o Teorema Central do Limite."
+  titulo = tr("Teoremas limite", "Limit theorems"),
+  descricao = tr(
+    paste(
+      "Demonstrações interativas dos dois resultados que sustentam boa parte da inferência estatística:",
+      "a Lei dos Grandes Números e o Teorema Central do Limite."
+    ),
+    paste(
+      "Interactive demos of the two results behind much of statistical inference:",
+      "the Law of Large Numbers and the Central Limit Theorem."
+    )
   ),
-  bslib::nav_panel("Lei dos Grandes Números", mod_lgn_ui("lgn")),
-  bslib::nav_panel("Teorema Central do Limite", mod_tcl_ui("tcl"))
+  bslib::nav_panel(tr("Lei dos Grandes Números", "Law of Large Numbers"), mod_lgn_ui("lgn")),
+  bslib::nav_panel(tr("Teorema Central do Limite", "Central Limit Theorem"), mod_tcl_ui("tcl"))
 )
 
 server <- function(input, output, session) {

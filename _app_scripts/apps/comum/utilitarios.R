@@ -4,16 +4,33 @@
 # Atualizado: 2026-11-18
 #
 # Entrada:
-#   - tema/ (opcional): CSS do zephyr pré-compilado por
+#   - idioma.txt (opcional): "pt" ou "en", gravado por
 #     _app_scripts/shinylive/exportar_apps.R
+#   - tema/ (opcional): CSS do zephyr pré-compilado pelo mesmo script
 # Saída:
-#   - objetos em memória: cores_app, tema_zephyr(), tema_app(),
+#   - objetos em memória: idioma, tr(), cores_app, tema_zephyr(), tema_app(),
 #     dependencia_tema(), estilo_app(), pagina_tema(), item_em_breve(),
-#     modo_app(), paleta_modo(), tema_grafico(), fmt_num(), tabela_html()
+#     modo_app(), paleta_modo(), tema_grafico(), fmt_num(), fmt_pct(),
+#     sep_milhar(), tabela_html()
 # =============================================================================
 
 # Fica em _app_scripts/apps/comum/. Na exportação, esta pasta é copiada para
 # dentro de cada app; rodando localmente, o app.R a procura em ../comum.
+# Por ser carregado antes dos módulos, define o idioma usado por todos eles.
+
+# Idioma do app: idioma.txt (exportação) ou variável APP_IDIOMA (teste local)
+idioma_app <- function() {
+  if (file.exists("idioma.txt")) return(trimws(readLines("idioma.txt", warn = FALSE))[1])
+  Sys.getenv("APP_IDIOMA", "pt")
+}
+
+idioma <- idioma_app()
+
+# Texto no idioma do app. Os dois textos ficam lado a lado no código, para a
+# tradução nunca se perder do original. Funciona com vetores e listas.
+tr <- function(pt, en) {
+  if (identical(idioma, "en")) en else pt
+}
 
 # Cores do Bootswatch zephyr usadas nos gráficos (primary e danger)
 cores_app <- list(
@@ -22,7 +39,7 @@ cores_app <- list(
   neutro     = "#adb5bd"
 )
 
-url_temas <- "https://thiagomeireles.com.br/aplicativos/"
+url_temas <- tr("https://thiagomeireles.com.br/aplicativos/", "https://thiagomeireles.com.br/en/apps/")
 
 # Definição única do tema. O exportar_apps.R também lê esta função para
 # compilar o CSS antes de publicar.
@@ -67,19 +84,26 @@ estilo_app <- function() {
 
 pagina_sobre <- function(titulo, descricao, versao) {
   bslib::card(
-    bslib::card_header(paste("Sobre:", titulo)),
+    bslib::card_header(paste(tr("Sobre:", "About:"), titulo)),
     bslib::card_body(
       shiny::p(descricao),
+      shiny::p(tr(
+        paste(
+          "O aplicativo roda inteiro no seu navegador, com R compilado para WebAssembly (webR e Shinylive).",
+          "Nenhum dado sai do seu computador. A primeira abertura demora alguns segundos;",
+          "as próximas usam o cache do navegador, que é compartilhado entre todos os temas."
+        ),
+        paste(
+          "The app runs entirely in your browser, with R compiled to WebAssembly (webR and Shinylive).",
+          "No data leaves your computer. The first load takes a few seconds; later visits use the",
+          "browser cache, which is shared across all topics."
+        )
+      )),
+      shiny::p(sprintf(tr("Autor: Thiago Meireles | Versão %s", "Author: Thiago Meireles | Version %s"), versao)),
       shiny::p(
-        "O aplicativo roda inteiro no seu navegador, com R compilado para WebAssembly (webR e Shinylive).",
-        "Nenhum dado sai do seu computador. A primeira abertura demora alguns segundos;",
-        "as próximas usam o cache do navegador, que é compartilhado entre todos os temas."
-      ),
-      shiny::p(sprintf("Autor: Thiago Meireles | Versão %s", versao)),
-      shiny::p(
-        shiny::a("Ver todos os temas", href = url_temas, target = "_top"),
+        shiny::a(tr("Ver todos os temas", "See all topics"), href = url_temas, target = "_top"),
         " | ",
-        shiny::a("www.thiagomeireles.com.br", href = "https://www.thiagomeireles.com.br", target = "_blank")
+        shiny::a("thiagomeireles.com.br", href = tr("https://thiagomeireles.com.br", "https://thiagomeireles.com.br/en/"), target = "_blank")
       )
     )
   )
@@ -90,7 +114,7 @@ item_em_breve <- function(rotulo) {
   bslib::nav_item(
     shiny::tags$span(
       class = "dropdown-item disabled",
-      rotulo, shiny::tags$small(class = "text-muted ms-1", "(em breve)")
+      rotulo, shiny::tags$small(class = "text-muted ms-1", tr("(em breve)", "(coming soon)"))
     )
   )
 }
@@ -98,21 +122,25 @@ item_em_breve <- function(rotulo) {
 # Página padrão de um tema: os tópicos (nav_panel/nav_menu) vão em `...`.
 # Para trocar de aba pelo server: bslib::nav_select("abas", "<value do nav_panel>").
 # fillable = FALSE: as abas têm várias linhas de cards e rolam como página comum.
-pagina_tema <- function(titulo, ..., descricao, versao = "0.1 (novembro de 2026)") {
+pagina_tema <- function(titulo, ..., descricao, versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)")) {
   bslib::page_navbar(
     id           = "abas",
     fillable     = FALSE,
+    lang         = tr("pt-BR", "en"),
     title        = titulo,
-    window_title = paste(titulo, "| Estatística na prática"),
+    window_title = paste(titulo, tr("| Estatística na prática", "| Statistics in practice")),
     theme        = tema_app(),
     header       = shiny::tagList(dependencia_tema(), estilo_app()),
     ...,
     bslib::nav_spacer(),
-    bslib::nav_panel("Sobre", pagina_sobre(titulo, descricao, versao)),
-    bslib::nav_item(shiny::tags$a(class = "nav-link", href = url_temas, target = "_top", "Outros temas")),
+    bslib::nav_panel(tr("Sobre", "About"), pagina_sobre(titulo, descricao, versao)),
+    bslib::nav_item(shiny::tags$a(class = "nav-link", href = url_temas, target = "_top", tr("Outros temas", "Other topics"))),
     bslib::nav_item(bslib::input_dark_mode(id = "modo"))
   )
 }
+
+# Títulos de cards repetidos em todos os módulos
+rotulo_entenda <- function() tr("Entenda", "Key ideas")
 
 # Chamar no início do server. O tema do ggplot2 é definido aqui, e não no topo
 # do app.R, para o ggplot2 carregar depois que a interface já apareceu na tela.
@@ -161,9 +189,16 @@ tema_grafico <- function(modo = "light") {
     )
 }
 
-# Números no padrão brasileiro (vírgula decimal)
+# Números no padrão do idioma: 1.234,5 (pt) ou 1,234.5 (en)
 fmt_num <- function(x, digitos = 4) {
-  formatC(x, format = "f", digits = digitos, decimal.mark = ",", big.mark = ".")
+  formatC(x, format = "f", digits = digitos, decimal.mark = tr(",", "."), big.mark = tr(".", ","))
+}
+
+# Separador de milhar dos sliders e rótulos de eixo
+sep_milhar <- function() tr(".", ",")
+
+rotulos_eixo <- function() {
+  scales::label_number(big.mark = tr(".", ","), decimal.mark = tr(",", "."))
 }
 
 fmt_pct <- function(x, digitos = 1) {

@@ -10,51 +10,87 @@
 # =============================================================================
 
 texto_continua <- function() {
-  shiny::tagList(
-    shiny::p(
-      "Uma variável contínua vem de uma medição e pode assumir qualquer valor num intervalo: 168,3 cm,",
-      "168,31 cm, e assim por diante, até onde o instrumento permitir. Valem as mesmas estatísticas da",
-      "discreta. A diferença está na forma de olhar a distribuição: como quase nenhum valor se repete,",
-      "os dados são agrupados em classes (histograma e tabela de frequências por classes)."
+  tr(
+    shiny::tagList(
+      shiny::p(
+        "Uma variável contínua vem de uma medição e pode assumir qualquer valor num intervalo: 168,3 cm,",
+        "168,31 cm, e assim por diante, até onde o instrumento permitir. Valem as mesmas estatísticas da",
+        "discreta. A diferença está na forma de olhar a distribuição: como quase nenhum valor se repete,",
+        "os dados são agrupados em classes (histograma e tabela de frequências por classes)."
+      ),
+      shiny::p(
+        "O coeficiente de assimetria resume a forma. Perto de 0, a distribuição é aproximadamente simétrica",
+        "e média e mediana ficam próximas. Positivo, há uma cauda longa à direita (comum em renda e tempos de",
+        "espera) e a média fica acima da mediana."
+      ),
+      shiny::p(
+        shiny::strong("Experimente:"),
+        "compare altura e renda. Na altura, média e mediana quase coincidem; na renda, a média fica bem acima,",
+        "puxada pelos salários altos. Depois mude o número de classes e veja a forma do histograma mudar,",
+        "sem que nenhum dado tenha mudado."
+      )
     ),
-    shiny::p(
-      "O coeficiente de assimetria resume a forma. Perto de 0, a distribuição é aproximadamente simétrica",
-      "e média e mediana ficam próximas. Positivo, há uma cauda longa à direita (comum em renda e tempos de",
-      "espera) e a média fica acima da mediana."
-    ),
-    shiny::p(
-      shiny::strong("Experimente:"),
-      "compare altura e renda. Na altura, média e mediana quase coincidem; na renda, a média fica bem acima,",
-      "puxada pelos salários altos. Depois mude o número de classes e veja a forma do histograma mudar,",
-      "sem que nenhum dado tenha mudado."
+    shiny::tagList(
+      shiny::p(
+        "A continuous variable comes from measuring and can take any value within a range: 168.3 cm,",
+        "168.31 cm, and so on, as far as the instrument allows. The same statistics as for discrete variables",
+        "apply. The difference is how you look at the distribution: since almost no value repeats, the data",
+        "are grouped into bins (histogram and frequency table by class)."
+      ),
+      shiny::p(
+        "The skewness coefficient summarizes the shape. Near 0, the distribution is roughly symmetric and the",
+        "mean and median are close. When it is positive, there is a long right tail (common for income and",
+        "waiting times) and the mean sits above the median."
+      ),
+      shiny::p(
+        shiny::strong("Try it:"),
+        "compare height and income. For height, the mean and median almost coincide; for income, the mean is",
+        "well above, pulled up by high salaries. Then change the number of bins and watch the histogram's shape",
+        "change without any data changing."
+      )
     )
   )
 }
 
-cuidados_continua <- list(
-  "Moda" = paste(
-    "quase nenhum valor contínuo se repete, então a moda dos valores brutos não informa nada.",
-    "Use a classe modal, que depende da escolha das classes."
-  ),
-  "Número de classes" = "muda a cara do histograma. Poucas classes escondem detalhes; muitas mostram ruído.",
-  "Distribuições assimétricas" = "afastam média e mediana. Para descrever o valor típico de renda, a mediana costuma ser melhor.",
-  "Coeficiente de variação" = "só faz sentido quando o zero da escala significa ausência (altura, renda, tempo). Para temperatura em °C, não use.",
-  "Agrupar em faixas" = "transforma a variável em ordinal: a leitura fica mais fácil, mas o detalhe dentro de cada faixa se perde."
-)
+cuidados_continua <- function() {
+  tr(
+    c(
+      "Moda" = paste(
+        "quase nenhum valor contínuo se repete, então a moda dos valores brutos não informa nada.",
+        "Use a classe modal, que depende da escolha das classes."
+      ),
+      "Número de classes" = "muda a cara do histograma. Poucas classes escondem detalhes; muitas mostram ruído.",
+      "Distribuições assimétricas" = "afastam média e mediana. Para descrever o valor típico de renda, a mediana costuma ser melhor.",
+      "Coeficiente de variação" = "só faz sentido quando o zero da escala significa ausência (altura, renda, tempo). Para temperatura em °C, não use.",
+      "Agrupar em faixas" = "transforma a variável em ordinal: a leitura fica mais fácil, mas o detalhe dentro de cada faixa se perde."
+    ),
+    c(
+      "Mode" = paste(
+        "almost no continuous value repeats, so the mode of the raw values tells you nothing.",
+        "Use the modal class, which depends on how the bins are chosen."
+      ),
+      "Number of bins" = "changes how the histogram looks. Few bins hide detail; many bins show noise.",
+      "Skewed distributions" = "pull the mean and median apart. To describe typical income, the median is usually better.",
+      "Coefficient of variation" = "only makes sense when zero on the scale means absence (height, income, time). Do not use it for temperature in °C.",
+      "Grouping into ranges" = "turns the variable into an ordinal one: easier to read, but the detail within each range is lost."
+    )
+  )
+}
 
 # Limites das classes com números "redondos" (o número final é aproximado)
 quebras_classes <- function(x, classes) {
   pretty(range(x), n = classes)
 }
 
-# Frequência por classe [a; b), com a última classe fechada à direita
+# Frequência por classe [a; b), com a última classe fechada à direita.
+# Em inglês o separador é vírgula: [a, b).
 tabela_classes <- function(x, quebras, digitos) {
   n <- as.vector(table(cut(x, quebras, right = FALSE, include.lowest = TRUE)))
   inicio <- utils::head(quebras, -1)
   fim <- utils::tail(quebras, -1)
   fecha <- ifelse(seq_along(n) == length(n), "]", ")")
   data.frame(
-    classe = sprintf("[%s; %s%s", fmt_num(inicio, digitos), fmt_num(fim, digitos), fecha),
+    classe = sprintf("[%s%s%s%s", fmt_num(inicio, digitos), tr("; ", ", "), fmt_num(fim, digitos), fecha),
     inicio = inicio, fim = fim, n = n,
     prop = n / length(x), acum = cumsum(n) / length(x)
   )
@@ -66,37 +102,37 @@ mod_continua_ui <- function(id) {
   bslib::layout_sidebar(
     sidebar = bslib::sidebar(
       width = 300,
-      shiny::selectInput(ns("exemplo"), "Variável", choices = opcoes_exemplo(exemplos_continua)),
-      shiny::sliderInput(ns("n"), "Tamanho da amostra", min = 20, max = 5000, value = 300, step = 10, sep = "."),
-      shiny::sliderInput(ns("classes"), "Número aproximado de classes", min = 3, max = 60, value = 15, step = 1),
-      shiny::checkboxInput(ns("boxplot"), "Mostrar boxplot", value = TRUE),
-      shiny::checkboxInput(ns("extremo"), "Incluir um valor extremo", value = FALSE),
+      seletor_exemplo(ns("exemplo"), exemplos_continua),
+      slider_amostra(ns("n"), min = 20, max = 5000, value = 300),
+      shiny::sliderInput(ns("classes"), tr("Número aproximado de classes", "Approximate number of bins"), min = 3, max = 60, value = 15, step = 1),
+      shiny::checkboxInput(ns("boxplot"), tr("Mostrar boxplot", "Show boxplot"), value = TRUE),
+      caixa_extremo(ns("extremo")),
       shiny::uiOutput(ns("extremo_valor")),
       botao_sortear(ns("sortear"))
     ),
     cabecalho_tipo("continua"),
     bslib::layout_columns(
       fill = FALSE,
-      bslib::value_box(title = "Média", value = shiny::textOutput(ns("media")), shiny::textOutput(ns("media_desc")), theme = "primary"),
-      bslib::value_box(title = "Mediana", value = shiny::textOutput(ns("mediana")), shiny::textOutput(ns("mediana_desc")), theme = "primary"),
-      bslib::value_box(title = "Desvio padrão", value = shiny::textOutput(ns("dp")), shiny::textOutput(ns("dp_desc")), theme = "info"),
-      bslib::value_box(title = "Assimetria", value = shiny::textOutput(ns("assimetria")), shiny::textOutput(ns("assimetria_desc")), theme = "info")
+      bslib::value_box(title = tr("Média", "Mean"), value = shiny::textOutput(ns("media")), shiny::textOutput(ns("media_desc")), theme = "primary"),
+      bslib::value_box(title = tr("Mediana", "Median"), value = shiny::textOutput(ns("mediana")), shiny::textOutput(ns("mediana_desc")), theme = "primary"),
+      bslib::value_box(title = tr("Desvio padrão", "Standard deviation"), value = shiny::textOutput(ns("dp")), shiny::textOutput(ns("dp_desc")), theme = "info"),
+      bslib::value_box(title = tr("Assimetria", "Skewness"), value = shiny::textOutput(ns("assimetria")), shiny::textOutput(ns("assimetria_desc")), theme = "info")
     ),
     bslib::layout_columns(
       col_widths = c(7, 5),
       bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico"), height = "440px"))),
       bslib::card(
-        bslib::card_header("Tabela de frequências por classes"),
+        bslib::card_header(tr("Tabela de frequências por classes", "Frequency table by class")),
         max_height = "520px",
         bslib::card_body(shiny::uiOutput(ns("tabela")))
       )
     ),
     bslib::layout_columns(
       col_widths = c(7, 5),
-      bslib::card(bslib::card_header("Estatísticas aplicáveis"), bslib::card_body(shiny::uiOutput(ns("estatisticas")))),
-      cartao_cuidados("Cuidados", cuidados_continua)
+      bslib::card(bslib::card_header(tr("Estatísticas aplicáveis", "Applicable statistics")), bslib::card_body(shiny::uiOutput(ns("estatisticas")))),
+      cartao_cuidados(tr("Cuidados", "Watch out"), cuidados_continua())
     ),
-    bslib::card(bslib::card_header("Entenda"), bslib::card_body(texto_continua()))
+    bslib::card(bslib::card_header(rotulo_entenda()), bslib::card_body(texto_continua()))
   )
 }
 
@@ -107,7 +143,7 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
 
     output$extremo_valor <- shiny::renderUI({
       shiny::req(input$extremo)
-      shiny::numericInput(session$ns("valor_extremo"), "Valor extremo", value = exemplo()$extremo, min = 0)
+      entrada_extremo(session, exemplo()$extremo)
     })
 
     base <- shiny::reactive({
@@ -139,12 +175,16 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
 
     output$tabela <- shiny::renderUI({
       cl <- classes()
-      tabela <- data.frame(
-        "Classe" = cl$classe, "n" = fmt_num(cl$n, 0), "%" = fmt_pct(cl$prop), "% acumulada" = fmt_pct(cl$acum),
-        check.names = FALSE
-      )
+      tabela <- data.frame(cl$classe, fmt_num(cl$n, 0), fmt_pct(cl$prop), fmt_pct(cl$acum))
+      names(tabela) <- nomes_freq(tr("Classe", "Class"))
       shiny::tagList(
-        shiny::p(class = "small text-muted", sprintf("Unidade: %s. Cada classe inclui o limite inferior e exclui o superior.", un())),
+        shiny::p(class = "small text-muted", sprintf(
+          tr(
+            "Unidade: %s. Cada classe inclui o limite inferior e exclui o superior.",
+            "Unit: %s. Each class includes its lower limit and excludes the upper one."
+          ),
+          un()
+        )),
         tabela_html(tabela, classes = c("", "num", "num", "num"))
       )
     })
@@ -152,14 +192,13 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
     output$estatisticas <- shiny::renderUI({
       cl <- classes()
       r <- resumo()
-      extras <- data.frame(
-        "Estatística" = c("Classe modal", "Coeficiente de assimetria"),
-        "Valor" = c(paste(cl$classe[cl$n == max(cl$n)], collapse = " e "), fmt_num(r$assimetria, 2)),
-        "Como ler" = c(
-          "Classe com mais observações; muda com o número de classes",
-          paste("Distribuição", leitura_assimetria(r$assimetria))
-        ),
-        check.names = FALSE
+      extras <- linha_estatistica(
+        tr(c("Classe modal", "Coeficiente de assimetria"), c("Modal class", "Skewness coefficient")),
+        c(juntar(cl$classe[cl$n == max(cl$n)]), fmt_num(r$assimetria, 2)),
+        c(
+          tr("Classe com mais observações; muda com o número de classes", "Class with the most observations; changes with the number of bins"),
+          paste(tr("Distribuição", "Distribution is"), leitura_assimetria(r$assimetria))
+        )
       )
       tabela_estatisticas_quant(r, un(), dig(), extras) |>
         tabela_html(classes = c("", "num", "leitura"))
@@ -170,7 +209,6 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
       r <- resumo()
       cl <- classes()
       topo <- max(cl$n)
-      rotulos <- scales::label_number(big.mark = ".", decimal.mark = ",")
 
       grafico <- ggplot2::ggplot() +
         ggplot2::geom_rect(
@@ -180,8 +218,8 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
         ) +
         ggplot2::geom_vline(xintercept = r$media, colour = cores_app$referencia, linetype = "dashed", linewidth = 1) +
         ggplot2::geom_vline(xintercept = r$mediana, colour = pal$linha, linewidth = 1) +
-        ggplot2::annotate("label", x = r$media, y = topo * 1.06, label = "média", colour = cores_app$referencia, fill = pal$fundo, size = 4) +
-        ggplot2::annotate("label", x = r$mediana, y = topo * 1.16, label = "mediana", colour = pal$linha, fill = pal$fundo, size = 4)
+        ggplot2::annotate("label", x = r$media, y = topo * 1.06, label = tr("média", "mean"), colour = cores_app$referencia, fill = pal$fundo, size = 4) +
+        ggplot2::annotate("label", x = r$mediana, y = topo * 1.16, label = tr("mediana", "median"), colour = pal$linha, fill = pal$fundo, size = 4)
 
       if (isTRUE(input$boxplot)) {
         grafico <- grafico +
@@ -194,15 +232,18 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
       }
 
       grafico +
-        ggplot2::scale_x_continuous(labels = rotulos) +
+        ggplot2::scale_x_continuous(labels = rotulos_eixo()) +
         ggplot2::scale_y_continuous(breaks = function(l) scales::breaks_pretty()(c(0, l[2]))) +
         ggplot2::labs(
-          title = "Histograma: a distribuição agrupada em classes",
+          title = tr("Histograma: a distribuição agrupada em classes", "Histogram: the distribution grouped into bins"),
           subtitle = exemplo()$rotulo,
-          x = un(), y = "Frequência (n)",
+          x = un(), y = tr("Frequência (n)", "Frequency (n)"),
           caption = sprintf(
-            "Dados simulados, n = %s | Tracejada: média | Contínua: mediana%s",
-            fmt_num(r$n, 0), if (isTRUE(input$boxplot)) " | Abaixo: boxplot" else ""
+            tr(
+              "Dados simulados, n = %s | Tracejada: média | Contínua: mediana%s",
+              "Simulated data, n = %s | Dashed: mean | Solid: median%s"
+            ),
+            fmt_num(r$n, 0), if (isTRUE(input$boxplot)) tr(" | Abaixo: boxplot", " | Below: boxplot") else ""
           )
         ) +
         tema_grafico(modo())

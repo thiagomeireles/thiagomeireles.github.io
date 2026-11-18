@@ -22,16 +22,22 @@ c(
   purrr::walk(source)
 
 ui <- pagina_tema(
-  titulo = "Estatística descritiva",
-  descricao = paste(
-    "Demonstrações interativas sobre os tipos de variáveis (categóricas nominais e ordinais,",
-    "quantitativas discretas e contínuas) e as estatísticas descritivas que fazem sentido para cada uma."
+  titulo = tr("Estatística descritiva", "Descriptive statistics"),
+  descricao = tr(
+    paste(
+      "Demonstrações interativas sobre os tipos de variáveis (categóricas nominais e ordinais,",
+      "quantitativas discretas e contínuas) e as estatísticas descritivas que fazem sentido para cada uma."
+    ),
+    paste(
+      "Interactive demos on the types of variables (nominal and ordinal categorical, discrete and",
+      "continuous quantitative) and the descriptive statistics that make sense for each one."
+    )
   ),
-  bslib::nav_panel("Tipos de variáveis", value = "tipos", mod_tipos_ui("tipos")),
+  bslib::nav_panel(tr("Tipos de variáveis", "Types of variables"), value = "tipos", mod_tipos_ui("tipos")),
   bslib::nav_panel("Nominal", value = "nominal", mod_nominal_ui("nominal")),
   bslib::nav_panel("Ordinal", value = "ordinal", mod_ordinal_ui("ordinal")),
-  bslib::nav_panel("Discreta", value = "discreta", mod_discreta_ui("discreta")),
-  bslib::nav_panel("Contínua", value = "continua", mod_continua_ui("continua"))
+  bslib::nav_panel(tr("Discreta", "Discrete"), value = "discreta", mod_discreta_ui("discreta")),
+  bslib::nav_panel(tr("Contínua", "Continuous"), value = "continua", mod_continua_ui("continua"))
 )
 
 server <- function(input, output, session) {

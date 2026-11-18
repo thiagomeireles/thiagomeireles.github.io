@@ -16,7 +16,7 @@ author: "Thiago Meireles"
 
 ## Statistics in practice
 
-Interactive demos of statistics and sampling concepts, organized by topic. Pick a topic below. The apps are in Portuguese for now.
+Interactive demos of statistics and sampling concepts, organized by topic. Pick a topic below; new topics and demos will be added over time.
 
 <div class="columns is-multiline app-temas">
 {%- for app in site.data.apps -%}
@@ -33,18 +33,18 @@ Interactive demos of statistics and sampling concepts, organized by topic. Pick 
 
 <div class="notification is-light">
   The apps run entirely in your browser (R compiled to WebAssembly). The first load takes a few seconds; after that, the R engine is cached and the other topics open faster.
-  <a id="app-tela-cheia" href="{{ '/apps/' | relative_url }}{{ site.data.apps[0].slug }}/" target="_blank" rel="noopener">Open this topic full screen</a>.
+  <a id="app-tela-cheia" href="{{ '/apps/en/' | relative_url }}{{ site.data.apps[0].slug }}/" target="_blank" rel="noopener">Open this topic full screen</a>.
 </div>
 
 <iframe id="app-frame" class="app-frame"
-        src="{{ '/apps/' | relative_url }}{{ site.data.apps[0].slug }}/"
+        src="{{ '/apps/en/' | relative_url }}{{ site.data.apps[0].slug }}/"
         title="{{ site.data.apps[0].title }}: interactive app"
         loading="lazy"></iframe>
 
 <script>
   // One iframe: switching topics swaps the src (each topic is a separate Shinylive app)
   (function () {
-    var base = "{{ '/apps/' | relative_url }}";
+    var base = "{{ '/apps/en/' | relative_url }}";
     var frame = document.getElementById("app-frame");
     var telaCheia = document.getElementById("app-tela-cheia");
     var cartoes = document.querySelectorAll(".app-temas .card");

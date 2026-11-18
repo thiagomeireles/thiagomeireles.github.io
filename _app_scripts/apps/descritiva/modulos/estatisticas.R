@@ -10,116 +10,161 @@
 #     de resumo usadas pelos módulos mod_*.R
 # =============================================================================
 
+# Textos em pt e en via tr() (comum/utilitarios.R)
+
 # Descrição dos quatro tipos, usada na visão geral e no topo de cada aba
 tipos_variavel <- list(
   nominal = list(
-    nome = "Categórica nominal", grupo = "Categórica (qualitativa)",
-    definicao = "Categorias sem ordem natural. Dá para dizer se duas observações são iguais ou diferentes, e só.",
-    exemplos = "região, tipo sanguíneo, estado civil, CEP",
+    nome = tr("Categórica nominal", "Nominal categorical"),
+    grupo = tr("Categórica (qualitativa)", "Categorical (qualitative)"),
+    definicao = tr(
+      "Categorias sem ordem natural. Dá para dizer se duas observações são iguais ou diferentes, e só.",
+      "Categories with no natural order. You can tell whether two observations are equal or different, and nothing more."
+    ),
+    exemplos = tr("região, tipo sanguíneo, estado civil, CEP", "region, blood type, marital status, ZIP code"),
     operacoes = "= ≠",
-    estatisticas = "frequências, proporções e moda",
-    grafico = "barras, em qualquer ordem"
+    estatisticas = tr("frequências, proporções e moda", "frequencies, proportions and mode"),
+    grafico = tr("barras, em qualquer ordem", "bars, in any order")
   ),
   ordinal = list(
-    nome = "Categórica ordinal", grupo = "Categórica (qualitativa)",
-    definicao = "Categorias com ordem natural, mas sem distância definida entre elas.",
-    exemplos = "escolaridade, escala de satisfação, classificação de risco",
+    nome = tr("Categórica ordinal", "Ordinal categorical"),
+    grupo = tr("Categórica (qualitativa)", "Categorical (qualitative)"),
+    definicao = tr(
+      "Categorias com ordem natural, mas sem distância definida entre elas.",
+      "Categories with a natural order, but no defined distance between them."
+    ),
+    exemplos = tr(
+      "escolaridade, escala de satisfação, classificação de risco",
+      "education level, satisfaction scale, triage category"
+    ),
     operacoes = "= ≠ < >",
-    estatisticas = "frequências acumuladas, moda, mediana e quartis",
-    grafico = "barras na ordem das categorias"
+    estatisticas = tr(
+      "frequências acumuladas, moda, mediana e quartis",
+      "cumulative frequencies, mode, median and quartiles"
+    ),
+    grafico = tr("barras na ordem das categorias", "bars in category order")
   ),
   discreta = list(
-    nome = "Quantitativa discreta", grupo = "Quantitativa (numérica)",
-    definicao = "Números que vêm de contagens: valores inteiros, separados entre si.",
-    exemplos = "número de filhos, de moradores, de gols",
+    nome = tr("Quantitativa discreta", "Discrete quantitative"),
+    grupo = tr("Quantitativa (numérica)", "Quantitative (numeric)"),
+    definicao = tr(
+      "Números que vêm de contagens: valores inteiros, separados entre si.",
+      "Numbers that come from counting: whole values, separated from each other."
+    ),
+    exemplos = tr("número de filhos, de moradores, de gols", "number of children, household members, goals"),
     operacoes = "= ≠ < > + −",
-    estatisticas = "média, mediana, moda, desvio padrão e quartis",
-    grafico = "barras por valor"
+    estatisticas = tr(
+      "média, mediana, moda, desvio padrão e quartis",
+      "mean, median, mode, standard deviation and quartiles"
+    ),
+    grafico = tr("barras por valor", "one bar per value")
   ),
   continua = list(
-    nome = "Quantitativa contínua", grupo = "Quantitativa (numérica)",
-    definicao = "Números que vêm de medições e podem assumir qualquer valor num intervalo.",
-    exemplos = "altura, renda, tempo de espera, temperatura",
+    nome = tr("Quantitativa contínua", "Continuous quantitative"),
+    grupo = tr("Quantitativa (numérica)", "Quantitative (numeric)"),
+    definicao = tr(
+      "Números que vêm de medições e podem assumir qualquer valor num intervalo.",
+      "Numbers that come from measuring and can take any value within a range."
+    ),
+    exemplos = tr("altura, renda, tempo de espera, temperatura", "height, income, waiting time, temperature"),
     operacoes = "= ≠ < > + −",
-    estatisticas = "média, mediana, desvio padrão, quartis e assimetria",
-    grafico = "histograma e boxplot"
+    estatisticas = tr(
+      "média, mediana, desvio padrão, quartis e assimetria",
+      "mean, median, standard deviation, quartiles and skewness"
+    ),
+    grafico = tr("histograma e boxplot", "histogram and boxplot")
   )
 )
 
 exemplos_nominal <- list(
   regiao = list(
-    rotulo = "Região de residência",
-    categorias = c("Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"),
+    rotulo = tr("Região de residência", "Region of residence (Brazil)"),
+    categorias = tr(
+      c("Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"),
+      c("North", "Northeast", "Center-West", "Southeast", "South")
+    ),
     prob = c(0.085, 0.269, 0.080, 0.418, 0.147),
-    nota = "proporções próximas às do Censo 2022"
+    nota = tr("proporções próximas às do Censo 2022", "proportions close to Brazil's 2022 Census")
   ),
   transporte = list(
-    rotulo = "Principal meio de transporte para o trabalho",
-    categorias = c("Ônibus", "Carro", "A pé", "Moto", "Bicicleta", "Metrô ou trem"),
+    rotulo = tr("Principal meio de transporte para o trabalho", "Main means of transport to work"),
+    categorias = tr(
+      c("Ônibus", "Carro", "A pé", "Moto", "Bicicleta", "Metrô ou trem"),
+      c("Bus", "Car", "On foot", "Motorcycle", "Bicycle", "Subway or train")
+    ),
     prob = c(0.30, 0.28, 0.17, 0.13, 0.07, 0.05),
-    nota = "proporções ilustrativas"
+    nota = tr("proporções ilustrativas", "illustrative proportions")
   ),
   sangue = list(
-    rotulo = "Tipo sanguíneo",
+    rotulo = tr("Tipo sanguíneo", "Blood type"),
     categorias = c("O+", "A+", "B+", "AB+", "O-", "A-", "B-", "AB-"),
     prob = c(0.36, 0.34, 0.08, 0.025, 0.09, 0.08, 0.02, 0.005),
-    nota = "proporções aproximadas"
+    nota = tr("proporções aproximadas", "approximate proportions")
   )
 )
 
 exemplos_ordinal <- list(
   satisfacao = list(
-    rotulo = "Satisfação com o atendimento",
-    categorias = c("Muito insatisfeito", "Insatisfeito", "Neutro", "Satisfeito", "Muito satisfeito")
+    rotulo = tr("Satisfação com o atendimento", "Satisfaction with customer service"),
+    categorias = tr(
+      c("Muito insatisfeito", "Insatisfeito", "Neutro", "Satisfeito", "Muito satisfeito"),
+      c("Very dissatisfied", "Dissatisfied", "Neutral", "Satisfied", "Very satisfied")
+    )
   ),
   escolaridade = list(
-    rotulo = "Escolaridade",
-    categorias = c("Sem instrução", "Fundamental", "Médio", "Superior", "Pós-graduação")
+    rotulo = tr("Escolaridade", "Education level"),
+    categorias = tr(
+      c("Sem instrução", "Fundamental", "Médio", "Superior", "Pós-graduação"),
+      c("No schooling", "Primary", "Secondary", "Undergraduate", "Graduate")
+    )
   ),
   risco = list(
-    rotulo = "Classificação de risco no pronto-socorro",
-    categorias = c("Não urgente", "Pouco urgente", "Urgente", "Muito urgente", "Emergência")
+    rotulo = tr("Classificação de risco no pronto-socorro", "Emergency room triage category"),
+    categorias = tr(
+      c("Não urgente", "Pouco urgente", "Urgente", "Muito urgente", "Emergência"),
+      c("Non-urgent", "Standard", "Urgent", "Very urgent", "Immediate")
+    )
   )
 )
 
 # Pesos das categorias (1 a k) para cada formato de distribuição
 formatos_ordinal <- list(
-  centro     = list(rotulo = "Concentrada no meio", pesos = \(k) stats::dnorm(seq_len(k), (k + 1) / 2, k / 5)),
-  inicio     = list(rotulo = "Concentrada nas primeiras categorias", pesos = \(k) rev(seq_len(k))^2),
-  fim        = list(rotulo = "Concentrada nas últimas categorias", pesos = \(k) seq_len(k)^2),
-  polarizada = list(rotulo = "Polarizada (extremos)", pesos = \(k) {
+  centro     = list(rotulo = tr("Concentrada no meio", "Concentrated in the middle"), pesos = \(k) stats::dnorm(seq_len(k), (k + 1) / 2, k / 5)),
+  inicio     = list(rotulo = tr("Concentrada nas primeiras categorias", "Concentrated in the first categories"), pesos = \(k) rev(seq_len(k))^2),
+  fim        = list(rotulo = tr("Concentrada nas últimas categorias", "Concentrated in the last categories"), pesos = \(k) seq_len(k)^2),
+  polarizada = list(rotulo = tr("Polarizada (extremos)", "Polarized (extremes)"), pesos = \(k) {
     d <- abs(seq_len(k) - (k + 1) / 2)
     ifelse(d == max(d), 3.5, 1)
   }),
-  uniforme   = list(rotulo = "Uniforme", pesos = \(k) rep(1, k))
+  uniforme   = list(rotulo = tr("Uniforme", "Uniform"), pesos = \(k) rep(1, k))
 )
 
 exemplos_discreta <- list(
   filhos = list(
-    rotulo = "Número de filhos", unidade = "filhos", extremo = 12,
+    rotulo = tr("Número de filhos", "Number of children"), unidade = tr("filhos", "children"), extremo = 12,
     gerar = \(n) sample(0:6, n, replace = TRUE, prob = c(0.28, 0.24, 0.25, 0.13, 0.06, 0.03, 0.01))
   ),
   moradores = list(
-    rotulo = "Moradores no domicílio", unidade = "moradores", extremo = 15,
+    rotulo = tr("Moradores no domicílio", "Household members"), unidade = tr("moradores", "people"), extremo = 15,
     gerar = \(n) 1 + stats::rpois(n, 1.9)
   ),
   gols = list(
-    rotulo = "Gols em uma partida de futebol", unidade = "gols", extremo = 10,
+    rotulo = tr("Gols em uma partida de futebol", "Goals in a soccer match"), unidade = tr("gols", "goals"), extremo = 10,
     gerar = \(n) stats::rpois(n, 2.5)
   )
 )
 
 exemplos_continua <- list(
   altura = list(
-    rotulo = "Altura de adultos", unidade = "cm", digitos = 1, extremo = 215,
+    rotulo = tr("Altura de adultos", "Adult height"), unidade = "cm", digitos = 1, extremo = 215,
     gerar = \(n) stats::rnorm(n, 168, 9)
   ),
   renda = list(
-    rotulo = "Renda mensal", unidade = "R$", digitos = 0, extremo = 80000,
+    rotulo = tr("Renda mensal", "Monthly income"), unidade = "R$", digitos = 0, extremo = 80000,
     gerar = \(n) stats::rlnorm(n, log(2500), 0.8)
   ),
   espera = list(
-    rotulo = "Tempo de espera na fila", unidade = "min", digitos = 1, extremo = 150,
+    rotulo = tr("Tempo de espera na fila", "Waiting time in line"), unidade = "min", digitos = 1, extremo = 150,
     gerar = \(n) stats::rexp(n, 1 / 12)
   )
 )
@@ -148,9 +193,12 @@ tabela_frequencias <- function(x) {
   )
 }
 
+# Liga itens com "e"/"and": empates de moda, mínimo e máximo
+juntar <- function(x) paste(x, collapse = tr(" e ", " and "))
+
 # Todas as categorias empatadas na maior frequência
 moda_tabela <- function(freq) {
-  paste(freq$categoria[freq$n == max(freq$n)], collapse = " e ")
+  juntar(freq$categoria[freq$n == max(freq$n)])
 }
 
 # Quantil de uma ordinal: a categoria onde a frequência acumulada atinge p
@@ -165,8 +213,12 @@ assimetria <- function(x) {
 }
 
 leitura_assimetria <- function(g) {
-  if (abs(g) < 0.5) return("aproximadamente simétrica")
-  if (g > 0) "assimétrica à direita (cauda longa nos valores altos)" else "assimétrica à esquerda (cauda longa nos valores baixos)"
+  if (abs(g) < 0.5) return(tr("aproximadamente simétrica", "approximately symmetric"))
+  if (g > 0) {
+    tr("assimétrica à direita (cauda longa nos valores altos)", "right-skewed (long tail of high values)")
+  } else {
+    tr("assimétrica à esquerda (cauda longa nos valores baixos)", "left-skewed (long tail of low values)")
+  }
 }
 
 moda_valores <- function(x) {
@@ -185,6 +237,10 @@ resumo_quantitativo <- function(x) {
   )
 }
 
+# Tabelas de frequência: cabeçalhos comuns às abas
+nomes_freq <- function(primeira) c(primeira, "n", "%", tr("% acumulada", "cumulative %"))
+nomes_estatisticas <- function() tr(c("Estatística", "Valor", "Como ler"), c("Statistic", "Value", "How to read it"))
+
 # Topo de cada aba: nome do tipo, definição e operações válidas
 cabecalho_tipo <- function(tipo) {
   t <- tipos_variavel[[tipo]]
@@ -193,12 +249,13 @@ cabecalho_tipo <- function(tipo) {
     shiny::tags$h4(class = "mb-1", t$nome, shiny::tags$small(class = "text-muted ms-2", t$grupo)),
     shiny::p(
       class = "mb-0", t$definicao, " ",
-      shiny::span(class = "badge text-bg-primary ms-1", paste("Operações válidas:", t$operacoes))
+      shiny::span(class = "badge text-bg-primary ms-1", paste(tr("Operações válidas:", "Valid operations:"), t$operacoes))
     )
   )
 }
 
-# Lista de alertas: o que não usar (categóricas) ou cuidados (quantitativas)
+# Lista de alertas: o que não usar (categóricas) ou cuidados (quantitativas).
+# `itens` é um vetor nomeado: o nome vai em negrito, o valor é o texto.
 cartao_cuidados <- function(titulo, itens) {
   bslib::card(
     bslib::card_header(titulo),
@@ -212,5 +269,83 @@ cartao_cuidados <- function(titulo, itens) {
 }
 
 botao_sortear <- function(id) {
-  shiny::actionButton(id, "Sortear nova amostra", class = "btn-primary", icon = shiny::icon("dice"))
+  shiny::actionButton(id, tr("Sortear nova amostra", "Draw a new sample"), class = "btn-primary", icon = shiny::icon("dice"))
+}
+
+slider_amostra <- function(id, min, max, value) {
+  shiny::sliderInput(id, tr("Tamanho da amostra", "Sample size"), min = min, max = max, value = value, step = 10, sep = sep_milhar())
+}
+
+seletor_exemplo <- function(id, exemplos) {
+  shiny::selectInput(id, tr("Variável", "Variable"), choices = opcoes_exemplo(exemplos))
+}
+
+# Com o extremo incluído, mostra a mesma estatística calculada sem ele
+descricao_sem_extremo <- function(sem, unidade, digitos, incluir) {
+  if (!incluir) return("")
+  paste(tr("Sem o valor extremo:", "Without the extreme value:"), fmt_valor(sem, unidade, digitos))
+}
+
+# Entrada do valor extremo, mostrada quando a caixa está marcada
+entrada_extremo <- function(session, valor, step = NA) {
+  shiny::numericInput(session$ns("valor_extremo"), tr("Valor extremo", "Extreme value"), value = valor, min = 0, step = step)
+}
+
+caixa_extremo <- function(id) {
+  shiny::checkboxInput(id, tr("Incluir um valor extremo", "Add an extreme value"), value = FALSE)
+}
+
+# Tabela de estatísticas de uma quantitativa: estatística, valor e como ler
+tabela_estatisticas_quant <- function(r, unidade, digitos, extras = NULL) {
+  v <- \(x, quadrado = FALSE) fmt_valor(x, unidade, digitos, quadrado)
+  linhas <- data.frame(
+    estatistica = tr(
+      c(
+        "Tamanho da amostra (n)", "Média", "Mediana", "Mínimo e máximo", "Amplitude",
+        "1º e 3º quartis", "Intervalo interquartil", "Variância", "Desvio padrão", "Coeficiente de variação"
+      ),
+      c(
+        "Sample size (n)", "Mean", "Median", "Minimum and maximum", "Range",
+        "1st and 3rd quartiles", "Interquartile range", "Variance", "Standard deviation", "Coefficient of variation"
+      )
+    ),
+    valor = c(
+      fmt_num(r$n, 0), v(r$media), v(r$mediana), juntar(c(v(r$minimo), v(r$maximo))), v(r$amplitude),
+      juntar(c(v(r$q1), v(r$q3))), v(r$iiq), v(r$variancia, quadrado = TRUE), v(r$dp), fmt_pct(r$cv)
+    ),
+    leitura = tr(
+      c(
+        "Número de observações",
+        "Soma dos valores dividida por n; sensível a extremos",
+        "Metade das observações está abaixo e metade acima",
+        "Menor e maior valor observados",
+        "Máximo menos mínimo; depende só dos dois extremos",
+        "25% das observações estão abaixo de Q1; 75% abaixo de Q3",
+        "Q3 − Q1: largura dos 50% centrais; resiste a extremos",
+        "Média dos desvios ao quadrado, em unidade ao quadrado",
+        "Distância típica até a média, na unidade original",
+        "Desvio padrão como % da média; compara variabilidade entre variáveis"
+      ),
+      c(
+        "Number of observations",
+        "Sum of the values divided by n; sensitive to extremes",
+        "Half of the observations are below it and half above",
+        "Smallest and largest observed values",
+        "Maximum minus minimum; depends only on the two extremes",
+        "25% of the observations are below Q1; 75% below Q3",
+        "Q3 − Q1: width of the middle 50%; resistant to extremes",
+        "Average squared deviation, in squared units",
+        "Typical distance from the mean, in the original unit",
+        "Standard deviation as a % of the mean; compares variability across variables"
+      )
+    )
+  )
+  tabela <- rbind(linhas, extras)
+  names(tabela) <- nomes_estatisticas()
+  tabela
+}
+
+# Linha extra da tabela de estatísticas (mesmas colunas de tabela_estatisticas_quant)
+linha_estatistica <- function(estatistica, valor, leitura) {
+  data.frame(estatistica = estatistica, valor = valor, leitura = leitura)
 }
