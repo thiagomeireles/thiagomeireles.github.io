@@ -35,15 +35,44 @@ pagina_sobre <- function() {
   )
 }
 
+# Tópico planejado: aparece no menu do tema, desabilitado, até o módulo existir
+item_em_breve <- function(rotulo) {
+  bslib::nav_item(
+    shiny::tags$span(
+      class = "dropdown-item disabled",
+      rotulo, shiny::tags$small(class = "text-muted ms-1", "(em breve)")
+    )
+  )
+}
+
+# Cada grande tema vira um menu suspenso no topo; os tópicos ficam dentro dele.
+# Para incluir um módulo novo, troque o item_em_breve() pelo nav_panel().
 ui <- bslib::page_navbar(
   title = "Estatística na prática",
   theme = tema_app(),
-  header = estilo_app(),
-  bslib::nav_panel("Normal (Z e t)", mod_normal_ui("normal")),
-  bslib::nav_panel("Teorema Central do Limite", mod_tcl_ui("tcl")),
-  bslib::nav_panel("Lei dos Grandes Números", mod_lgn_ui("lgn")),
+  header = shiny::tagList(dependencia_tema(), estilo_app()),
+  bslib::nav_menu(
+    "Probabilidade",
+    bslib::nav_panel("Distribuição Normal (Z e t)", mod_normal_ui("normal"))
+  ),
+  bslib::nav_menu(
+    "Teoremas limite",
+    bslib::nav_panel("Lei dos Grandes Números", mod_lgn_ui("lgn")),
+    bslib::nav_panel("Teorema Central do Limite", mod_tcl_ui("tcl"))
+  ),
+  bslib::nav_menu(
+    "Inferência",
+    item_em_breve("Intervalos de confiança"),
+    item_em_breve("Testes de hipótese")
+  ),
+  bslib::nav_menu(
+    "Amostragem e metodologia",
+    item_em_breve("Desenhos amostrais"),
+    item_em_breve("Tamanho de amostra")
+  ),
   bslib::nav_spacer(),
-  bslib::nav_panel("Sobre", pagina_sobre())
+  bslib::nav_panel("Sobre", pagina_sobre()),
+  bslib::nav_item(bslib::input_dark_mode(id = "modo"))
 )
 
 server <- function(input, output, session) {
@@ -51,9 +80,12 @@ server <- function(input, output, session) {
   # depois que a interface já apareceu na tela
   ggplot2::theme_set(tema_grafico())
 
-  mod_normal_server("normal")
-  mod_tcl_server("tcl")
-  mod_lgn_server("lgn")
+  # Modo claro/escuro escolhido no botão do topo; os gráficos acompanham
+  modo <- shiny::reactive(if (identical(input$modo, "dark")) "dark" else "light")
+
+  mod_normal_server("normal", modo)
+  mod_tcl_server("tcl", modo)
+  mod_lgn_server("lgn", modo)
 }
 
 shiny::shinyApp(ui, server)

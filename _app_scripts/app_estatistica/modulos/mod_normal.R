@@ -120,7 +120,7 @@ mod_normal_ui <- function(id) {
         title = "Valor crítico bicaudal",
         value = shiny::textOutput(ns("critico")),
         shiny::textOutput(ns("critico_desc")),
-        theme = "secondary"
+        theme = "info"
       )
     ),
     bslib::card(
@@ -134,7 +134,7 @@ mod_normal_ui <- function(id) {
   )
 }
 
-mod_normal_server <- function(id) {
+mod_normal_server <- function(id, modo = shiny::reactive("light")) {
   shiny::moduleServer(id, function(input, output, session) {
 
     parametros <- shiny::reactive({
@@ -169,6 +169,7 @@ mod_normal_server <- function(id) {
 
     output$grafico <- shiny::renderPlot({
       p <- parametros()
+      pal <- paleta_modo(modo())
       x <- seq(-5, 5, length.out = 2001)
       y <- dens_dist(x, p$dist, p$gl)
       dados <- data.frame(x = x, y = y, area = ifelse(dentro_area(x, p$intervalos), y, 0))
@@ -178,7 +179,7 @@ mod_normal_server <- function(id) {
 
       grafico <- ggplot2::ggplot(dados, ggplot2::aes(x = x)) +
         ggplot2::geom_ribbon(ggplot2::aes(ymin = 0, ymax = area), fill = cores_app$destaque, alpha = 0.45) +
-        ggplot2::geom_line(ggplot2::aes(y = y), linewidth = 1.1, colour = cores_app$texto)
+        ggplot2::geom_line(ggplot2::aes(y = y), linewidth = 1.1, colour = pal$linha)
 
       if (comparar) {
         grafico <- grafico +
@@ -195,8 +196,9 @@ mod_normal_server <- function(id) {
           title    = titulo,
           subtitle = sprintf("%s = %s", p$rotulo, fmt_num(p$prob, 4)),
           x = "Valor", y = "Densidade",
-          caption  = if (comparar) "Área verde: probabilidade calculada | Tracejado azul: normal padrão Z" else "Área verde: probabilidade calculada"
-        )
+          caption  = if (comparar) "Área azul: probabilidade calculada | Tracejado vermelho: normal padrão Z" else "Área azul: probabilidade calculada"
+        ) +
+        tema_grafico(modo())
     })
   })
 }

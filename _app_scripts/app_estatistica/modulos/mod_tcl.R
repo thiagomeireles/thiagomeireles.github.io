@@ -90,7 +90,7 @@ mod_tcl_ui <- function(id) {
         title = "Erro padrão observado",
         value = shiny::textOutput(ns("ep")),
         shiny::textOutput(ns("ep_desc")),
-        theme = "secondary"
+        theme = "info"
       )
     ),
     bslib::layout_columns(
@@ -105,7 +105,7 @@ mod_tcl_ui <- function(id) {
   )
 }
 
-mod_tcl_server <- function(id) {
+mod_tcl_server <- function(id, modo = shiny::reactive("light")) {
   shiny::moduleServer(id, function(input, output, session) {
 
     sorteio <- shiny::reactive({
@@ -131,35 +131,39 @@ mod_tcl_server <- function(id) {
 
     output$grafico_pop <- shiny::renderPlot({
       s <- sorteio()
+      pal <- paleta_modo(modo())
       limites <- stats::quantile(s$valores, c(0.001, 0.995))
 
       ggplot2::ggplot(data.frame(x = s$valores), ggplot2::aes(x = x)) +
-        ggplot2::geom_histogram(ggplot2::aes(y = ggplot2::after_stat(density)), bins = 60, fill = cores_app$neutro, colour = "white") +
-        ggplot2::geom_vline(xintercept = s$pop$media, linetype = "dashed", colour = cores_app$texto) +
+        ggplot2::geom_histogram(ggplot2::aes(y = ggplot2::after_stat(density)), bins = 60, fill = cores_app$neutro, colour = pal$fundo) +
+        ggplot2::geom_vline(xintercept = s$pop$media, linetype = "dashed", colour = pal$linha) +
         ggplot2::coord_cartesian(xlim = limites) +
         ggplot2::labs(
           title    = "População",
           subtitle = sprintf("μ = %s | σ = %s", fmt_num(s$pop$media, 2), fmt_num(s$pop$dp, 2)),
           x = "Valor", y = "Densidade",
           caption  = "Tracejado: média da população"
-        )
+        ) +
+        tema_grafico(modo())
     })
 
     output$grafico_medias <- shiny::renderPlot({
       s <- sorteio()
+      pal <- paleta_modo(modo())
       ep <- s$pop$dp / sqrt(s$n)
       grade <- seq(min(s$medias), max(s$medias), length.out = 400)
       curva <- data.frame(x = grade, y = stats::dnorm(grade, mean = s$pop$media, sd = ep))
 
       ggplot2::ggplot(data.frame(x = s$medias), ggplot2::aes(x = x)) +
-        ggplot2::geom_histogram(ggplot2::aes(y = ggplot2::after_stat(density)), bins = 40, fill = cores_app$destaque, colour = "white", alpha = 0.85) +
+        ggplot2::geom_histogram(ggplot2::aes(y = ggplot2::after_stat(density)), bins = 40, fill = cores_app$destaque, colour = pal$fundo, alpha = 0.85) +
         ggplot2::geom_line(data = curva, ggplot2::aes(x = x, y = y), linewidth = 1.1, colour = cores_app$referencia) +
         ggplot2::labs(
           title    = "Distribuição das médias amostrais",
           subtitle = sprintf("%s amostras de tamanho n = %d", fmt_num(s$k, 0), s$n),
           x = "Média da amostra", y = "Densidade",
-          caption  = "Curva azul: normal prevista pelo TCL"
-        )
+          caption  = "Curva vermelha: normal prevista pelo TCL"
+        ) +
+        tema_grafico(modo())
     })
   })
 }

@@ -102,7 +102,7 @@ mod_lgn_ui <- function(id) {
         title = "Médias ao final das trajetórias",
         value = shiny::textOutput(ns("finais")),
         shiny::textOutput(ns("finais_desc")),
-        theme = "secondary"
+        theme = "info"
       )
     ),
     bslib::card(
@@ -116,7 +116,7 @@ mod_lgn_ui <- function(id) {
   )
 }
 
-mod_lgn_server <- function(id) {
+mod_lgn_server <- function(id, modo = shiny::reactive("light")) {
   shiny::moduleServer(id, function(input, output, session) {
 
     simulacao <- shiny::reactive({
@@ -152,6 +152,7 @@ mod_lgn_server <- function(id) {
     output$grafico <- shiny::renderPlot({
       s <- simulacao()
       mu <- s$experimento$media
+      pal <- paleta_modo(modo())
       faixa <- data.frame(
         n   = s$pontos,
         inf = mu - 1.96 * s$experimento$dp / sqrt(s$pontos),
@@ -167,20 +168,21 @@ mod_lgn_server <- function(id) {
       }
 
       grafico <- grafico +
-        ggplot2::geom_hline(yintercept = mu, linetype = "dashed", linewidth = 0.9, colour = cores_app$texto) +
+        ggplot2::geom_hline(yintercept = mu, linetype = "dashed", linewidth = 0.9, colour = pal$linha) +
         ggplot2::geom_line(
           data = s$trajetorias,
           ggplot2::aes(x = n, y = media, group = trajetoria, colour = trajetoria),
           linewidth = 0.7, alpha = 0.85
         ) +
-        ggplot2::scale_colour_viridis_d(option = "mako", end = 0.85) +
+        ggplot2::scale_colour_viridis_d(option = "mako", begin = pal$trajetorias[1], end = pal$trajetorias[2]) +
         ggplot2::scale_y_continuous(labels = rotulos) +
         ggplot2::labs(
           title    = "Média acumulada conforme as repetições aumentam",
           subtitle = s$experimento$rotulo,
           x = "Número de repetições (n)", y = "Média acumulada",
           caption  = "Tracejado: valor esperado μ | Faixa: μ ± 1,96 σ/√n"
-        )
+        ) +
+        tema_grafico(modo())
 
       if (isTRUE(input$escala_log)) {
         grafico + ggplot2::scale_x_log10(labels = rotulos)
