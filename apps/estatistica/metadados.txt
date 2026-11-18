@@ -1,7 +1,7 @@
 App: Estatística na prática
 Autor: Thiago Meireles
 Criado em: 2026-11-18
-Modificado em: 2026-11-18 12:09:21 -03
+Modificado em: 2026-11-18 12:17:20 -03
 Fonte: _app_scripts/app_estatistica/
 Gerado por: _app_scripts/shinylive/exportar_app.R
 shinylive (pacote R): 0.5.0

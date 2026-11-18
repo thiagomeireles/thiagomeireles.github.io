@@ -16,8 +16,6 @@ options(scipen = 999)
 list.files("modulos", pattern = "\\.R$", full.names = TRUE) |>
   purrr::walk(source)
 
-ggplot2::theme_set(tema_grafico())
-
 pagina_sobre <- function() {
   bslib::card(
     bslib::card_header("Sobre este aplicativo"),
@@ -40,6 +38,7 @@ pagina_sobre <- function() {
 ui <- bslib::page_navbar(
   title = "Estatística na prática",
   theme = tema_app(),
+  header = estilo_app(),
   bslib::nav_panel("Normal (Z e t)", mod_normal_ui("normal")),
   bslib::nav_panel("Teorema Central do Limite", mod_tcl_ui("tcl")),
   bslib::nav_panel("Lei dos Grandes Números", mod_lgn_ui("lgn")),
@@ -48,6 +47,10 @@ ui <- bslib::page_navbar(
 )
 
 server <- function(input, output, session) {
+  # O tema global fica aqui, e não no topo do arquivo, para o ggplot2 carregar
+  # depois que a interface já apareceu na tela
+  ggplot2::theme_set(tema_grafico())
+
   mod_normal_server("normal")
   mod_tcl_server("tcl")
   mod_lgn_server("lgn")
