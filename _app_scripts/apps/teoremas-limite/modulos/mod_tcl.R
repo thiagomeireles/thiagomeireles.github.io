@@ -116,8 +116,8 @@ mod_tcl_ui <- function(id) {
     ),
     bslib::layout_columns(
       col_widths = bslib::breakpoints(sm = 12, lg = c(5, 7)),
-      bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico_pop"), height = "380px"))),
-      bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico_medias"), height = "380px")))
+      bslib::card(full_screen = TRUE, bslib::card_body(saida_grafico(ns("grafico_pop"), height = "380px"))),
+      bslib::card(full_screen = TRUE, bslib::card_body(saida_grafico(ns("grafico_medias"), height = "380px")))
     ),
     bslib::card(
       bslib::card_header(rotulo_entenda()),
@@ -152,7 +152,7 @@ mod_tcl_server <- function(id, modo = shiny::reactive("light")) {
       sprintf(tr("Previsto pelo TCL (σ/√n): %s", "Predicted by the CLT (σ/√n): %s"), fmt_num(s$pop$dp / sqrt(s$n), 3))
     })
 
-    output$grafico_pop <- shiny::renderPlot({
+    output$grafico_pop <- render_grafico({
       s <- sorteio()
       pal <- paleta_modo(modo())
       limites <- stats::quantile(s$valores, c(0.001, 0.995))
@@ -172,7 +172,7 @@ mod_tcl_server <- function(id, modo = shiny::reactive("light")) {
         tema_grafico(modo())
     })
 
-    output$grafico_medias <- shiny::renderPlot({
+    output$grafico_medias <- render_grafico({
       s <- sorteio()
       pal <- paleta_modo(modo())
       ep <- s$pop$dp / sqrt(s$n)

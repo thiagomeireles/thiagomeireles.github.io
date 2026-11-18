@@ -130,7 +130,7 @@ mod_lgn_ui <- function(id) {
     ),
     bslib::card(
       full_screen = TRUE,
-      bslib::card_body(shiny::plotOutput(ns("grafico"), height = "440px"))
+      bslib::card_body(saida_grafico(ns("grafico"), height = "440px"))
     ),
     bslib::card(
       bslib::card_header(rotulo_entenda()),
@@ -175,7 +175,7 @@ mod_lgn_server <- function(id, modo = shiny::reactive("light")) {
       )
     })
 
-    output$grafico <- shiny::renderPlot({
+    output$grafico <- render_grafico({
       s <- simulacao()
       mu <- s$experimento$media
       pal <- paleta_modo(modo())

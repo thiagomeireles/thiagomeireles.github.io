@@ -144,7 +144,7 @@ mod_continua_ui <- function(id) {
     ),
     bslib::layout_columns(
       col_widths = c(7, 5),
-      bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico"), height = "440px"))),
+      bslib::card(full_screen = TRUE, bslib::card_body(saida_grafico(ns("grafico"), height = "440px"))),
       bslib::card(
         bslib::card_header(tr("Tabela de frequências por classes", "Grouped frequency table")),
         max_height = "520px",
@@ -239,7 +239,7 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
         tabela_html(classes = c("", "num", "leitura"))
     })
 
-    output$grafico <- shiny::renderPlot({
+    output$grafico <- render_grafico({
       pal <- paleta_modo(modo())
       r <- resumo()
       cl <- classes()

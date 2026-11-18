@@ -144,7 +144,7 @@ mod_normal_ui <- function(id) {
     ),
     bslib::card(
       full_screen = TRUE,
-      bslib::card_body(shiny::plotOutput(ns("grafico"), height = "420px"))
+      bslib::card_body(saida_grafico(ns("grafico"), height = "420px"))
     ),
     bslib::card(
       bslib::card_header(rotulo_entenda()),
@@ -186,7 +186,7 @@ mod_normal_server <- function(id, modo = shiny::reactive("light")) {
       sprintf(tr("%s. Com Z seria ± %s", "%s. With Z it would be ± %s"), base, fmt_num(stats::qnorm(p_sup), 3))
     })
 
-    output$grafico <- shiny::renderPlot({
+    output$grafico <- render_grafico({
       p <- parametros()
       pal <- paleta_modo(modo())
       x <- seq(-5, 5, length.out = 2001)
