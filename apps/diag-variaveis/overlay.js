@@ -26,8 +26,18 @@
     } catch (e) { return String(valor); }
   }
 
+  // Mensagem e pilha de chamadas (função, arquivo:linha:coluna) de um erro
+  function comPilha(erro) {
+    if (!erro) return String(erro);
+    var pilha = erro.stack ? String(erro.stack).split("\n").slice(0, 12).map(function (l) {
+      return l.replace(location.origin, "");
+    }).join(" ⟵ ") : "(sem pilha)";
+    return (erro.name || "") + " " + (erro.message || erro) + " | PILHA: " + pilha;
+  }
+
   function registrar(tipo, mensagem) {
-    var linha = agora() + "s " + tipo + ": " + String(mensagem).replace(/\s+/g, " ").slice(0, 220);
+    var limite = /erro|rejeição/.test(tipo) ? 1500 : 220;
+    var linha = agora() + "s " + tipo + ": " + String(mensagem).replace(/\s+/g, " ").slice(0, limite);
     linhas.push(linha);
     if (painel) {
       var div = document.createElement("div");
@@ -66,8 +76,24 @@
       return original.apply(console, arguments);
     };
   });
-  window.addEventListener("error", function (e) { registrar("erro", e.message + " @ " + (e.filename || "").split("/").pop() + ":" + e.lineno); });
-  window.addEventListener("unhandledrejection", function (e) { registrar("rejeição", texto(e.reason)); });
+  window.addEventListener("error", function (e) {
+    registrar("erro", e.message + " @ " + (e.filename || "").split("/").pop() + ":" + e.lineno + ":" + e.colno + (e.error ? " | " + comPilha(e.error) : ""));
+  });
+  window.addEventListener("unhandledrejection", function (e) { registrar("rejeição", comPilha(e.reason)); });
+
+  // Erros do worker do webR chegam como evento "error" no objeto Worker
+  var WorkerOriginal = window.Worker;
+  if (WorkerOriginal) {
+    window.Worker = function (url, opcoes) {
+      var w = new WorkerOriginal(url, opcoes);
+      registrar("worker", "criado: " + String(url).replace(location.origin, "").slice(0, 80));
+      w.addEventListener("error", function (e) {
+        registrar("erro no worker", e.message + " @ " + (e.filename || "").split("/").pop() + ":" + e.lineno + ":" + e.colno);
+      });
+      return w;
+    };
+    window.Worker.prototype = WorkerOriginal.prototype;
+  }
 
   if (!navigator.serviceWorker) {
     registrar("FALHA", "navigator.serviceWorker indisponível");
