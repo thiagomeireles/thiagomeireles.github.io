@@ -61,7 +61,9 @@ jobs:
           api = HfApi(token=token)
           space = os.environ.get("HF_SPACE") or f'{api.whoami()["name"]}/estatistica-na-pratica'
 
-          api.create_repo(space, repo_type="space", space_sdk="docker", exist_ok=True)
+          # Só cria quando o Space não existe (pode ter sido criado pela tela do HF)
+          if not api.repo_exists(space, repo_type="space"):
+              api.create_repo(space, repo_type="space", space_sdk="docker")
           api.upload_folder(
               folder_path="build",
               repo_id=space,
