@@ -5,31 +5,24 @@ layout: page
 Layout: apps-topico (subpágina de um tópico do "Estatística na prática")
 Autor: Thiago Meireles | Atualizado: 2026-11-19
 Entrada: page.topico (slug em _data/topicos.yml), page.idioma ("pt" ou "en"),
-         temas de _data/apps.yml com topico igual a page.topico, site.apps_servidor
-Saída: cartões dos temas do tópico e um iframe com o app escolhido (deep link por #slug)
+         temas de _data/apps.yml com topico igual a page.topico
+Saída: cartões dos temas do tópico, cada um levando à página de tela cheia do app
+       (_layouts/app-tela-cheia.html); links antigos com #slug redirecionam para ela
 {%- endcomment -%}
 {%- assign topico = site.data.topicos | where: "slug", page.topico | first -%}
 {%- assign temas = site.data.apps | where: "topico", page.topico -%}
 {%- if page.idioma == "en" -%}
-  {%- assign servidor = site.apps_servidor | append: "/en/" -%}
   {%- assign base = '/apps/en/' | relative_url -%}
   {%- assign hub = '/en/apps/' | relative_url -%}
-  {%- assign primeiro_slug = temas[0].slug_en | default: temas[0].slug -%}
-  {%- assign primeiro_titulo = temas[0].title -%}
 {%- else -%}
-  {%- assign servidor = site.apps_servidor | append: "/" -%}
   {%- assign base = '/apps/' | relative_url -%}
   {%- assign hub = '/aplicativos/' | relative_url -%}
-  {%- assign primeiro_slug = temas[0].slug -%}
-  {%- assign primeiro_titulo = temas[0].titulo -%}
 {%- endif -%}
 
 <style>
-  .app-temas .card { height: 100%; cursor: pointer; border: 2px solid transparent; transition: border-color 0.15s; }
-  .app-temas .card:hover { border-color: #b5c3f5; }
-  .app-temas .card.is-ativo { border-color: #3459e6; }
+  .app-temas .card { display: block; height: 100%; border: 2px solid transparent; transition: border-color 0.15s; }
+  .app-temas .card:hover { border-color: #3459e6; }
   .app-temas .card .tag { margin-left: 0.4rem; vertical-align: middle; }
-  .app-frame { width: 100%; height: 920px; border: 1px solid #eaeaea; border-radius: 8px; }
 </style>
 
 <p><a href="{{ hub }}">{% if page.idioma == "en" %}&larr; All topics{% else %}&larr; Todos os tópicos{% endif %}</a></p>
@@ -50,7 +43,7 @@ Saída: cartões dos temas do tópico e um iframe com o app escolhido (deep link
     {%- assign rotulo_novo = "novo" -%}
   {%- endif -%}
   <div class="column is-one-third">
-    <a class="card" href="#{{ slug }}" data-app="{{ slug }}" data-titulo="{{ titulo }}">
+    <a class="card" href="{{ base }}{{ slug }}/" data-app="{{ slug }}">
       <div class="card-content">
         <p class="title is-5">{{ titulo }}{% if app.novo %}<span class="tag is-info is-light">{{ rotulo_novo }}</span>{% endif %}</p>
         <p class="content">{{ descricao }}</p>
@@ -63,49 +56,18 @@ Saída: cartões dos temas do tópico e um iframe com o app escolhido (deep link
 <div class="notification is-light">
 {%- if page.idioma == "en" %}
   The apps run in R on a server. If nobody has used them for a few days, the server is asleep and the first load can take up to a minute; after that, themes open quickly.
-  <a id="app-tela-cheia" href="{{ base }}{{ primeiro_slug }}/" target="_blank" rel="noopener">Open this theme full screen</a>.
 {%- else %}
   Os aplicativos rodam em R num servidor. Se ninguém os usou nos últimos dias, o servidor está parado e a primeira abertura pode levar até um minuto; depois disso, os temas abrem rápido.
-  <a id="app-tela-cheia" href="{{ base }}{{ primeiro_slug }}/" target="_blank" rel="noopener">Abrir este tema em tela cheia</a>.
 {%- endif %}
 </div>
 
-<iframe id="app-frame" class="app-frame"
-        src="{{ servidor }}{{ primeiro_slug }}/"
-        title="{{ primeiro_titulo }}"
-        loading="lazy"></iframe>
-
 <script>
-  // Um iframe só: trocar de tema troca o src. O app vem do Space no Hugging Face;
-  // a tela cheia é uma página do próprio site (_layouts/app-tela-cheia.html).
+  // Links antigos (/aplicativos/<tópico>/#slug) abriam o app num iframe; agora vão direto à tela cheia.
   (function () {
-    var servidor = "{{ servidor }}";
-    var base = "{{ base }}";
-    var sufixo = "{% if page.idioma == 'en' %}: interactive app{% else %}: aplicativo interativo{% endif %}";
-    var frame = document.getElementById("app-frame");
-    var telaCheia = document.getElementById("app-tela-cheia");
-    var cartoes = document.querySelectorAll(".app-temas .card");
-
-    function abrir(slug, rolar) {
-      var cartao = document.querySelector('.app-temas .card[data-app="' + slug + '"]');
-      if (!cartao) return;
-      var url = servidor + slug + "/";
-      cartoes.forEach(function (c) { c.classList.toggle("is-ativo", c === cartao); });
-      if (frame.getAttribute("src") !== url) frame.setAttribute("src", url);
-      frame.title = cartao.dataset.titulo + sufixo;
-      telaCheia.href = base + slug + "/";
-      if (rolar) frame.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    cartoes.forEach(function (c) {
-      c.addEventListener("click", function (e) {
-        e.preventDefault();
-        history.replaceState(null, "", "#" + c.dataset.app);
-        abrir(c.dataset.app, true);
-      });
-    });
-
-    abrir(location.hash.slice(1) || cartoes[0].dataset.app, false);
+    var slug = decodeURIComponent(location.hash.slice(1)).replace(/"/g, "");
+    if (!slug) return;
+    var cartao = document.querySelector('.app-temas .card[data-app="' + slug + '"]');
+    if (cartao) location.replace(cartao.href);
   })();
 </script>
 
