@@ -7,72 +7,43 @@ author: "Thiago Meireles"
 ---
 
 <style>
-  .app-temas .card { height: 100%; cursor: pointer; border: 2px solid transparent; transition: border-color 0.15s; }
-  .app-temas .card:hover { border-color: #b5c3f5; }
-  .app-temas .card.is-ativo { border-color: #3459e6; }
-  .app-temas .card .tag { margin-left: 0.4rem; vertical-align: middle; }
-  .app-frame { width: 100%; height: 920px; border: 1px solid #eaeaea; border-radius: 8px; }
+  .app-topicos .card { display: block; height: 100%; border: 2px solid transparent; transition: border-color 0.15s; }
+  .app-topicos .card:hover { border-color: #b5c3f5; }
+  .app-topicos .card .tag { margin-left: 0.4rem; vertical-align: middle; }
+  .app-topicos .temas { color: #6c757d; font-size: 0.9rem; }
 </style>
 
 ## Statistics in practice
 
-Interactive demos of statistics and sampling concepts, organized by topic. Pick a topic below; new topics and demos will be added over time.
+Interactive demos of statistics and sampling concepts, organized by topic. Pick a topic below to see the themes it covers; new topics and themes will be added over time.
 
-{%- comment -%} The English URL uses slug_en when the topic has one (apps/en/<slug_en>/) {%- endcomment -%}
-{%- assign primeiro_slug = site.data.apps[0].slug_en | default: site.data.apps[0].slug -%}
-<div class="columns is-multiline app-temas">
-{%- for app in site.data.apps -%}
-  {%- assign slug = app.slug_en | default: app.slug -%}
+{% comment %} English URLs use slug_en when there is one (topics: /en/apps/<slug_en>/; themes: #<slug_en>) {% endcomment %}
+<div class="columns is-multiline app-topicos">
+{%- for topico in site.data.topicos -%}
+  {%- assign temas = site.data.apps | where: "topico", topico.slug -%}
+  {%- assign slug = topico.slug_en | default: topico.slug -%}
   <div class="column is-one-third">
-    <a class="card" href="#{{ slug }}" data-app="{{ slug }}" data-titulo="{{ app.title }}">
+    <a class="card" href="{{ '/en/apps/' | relative_url }}{{ slug }}/">
       <div class="card-content">
-        <p class="title is-5">{{ app.title }}{% if app.novo %}<span class="tag is-info is-light">new</span>{% endif %}</p>
-        <p class="content">{{ app.description }}</p>
+        <p class="title is-5">{{ topico.title }}{% if topico.novo %}<span class="tag is-info is-light">new</span>{% endif %}</p>
+        <p class="content">{{ topico.description }}</p>
+        <p class="temas">{{ temas.size }} {% if temas.size == 1 %}theme{% else %}themes{% endif %}: {{ temas | map: "title" | join: ", " }}</p>
       </div>
     </a>
   </div>
 {%- endfor -%}
 </div>
 
-<div class="notification is-light">
-  The apps run in R on a server. If nobody has used them for a few days, the server is asleep and the first load can take up to a minute; after that, topics open quickly.
-  <a id="app-tela-cheia" href="{{ '/apps/en/' | relative_url }}{{ primeiro_slug }}/" target="_blank" rel="noopener">Open this topic full screen</a>.
-</div>
-
-<iframe id="app-frame" class="app-frame"
-        src="{{ site.apps_servidor }}/en/{{ primeiro_slug }}/"
-        title="{{ site.data.apps[0].title }}: interactive app"
-        loading="lazy"></iframe>
-
 <script>
-  // One iframe: switching topics swaps the src. The app comes from the Hugging Face
-  // Space; full screen is a page on this site (_layouts/app-tela-cheia.html).
+  // Old addresses (/en/apps/#<theme>) go to the subpage of the theme's topic
   (function () {
-    var servidor = "{{ site.apps_servidor }}/en/";
-    var base = "{{ '/apps/en/' | relative_url }}";
-    var frame = document.getElementById("app-frame");
-    var telaCheia = document.getElementById("app-tela-cheia");
-    var cartoes = document.querySelectorAll(".app-temas .card");
-
-    function abrir(slug, rolar) {
-      var cartao = document.querySelector('.app-temas .card[data-app="' + slug + '"]');
-      if (!cartao) return;
-      var url = servidor + slug + "/";
-      cartoes.forEach(function (c) { c.classList.toggle("is-ativo", c === cartao); });
-      if (frame.getAttribute("src") !== url) frame.setAttribute("src", url);
-      frame.title = cartao.dataset.titulo + ": interactive app";
-      telaCheia.href = base + slug + "/";
-      if (rolar) frame.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    cartoes.forEach(function (c) {
-      c.addEventListener("click", function (e) {
-        e.preventDefault();
-        history.replaceState(null, "", "#" + c.dataset.app);
-        abrir(c.dataset.app, true);
-      });
-    });
-
-    abrir(location.hash.slice(1) || cartoes[0].dataset.app, false);
+    var destinos = {
+      {%- for app in site.data.apps %}
+      {%- assign topico = site.data.topicos | where: "slug", app.topico | first %}
+      "{{ app.slug_en | default: app.slug }}": "{{ '/en/apps/' | relative_url }}{{ topico.slug_en | default: topico.slug }}/#{{ app.slug_en | default: app.slug }}"{% unless forloop.last %},{% endunless %}
+      {%- endfor %}
+    };
+    var destino = destinos[location.hash.slice(1)];
+    if (destino) location.replace(destino);
   })();
 </script>

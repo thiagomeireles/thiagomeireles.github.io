@@ -1,12 +1,13 @@
 # Temas do app "Estatística na prática" (um app Shiny por tema, no Space do Hugging Face)
 # Autor: Thiago Meireles | Atualizado: 2026-11-19
-# Lido por aplicativos.md e en/apps.md (cartões e iframe), por _layouts/app-tela-cheia.html
+# Lido por _layouts/apps-topico.html (cartões e iframe das subpáginas de tópico), por _layouts/app-tela-cheia.html
 # (páginas apps/<slug>/ e apps/en/<slug_en ou slug>/) e por _app_scripts/hf-space/montar_apps.R,
-# que monta cada tema no Space. Tema novo: pasta em _app_scripts/apps/ + entrada aqui + duas
-# páginas de tela cheia em apps/.
+# que monta cada tema no Space. Tema novo: pasta em _app_scripts/apps/ + entrada aqui (com o
+# topico, um slug de _data/topicos.yml) + duas páginas de tela cheia em apps/.
 
 - slug: variaveis
   slug_en: variables
+  topico: introducao-estatistica
   titulo: Tipos de variáveis
   title: Types of variables
   descricao: Como classificar uma variável em nominal, ordinal, discreta ou contínua e quais estatísticas fazem sentido para cada tipo, com quiz.
@@ -14,12 +15,14 @@
   novo: true
 
 - slug: probabilidade
+  topico: introducao-estatistica
   titulo: Probabilidade
   title: Probability
   descricao: Distribuição normal padrão (Z) e t de Student, com áreas e valores críticos.
   description: Standard normal (Z) and Student's t distributions, with areas and critical values.
 
 - slug: teoremas-limite
+  topico: introducao-estatistica
   titulo: Teoremas limite
   title: Limit theorems
   descricao: Lei dos Grandes Números e Teorema Central do Limite, com simulações.
