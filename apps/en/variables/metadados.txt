@@ -2,7 +2,7 @@ App: Tipos de variáveis (Estatística na prática)
 Autor: Thiago Meireles
 Idioma: en
 Criado em: 2026-11-18
-Modificado em: 2026-11-19 13:26:07 -03
+Modificado em: 2026-11-18 17:26:39 -03
 Fonte: _app_scripts/apps/variaveis/ (+ _app_scripts/apps/comum/)
 Gerado por: _app_scripts/shinylive/exportar_apps.R
 Runtime: apps/shinylive/ (compartilhado entre os temas)

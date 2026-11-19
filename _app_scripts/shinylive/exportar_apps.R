@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  exportar_apps.R (exporta os apps de tema para site estático via Shinylive)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-19
+# Atualizado: 2026-11-18
 #
 # Entrada:
 #   - _app_scripts/apps/comum/ (modelo comum: tema, paleta, página padrão)
@@ -11,7 +11,6 @@
 #   - apps/<tema>/ (versão em português de cada tema, publicada pelo GitHub Pages)
 #   - apps/en/<tema>/ (versão em inglês)
 #   - metadados.txt dentro de cada pasta de app
-#   - apps/<endereço antigo>/index.html (redirecionamentos; lista enderecos_antigos)
 # =============================================================================
 
 rm(list = ls()); gc()
@@ -28,16 +27,6 @@ temas <- list(
   list(pasta = "variaveis",       titulo = "Tipos de variáveis", slug_en = "variables"),
   list(pasta = "probabilidade",   titulo = "Probabilidade"),
   list(pasta = "teoremas-limite", titulo = "Teoremas limite")
-)
-
-# Endereços que já foram publicados e deixaram de existir. Cada um vira uma
-# página que redireciona para o endereço atual, para links já compartilhados
-# (WhatsApp, e-mail) não caírem no 404 do GitHub Pages. Ao renomear um tema,
-# incluir o endereço antigo aqui.
-enderecos_antigos <- list(
-  list(antigo = "estatistica",   destino = "/aplicativos/",       idioma = "pt", nome = "Estatística na prática"),
-  list(antigo = "descritiva",    destino = "/apps/variaveis/",    idioma = "pt", nome = "Tipos de variáveis"),
-  list(antigo = "en/descritiva", destino = "/apps/en/variables/", idioma = "en", nome = "Types of variables")
 )
 
 # Cada tema sai em dois idiomas. Os textos ficam lado a lado no código, via
@@ -189,51 +178,12 @@ gravar_metadados <- function(versao, destino_raiz, criado_em, versoes_bslib) {
   )
 }
 
-# Página mínima que manda o visitante do endereço antigo para o atual,
-# mantendo parâmetros e âncora (#) do link original
-gravar_redirecionamento <- function(endereco, destino_raiz) {
-  textos <- if (identical(endereco$idioma, "en")) {
-    list(lang = "en", titulo = "This app has moved", aviso = "This app has a new address:")
-  } else {
-    list(lang = "pt-BR", titulo = "Este app mudou de endereço", aviso = "Este app tem um novo endereço:")
-  }
-  pasta <- file.path(destino_raiz, endereco$antigo)
-  if (!dir.exists(pasta)) dir.create(pasta, recursive = TRUE)
-  url <- paste0("https://thiagomeireles.com.br", endereco$destino)
-  writeLines(
-    c(
-      "<!doctype html>",
-      "<!-- Redirecionamento gerado por _app_scripts/shinylive/exportar_apps.R | Autor: Thiago Meireles -->",
-      sprintf("<!-- Gerado em: %s | Destino: %s -->", format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z"), endereco$destino),
-      sprintf('<html lang="%s">', textos$lang),
-      "<head>",
-      '  <meta charset="utf-8">',
-      '  <meta name="viewport" content="width=device-width, initial-scale=1">',
-      '  <meta name="robots" content="noindex">',
-      sprintf("  <title>%s</title>", textos$titulo),
-      sprintf('  <link rel="canonical" href="%s">', url),
-      sprintf('  <meta http-equiv="refresh" content="0; url=%s">', endereco$destino),
-      sprintf('  <script>location.replace("%s" + location.search + location.hash);</script>', endereco$destino),
-      "</head>",
-      sprintf('<body><p>%s <a href="%s">%s</a></p></body>', textos$aviso, endereco$destino, endereco$nome),
-      "</html>"
-    ),
-    file.path(pasta, "index.html"),
-    useBytes = TRUE
-  )
-}
-
-# Um endereço antigo nunca pode coincidir com um app atual (sobrescreveria o app)
-conflitos <- intersect(purrr::map_chr(enderecos_antigos, "antigo"), purrr::map_chr(versoes, "subdir"))
-if (length(conflitos) > 0) stop("Endereço antigo igual a um app atual: ", paste(conflitos, collapse = ", "))
-
 datas_criacao <- purrr::map_chr(versoes, \(v) ler_data_criacao(file.path(destino_raiz, v$subdir)))
 limpar_destino(destino_raiz, versoes)
 pasta_tema <- compilar_tema(file.path(origem_apps, "comum"))
 purrr::walk(versoes, exportar_versao, origem_apps = origem_apps, destino_raiz = destino_raiz, pasta_tema = pasta_tema)
 versoes_bslib <- verificar_bslib(destino_raiz)
 purrr::walk2(versoes, datas_criacao, gravar_metadados, destino_raiz = destino_raiz, versoes_bslib = versoes_bslib)
-purrr::walk(enderecos_antigos, gravar_redirecionamento, destino_raiz = destino_raiz)
 
 # Pré-visualização local (só em sessão interativa). Abre http://127.0.0.1:7446/variaveis/
 # (ou /en/variables/ para a versão em inglês)

@@ -109,7 +109,7 @@ mod_ordinal_ui <- function(id) {
     ),
     bslib::layout_columns(
       col_widths = c(7, 5),
-      bslib::card(full_screen = TRUE, bslib::card_body(saida_grafico(ns("grafico"), height = "420px"))),
+      bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico"), height = "420px"))),
       bslib::card(bslib::card_header(tr("Tabela de frequências", "Frequency table")), bslib::card_body(shiny::uiOutput(ns("tabela"))))
     ),
     bslib::layout_columns(
@@ -201,7 +201,7 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
       tabela_html(tabela, classes = c("", "num", "leitura"))
     })
 
-    output$grafico <- render_grafico({
+    output$grafico <- shiny::renderPlot({
       f <- freq()
       pal <- paleta_modo(modo())
       f$categoria <- factor(f$categoria, levels = f$categoria)

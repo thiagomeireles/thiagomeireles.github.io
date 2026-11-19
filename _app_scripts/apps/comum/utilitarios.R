@@ -9,10 +9,9 @@
 #   - tema/ (opcional): CSS do zephyr pré-compilado pelo mesmo script
 # Saída:
 #   - objetos em memória: idioma, tr(), cores_app, tema_zephyr(), tema_app(),
-#     dependencia_tema(), estilo_app(), comportamento_app(), pagina_tema(), item_em_breve(),
+#     dependencia_tema(), estilo_app(), pagina_tema(), item_em_breve(),
 #     modo_app(), paleta_modo(), tema_grafico(), fmt_num(), fmt_pct(),
-#     sep_milhar(), tabela_html(), saida_grafico(), render_grafico(),
-#     escala_texto(), quebrar_rotulos()
+#     sep_milhar(), tabela_html()
 # =============================================================================
 
 # Fica em _app_scripts/apps/comum/. Na exportação, esta pasta é copiada para
@@ -83,19 +82,6 @@ estilo_app <- function() {
   "))
 }
 
-# No celular, a barra de abas vira menu (hambúrguer). Ao escolher uma aba, o
-# menu fecha, para o conteúdo da aba aparecer sem um toque a mais.
-comportamento_app <- function() {
-  shiny::tags$script(shiny::HTML("
-    document.addEventListener('click', function (e) {
-      var link = e.target.closest('.navbar-collapse.show .nav-link:not(.dropdown-toggle)');
-      if (link && window.bootstrap) {
-        bootstrap.Collapse.getOrCreateInstance(link.closest('.navbar-collapse')).hide();
-      }
-    });
-  "))
-}
-
 pagina_sobre <- function(titulo, descricao, versao) {
   bslib::card(
     bslib::card_header(paste(tr("Sobre:", "About:"), titulo)),
@@ -146,7 +132,7 @@ pagina_tema <- function(titulo, ..., descricao, versao = tr("0.2 (novembro de 20
     title        = titulo,
     window_title = paste(titulo, tr("| Estatística na prática", "| Statistics in practice")),
     theme        = tema_app(),
-    header       = shiny::tagList(dependencia_tema(), estilo_app(), comportamento_app()),
+    header       = shiny::tagList(dependencia_tema(), estilo_app()),
     ...,
     bslib::nav_spacer(),
     bslib::nav_panel(tr("Sobre", "About"), value = "sobre", pagina_sobre(titulo, descricao, versao)),
@@ -203,61 +189,6 @@ tema_grafico <- function(modo = "light") {
       axis.text     = ggplot2::element_text(size = 12, colour = p$secundario),
       legend.position = "none"
     )
-}
-
-# Gráficos: usar sempre saida_grafico() e render_grafico(), nunca plotOutput() e
-# renderPlot(). No Safari (macOS e iPhone), renderPlot() trava o app com
-# "Maximum call stack size exceeded" no Shinylive 0.5.0 com webR/R 4.6
-# (posit-dev/r-shinylive#204, sem correção até 2026-11). O contorno é desenhar
-# o PNG com png() e enviá-lo por renderImage(), caminho que funciona no WebKit.
-saida_grafico <- function(id, height = "400px") {
-  shiny::imageOutput(id, height = height)
-}
-
-# Em telas estreitas (celular), o texto do gráfico encolhe até 75% e título,
-# subtítulo e legenda quebram em linhas, para não passarem da borda. Os tamanhos
-# em pontos são os de tema_grafico() (título 20, subtítulo 14, caption 11).
-escala_texto <- function(largura) max(0.75, min(1, largura / 480))
-
-quebrar_rotulos <- function(grafico, largura, escala) {
-  if (!inherits(grafico, "ggplot")) return(grafico)
-  rotulos <- ggplot2::get_labs(grafico)
-  quebrar <- function(texto, pontos, largura_letra) {
-    if (!is.character(texto) || length(texto) != 1) return(texto)
-    caracteres <- max(15, floor((largura - 16) / (pontos * escala * largura_letra)))
-    linhas <- strsplit(texto, "\n", fixed = TRUE)[[1]]
-    paste(unlist(purrr::map(linhas, \(l) strwrap(l, caracteres))), collapse = "\n")
-  }
-  grafico + ggplot2::labs(
-    title    = quebrar(rotulos$title, 20, 0.6),
-    subtitle = quebrar(rotulos$subtitle, 14, 0.52),
-    caption  = quebrar(rotulos$caption, 11, 0.52)
-  )
-}
-
-# Mesmo uso de renderPlot(): o bloco devolve um ggplot (ou desenha com base R).
-# O PNG sai no tamanho do espaço na tela, multiplicado pela densidade de pixels.
-render_grafico <- function(expr) {
-  expr <- substitute(expr)
-  env <- parent.frame()
-  shiny::renderImage({
-    info <- shiny::getCurrentOutputInfo()
-    largura <- info$width()
-    altura <- info$height()
-    shiny::req(largura > 0, altura > 0)
-    densidade <- shiny::getDefaultReactiveDomain()$clientData$pixelratio
-    if (is.null(densidade)) densidade <- 1
-    escala <- escala_texto(largura)
-
-    arquivo <- tempfile(fileext = ".png")
-    grDevices::png(arquivo, width = largura * densidade, height = altura * densidade, res = 72 * densidade * escala)
-    tryCatch({
-      grafico <- quebrar_rotulos(eval(expr, env), largura, escala)
-      if (!is.null(grafico)) print(grafico)
-    }, finally = grDevices::dev.off())
-
-    list(src = arquivo, contentType = "image/png", width = largura, height = altura, alt = tr("Gráfico", "Chart"))
-  }, deleteFile = TRUE)
 }
 
 # Números no padrão do idioma: 1.234,5 (pt) ou 1,234.5 (en)
