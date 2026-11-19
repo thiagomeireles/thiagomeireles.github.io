@@ -47,7 +47,7 @@ permalink: /en/about/
   </p>
 
   <p class="is-size-5">
-    In 2026, I took the MBA in Artificial Intelligence and Analytics Applied to Business at FGV.
+    In October 2026, I started the MBA in Artificial Intelligence and Analytics Applied to Business at FGV.
   </p>
 
   <h4 class="title is-4"><i class="fas fa-users"></i> During the pandemic</h4>

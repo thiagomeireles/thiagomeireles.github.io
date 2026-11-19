@@ -47,7 +47,7 @@ permalink: /sobre/
   </p>
 
   <p class="is-size-5">
-    Em 2026, cursei o MBA em Inteligência Artificial e Analytics Aplicados a Negócios da FGV.
+    Em outubro de 2026, comecei o MBA em Inteligência Artificial e Analytics Aplicados a Negócios da FGV.
   </p>
 
   <h4 class="title is-4"><i class="fas fa-users"></i> Na pandemia</h4>
