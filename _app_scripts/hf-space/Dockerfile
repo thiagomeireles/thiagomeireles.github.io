@@ -18,6 +18,12 @@ FROM rocker/shiny:4.6.1
 ENV SHINY_LOG_STDERR=1 \
     HOME=/home/user
 
+# Biblioteca de sistema exigida pelo binário do pacote fs (usado pelo sass/bslib
+# para compilar o tema); o -dev puxa a versão certa do Ubuntu
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libuv1-dev \
+ && rm -rf /var/lib/apt/lists/*
+
 # Pacotes dos apps. shiny, htmltools e yaml já vêm na imagem.
 RUN install2.r --error --skipinstalled bslib ggplot2 purrr scales yaml \
  && rm -rf /tmp/downloaded_packages
