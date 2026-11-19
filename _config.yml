@@ -43,3 +43,8 @@ giscus:
   category_id: "DIC_kwDOQ1mjh84C7mi2"
   theme: "light"
   lang: "pt"
+
+# --- APLICATIVOS (Shiny Server no Hugging Face) ---
+# Space montado por _app_scripts/hf-space/ e publicado por .github/workflows/hf-space.yml.
+# Usado em /aplicativos/, /en/apps/ e nas páginas de tela cheia /apps/<tema>/ (_layouts/app-tela-cheia.html).
+apps_servidor: "https://thiagomeireles-estatistica-na-pratica.hf.space"

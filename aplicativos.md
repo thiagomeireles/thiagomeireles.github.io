@@ -32,18 +32,20 @@ Demonstrações interativas de conceitos de estatística e amostragem, organizad
 </div>
 
 <div class="notification is-light">
-  Os aplicativos rodam inteiros no seu navegador (R via WebAssembly). A primeira abertura leva alguns segundos; depois disso, o motor do R fica em cache e os outros temas abrem mais rápido.
+  Os aplicativos rodam em R num servidor. Se ninguém os usou nos últimos dias, o servidor está parado e a primeira abertura pode levar até um minuto; depois disso, os temas abrem rápido.
   <a id="app-tela-cheia" href="{{ '/apps/' | relative_url }}{{ site.data.apps[0].slug }}/" target="_blank" rel="noopener">Abrir este tema em tela cheia</a>.
 </div>
 
 <iframe id="app-frame" class="app-frame"
-        src="{{ '/apps/' | relative_url }}{{ site.data.apps[0].slug }}/"
+        src="{{ site.apps_servidor }}/{{ site.data.apps[0].slug }}/"
         title="{{ site.data.apps[0].titulo }}: aplicativo interativo"
         loading="lazy"></iframe>
 
 <script>
-  // Um iframe só: trocar de tema troca o src (cada tema é um app Shinylive separado)
+  // Um iframe só: trocar de tema troca o src. O app vem do Space no Hugging Face;
+  // a tela cheia é uma página do próprio site (_layouts/app-tela-cheia.html).
   (function () {
+    var servidor = "{{ site.apps_servidor }}/";
     var base = "{{ '/apps/' | relative_url }}";
     var frame = document.getElementById("app-frame");
     var telaCheia = document.getElementById("app-tela-cheia");
@@ -52,11 +54,11 @@ Demonstrações interativas de conceitos de estatística e amostragem, organizad
     function abrir(slug, rolar) {
       var cartao = document.querySelector('.app-temas .card[data-app="' + slug + '"]');
       if (!cartao) return;
-      var url = base + slug + "/";
+      var url = servidor + slug + "/";
       cartoes.forEach(function (c) { c.classList.toggle("is-ativo", c === cartao); });
       if (frame.getAttribute("src") !== url) frame.setAttribute("src", url);
       frame.title = cartao.dataset.titulo + ": aplicativo interativo";
-      telaCheia.href = url;
+      telaCheia.href = base + slug + "/";
       if (rolar) frame.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 

@@ -1,16 +1,16 @@
 # =============================================================================
 # Script:  app.R (tema Probabilidade: distribuições)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-19
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
 #   - _app_scripts/apps/probabilidade/modulos/*.R
 # Saída:
-#   - aplicativo Shiny (publicado via Shinylive em apps/probabilidade/)
+#   - aplicativo Shiny (publicado no Space do Hugging Face em /probabilidade/)
 # =============================================================================
 
-# Este arquivo roda dentro do navegador (webR) depois de exportado. Por isso não
+# Este arquivo roda no Shiny Server, montado por _app_scripts/hf-space/montar_apps.R. Não
 # limpa a sessão nem usa here/pacman: os caminhos são relativos à pasta do app.
 options(scipen = 999)
 

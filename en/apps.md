@@ -35,18 +35,20 @@ Interactive demos of statistics and sampling concepts, organized by topic. Pick 
 </div>
 
 <div class="notification is-light">
-  The apps run entirely in your browser (R compiled to WebAssembly). The first load takes a few seconds; after that, the R engine is cached and the other topics open faster.
+  The apps run in R on a server. If nobody has used them for a few days, the server is asleep and the first load can take up to a minute; after that, topics open quickly.
   <a id="app-tela-cheia" href="{{ '/apps/en/' | relative_url }}{{ primeiro_slug }}/" target="_blank" rel="noopener">Open this topic full screen</a>.
 </div>
 
 <iframe id="app-frame" class="app-frame"
-        src="{{ '/apps/en/' | relative_url }}{{ primeiro_slug }}/"
+        src="{{ site.apps_servidor }}/en/{{ primeiro_slug }}/"
         title="{{ site.data.apps[0].title }}: interactive app"
         loading="lazy"></iframe>
 
 <script>
-  // One iframe: switching topics swaps the src (each topic is a separate Shinylive app)
+  // One iframe: switching topics swaps the src. The app comes from the Hugging Face
+  // Space; full screen is a page on this site (_layouts/app-tela-cheia.html).
   (function () {
+    var servidor = "{{ site.apps_servidor }}/en/";
     var base = "{{ '/apps/en/' | relative_url }}";
     var frame = document.getElementById("app-frame");
     var telaCheia = document.getElementById("app-tela-cheia");
@@ -55,11 +57,11 @@ Interactive demos of statistics and sampling concepts, organized by topic. Pick 
     function abrir(slug, rolar) {
       var cartao = document.querySelector('.app-temas .card[data-app="' + slug + '"]');
       if (!cartao) return;
-      var url = base + slug + "/";
+      var url = servidor + slug + "/";
       cartoes.forEach(function (c) { c.classList.toggle("is-ativo", c === cartao); });
       if (frame.getAttribute("src") !== url) frame.setAttribute("src", url);
       frame.title = cartao.dataset.titulo + ": interactive app";
-      telaCheia.href = url;
+      telaCheia.href = base + slug + "/";
       if (rolar) frame.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 

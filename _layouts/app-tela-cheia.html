@@ -1,0 +1,39 @@
+<!doctype html>
+{%- comment -%}
+Layout: app-tela-cheia (um app de tema ocupando a tela inteira)
+Autor: Thiago Meireles | Atualizado: 2026-11-19
+Entrada: page.slug (pasta do tema em _data/apps.yml), page.idioma ("pt" ou "en"),
+         site.apps_servidor (endereço do Space no Hugging Face)
+Saída: página no domínio do site com o app do Space num iframe de tela cheia
+{%- endcomment -%}
+{%- assign tema = site.data.apps | where: "slug", page.slug | first -%}
+{%- if page.idioma == "en" -%}
+  {%- assign caminho = tema.slug_en | default: tema.slug | prepend: "en/" -%}
+  {%- assign titulo = tema.title -%}
+  {%- assign familia = "Statistics in practice" -%}
+  {%- assign aguarde = "Loading the app. If the server is asleep, this can take up to a minute." -%}
+{%- else -%}
+  {%- assign caminho = tema.slug -%}
+  {%- assign titulo = tema.titulo -%}
+  {%- assign familia = "Estatística na prática" -%}
+  {%- assign aguarde = "Carregando o aplicativo. Se o servidor estiver parado, isso pode levar até um minuto." -%}
+{%- endif -%}
+<html lang="{% if page.idioma == 'en' %}en{% else %}pt-BR{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="author" content="Thiago Meireles">
+  <title>{{ titulo }} | {{ familia }}</title>
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <style>
+    html, body { margin: 0; height: 100%; background: #fff; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .aguarde { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+               padding: 0 24px; text-align: center; color: #6c757d; }
+    iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: transparent; }
+  </style>
+</head>
+<body>
+  <p class="aguarde">{{ aguarde }}</p>
+  <iframe src="{{ site.apps_servidor }}/{{ caminho }}/" title="{{ titulo }}" allow="fullscreen"></iframe>
+</body>
+</html>

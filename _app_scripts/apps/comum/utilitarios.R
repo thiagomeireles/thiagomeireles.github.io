@@ -5,21 +5,19 @@
 #
 # Entrada:
 #   - idioma.txt (opcional): "pt" ou "en", gravado por
-#     _app_scripts/shinylive/exportar_apps.R
-#   - tema/ (opcional): CSS do zephyr pré-compilado pelo mesmo script
+#     _app_scripts/hf-space/montar_apps.R
 # Saída:
-#   - objetos em memória: idioma, tr(), cores_app, tema_zephyr(), tema_app(),
-#     dependencia_tema(), estilo_app(), no_navegador(), texto_execucao(),
-#     pagina_tema(), item_em_breve(),
+#   - objetos em memória: idioma, tr(), cores_app, tema_zephyr(), estilo_app(),
+#     texto_execucao(), pagina_tema(), item_em_breve(),
 #     modo_app(), paleta_modo(), tema_grafico(), fmt_num(), fmt_pct(),
 #     sep_milhar(), tabela_html()
 # =============================================================================
 
-# Fica em _app_scripts/apps/comum/. Na exportação, esta pasta é copiada para
-# dentro de cada app; rodando localmente, o app.R a procura em ../comum.
+# Fica em _app_scripts/apps/comum/. Na montagem do Space, esta pasta é copiada
+# para dentro de cada app; rodando localmente, o app.R a procura em ../comum.
 # Por ser carregado antes dos módulos, define o idioma usado por todos eles.
 
-# Idioma do app: idioma.txt (exportação) ou variável APP_IDIOMA (teste local)
+# Idioma do app: idioma.txt (montagem) ou variável APP_IDIOMA (teste local)
 idioma_app <- function() {
   if (file.exists("idioma.txt")) return(trimws(readLines("idioma.txt", warn = FALSE))[1])
   Sys.getenv("APP_IDIOMA", "pt")
@@ -42,36 +40,14 @@ cores_app <- list(
 
 url_temas <- tr("https://thiagomeireles.com.br/aplicativos/", "https://thiagomeireles.com.br/en/apps/")
 
-# Definição única do tema. O exportar_apps.R também lê esta função para
-# compilar o CSS antes de publicar.
+# Definição única do tema. O Dockerfile compila este mesmo preset no build,
+# e os apps reaproveitam o cache do sass.
 tema_zephyr <- function() {
   bslib::bs_theme(preset = "zephyr")
 }
 
-# Compilar o Sass do zephyr no navegador (webR) custaria vários segundos a cada
-# abertura. Na exportação, o CSS é compilado uma vez e gravado em tema/. Quando
-# essa pasta existe, o app usa o tema padrão do bslib (pré-compilado, sem custo)
-# e troca o CSS do Bootstrap pelo do zephyr via dependencia_tema(). Rodando
-# localmente, sem tema/, o zephyr é compilado normalmente.
-tema_app <- function() {
-  if (dir.exists("tema")) bslib::bs_theme() else tema_zephyr()
-}
-
-# Versão alta de propósito: entre dependências com o mesmo nome, o htmltools
-# mantém a de maior versão, então esta substitui o Bootstrap padrão.
-dependencia_tema <- function() {
-  if (!dir.exists("tema")) return(NULL)
-  htmltools::htmlDependency(
-    name       = "bootstrap",
-    version    = "999.0.0",
-    src        = c(file = normalizePath("tema")),
-    stylesheet = "bootstrap.min.css",
-    script     = "bootstrap.bundle.min.js"
-  )
-}
-
-# Ajustes que o tema não cobre: o slider do Shiny é compilado contra o tema da
-# sessão (padrão), então recebe a cor do zephyr aqui
+# Ajustes que o tema não cobre: cores do slider, itens desabilitados do menu e
+# tabelas
 estilo_app <- function() {
   shiny::tags$style(shiny::HTML("
     .irs.irs--shiny .irs-bar { background: #3459e6; border-top-color: #3459e6; border-bottom-color: #3459e6; }
@@ -83,25 +59,8 @@ estilo_app <- function() {
   "))
 }
 
-# TRUE no Shinylive (R compilado para WebAssembly), FALSE no servidor
-no_navegador <- function() grepl("emscripten", R.version$platform, fixed = TRUE)
-
-# Como o app roda, conforme a hospedagem (Shinylive ou Shiny Server)
+# Como o app roda (aba Sobre)
 texto_execucao <- function() {
-  if (no_navegador()) {
-    return(tr(
-      paste(
-        "O aplicativo roda inteiro no seu navegador, com R compilado para WebAssembly (webR e Shinylive).",
-        "Nenhum dado sai do seu computador. A primeira abertura demora alguns segundos;",
-        "as próximas usam o cache do navegador, que é compartilhado entre todos os temas."
-      ),
-      paste(
-        "The app runs entirely in your browser, with R compiled to WebAssembly (webR and Shinylive).",
-        "No data leaves your computer. The first load takes a few seconds; later visits use the",
-        "browser cache, which is shared across all topics."
-      )
-    ))
-  }
   tr(
     paste(
       "O aplicativo roda em R no servidor (Shiny Server, hospedado no Hugging Face). Os dados são",
@@ -153,8 +112,8 @@ pagina_tema <- function(titulo, ..., descricao, versao = tr("0.2 (novembro de 20
     lang         = tr("pt-BR", "en"),
     title        = titulo,
     window_title = paste(titulo, tr("| Estatística na prática", "| Statistics in practice")),
-    theme        = tema_app(),
-    header       = shiny::tagList(dependencia_tema(), estilo_app()),
+    theme        = tema_zephyr(),
+    header       = estilo_app(),
     ...,
     bslib::nav_spacer(),
     bslib::nav_panel(tr("Sobre", "About"), value = "sobre", pagina_sobre(titulo, descricao, versao)),
