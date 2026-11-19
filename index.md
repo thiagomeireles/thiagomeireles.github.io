@@ -23,11 +23,11 @@ permalink: /
         </div>
 
         <p class="is-size-3">
-          Sou <strong>Thiago Meireles</strong>, Cientista de Dados e Doutor em Ciência Política pela USP.
+          Sou <strong>Thiago Meireles</strong>, cientista de dados e doutor em Ciência Política pela USP.
         </p>
         
         <p class="is-size-4">
-          Lidero projetos de análise de dados e inovação metodológica, combinando técnicas avançadas de <strong>Machine Learning</strong> e <strong>Estatística</strong> para resolver problemas complexos e oferecer soluções acessíveis para gestores e stakeholders.
+          Lidero projetos de análise de dados e de inovação metodológica. Uso <strong>estatística</strong> e <strong><em>machine learning</em></strong> para responder perguntas concretas, e entrego os resultados de um jeito que gestores consigam usar mesmo sem formação técnica.
         </p>
 
       </div>
@@ -45,15 +45,15 @@ permalink: /
       <h4 class="title is-4"><i class="fas fa-briefcase"></i> O que faço</h4>
       
       <p class="is-size-5">
-        No <strong>Cetic.br (NIC.br)</strong>, atuo na inovação metodológica desenvolvendo ferramentas de visualização e aplicando <strong>NLP</strong> e <strong>Web Scraping</strong> para a produção de estatísticas TIC.
+        No <strong>Cetic.br (NIC.br)</strong>, trabalho com inovação metodológica na produção de estatísticas sobre TIC: desenvolvo ferramentas de visualização e aplico <strong>NLP</strong> e <strong><em>web scraping</em></strong> às pesquisas.
       </p>
       
       <p class="is-size-5">
-        Como consultor, foco em <strong>automação de análises (R/Python)</strong> e <strong>Inferência Causal</strong> (incluindo Testes A/B) para resolver problemas de negócio complexos.
+        Como consultor, trabalho com <strong>automação de análises em R e Python</strong> e com <strong>inferência causal</strong>, incluindo testes A/B, quando a pergunta é o efeito de uma decisão de negócio, e não só uma associação nos dados.
       </p>
 
       <p class="is-size-5">
-        Doutor em Ciência Política pela <strong>USP</strong>, com tese sobre os impactos da Inteligência Artificial na estrutura do emprego e renda.
+        No doutorado em Ciência Política na <strong>USP</strong>, a tese tratou dos impactos da inteligência artificial sobre o mercado de trabalho e a desigualdade de renda no Brasil.
       </p>
     </div>
     
@@ -70,9 +70,9 @@ permalink: /
 
       <strong class="is-size-5">Métodos:</strong><br>
       <div class="tags">
-        <span class="tag is-success is-light is-medium">Survey Analysis</span>
-        <span class="tag is-success is-light is-medium">Survey Design</span>
-        <span class="tag is-success is-light is-medium">Inferência Causal</span>
+        <span class="tag is-success is-light is-medium">Análise de surveys</span>
+        <span class="tag is-success is-light is-medium">Desenho de surveys</span>
+        <span class="tag is-success is-light is-medium">Inferência causal</span>
         <span class="tag is-success is-light is-medium">Machine Learning</span>
         <span class="tag is-success is-light is-medium">NLP</span>
         <span class="tag is-success is-light is-medium">Web Scraping</span>
@@ -90,8 +90,8 @@ permalink: /
     <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
         <p class="title is-5"><i class="fas fa-project-diagram has-text-primary"></i> Portfólio</p>
-        <p class="subtitle is-6">Veja a aplicação prática em meus projetos</p>
-        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Acessar Projetos</a>
+        <p class="subtitle is-6">Webinários, artigos e notas técnicas</p>
+        <a href="/portfolio/" class="button is-primary is-outlined is-fullwidth">Ver projetos</a>
       </div>
     </div>
   </div>
@@ -100,8 +100,8 @@ permalink: /
     <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
         <p class="title is-5"><i class="fas fa-rss has-text-info"></i> Blog</p>
-        <p class="subtitle is-6">Sobre Causalidade, Survey e Representatividade</p>
-        <a href="/blog/" class="button is-info is-outlined is-fullwidth">Ler Artigos</a>
+        <p class="subtitle is-6">Textos sobre causalidade, surveys e representatividade amostral</p>
+        <a href="/blog/" class="button is-info is-outlined is-fullwidth">Ler textos</a>
       </div>
     </div>
   </div>
@@ -110,8 +110,8 @@ permalink: /
     <div class="card h-100" style="border: 1px solid #eee;">
       <div class="card-content has-text-centered">
         <p class="title is-5"><i class="fas fa-file-pdf has-text-link"></i> Currículo</p>
-        <p class="subtitle is-6">Minha trajetória acadêmica e profissional</p>
-        <a href="/cv/" class="button is-link is-outlined is-fullwidth">Ver CV Completo</a>
+        <p class="subtitle is-6">Formação e trajetória profissional</p>
+        <a href="/cv/" class="button is-link is-outlined is-fullwidth">Ver CV completo</a>
       </div>
     </div>
   </div>
@@ -126,8 +126,8 @@ permalink: /
     <div class="column is-half">
       <div class="card h-100" style="border: 1px solid #eee;">
         <div class="card-content has-text-centered">
-          <p class="title is-5"><i class="fas fa-comments has-text-primary"></i> Solicitação de Entrevistas e Palestras</p>
-          <p class="subtitle is-6">Quer me convidar para um evento, podcast ou entrevista?</p>
+          <p class="title is-5"><i class="fas fa-comments has-text-primary"></i> Entrevistas e palestras</p>
+          <p class="subtitle is-6">Para convites de eventos, podcasts e entrevistas</p>
           
           <button class="button is-primary is-outlined" 
                   data-tally-open="J9pykz" 
@@ -135,7 +135,7 @@ permalink: /
                   data-tally-overlay="1" 
                   data-tally-emoji-text="🎙️"
                   data-tally-emoji-animation="wave">
-            Solicitar Participação
+            Enviar convite
           </button>
           
         </div>
@@ -147,15 +147,15 @@ permalink: /
         <div class="card-content has-text-centered">
           
           <p class="title is-5">
-            <i class="fas fa-chart-line has-text-info"></i> Consultoria & Projetos
+            <i class="fas fa-chart-line has-text-info"></i> Consultoria e projetos
           </p>
-          <p class="subtitle is-6">Soluções em Causalidade e ML para seu negócio</p>
+          <p class="subtitle is-6">Inferência causal e <em>machine learning</em> aplicados às perguntas do seu negócio</p>
           
           <button class="button is-info is-outlined is-fullwidth"
                   data-tally-open="44JZqX" 
                   data-tally-emoji-text="📊" 
                   data-tally-emoji-animation="heart-beat">
-            Discutir um Projeto
+            Conversar sobre um projeto
           </button>
 
         </div>
@@ -169,7 +169,7 @@ permalink: /
   
   <hr>
   
-  <h4 class="title is-5">Vamos conectar?</h4>
+  <h4 class="title is-5">Contato</h4>
 
   <div class="buttons is-centered">
     

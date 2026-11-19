@@ -141,7 +141,7 @@ show_sidebar: false
 
 <div class="margem-desktop">
 
-  <h2 class="section-title">Videos & Interviews</h2>
+  <h2 class="section-title">Videos and interviews</h2>
   
   <div class="video-grid">
     
@@ -150,21 +150,21 @@ show_sidebar: false
         <iframe src="https://www.youtube.com/embed/NPUyT9El5cQ" 
                 title="Opinião Program (06/27/2025) - Is your job at risk? AI impacts on the world of work" allowfullscreen></iframe>
       </div>
-      <div class="video-caption">Opinião Program (June 2025) - Is your job at risk? The impacts of AI on the world of work</div>
+      <div class="video-caption">Opinião (June 27, 2025): Is your job at risk? The impacts of AI on the world of work</div>
     </div>
 
     <div>
       <div class="video-wrapper">
         <iframe src="https://www.youtube.com/embed/p4t6fqXmPWA" 
-                title="Highlight: Thiago Meireles reveals that Engineering will be one of the most affected careers by AI" allowfullscreen></iframe>
+                title="Clip from Opinião: the impacts of AI on engineering" allowfullscreen></iframe>
       </div>
-      <div class="video-caption">Highlight: Thiago Meireles discusses how engineering careers will be impacted by AI</div>
+      <div class="video-caption">Clip from Opinião: the impacts of AI on engineering</div>
     </div>
 
   </div>
 
 
-  <h2 class="section-title" style="margin-top: 4rem;">In the Press</h2>
+  <h2 class="section-title" style="margin-top: 4rem;">In the press</h2>
   
   <div class="news-grid">
 
@@ -175,10 +175,10 @@ show_sidebar: false
           Technological unemployment: can artificial intelligence truly replace professions?
         </a>
         <p class="news-snippet">
-          Researchers point out the limitations of technologies like ChatGPT within the labor market.
+          Researchers point out the limits of technologies like ChatGPT in the labor market.
         </p>
       </div>
-      <a href="https://www.institutoclaro.org.br/cidadania/nossas-novidades/reportagens/desemprego-tecnologico-inteligencias-artificiais-podem-realmente-substituir-profissoes/" target="_blank" class="news-link-btn">Read Article</a>
+      <a href="https://www.institutoclaro.org.br/cidadania/nossas-novidades/reportagens/desemprego-tecnologico-inteligencias-artificiais-podem-realmente-substituir-profissoes/" target="_blank" class="news-link-btn">Read the article</a>
     </div>
 
   </div>

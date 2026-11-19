@@ -7,7 +7,7 @@ permalink: /blog/
 
 {% include banner.html %}
 
-Aqui compartilho textos sobre estatística e machine learning, especialmente Causalidade, Survey e Representatividade Amostral.
+Escrevo aqui sobre estatística e *machine learning*, principalmente inferência causal, surveys e representatividade amostral. Os textos trazem o código para quem quiser reproduzir as análises.
 
 <div class="columns is-multiline" style="margin-top: 2rem;">
     {% for post in site.posts %}

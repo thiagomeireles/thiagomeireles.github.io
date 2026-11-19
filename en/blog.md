@@ -7,7 +7,7 @@ permalink: /en/blog/
 
 {% include banner_en.html %}
 
-Here I share posts about statistics and machine learning, particularly Causal Inference, Survey Methodology, and Representativeness.
+I write here about statistics and machine learning, mainly causal inference, survey methodology and sample representativeness. Posts include the code for anyone who wants to reproduce the analyses.
 
 <div class="columns is-multiline" style="margin-top: 2rem;">
     {% for post in site.posts %}

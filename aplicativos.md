@@ -15,7 +15,7 @@ author: "Thiago Meireles"
 
 ## Estatística na prática
 
-Demonstrações interativas de conceitos de estatística e amostragem, organizadas por tópico. Escolha um tópico abaixo para ver os temas que ele reúne; novos tópicos e temas entram aos poucos.
+Os aplicativos são demonstrações interativas de conceitos de estatística e amostragem, organizadas por tópico. Cada tópico reúne alguns temas, e novos tópicos e temas entram aos poucos. Escolha um tópico abaixo para começar.
 
 <div class="columns is-multiline app-topicos">
 {%- for topico in site.data.topicos -%}

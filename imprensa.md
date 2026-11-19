@@ -142,7 +142,7 @@ show_sidebar: false
 
 <div class="margem-desktop">
 
-  <h2 class="section-title">Vídeos e Entrevistas</h2>
+  <h2 class="section-title">Vídeos e entrevistas</h2>
   
   <div class="video-grid">
     
@@ -151,21 +151,21 @@ show_sidebar: false
         <iframe src="https://www.youtube.com/embed/NPUyT9El5cQ" 
                 title="Programa Opinião (27/06/2025) - Seu emprego está em Risco? Os impactos da IA no mundo do trabalho" allowfullscreen></iframe>
       </div>
-      <div class="video-caption">Programa Opinião (27/06/2025) - Seu emprego está em Risco? Os impactos da IA no mundo do trabalho</div>
+      <div class="video-caption">Programa Opinião (27/06/2025): Seu emprego está em risco? Os impactos da IA no mundo do trabalho</div>
     </div>
 
     <div>
       <div class="video-wrapper">
         <iframe src="https://www.youtube.com/embed/p4t6fqXmPWA" 
-                title="Corte: Thiago Meireles revela que engenharia será uma das carreiras mais prejudicadas pela IA, no #Opinião" allowfullscreen></iframe>
+                title="Corte do programa Opinião: os impactos da IA sobre a engenharia" allowfullscreen></iframe>
       </div>
-      <div class="video-caption">Corte: Thiago Meireles revela que engenharia será uma das carreiras mais prejudicadas pela IA, no #Opinião</div>
+      <div class="video-caption">Corte do programa Opinião: os impactos da IA sobre a engenharia</div>
     </div>
 
   </div>
 
 
-  <h2 class="section-title" style="margin-top: 4rem;">Na Imprensa</h2>
+  <h2 class="section-title" style="margin-top: 4rem;">Na imprensa</h2>
   
   <div class="news-grid">
 
@@ -176,12 +176,10 @@ show_sidebar: false
           Desemprego tecnológico: inteligências artificiais podem realmente substituir profissões?
         </a>
         <p class="news-snippet">
-          Pesquisadores apontam os limites de tecnologias como o ChatGPT no mercado de trabalho
-
-Autor.
+          Pesquisadores apontam os limites de tecnologias como o ChatGPT no mercado de trabalho.
         </p>
       </div>
-      <a href="https://www.institutoclaro.org.br/cidadania/nossas-novidades/reportagens/desemprego-tecnologico-inteligencias-artificiais-podem-realmente-substituir-profissoes/" target="_blank" class="news-link-btn">Ler Matéria</a>
+      <a href="https://www.institutoclaro.org.br/cidadania/nossas-novidades/reportagens/desemprego-tecnologico-inteligencias-artificiais-podem-realmente-substituir-profissoes/" target="_blank" class="news-link-btn">Ler matéria</a>
     </div>
 
   </div>

@@ -129,7 +129,7 @@ show_sidebar: false
 
 {% include banner_en.html %}
 
-Here are some of the projects developed throughout my academic and professional journey, focused on **Data Science**, **Visualization**, and **Causal Inference**.
+A selection of academic and professional work: webinars, conference papers and technical notes. Most of it deals with survey methodology, the use of nonprobability samples and the Brazilian labor market.
 
 <div class="margem-desktop">
 
@@ -155,7 +155,7 @@ Here are some of the projects developed throughout my academic and professional 
 
   </div>
 
-  <h2 class="section-title" style="margin-top: 4rem;">Technical Reports & Articles</h2>
+  <h2 class="section-title" style="margin-top: 4rem;">Papers and technical reports</h2>
   
   <div class="news-grid">
 
@@ -166,12 +166,12 @@ Here are some of the projects developed throughout my academic and professional 
           Classifying Open-Ended Questions: A Comparison of Supervised Learning and Large Language Models
         </a>
         <p class="news-snippet">
-          This study compares two strategies for classifying the question “What does privacy mean to you?” into six predefined categories, using the 2025 edition of the ICT Web Panel, dedicated to privacy on the Internet and conducted by Cetic.br .
+          The study compares two strategies for classifying answers to the question “What does privacy mean to you?” into six predefined categories. The data come from the 2025 edition of the ICT Panel, conducted by Cetic.br and dedicated to online privacy.
           <br><br>
           <strong>Authors:</strong> Thiago Meireles & Winston Oyadomari.
         </p>
       </div>
-      <a href="https://access.wapor.org/conf18/uploads/wapor/195/4193/92/Classifying_Open_Ended_Questions.pdf?" target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="https://access.wapor.org/conf18/uploads/wapor/195/4193/92/Classifying_Open_Ended_Questions.pdf?" target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
     <div class="news-card">
@@ -181,12 +181,12 @@ Here are some of the projects developed throughout my academic and professional 
           Exploring Methodological Alternatives in the ICT Panel Survey: Insights from Open-Ended Questions
         </a>
         <p class="news-snippet">
-          This study explores methodological alternatives for analysing open-ended responses in large-scale digital surveys, using the ICT Panel Survey in Brazil as a case study.
+          The study tests methodological alternatives for analyzing open-ended responses in large-scale online surveys, using Brazil's ICT Panel as the case. To classify the texts, it combines qualitative and quantitative approaches through supervised machine learning models.
           <br><br>
           <strong>Authors:</strong> Thiago Meireles, Winston Oyadomari & Marcelo Pitta.
         </p>
       </div>
-      <a href="https://access.wapor.org/conf18/uploads/wapor/53/4193/26/Exploring_Methodological_Alternatives_in_the_ICT_Panel_Survey.pdf?" target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="https://access.wapor.org/conf18/uploads/wapor/53/4193/26/Exploring_Methodological_Alternatives_in_the_ICT_Panel_Survey.pdf?" target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
     <div class="news-card">
@@ -201,7 +201,7 @@ Here are some of the projects developed throughout my academic and professional 
           <strong>Author:</strong> Thiago Meireles.
         </p>
       </div>
-      <a href="https://cetic.br/media/docs/publicacoes/6/20241218183020/ano-xvi-n-4-ia-mercado-trabalho.pdf" target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="https://cetic.br/media/docs/publicacoes/6/20241218183020/ano-xvi-n-4-ia-mercado-trabalho.pdf" target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
     <div class="news-card">
@@ -211,12 +211,12 @@ Here are some of the projects developed throughout my academic and professional 
           Weighting the Simet measurement database for public schools
         </a>
         <p class="news-snippet">
-          This methodology aims to estimate Internet quality measures for the entire population of schools based on measurements available only from the Simet sample.
+          Since the population of basic education schools is known and its characteristics are measured by the School Census, the weighting allows Internet quality to be estimated for all schools from measurements taken only at the schools that take part in Simet.
           <br><br>
           <strong>Authors:</strong> Marcelo Pitta, Thiago Meireles & Pedro Luis do Nascimento Silva.
         </p>
       </div>
-      <a href="/assets/pdf/esamp2023.pdf" target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="/assets/pdf/esamp2023.pdf" target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
     <div class="news-card">
@@ -226,12 +226,12 @@ Here are some of the projects developed throughout my academic and professional 
           Technical Note No. 22: Without guidelines for remote learning, the Federal Government repeats the health tragedy in education.
         </a>
         <p class="news-snippet">
-          During the pandemic, the Ministry of Education failed to guide or disseminate successful distance learning methodologies. More than 8 million children remained without school activities.
+          During the pandemic, the Ministry of Education neither guided nor spread successful remote learning methods. States set their own strategies and got very different results, and more than 8 million children aged 6 to 14 had no school activities to do at home.
           <br><br>
           <strong>Authors:</strong> Ian Prates, Hellen Guicheney, Thiago Meireles, et al.
         </p>
       </div>
-      <a href="..." target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="..." target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
     <div class="news-card">
@@ -241,12 +241,12 @@ Here are some of the projects developed throughout my academic and professional 
           Technical Note No. 17: Crisis alters the profile of home-based work. Digital inequality reduces earnings.
         </a>
         <p class="news-snippet">
-          The percentage of people working from home jumped from 4.9% in 2019 to 10.3% in May 2020, revealing deep digital divides in the labor market.
+          The share of people working from home jumped from 4.9% in 2019 to 10.3% in May 2020. In 2019, self-employed workers were 88.3% of those working from home; by May 2020 they were less than 15%.
           <br><br>
           <strong>Authors:</strong> Rogério Jerônimo Barbosa, Ian Prates, Fábio Senne, Leonardo Lins, Thiago Meireles, et al.
         </p>
       </div>
-      <a href="..." target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="..." target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
     <div class="news-card">
@@ -256,12 +256,12 @@ Here are some of the projects developed throughout my academic and professional 
           Technical Note No. 14: Dramatic unemployment situation is hidden in official indicators.
         </a>
         <p class="news-snippet">
-          For the first time in history, the employment level fell below 50%. Without emergency income, poverty would have reached 30% of the population.
+          For the first time on record, the employment rate fell below 50% between March and April, according to IBGE's PNAD-Covid: more people were out of work than working. Without the emergency income, poverty would have reached 30% of the population.
           <br><br>
           <strong>Authors:</strong> Ian Prates, Rogério Jerônimo Barbosa, Thiago Meireles, et al.
         </p>
       </div>
-      <a href="..." target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="..." target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
     <div class="news-card">
@@ -271,12 +271,12 @@ Here are some of the projects developed throughout my academic and professional 
           Technical Note No. 8: R$ 600.00 aid must continue and can be financed by emergency contribution on high incomes
         </a>
         <p class="news-snippet">
-          The prolonged social distancing has disrupted the labor market and affected workers' employment and families' income. The public debate on the extension of the Emergency Basic Income has become inevitable, both in society and in the National Congress.
+          Prolonged social distancing disrupted the labor market, hitting workers' jobs and family income. As a result, extending the Emergency Basic Income became an unavoidable debate, both in society and in the National Congress.
           <br><br>
           <strong>Authors:</strong> Ian Prates, Rogério Jerônimo Barbosa, Thiago Meireles, et al.
         </p>
       </div>
-      <a href="https://redepesquisasolidaria.org/boletins/boletim-8/auxilio-de-r-60000-precisa-continuar-e-pode-ser-financiado-por-contribuicao-emergencial-sobre-altas-rendas/" target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="https://redepesquisasolidaria.org/boletins/boletim-8/auxilio-de-r-60000-precisa-continuar-e-pode-ser-financiado-por-contribuicao-emergencial-sobre-altas-rendas/" target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
     <div class="news-card">
@@ -286,12 +286,12 @@ Here are some of the projects developed throughout my academic and professional 
           Technical Note No. 5: Difficulties with the application and non-use of the current protection network limit access to emergency aid
         </a>
         <p class="news-snippet">
-          The government opted for a technological implementation that presents problems due to the low-income population's low familiarity with and access to Information and Communication Technologies (applications, phones, and computers).
+          The government chose an app-based implementation that runs into the low-income population's limited access to, and familiarity with, Information and Communication Technologies (apps, phones and computers).
           <br><br>
           <strong>Authors:</strong> Rogério Jerônimo Barbosa, Ian Prates, Thiago Meireles, et al.
         </p>
       </div>
-      <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim5.pdf" target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim5.pdf" target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
     <div class="news-card">
@@ -301,19 +301,19 @@ Here are some of the projects developed throughout my academic and professional 
           Technical Note No. 2: The vulnerability of Brazilian workers in the Covid-19 pandemic
         </a>
         <p class="news-snippet">
-          Identifying the most fragile segments of Brazilian workers and measuring their degree of vulnerability as a key procedure for the execution of quality public policies.
+          The note identifies the most fragile segments of Brazilian workers and measures how vulnerable each one is, a necessary step for designing public policies that reach those who need them.
           <br><br>
           <strong>Authors:</strong> Rogério Jerônimo Barbosa, Ian Prates and Thiago Meireles.
         </p>
       </div>
-      <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim2.pdf" target="_blank" class="news-link-btn">Access Publication</a>
+      <a href="https://redepesquisasolidaria.org/wp-content/uploads/2020/05/boletim2.pdf" target="_blank" class="news-link-btn">Read the publication</a>
     </div>
 
   </div>
 
-  <h2 class="section-title" style="margin-top: 4rem;">Other Projects</h2>
+  <h2 class="section-title" style="margin-top: 4rem;">Other projects</h2>
   <p>
-    For the full list of repositories, visit my 
+    My code repositories are on 
     <a href="https://github.com/thiagomeireles" target="_blank" style="color: #0056b3; font-weight: bold;">GitHub</a>.
   </p>
 

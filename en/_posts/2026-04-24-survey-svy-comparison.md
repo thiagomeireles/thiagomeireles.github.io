@@ -1,32 +1,30 @@
 ---
 layout: post
-title: "Survey Analysis Comparison: R vs Python"
-subtitle: "Using the ICT Households 2025 dataset"
-excerpt: "This guide demonstrates how to replicate a complex survey analysis using the `survey` (R) and `svy` (Python) packages, ensuring consistency in estimates and standard errors."
+title: "Complex samples in R and Python: survey and svy side by side"
+subtitle: "With the ICT Households 2025 microdata"
+excerpt: "The same complex sample analysis run with the `survey` package (R) and the `svy` library (Python), to check whether estimates and standard errors match and, when they don't, why."
 date: 2026-04-24 09:25:00 -0300
 categories: [statistics]
 tags: [survey, R, Python]
 # image: /assets/images/your-banner-here.jpg # Uncomment to add a cover image
 ---
 
-# Survey Analysis Comparison: R vs Python
+# Complex samples in R and Python: survey and svy side by side
 
-This guide demonstrates how to replicate a complex survey analysis using the [`survey`](https://cran.r-project.org/web/packages/survey/index.html) (R) and [`svy`](https://svylab.com/learn/notes/posts/design-based-survey-analysis-in-python/) (Python) packages, ensuring consistency in estimates and standard errors.
+In R, complex sample survey analysis usually goes through the [`survey`](https://cran.r-project.org/web/packages/survey/index.html) package; in Python, one option is the [`svy`](https://svylab.com/learn/notes/posts/design-based-survey-analysis-in-python/) library. This post runs the same analysis in both tools to check whether point estimates and standard errors match. More specifically, it shows where the difference in standard errors comes from and how to line the two results up.
 
+All replication materials are in this [GitHub repository](https://github.com/thiagomeireles/survey_svy_tic_dom25).
 
-This [`GitHub repository`](https://github.com/thiagomeireles/survey_svy_tic_dom25) contains all materials for replication.
+**Data:** the microdata used in the analysis are available here: [ICT Households 2025 (SAV)](https://cetic.br/media/microdados/983/tic_domicilios_2025_domicilios_base_de_microdados_v1.0.sav).
 
+## 1. The data
+The analysis uses microdata from [**ICT Households 2025**](https://cetic.br/en/pesquisa/domicilios/), a survey conducted every year since 2005 to measure ICT access and use in Brazilian households, following ITU and UNESCO methodological standards.
 
-**Data Download:** The microdata used in this analysis can be obtained directly here: [ICT Households 2025 (SAV)](https://cetic.br/media/microdados/983/tic_domicilios_2025_domicilios_base_de_microdados_v1.0.sav).
-
-## 1. Data Context
-We use microdata from the [**ICT Households 2025**](https://cetic.br/en/pesquisa/domicilios/) survey. This survey, conducted annually since 2005, is a key international reference for monitoring digital inclusion in Brazil, following methodological standards from the ITU and UNESCO.
-
-In this analysis, we focus on two primary indicators:
+Two indicators go into the comparison:
 - **A1: Households with computer**, disaggregated by **REGION** (Sudeste, Nordeste, Sul, Norte, Centro-Oeste).
 - **A4: Households with internet access**, disaggregated by **AREA** (Urban/Rural).
 
-**Labels and Codes:**
+**Labels and codes:**
 - **AREA**: 1 = Urban, 2 = Rural
 - **REGION**: 1 = Southeast, 2 = Northeast, 3 = South, 4 = North, 5 = Center-West
 - **A1/A4**: 1 = Yes, 0 = No
@@ -92,11 +90,11 @@ estimates_py_df = estimates_py.to_polars().with_columns(
 )
 ```
 
-## 4. Results Obtained (Indicator A4: Households with Internet Access by Area)
-Below are the estimates for internet access in Brazilian households for 2025, comparing Python (`svy`) with the two scale approaches in R (`survey`).
+## 4. Indicator A4: households with internet access, by area
+The tables compare the 2025 estimates of household internet access computed in Python (`svy`) with the two bootstrap scales tested in R (`survey`).
 
 ### 4.1 Comparison: Version 1 (Canty-Davison) vs Python
-In this section, R uses the **Canty-Davison** method.
+Here R uses the **Canty-Davison** method.
 
 | Area | Response (A4) | Est. R | Est. Python | SE R (v1) | SE Python | SE Diff |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -108,7 +106,7 @@ In this section, R uses the **Canty-Davison** method.
 | Rural | Don't Know (97) | 0.001851 | 0.001851 | 0.000881 | 0.000881 | 0.000000 |
 
 ### 4.2 Comparison: Version 2 (Rao-Wu) vs Python
-In this section, R uses the **Rao-Wu** method.
+Here R uses the **Rao-Wu** method.
 
 | Area | Response (A4) | Est. R | Est. Python | SE R (v2) | SE Python | SE Diff |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -119,14 +117,13 @@ In this section, R uses the **Rao-Wu** method.
 | Rural | No (0) | 0.188962 | 0.188962 | 0.007526 | 0.007526 | 0.000000 |
 | Rural | Don't Know (97) | 0.001851 | 0.001851 | 0.000772 | 0.000772 | 0.000000 |
 
-## 5. Results Obtained (Indicator A1: Households with Computer by Region)
-Following the same logic as Indicator A4, we present the results for **Indicator A1**, now disaggregated by **Region**. 
+## 5. Indicator A1: households with a computer, by region
+The same comparison applies to **indicator A1**, now disaggregated by **region**. 
 
-**Technical Note on Methodology:**
-It is important to note that the official **ICT Households** results published by Cetic.br utilize the **Canty-Davison** bootstrap method for variance estimation. In contrast, the Python `svy` package implements the **Rao-Wu** bootstrap method. For the comparisons below, both versions were calculated in R and manually inserted to validate the Python implementation against the Rao-Wu standard.
+**A note on methodology.** The official **ICT Households** results, published by Cetic.br, estimate variance with the **Canty-Davison** bootstrap. The `svy` library, on the other hand, uses the **Rao-Wu** method. For that reason, both versions were computed in R and entered manually in the tables below, which makes it possible to validate the Python implementation against the Rao-Wu standard.
 
 #### Comparison A1: Version 1 (Canty-Davison) vs Python (by Region)
-In this comparison, R results reflect the official methodology (Canty-Davison).
+Here R follows the official methodology (Canty-Davison).
 
 | Region | Response (A1) | Est. R | Est. Python | SE R (v1) | SE Python | SE Diff |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -137,7 +134,7 @@ In this comparison, R results reflect the official methodology (Canty-Davison).
 | **Center-West** | **Yes (1)** | **0.278927** | **0.278927** | 0.011757 | 0.011757 | 0.000000 |
 
 #### Comparison A1: Version 2 (Rao-Wu) vs Python (by Region)
-In this comparison, R is adjusted to use the **Rao-Wu** scale, matching the underlying logic of the `svy` package.
+Here R uses the **Rao-Wu** scale, the same internal logic as the `svy` library.
 
 | Region | Response (A1) | Est. R | Est. Python | SE R (v2) | SE Python | SE Diff |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -147,17 +144,19 @@ In this comparison, R is adjusted to use the **Rao-Wu** scale, matching the unde
 | **North** | **Yes (1)** | **0.253914** | **0.253914** | 0.012057 | 0.012057 | 0.000000 |
 | **Center-West** | **Yes (1)** | **0.278927** | **0.278927** | 0.010308 | 0.010308 | 0.000000 |
 
-### Standard Errors (SE) and Scale Adjustments
-In this analysis, we explored scale approaches for the Bootstrap based on the **Canty-Davison** and **Rao-Wu** methods. We highlight that:
-- **TIC Domicílios (Official)**: Uses the **Canty-Davison** bootstrap method, with a producer-specific scale = 0.0065365334145709.
-- **Python (`svy` library)**: Uses the **Rao-Wu** bootstrap method (scale = 1/R) internally.
-- **R (`survey` package)**: Defaults to Canty-Davison (scale = 1/(R-1)) but allows switching via the `scale` parameter.
+### Standard errors (SE) and scale adjustments
+The two bootstrap scales tested come from the **Canty-Davison** and **Rao-Wu** methods, and each tool starts from one of them:
+- **ICT Households (official)**: uses the **Canty-Davison** bootstrap, with a producer-specific scale of 0.0065365334145709.
+- **Python (`svy` library)**: uses the **Rao-Wu** bootstrap internally (scale = 1/R).
+- **R (`survey` package)**: defaults to Canty-Davison (scale = 1/(R-1)), but the `scale` parameter lets you switch.
 
-The SE gap is entirely about the bootstrap scale convention. Two ways to line them up:
+The gap in standard errors comes entirely from the bootstrap scale convention. There are two ways to line them up:
 1. To reproduce svy's SEs in R, pass `scale = 1/R` to `svrepdesign` (where `R` is the number of replicates).
 2. To reproduce R's SEs (with any scale `c`) from svy's output, multiply svy's SEs by `math.sqrt(c * R)`.
 
-To ensure a fair comparison, we calculated both versions in R and manually inserted them into these tables. While point estimates remain identical across all tools, the standard errors in Python align with the Rao-Wu implementation.
+Since both versions were computed in R and entered manually in the tables, the comparison starts from the same base. Point estimates are identical across all tools; the Python standard errors, however, follow the Rao-Wu implementation.
 
-## 6. Conclusion
-The migration of analysis pipelines from R to Python using the `svy` library maintains the precision required for statistics derived from complex sample data, allowing users to leverage Polars' speed and the integration of the Python ecosystem.
+## 6. What can we say?
+Point estimates from R and Python are identical, and standard errors also match once the bootstrap scale is handled explicitly. Moving a complex sample pipeline from R to Python with `svy`, then, doesn't change the results, and it opens the door to using Polars for data handling.
+
+The comparison, however, covers only proportions for two ICT Households 2025 indicators. Totals, ratios and regression models (the equivalent of `svyglm`) still need to be tested before treating the two tools as interchangeable.
