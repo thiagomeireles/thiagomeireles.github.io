@@ -12,6 +12,9 @@ author: "Thiago Meireles"
   .app-temas .card.is-ativo { border-color: #3459e6; }
   .app-temas .card .tag { margin-left: 0.4rem; vertical-align: middle; }
   .app-frame { width: 100%; height: 920px; border: 1px solid #eaeaea; border-radius: 8px; }
+  .pix-contribua { margin-top: 2.5rem; }
+  .pix-contribua .pix-qr { width: 200px; max-width: 100%; }
+  .pix-contribua .pix-codigo { font-family: monospace; font-size: 0.8rem; word-break: break-all; }
 </style>
 
 ## Estatística na prática
@@ -71,5 +74,32 @@ Demonstrações interativas de conceitos de estatística e amostragem, organizad
     });
 
     abrir(location.hash.slice(1) || cartoes[0].dataset.app, false);
+  })();
+</script>
+
+<div class="box pix-contribua">
+  <div class="columns is-vcentered">
+    <div class="column is-narrow has-text-centered">
+      <img class="pix-qr" src="{{ '/assets/images/pix_qr.svg' | relative_url }}" alt="QR code Pix para contribuir com o projeto">
+    </div>
+    <div class="column">
+      <p class="title is-4">Contribua com o projeto</p>
+      <p>Os aplicativos são gratuitos e abertos. Se eles foram úteis para você, considere contribuir com qualquer valor via Pix: escaneie o QR code ou copie o código abaixo e cole no app do seu banco, na opção "Pix copia e cola".</p>
+      <p class="pix-codigo" id="pix-codigo">{{ site.data.pix.copia_e_cola }}</p>
+      <button class="button is-primary is-small" id="pix-copiar" type="button">Copiar código Pix</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var botao = document.getElementById("pix-copiar");
+    var codigo = document.getElementById("pix-codigo").textContent.trim();
+    botao.addEventListener("click", function () {
+      navigator.clipboard.writeText(codigo).then(function () {
+        botao.textContent = "Código copiado";
+        setTimeout(function () { botao.textContent = "Copiar código Pix"; }, 2500);
+      });
+    });
   })();
 </script>
