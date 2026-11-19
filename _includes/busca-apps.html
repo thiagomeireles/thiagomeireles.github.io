@@ -1,0 +1,223 @@
+{%- comment -%}
+Include: busca-apps (campo de busca e tags dos temas do "Estatística na prática")
+Autor: Thiago Meireles | Atualizado: 2026-11-19
+Entrada: include.idioma ("pt" ou "en"); temas de _data/apps.yml (titulo/title, descricao/description,
+         tags/tags_en) e tópicos de _data/topicos.yml; Fuse.js 7.1.0 (basic) pelo cdnjs
+Saída: busca por texto (tolerante a acentos e erros de digitação) e filtro por tag; com busca ativa,
+       os cartões de tópico (.app-topicos) somem e aparecem os temas encontrados, com link para a tela cheia.
+       Estado na URL (?q=...&tag=...). Sem o Fuse.js (CDN fora do ar), cai numa busca simples por trecho.
+{%- endcomment -%}
+{%- if include.idioma == "en" -%}
+  {%- assign t_rotulo = "Search the apps" -%}
+  {%- assign t_dica = "Search by concept, e.g. mean, normal distribution, simulation" -%}
+  {%- assign t_todas = "Browse all tags" -%}
+  {%- assign t_filtro = "Tag:" -%}
+  {%- assign t_remover = "Remove tag" -%}
+  {%- assign t_um = "1 theme found" -%}
+  {%- assign t_varios = "themes found" -%}
+  {%- assign t_nenhum = "No theme found. Try another word or browse the tags." -%}
+  {%- assign t_abrir = "Open the app" -%}
+{%- else -%}
+  {%- assign t_rotulo = "Buscar nos aplicativos" -%}
+  {%- assign t_dica = "Busque por conceito: média, distribuição normal, simulação…" -%}
+  {%- assign t_todas = "Ver todas as tags" -%}
+  {%- assign t_filtro = "Tag:" -%}
+  {%- assign t_remover = "Remover tag" -%}
+  {%- assign t_um = "1 tema encontrado" -%}
+  {%- assign t_varios = "temas encontrados" -%}
+  {%- assign t_nenhum = "Nenhum tema encontrado. Tente outra palavra ou veja as tags." -%}
+  {%- assign t_abrir = "Abrir o aplicativo" -%}
+{%- endif -%}
+<style>
+  .app-topicos[hidden], .busca-resultados[hidden], .busca-apps [hidden], .busca-status[hidden] { display: none !important; }
+  .busca-apps { margin-bottom: 1.5rem; }
+  .busca-apps details summary { cursor: pointer; color: #6c757d; font-size: 0.9rem; margin-top: 0.6rem; }
+  .busca-apps .tags { margin-top: 0.6rem; }
+  .busca-apps button.tag, .busca-resultados button.tag { border: 0; cursor: pointer; }
+  .busca-apps button.tag.is-ativa, .busca-resultados button.tag.is-ativa { background-color: #3459e6; color: #fff; }
+  .busca-apps .busca-filtro { margin-top: 0.6rem; }
+  .busca-status { color: #6c757d; margin-bottom: 0.8rem; }
+  .busca-resultados .card { height: 100%; border: 2px solid transparent; transition: border-color 0.15s; }
+  .busca-resultados .card:hover { border-color: #3459e6; }
+  .busca-resultados .busca-topico { color: #6c757d; font-size: 0.85rem; margin-bottom: 0.5rem; }
+</style>
+<div class="busca-apps">
+  <label class="label is-sr-only" for="busca-apps-campo">{{ t_rotulo }}</label>
+  <div class="control has-icons-left">
+    <input class="input" type="search" id="busca-apps-campo" placeholder="{{ t_dica }}" autocomplete="off" spellcheck="false">
+    <span class="icon is-left" aria-hidden="true"><i class="fas fa-search"></i></span>
+  </div>
+  <p class="busca-filtro" id="busca-apps-filtro" hidden>{{ t_filtro }} <span class="tag is-link"><span id="busca-apps-filtro-nome"></span><button class="delete is-small" type="button" id="busca-apps-filtro-remover" aria-label="{{ t_remover }}"></button></span></p>
+  <details id="busca-apps-nuvem">
+    <summary>{{ t_todas }}</summary>
+    <div class="tags" id="busca-apps-tags"></div>
+  </details>
+</div>
+<p class="busca-status" id="busca-apps-status" role="status" hidden></p>
+<div class="columns is-multiline busca-resultados" id="busca-apps-resultados" hidden></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.1.0/fuse.basic.min.js" integrity="sha512-vBUkjPUol2ttHVXSBuFOqF4yOfqKxL6hnAuGS5dytyle9fxbB+lfaE1T5s+I8Aoe/xU5IuQd/wqS5Sv7lc7xgg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script>
+  (function () {
+    var temas = [
+      {%- for app in site.data.apps %}
+      {%- assign busca_topico = site.data.topicos | where: "slug", app.topico | first %}
+      {%- if include.idioma == "en" %}
+      {%- assign busca_slug = app.slug_en | default: app.slug %}
+      {%- assign busca_url = '/apps/en/' | append: busca_slug | append: '/' | relative_url %}
+      { "slug": {{ app.slug | jsonify }}, "titulo": {{ app.title | jsonify }}, "descricao": {{ app.description | jsonify }}, "topico": {{ busca_topico.title | jsonify }}, "tags": {{ app.tags_en | jsonify }}, "url": {{ busca_url | jsonify }} }{% unless forloop.last %},{% endunless %}
+      {%- else %}
+      {%- assign busca_url = '/apps/' | append: app.slug | append: '/' | relative_url %}
+      { "slug": {{ app.slug | jsonify }}, "titulo": {{ app.titulo | jsonify }}, "descricao": {{ app.descricao | jsonify }}, "topico": {{ busca_topico.titulo | jsonify }}, "tags": {{ app.tags | jsonify }}, "url": {{ busca_url | jsonify }} }{% unless forloop.last %},{% endunless %}
+      {%- endif %}
+      {%- endfor %}
+    ];
+    var textos = {
+      um: {{ t_um | jsonify }},
+      varios: {{ t_varios | jsonify }},
+      nenhum: {{ t_nenhum | jsonify }},
+      abrir: {{ t_abrir | jsonify }},
+      idioma: {{ include.idioma | default: "pt" | jsonify }}
+    };
+    temas.forEach(function (t) { t.tags = t.tags || []; });
+    var campo, filtro, filtroNome, nuvem, status, resultados, fuse = null, tagAtiva = "";
+    // Minúsculas e sem acentos, para comparar "media" com "Média"
+    function normalizar(s) {
+      return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    }
+    // Palavras da busca; "de", "do", "of" etc. ficam de fora se houver palavras maiores
+    function palavrasDa(q) {
+      var todas = q.split(/\s+/).filter(Boolean);
+      var longas = todas.filter(function (p) { return p.length >= 3; });
+      return longas.length ? longas : todas;
+    }
+    // Cada palavra precisa bater com o tema (E lógico); a ordem segue a soma dos escores do Fuse
+    function buscarTexto(q, lista) {
+      var palavras = palavrasDa(q);
+      if (!palavras.length) return lista;
+      if (!fuse) {
+        return lista.filter(function (t) {
+          var alvo = normalizar([t.titulo, t.descricao, t.topico, t.tags.join(" ")].join(" "));
+          return palavras.every(function (p) { return alvo.indexOf(normalizar(p)) >= 0; });
+        });
+      }
+      var pontos = {}, acertos = {};
+      palavras.forEach(function (p) {
+        fuse.search(p).forEach(function (r) {
+          pontos[r.item.slug] = (pontos[r.item.slug] || 0) + r.score;
+          acertos[r.item.slug] = (acertos[r.item.slug] || 0) + 1;
+        });
+      });
+      return lista
+        .filter(function (t) { return acertos[t.slug] === palavras.length; })
+        .sort(function (a, b) { return pontos[a.slug] - pontos[b.slug]; });
+    }
+    function botaoTag(tag) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "tag is-light" + (tag === tagAtiva ? " is-ativa" : "");
+      b.textContent = tag;
+      b.setAttribute("aria-pressed", tag === tagAtiva ? "true" : "false");
+      b.addEventListener("click", function () {
+        tagAtiva = tagAtiva === tag ? "" : tag;
+        atualizar();
+      });
+      return b;
+    }
+    function cartao(t) {
+      var coluna = document.createElement("div");
+      coluna.className = "column is-one-third";
+      var card = document.createElement("div");
+      card.className = "card";
+      var corpo = document.createElement("div");
+      corpo.className = "card-content";
+      var titulo = document.createElement("p");
+      titulo.className = "title is-5";
+      var link = document.createElement("a");
+      link.href = t.url;
+      link.textContent = t.titulo;
+      link.title = textos.abrir;
+      titulo.appendChild(link);
+      var topico = document.createElement("p");
+      topico.className = "busca-topico";
+      topico.textContent = t.topico;
+      var descricao = document.createElement("p");
+      descricao.className = "content";
+      descricao.textContent = t.descricao;
+      var tags = document.createElement("div");
+      tags.className = "tags";
+      t.tags.forEach(function (tag) { tags.appendChild(botaoTag(tag)); });
+      corpo.append(titulo, topico, descricao, tags);
+      card.appendChild(corpo);
+      coluna.appendChild(card);
+      return coluna;
+    }
+    function desenharNuvem() {
+      var todas = [];
+      temas.forEach(function (t) {
+        t.tags.forEach(function (tag) { if (todas.indexOf(tag) < 0) todas.push(tag); });
+      });
+      todas.sort(function (a, b) { return a.localeCompare(b, textos.idioma === "en" ? "en" : "pt-BR", { sensitivity: "base" }); });
+      nuvem.replaceChildren.apply(nuvem, todas.map(botaoTag));
+    }
+    function gravarNaUrl(q) {
+      var params = new URLSearchParams();
+      if (q) params.set("q", q);
+      if (tagAtiva) params.set("tag", tagAtiva);
+      var busca = params.toString();
+      var nova = location.pathname + (busca ? "?" + busca : "") + location.hash;
+      if (nova !== location.pathname + location.search + location.hash) history.replaceState(null, "", nova);
+    }
+    function atualizar() {
+      var q = campo.value.trim();
+      var ativa = q !== "" || tagAtiva !== "";
+      var topicos = document.querySelector(".app-topicos");
+      if (topicos) topicos.hidden = ativa;
+      resultados.hidden = !ativa;
+      status.hidden = !ativa;
+      filtro.hidden = !tagAtiva;
+      filtroNome.textContent = tagAtiva;
+      desenharNuvem();
+      gravarNaUrl(q);
+      if (!ativa) { resultados.replaceChildren(); return; }
+      var lista = temas.filter(function (t) { return !tagAtiva || t.tags.indexOf(tagAtiva) >= 0; });
+      var achados = buscarTexto(q, lista);
+      status.textContent = achados.length === 0 ? textos.nenhum
+        : achados.length === 1 ? textos.um
+        : achados.length + " " + textos.varios;
+      resultados.replaceChildren.apply(resultados, achados.map(cartao));
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+      campo = document.getElementById("busca-apps-campo");
+      filtro = document.getElementById("busca-apps-filtro");
+      filtroNome = document.getElementById("busca-apps-filtro-nome");
+      nuvem = document.getElementById("busca-apps-tags");
+      status = document.getElementById("busca-apps-status");
+      resultados = document.getElementById("busca-apps-resultados");
+      if (window.Fuse) {
+        fuse = new Fuse(temas, {
+          keys: [
+            { name: "titulo", weight: 3 },
+            { name: "tags", weight: 2 },
+            { name: "descricao", weight: 1 },
+            { name: "topico", weight: 0.5 }
+          ],
+          includeScore: true,
+          ignoreLocation: true,
+          ignoreDiacritics: true,
+          threshold: 0.3,
+          minMatchCharLength: 2
+        });
+      }
+      var params = new URLSearchParams(location.search);
+      campo.value = params.get("q") || "";
+      var tag = params.get("tag") || "";
+      tagAtiva = temas.some(function (t) { return t.tags.indexOf(tag) >= 0; }) ? tag : "";
+      campo.addEventListener("input", atualizar);
+      document.getElementById("busca-apps-filtro-remover").addEventListener("click", function () {
+        tagAtiva = "";
+        atualizar();
+      });
+      atualizar();
+    });
+  })();
+</script>

@@ -15,7 +15,9 @@ author: "Thiago Meireles"
 
 ## Statistics in practice
 
-The apps are interactive demos of statistics and sampling concepts, organized by topic. Each topic covers a few themes, and new topics and themes are added over time. Pick a topic below to start.
+The apps are interactive demos of statistics and sampling concepts, organized by topic. Each topic covers a few themes, and new topics and themes are added over time. Pick a topic below to start, or search for the concept you need.
+
+{% include busca-apps.html idioma="en" %}
 
 {% comment %} English URLs use slug_en when there is one (topics: /en/apps/<slug_en>/; themes: #<slug_en>) {% endcomment %}
 <div class="columns is-multiline app-topicos">
