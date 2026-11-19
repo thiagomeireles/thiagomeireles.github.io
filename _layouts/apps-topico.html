@@ -29,6 +29,14 @@ Saída: cartões dos temas do tópico, cada um levando à página de tela cheia 
 
 <p>{% if page.idioma == "en" %}{{ topico.description }} Pick a theme below.{% else %}{{ topico.descricao }} Escolha um tema abaixo.{% endif %}</p>
 
+<div class="notification is-light">
+{%- if page.idioma == "en" %}
+  The apps run on a server. If nobody has used them for a few days, the server is asleep and the first load can take up to a minute; after that, themes open quickly.
+{%- else %}
+  Os aplicativos rodam em um servidor. Se ninguém os usou nos últimos dias, o servidor está parado e a primeira abertura pode levar até um minuto; depois disso, os temas abrem rápido.
+{%- endif %}
+</div>
+
 <div class="columns is-multiline app-temas">
 {%- for app in temas -%}
   {%- if page.idioma == "en" -%}
@@ -51,14 +59,6 @@ Saída: cartões dos temas do tópico, cada um levando à página de tela cheia 
     </a>
   </div>
 {%- endfor -%}
-</div>
-
-<div class="notification is-light">
-{%- if page.idioma == "en" %}
-  The apps run in R on a server. If nobody has used them for a few days, the server is asleep and the first load can take up to a minute; after that, themes open quickly.
-{%- else %}
-  Os aplicativos rodam em R num servidor. Se ninguém os usou nos últimos dias, o servidor está parado e a primeira abertura pode levar até um minuto; depois disso, os temas abrem rápido.
-{%- endif %}
 </div>
 
 <script>
