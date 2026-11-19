@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  utilitarios.R (modelo comum a todos os apps de tema)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-19
 #
 # Entrada:
 #   - idioma.txt (opcional): "pt" ou "en", gravado por
@@ -9,7 +9,8 @@
 #   - tema/ (opcional): CSS do zephyr pré-compilado pelo mesmo script
 # Saída:
 #   - objetos em memória: idioma, tr(), cores_app, tema_zephyr(), tema_app(),
-#     dependencia_tema(), estilo_app(), pagina_tema(), item_em_breve(),
+#     dependencia_tema(), estilo_app(), no_navegador(), texto_execucao(),
+#     pagina_tema(), item_em_breve(),
 #     modo_app(), paleta_modo(), tema_grafico(), fmt_num(), fmt_pct(),
 #     sep_milhar(), tabela_html()
 # =============================================================================
@@ -82,23 +83,44 @@ estilo_app <- function() {
   "))
 }
 
+# TRUE no Shinylive (R compilado para WebAssembly), FALSE no servidor
+no_navegador <- function() grepl("emscripten", R.version$platform, fixed = TRUE)
+
+# Como o app roda, conforme a hospedagem (Shinylive ou Shiny Server)
+texto_execucao <- function() {
+  if (no_navegador()) {
+    return(tr(
+      paste(
+        "O aplicativo roda inteiro no seu navegador, com R compilado para WebAssembly (webR e Shinylive).",
+        "Nenhum dado sai do seu computador. A primeira abertura demora alguns segundos;",
+        "as próximas usam o cache do navegador, que é compartilhado entre todos os temas."
+      ),
+      paste(
+        "The app runs entirely in your browser, with R compiled to WebAssembly (webR and Shinylive).",
+        "No data leaves your computer. The first load takes a few seconds; later visits use the",
+        "browser cache, which is shared across all topics."
+      )
+    ))
+  }
+  tr(
+    paste(
+      "O aplicativo roda em R no servidor (Shiny Server, hospedado no Hugging Face). Os dados são",
+      "simulados e nada do que você escolhe aqui fica guardado. Se o servidor estiver parado, a primeira",
+      "abertura pode levar até um minuto."
+    ),
+    paste(
+      "The app runs in R on a server (Shiny Server, hosted on Hugging Face). The data are simulated",
+      "and nothing you choose here is stored. If the server is asleep, the first load can take up to a minute."
+    )
+  )
+}
+
 pagina_sobre <- function(titulo, descricao, versao) {
   bslib::card(
     bslib::card_header(paste(tr("Sobre:", "About:"), titulo)),
     bslib::card_body(
       shiny::p(descricao),
-      shiny::p(tr(
-        paste(
-          "O aplicativo roda inteiro no seu navegador, com R compilado para WebAssembly (webR e Shinylive).",
-          "Nenhum dado sai do seu computador. A primeira abertura demora alguns segundos;",
-          "as próximas usam o cache do navegador, que é compartilhado entre todos os temas."
-        ),
-        paste(
-          "The app runs entirely in your browser, with R compiled to WebAssembly (webR and Shinylive).",
-          "No data leaves your computer. The first load takes a few seconds; later visits use the",
-          "browser cache, which is shared across all topics."
-        )
-      )),
+      shiny::p(texto_execucao()),
       shiny::p(sprintf(tr("Autor: Thiago Meireles | Versão %s", "Author: Thiago Meireles | Version %s"), versao)),
       shiny::p(
         shiny::a(tr("Ver todos os temas", "See all topics"), href = url_temas, target = "_top"),

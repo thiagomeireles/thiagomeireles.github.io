@@ -1,0 +1,78 @@
+# Publica os apps Shiny no Space Docker do Hugging Face
+# Autor: Thiago Meireles | Atualizado: 2026-11-19
+#
+# Entrada: _app_scripts/apps/, _app_scripts/hf-space/, _data/apps.yml
+# Saída: Space <usuário HF>/estatistica-na-pratica (ou o nome em vars.HF_SPACE)
+#
+# Requisito único: o secret HF_TOKEN (token do Hugging Face com permissão de
+# escrita) em Settings > Secrets and variables > Actions. O Space é criado na
+# primeira execução, se ainda não existir.
+
+name: Publica apps no Hugging Face
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "_app_scripts/apps/**"
+      - "_app_scripts/hf-space/**"
+      - "_data/apps.yml"
+      - ".github/workflows/hf-space.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: hf-space
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Monta a pasta do Space
+        run: |
+          mkdir -p build
+          cp -r _app_scripts/hf-space/. build/
+          cp -r _app_scripts/apps build/apps
+          cp _data/apps.yml build/apps.yml
+          find build -type f | sort
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instala o cliente do Hugging Face
+        run: pip install "huggingface_hub>=0.34,<2"
+
+      - name: Cria o Space (se preciso) e envia os arquivos
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE: ${{ vars.HF_SPACE }}
+        run: |
+          python - <<'PY'
+          import os, sys
+          from huggingface_hub import HfApi
+
+          token = os.environ.get("HF_TOKEN")
+          if not token:
+              sys.exit("Falta o secret HF_TOKEN (Settings > Secrets and variables > Actions).")
+
+          api = HfApi(token=token)
+          space = os.environ.get("HF_SPACE") or f'{api.whoami()["name"]}/estatistica-na-pratica'
+
+          api.create_repo(space, repo_type="space", space_sdk="docker", exist_ok=True)
+          api.upload_folder(
+              folder_path="build",
+              repo_id=space,
+              repo_type="space",
+              commit_message=f'Atualiza a partir de {os.environ["GITHUB_SHA"][:7]}',
+              # remove do Space arquivos de apps que deixaram de existir aqui
+              delete_patterns=["apps/**"],
+          )
+
+          dono, nome = space.split("/")
+          host = f"{dono}-{nome}".lower().replace("_", "-").replace(".", "-")
+          print(f"Space: https://huggingface.co/spaces/{space}")
+          print(f"Apps:  https://{host}.hf.space/variaveis/")
+          PY
