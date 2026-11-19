@@ -18,6 +18,17 @@
   tags_en: [variables, categorical, numerical, nominal, ordinal, discrete, continuous, descriptive statistics, mean, median, mode, standard deviation, histogram, boxplot, bar chart, quiz]
   novo: true
 
+- slug: bidimensional
+  slug_en: bivariate
+  topico: introducao-estatistica
+  titulo: Análise bidimensional
+  title: Bivariate analysis
+  descricao: Como descrever a relação entre duas variáveis conforme o par de tipos, com tabela de dupla entrada, gráfico de dispersão, box plots e quiz.
+  description: How to describe the relationship between two variables depending on the pair of types, with contingency tables, scatterplots, box plots and a quiz.
+  tags: [análise bidimensional, duas variáveis, associação, tabela de dupla entrada, tabela de contingência, qui-quadrado, coeficiente de contingência, gráfico de dispersão, covariância, correlação, reta de regressão, box plot, R², gráfico q × q, quiz]
+  tags_en: [bivariate analysis, two variables, association, contingency table, cross-tabulation, chi-squared, contingency coefficient, scatterplot, covariance, correlation, regression line, boxplot, R-squared, Q-Q plot, quiz]
+  novo: true
+
 - slug: probabilidade
   topico: introducao-estatistica
   titulo: Probabilidade

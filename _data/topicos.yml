@@ -9,6 +9,6 @@
   slug_en: intro-statistics
   titulo: Introdução a conceitos de estatística
   title: Introduction to statistical concepts
-  descricao: Tipos de variáveis, probabilidade e teoremas limite, a base para descrever dados e fazer inferência.
-  description: Types of variables, probability and limit theorems, the groundwork for describing data and making inferences.
+  descricao: Tipos de variáveis, análise bidimensional, probabilidade e teoremas limite, a base para descrever dados e fazer inferência.
+  description: Types of variables, bivariate analysis, probability and limit theorems, the groundwork for describing data and making inferences.
   novo: true
