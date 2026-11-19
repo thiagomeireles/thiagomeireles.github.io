@@ -1,14 +1,14 @@
 - name: About
-  link: /en/about/   # Você precisará criar essa página depois, se quiser
-- name: Portfolio
-  link: /en/portfolio/  # Pode mandar para o mesmo se não tiver traduzido ainda
+  link: /en/about/
 - name: Apps
   link: /en/apps/
-- name: Resume
-  link: /en/cv/
-- name: Media coverage
-  link: /en/press/
 - name: Blog
   link: /en/blog/
+- name: Media coverage
+  link: /en/press/
+- name: Portfolio
+  link: /en/portfolio/
+- name: Resume
+  link: /en/cv/
 - name: Português 🇧🇷
   link: /

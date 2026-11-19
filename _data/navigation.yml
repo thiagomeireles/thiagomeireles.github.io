@@ -1,14 +1,15 @@
+# Mesma ordem do menu em inglês (alfabética pelos nomes em inglês)
 - name: Sobre Mim
   link: /sobre/
-- name: Portfólio
-  link: /portfolio/
 - name: Aplicativos
   link: /aplicativos/
-- name: CV
-  link: /cv/
-- name: Imprensa
-  link: /imprensa/
 - name: Blog
   link: /blog/
+- name: Imprensa
+  link: /imprensa/
+- name: Portfólio
+  link: /portfolio/
+- name: CV
+  link: /cv/
 - name: English 🇺🇸
   link: /en/
