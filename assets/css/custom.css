@@ -1,14 +1,56 @@
+/*
+Arquivo: custom.css (ajustes do site sobre o bulma-clean-theme v0.14 / Bulma 0.9)
+Autor: Thiago Meireles | Atualizado: 2026-11-21
+Entrada: classes do Bulma e das páginas; atributo data-theme ("light" ou "dark") no <html>,
+         definido por _includes/head-scripts.html e trocado pelo botão em _includes/header.html
+Saída: ajustes gerais e tema escuro. O Bulma 0.9 não tem modo escuro, então as regras do escuro
+       ficam aqui. As de componentes do Bulma usam :where() para manter a mesma especificidade
+       do Bulma e não atropelar variantes (.is-primary, .is-white etc.).
+*/
+
+/* Cores dos dois temas. O escuro segue a paleta do modo escuro dos aplicativos (Bootstrap 5.3). */
+:root {
+  --fundo: #ffffff;
+  --fundo-elevado: #ffffff;
+  --fundo-sutil: #f5f5f5;
+  --fundo-menu: #ffffff;
+  --texto: #4a4a4a;
+  --texto-forte: #363636;
+  --texto-suave: #6c757d;
+  --borda: #dbdbdb;
+  --borda-suave: #eaeaea;
+  --link: #485fc7;
+  --link-hover: #363636;
+}
+
+html[data-theme="dark"] {
+  --fundo: #212529;
+  --fundo-elevado: #2b3035;
+  --fundo-sutil: #343a40;
+  --fundo-menu: #2b3035;
+  --texto: #dee2e6;
+  --texto-forte: #f8f9fa;
+  --texto-suave: #adb5bd;
+  --borda: #495057;
+  --borda-suave: #343a40;
+  --link: #6ea8fe;
+  --link-hover: #9ec5fe;
+  --primaria: #146f86;
+  color-scheme: dark;
+  background-color: var(--fundo);
+}
+
 /* 1. Ajustes Globais (Limpando a Home e Geral) */
-.hero-body { 
-  display: none !important; 
+.hero-body {
+  display: none !important;
 }
 
-.hero { 
-  min-height: 0 !important; 
+.hero {
+  min-height: 0 !important;
 }
 
-.skill-tag { 
-  margin-bottom: 0.5rem; 
+.skill-tag {
+  margin-bottom: 0.5rem;
 }
 
 /* 2. Regras para Telas Maiores (Desktop - acima de 1024px) */
@@ -25,7 +67,137 @@
   font-weight: 700;
   margin-top: 3rem;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #eaeaea;
+  border-bottom: 2px solid var(--borda-suave);
   padding-bottom: 0.5rem;
   color: #333;
 }
+
+html[data-theme="dark"] .section-title { color: var(--texto-forte); }
+
+/* Botão de tema no menu: mostra a lua no claro e o sol no escuro */
+.botao-tema {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.botao-tema:hover { opacity: 0.8; }
+.botao-tema .icone-sol { display: none; }
+html[data-theme="dark"] .botao-tema .icone-sol { display: inline-block; }
+html[data-theme="dark"] .botao-tema .icone-lua { display: none; }
+.navbar-brand .botao-tema { margin-left: auto; }
+.navbar-brand .botao-tema + .navbar-burger { margin-left: 0; }
+
+/* Tema escuro: texto, títulos e links */
+:where(html[data-theme="dark"]) body { color: var(--texto); }
+:where(html[data-theme="dark"]) a { color: var(--link); }
+:where(html[data-theme="dark"]) a:hover { color: var(--link-hover); }
+:where(html[data-theme="dark"]) strong,
+:where(html[data-theme="dark"]) .title,
+:where(html[data-theme="dark"]) .label,
+:where(html[data-theme="dark"]) .content h1,
+:where(html[data-theme="dark"]) .content h2,
+:where(html[data-theme="dark"]) .content h3,
+:where(html[data-theme="dark"]) .content h4,
+:where(html[data-theme="dark"]) .content h5,
+:where(html[data-theme="dark"]) .content h6 { color: var(--texto-forte); }
+:where(html[data-theme="dark"]) .subtitle { color: var(--texto); }
+:where(html[data-theme="dark"]) .subtitle strong { color: var(--texto-forte); }
+:where(html[data-theme="dark"]) .content blockquote { background-color: var(--fundo-elevado); border-left-color: var(--borda); }
+:where(html[data-theme="dark"]) hr { background-color: var(--fundo-sutil); }
+:where(html[data-theme="dark"]) pre { background-color: #1a1d20; color: var(--texto); }
+:where(html[data-theme="dark"]) code { background-color: var(--fundo-sutil); color: #f78ca0; }
+:where(html[data-theme="dark"]) .has-text-dark { color: var(--texto-forte) !important; }
+
+/* Tema escuro: menu do topo, rodapé e faixa do hero */
+:where(html[data-theme="dark"]) .navbar { background-color: var(--fundo-elevado); }
+:where(html[data-theme="dark"]) .navbar.is-primary,
+:where(html[data-theme="dark"]) .hero.is-primary { background-color: var(--primaria); }
+:where(html[data-theme="dark"]) .navbar-item,
+:where(html[data-theme="dark"]) .navbar-link { color: var(--texto); }
+:where(html[data-theme="dark"]) a.navbar-item:hover,
+:where(html[data-theme="dark"]) a.navbar-item:focus,
+:where(html[data-theme="dark"]) .navbar-link:hover { background-color: var(--fundo-sutil); color: var(--link-hover); }
+:where(html[data-theme="dark"]) .navbar-dropdown { background-color: var(--fundo-elevado); border-top-color: var(--borda); }
+:where(html[data-theme="dark"]) .footer { background-color: #1a1d20; }
+
+/* Tema escuro: caixas, cartões e avisos */
+:where(html[data-theme="dark"]) .box,
+:where(html[data-theme="dark"]) .card {
+  background-color: var(--fundo-elevado);
+  color: var(--texto);
+  box-shadow: 0 0 0 1px var(--borda-suave), 0 0.5em 1em -0.125em rgba(0, 0, 0, 0.4);
+}
+:where(html[data-theme="dark"]) .card-header { box-shadow: 0 1px 0 var(--borda-suave); }
+:where(html[data-theme="dark"]) .card-footer,
+:where(html[data-theme="dark"]) .card-footer-item:not(:last-child) { border-color: var(--borda-suave); }
+:where(html[data-theme="dark"]) .notification,
+:where(html[data-theme="dark"]) .notification.is-light { background-color: var(--fundo-elevado); color: var(--texto); }
+:where(html[data-theme="dark"]) .message-body { background-color: var(--fundo-elevado); color: var(--texto); }
+
+/* Tema escuro: botões */
+:where(html[data-theme="dark"]) .button { background-color: var(--fundo-elevado); border-color: var(--borda); color: var(--texto); }
+:where(html[data-theme="dark"]) .button:hover,
+:where(html[data-theme="dark"]) .button:focus { border-color: #6c757d; color: var(--texto-forte); }
+:where(html[data-theme="dark"]) .button.is-white { background-color: var(--fundo-elevado); border-color: transparent; color: var(--texto); }
+:where(html[data-theme="dark"]) .button.is-white:hover,
+:where(html[data-theme="dark"]) .button.is-white:focus { background-color: var(--fundo-sutil); border-color: transparent; color: var(--texto-forte); }
+:where(html[data-theme="dark"]) .button.is-link.is-outlined { background-color: transparent; border-color: var(--link); color: var(--link); }
+:where(html[data-theme="dark"]) .button.is-link.is-outlined:hover,
+:where(html[data-theme="dark"]) .button.is-link.is-outlined:focus { background-color: var(--link); border-color: var(--link); color: var(--fundo); }
+:where(html[data-theme="dark"]) .button.is-primary.is-outlined { background-color: transparent; border-color: #3fb6d4; color: #3fb6d4; }
+:where(html[data-theme="dark"]) .button.is-info.is-outlined { background-color: transparent; border-color: #6cb4ee; color: #6cb4ee; }
+:where(html[data-theme="dark"]) .button.is-primary.is-outlined:hover,
+:where(html[data-theme="dark"]) .button.is-primary.is-outlined:focus { background-color: #3fb6d4; border-color: #3fb6d4; color: var(--fundo); }
+:where(html[data-theme="dark"]) .button.is-info.is-outlined:hover,
+:where(html[data-theme="dark"]) .button.is-info.is-outlined:focus { background-color: #6cb4ee; border-color: #6cb4ee; color: var(--fundo); }
+
+/* Tema escuro: tags */
+:where(html[data-theme="dark"]) .tag:not(body) { background-color: var(--fundo-sutil); color: var(--texto); }
+:where(html[data-theme="dark"]) .tag:not(body).is-primary.is-light { background-color: rgba(24, 142, 172, 0.2); color: #7fd0e4; }
+:where(html[data-theme="dark"]) .tag:not(body).is-link.is-light { background-color: rgba(110, 168, 254, 0.18); color: #9ec5fe; }
+:where(html[data-theme="dark"]) .tag:not(body).is-info.is-light { background-color: rgba(62, 142, 208, 0.2); color: #8cc4f0; }
+:where(html[data-theme="dark"]) .tag:not(body).is-success.is-light { background-color: rgba(72, 199, 142, 0.16); color: #7dd3a8; }
+:where(html[data-theme="dark"]) .tag:not(body).is-warning.is-light { background-color: rgba(255, 224, 138, 0.16); color: #ffe08a; }
+:where(html[data-theme="dark"]) .tag:not(body).is-danger.is-light { background-color: rgba(241, 70, 104, 0.18); color: #f5a3b3; }
+
+/* Tema escuro: formulários, tabelas, menu lateral e paginação */
+:where(html[data-theme="dark"]) .input,
+:where(html[data-theme="dark"]) .textarea,
+:where(html[data-theme="dark"]) .select select { background-color: var(--fundo-elevado); border-color: var(--borda); color: var(--texto-forte); }
+:where(html[data-theme="dark"]) .input::placeholder,
+:where(html[data-theme="dark"]) .textarea::placeholder { color: #8b949e; }
+:where(html[data-theme="dark"]) .control.has-icons-left .icon { color: var(--texto-suave); }
+:where(html[data-theme="dark"]) .table { background-color: transparent; color: var(--texto); }
+:where(html[data-theme="dark"]) .table td,
+:where(html[data-theme="dark"]) .table th { border-color: var(--borda-suave); }
+:where(html[data-theme="dark"]) .table th,
+:where(html[data-theme="dark"]) .table thead th { color: var(--texto-forte); }
+:where(html[data-theme="dark"]) .table.is-striped tbody tr:not(.is-selected):nth-child(even),
+:where(html[data-theme="dark"]) .table.is-hoverable tbody tr:not(.is-selected):hover { background-color: var(--fundo-elevado); }
+:where(html[data-theme="dark"]) .menu-label { color: var(--texto-suave); }
+:where(html[data-theme="dark"]) .menu-list a { color: var(--texto); }
+:where(html[data-theme="dark"]) .menu-list a:hover { background-color: var(--fundo-sutil); color: var(--texto-forte); }
+:where(html[data-theme="dark"]) .pagination-link,
+:where(html[data-theme="dark"]) .pagination-previous,
+:where(html[data-theme="dark"]) .pagination-next { border-color: var(--borda); color: var(--texto); }
+
+/* Tema escuro: estilos das próprias páginas. Ficam com especificidade maior porque os blocos
+   <style> das páginas vêm depois deste arquivo; o !important vence os style="" da home. */
+html[data-theme="dark"] .card.h-100 { border-color: var(--borda-suave) !important; }
+html[data-theme="dark"] img.is-rounded { border-color: var(--fundo-sutil) !important; }
+html[data-theme="dark"] .video-caption { color: var(--texto); }
+html[data-theme="dark"] .news-card { background-color: var(--fundo-elevado); border-color: var(--borda-suave); }
+html[data-theme="dark"] .news-card:hover { border-color: var(--borda); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
+html[data-theme="dark"] .news-source-date,
+html[data-theme="dark"] .news-snippet { color: var(--texto-suave); }
+html[data-theme="dark"] .news-title { color: var(--texto-forte); }
+html[data-theme="dark"] .news-title:hover { color: var(--link); }
+html[data-theme="dark"] .news-link-btn,
+html[data-theme="dark"] a[style*="0056b3"] { color: var(--link) !important; border-color: var(--link); }
+html[data-theme="dark"] .news-link-btn:hover { background-color: var(--link); color: var(--fundo) !important; }
+html[data-theme="dark"] .busca-apps details summary,
+html[data-theme="dark"] .busca-status,
+html[data-theme="dark"] .busca-resultados .busca-topico,
+html[data-theme="dark"] .app-topicos .temas { color: var(--texto-suave); }

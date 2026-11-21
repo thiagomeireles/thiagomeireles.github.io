@@ -42,6 +42,7 @@ giscus:
   category: "Announcements"
   category_id: "DIC_kwDOQ1mjh84C7mi2"
   theme: "light"
+  theme_dark: "transparent_dark"   # tema dos comentários quando o site está no escuro
   lang: "pt"
 
 # --- APLICATIVOS (Shiny Server no Hugging Face) ---

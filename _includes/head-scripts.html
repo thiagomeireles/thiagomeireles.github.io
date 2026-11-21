@@ -1,2 +1,12 @@
+<!-- Tema claro/escuro: aplicado antes da página aparecer, para não piscar branco.
+     Usa a escolha salva no navegador; sem escolha, segue o tema do sistema. -->
+<script>
+  (function () {
+    var salvo = null;
+    try { salvo = localStorage.getItem("tema"); } catch (e) {}
+    var escuro = salvo ? salvo === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.setAttribute("data-theme", escuro ? "dark" : "light");
+  })();
+</script>
 <!-- Inject Custom CSS -->
 <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">

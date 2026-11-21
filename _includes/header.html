@@ -1,9 +1,29 @@
+{%- comment -%}
+Include: header (menu do topo)
+Autor: Thiago Meireles | Atualizado: 2026-11-21
+Entrada: site.data.navigation / navigation_en; atributo data-theme do <html> (_includes/head-scripts.html)
+Saída: menu do topo com o botão de tema claro/escuro (no celular fica ao lado do menu sanduíche).
+       Ao trocar o tema, salva a escolha no navegador e avisa a página pelo evento "tema-mudou".
+{%- endcomment -%}
+{%- if page.url contains '/en/' -%}
+  {%- assign t_escuro = "Switch to dark theme" -%}
+  {%- assign t_claro = "Switch to light theme" -%}
+{%- else -%}
+  {%- assign t_escuro = "Mudar para o tema escuro" -%}
+  {%- assign t_claro = "Mudar para o tema claro" -%}
+{%- endif -%}
+{%- capture botao_tema -%}
+<button class="navbar-item botao-tema CLASSE" type="button" data-rotulo-escuro="{{ t_escuro }}" data-rotulo-claro="{{ t_claro }}" aria-label="{{ t_escuro }}" title="{{ t_escuro }}">
+  <span class="icon"><i class="fas fa-moon icone-lua" aria-hidden="true"></i><i class="fas fa-sun icone-sol" aria-hidden="true"></i></span>
+</button>
+{%- endcapture -%}
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
   <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item is-size-4" href="{{ site.baseurl }}/{% if page.url contains '/en/' %}en/{% endif %}">
         <strong>{{ site.title }}</strong>
       </a>
+      {{ botao_tema | replace: "CLASSE", "is-hidden-desktop" }}
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -37,6 +57,7 @@
           {% endif %}
         {% endfor %}
 
+        {{ botao_tema | replace: "CLASSE", "is-hidden-touch is-size-4" }}
       </div>
     </div>
   </div>
@@ -63,13 +84,49 @@
       });
     }
   });
+
+  // Botão de tema claro/escuro
+  (function () {
+    var raiz = document.documentElement;
+    var sistema = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function salvo() {
+      try { return localStorage.getItem("tema"); } catch (e) { return null; }
+    }
+
+    function aplicarTema(tema) {
+      raiz.setAttribute("data-theme", tema);
+      document.querySelectorAll(".botao-tema").forEach(function (botao) {
+        var rotulo = tema === "dark" ? botao.dataset.rotuloClaro : botao.dataset.rotuloEscuro;
+        botao.setAttribute("aria-label", rotulo);
+        botao.setAttribute("title", rotulo);
+      });
+      document.dispatchEvent(new CustomEvent("tema-mudou", { detail: tema }));
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      aplicarTema(raiz.getAttribute("data-theme") || "light");
+      document.querySelectorAll(".botao-tema").forEach(function (botao) {
+        botao.addEventListener("click", function () {
+          var novo = raiz.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          try { localStorage.setItem("tema", novo); } catch (e) {}
+          aplicarTema(novo);
+        });
+      });
+    });
+
+    // Sem escolha salva, acompanha a troca de tema do sistema
+    sistema.addEventListener("change", function (e) {
+      if (!salvo()) aplicarTema(e.matches ? "dark" : "light");
+    });
+  })();
 </script>
 
 <style>
   /* Quando a tela for menor que 1024px (Tablets e Celulares) */
   @media screen and (max-width: 1023px) {
     .navbar-menu {
-      background-color: white; /* Fundo branco para não ficar transparente */
+      background-color: var(--fundo-menu, white); /* Fundo do menu no celular (claro ou escuro) */
       box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1); /* Uma sombra leve */
       padding: 0.5rem 0; /* Espaçamento interno */
     }

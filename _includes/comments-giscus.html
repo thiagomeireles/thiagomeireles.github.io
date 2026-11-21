@@ -1,3 +1,10 @@
+{%- comment -%}
+Include: comments-giscus (comentários via Giscus)
+Autor: Thiago Meireles | Atualizado: 2026-11-21
+Entrada: site.giscus (_config.yml), incluindo theme (claro) e theme_dark (escuro);
+         atributo data-theme do <html> e evento "tema-mudou" (_includes/header.html)
+Saída: caixa de comentários no tema atual do site, que acompanha a troca de tema
+{%- endcomment -%}
 <section class="section" id="comments">
   <div class="container">
     <div class="content">
@@ -8,21 +15,45 @@
           Comentários
         {% endif %}
       </h3>
-      <script src="https://giscus.app/client.js"
-              data-repo="{{ site.giscus.repo }}"
-              data-repo-id="{{ site.giscus.repo_id }}"
-              data-category="{{ site.giscus.category }}"
-              data-category-id="{{ site.giscus.category_id }}"
-              data-mapping="pathname"
-              data-strict="0"
-              data-reactions-enabled="1"
-              data-emit-metadata="0"
-              data-input-position="top"
-              data-theme="{{ site.giscus.theme | default: 'light' }}"
-              data-lang="{{ site.giscus.lang | default: 'pt' }}"
-              data-loading="lazy"
-              crossorigin="anonymous"
-              async>
+      <div class="giscus"></div>
+      <script>
+        (function () {
+          var temas = {
+            light: "{{ site.giscus.theme | default: 'light' }}",
+            dark: "{{ site.giscus.theme_dark | default: 'transparent_dark' }}"
+          };
+          function temaAtual() {
+            return document.documentElement.getAttribute("data-theme") === "dark" ? temas.dark : temas.light;
+          }
+
+          // O script é criado aqui, e não escrito direto no HTML, para já nascer com o tema certo
+          var s = document.createElement("script");
+          s.src = "https://giscus.app/client.js";
+          s.async = true;
+          s.crossOrigin = "anonymous";
+          var atributos = {
+            "data-repo": "{{ site.giscus.repo }}",
+            "data-repo-id": "{{ site.giscus.repo_id }}",
+            "data-category": "{{ site.giscus.category }}",
+            "data-category-id": "{{ site.giscus.category_id }}",
+            "data-mapping": "pathname",
+            "data-strict": "0",
+            "data-reactions-enabled": "1",
+            "data-emit-metadata": "0",
+            "data-input-position": "top",
+            "data-theme": temaAtual(),
+            "data-lang": "{{ site.giscus.lang | default: 'pt' }}",
+            "data-loading": "lazy"
+          };
+          Object.keys(atributos).forEach(function (k) { s.setAttribute(k, atributos[k]); });
+          document.currentScript.parentNode.appendChild(s);
+
+          document.addEventListener("tema-mudou", function () {
+            var frame = document.querySelector("iframe.giscus-frame");
+            if (!frame) return;
+            frame.contentWindow.postMessage({ giscus: { setConfig: { theme: temaAtual() } } }, "https://giscus.app");
+          });
+        })();
       </script>
     </div>
   </div>
