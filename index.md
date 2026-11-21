@@ -130,7 +130,7 @@ permalink: /
           <p class="subtitle is-6">Para convites de eventos, podcasts e entrevistas</p>
           
           <button class="button is-primary is-outlined" 
-                  data-tally-open="J9pykz" 
+                  data-tally-open="J9pykz" data-tally-claro="J9pykz" data-tally-escuro="8NZKZY" 
                   data-tally-layout="modal" 
                   data-tally-overlay="1" 
                   data-tally-emoji-text="🎙️"
@@ -239,7 +239,7 @@ permalink: /
 
 <script async src="https://tally.so/widgets/embed.js"></script>
 <script>
-  // Formulário de consultoria na versão do tema atual (o Tally lê data-tally-open na hora do clique).
+  // Formulários do Tally na versão do tema atual (o Tally lê data-tally-open na hora do clique).
   // Os atributos começam com "tally" para o Tally não enviá-los como campos ocultos.
   (function () {
     function ajustarTally() {
