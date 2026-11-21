@@ -152,7 +152,7 @@ permalink: /
           <p class="subtitle is-6">Inferência causal e <em>machine learning</em> aplicados às perguntas do seu negócio</p>
           
           <button class="button is-info is-outlined is-fullwidth"
-                  data-tally-open="44JZqX" 
+                  data-tally-open="44JZqX" data-tally-claro="44JZqX" data-tally-escuro="Vpz0zE" 
                   data-tally-emoji-text="📊" 
                   data-tally-emoji-animation="heart-beat">
             Conversar sobre um projeto
@@ -238,3 +238,17 @@ permalink: /
 </div>
 
 <script async src="https://tally.so/widgets/embed.js"></script>
+<script>
+  // Formulário de consultoria na versão do tema atual (o Tally lê data-tally-open na hora do clique).
+  // Os atributos começam com "tally" para o Tally não enviá-los como campos ocultos.
+  (function () {
+    function ajustarTally() {
+      var escuro = document.documentElement.getAttribute("data-theme") === "dark";
+      document.querySelectorAll("[data-tally-escuro]").forEach(function (botao) {
+        botao.setAttribute("data-tally-open", escuro ? botao.dataset.tallyEscuro : botao.dataset.tallyClaro);
+      });
+    }
+    ajustarTally();
+    document.addEventListener("tema-mudou", ajustarTally);
+  })();
+</script>
