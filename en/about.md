@@ -4,8 +4,6 @@ title: "About"
 permalink: /en/about/
 ---
 
-{% include banner_en.html %}
-
 <div class="content margem-desktop">
 
   <p class="is-size-5">

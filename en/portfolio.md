@@ -127,8 +127,6 @@ show_sidebar: false
   }
 </style>
 
-{% include banner_en.html %}
-
 A selection of academic and professional work: webinars, conference papers and technical notes. Most of it deals with survey methodology, the use of nonprobability samples and the Brazilian labor market.
 
 <div class="margem-desktop">

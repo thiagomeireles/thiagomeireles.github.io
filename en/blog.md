@@ -5,8 +5,6 @@ permalink: /en/blog/
 #hero_image: /assets/images/blog-banner.jpg
 ---
 
-{% include banner_en.html %}
-
 I write here about statistics and machine learning, mainly causal inference, survey methodology and sample representativeness. Posts include the code for anyone who wants to reproduce the analyses.
 
 <div class="columns is-multiline" style="margin-top: 2rem;">

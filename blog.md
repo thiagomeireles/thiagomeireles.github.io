@@ -5,8 +5,6 @@ permalink: /blog/
 #hero_image: /assets/images/blog-banner.jpg
 ---
 
-{% include banner.html %}
-
 Escrevo aqui sobre estatística e *machine learning*, principalmente inferência causal, surveys e representatividade amostral. Os textos trazem o código para quem quiser reproduzir as análises.
 
 <div class="columns is-multiline" style="margin-top: 2rem;">

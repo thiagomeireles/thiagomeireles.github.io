@@ -10,17 +10,13 @@ permalink: /
   <div class="columns is-vcentered">
   
     <div class="column is-4 has-text-centered">
-      <figure class="image is-square" style="max-width: 300px; margin: 0 auto;">
-        <img class="is-rounded" src="/assets/images/perfil.png" alt="Foto de Thiago Meireles" style="border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+      <figure class="image is-square moldura-perfil" style="max-width: 300px; margin: 0 auto;">
+        <img class="is-rounded foto-perfil" src="/assets/images/perfil.png" alt="Foto de Thiago Meireles" style="border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
       </figure>
     </div>
 
     <div class="column">
       <div class="content">
-
-        <div style="margin-top: 1.5rem;">
-          {% include banner.html %}
-        </div>
 
         <p class="is-size-3">
           Sou <strong>Thiago Meireles</strong>, cientista de dados e doutor em Ciência Política pela USP.

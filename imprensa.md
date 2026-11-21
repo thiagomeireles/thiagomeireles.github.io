@@ -137,8 +137,6 @@ show_sidebar: false
 </style>
 
 
-{% include banner.html %}
-
 
 <div class="margem-desktop">
 

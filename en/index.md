@@ -8,17 +8,13 @@ permalink: /en/
   <div class="columns is-vcentered">
   
     <div class="column is-4 has-text-centered">
-      <figure class="image is-square" style="max-width: 300px; margin: 0 auto;">
-        <img class="is-rounded" src="/assets/images/perfil.png" alt="Photo of Thiago Meireles" style="border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+      <figure class="image is-square moldura-perfil" style="max-width: 300px; margin: 0 auto;">
+        <img class="is-rounded foto-perfil" src="/assets/images/perfil.png" alt="Photo of Thiago Meireles" style="border: 4px solid #f5f5f5; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
       </figure>
     </div>
 
     <div class="column">
       <div class="content">
-
-        <div style="margin-top: 1.5rem;">
-          {% include banner_en.html %}
-        </div>
 
         <p class="is-size-3">
           I'm <strong>Thiago Meireles</strong>, a data scientist with a Ph.D. in Political Science from the University of São Paulo (USP).

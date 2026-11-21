@@ -129,8 +129,6 @@ show_sidebar: false
   }
 </style>
 
-{% include banner.html %}
-
 Uma seleção de trabalhos acadêmicos e profissionais: webinários, artigos apresentados em conferências e notas técnicas. A maior parte trata de metodologia de pesquisas amostrais, do uso de amostras não probabilísticas e do mercado de trabalho no Brasil.
 
 <div class="margem-desktop">

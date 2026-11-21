@@ -61,6 +61,21 @@ html[data-theme="dark"] {
   }
 }
 
+/* Foto de perfil da home. Duas correções:
+   1. O .image.is-square do Bulma faz a altura com padding-top: 100%, que segue a largura da coluna,
+      não a da moldura (limitada a 300px); a moldura ficava mais alta que larga. aspect-ratio resolve.
+   2. A foto é retrato (1402 x 1944) e seria esticada no quadrado; object-fit recorta sem distorcer,
+      centrado na altura do rosto. */
+.moldura-perfil.image.is-square {
+  padding-top: 0;
+  aspect-ratio: 1 / 1;
+}
+
+.foto-perfil {
+  object-fit: cover;
+  object-position: 50% 12%;
+}
+
 /* Section titles para Portfolio */
 .section-title {
   font-size: 1.5rem;

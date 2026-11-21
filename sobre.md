@@ -4,8 +4,6 @@ title: "Sobre Mim"
 permalink: /sobre/
 ---
 
-{% include banner.html %}
-
 <div class="content margem-desktop">
 
   <p class="is-size-5">
