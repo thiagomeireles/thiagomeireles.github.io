@@ -8,5 +8,5 @@
     document.documentElement.setAttribute("data-theme", escuro ? "dark" : "light");
   })();
 </script>
-<!-- Inject Custom CSS -->
-<link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+<!-- Inject Custom CSS (?v= muda a cada publicação, para o navegador não usar a versão antiga do cache) -->
+<link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}?v={{ site.time | date: '%s' }}">
