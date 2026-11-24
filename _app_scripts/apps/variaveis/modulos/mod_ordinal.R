@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_ordinal.R (módulo: variável categórica ordinal)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-23
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -20,11 +20,12 @@ texto_ordinal <- function() {
       ),
       shiny::p(
         "A mediana é a primeira categoria em que a frequência acumulada atinge 50%. No gráfico, é a barra em",
-        "destaque: a primeira cujo ponto da frequência acumulada fica na linha tracejada de 50% ou acima dela."
+        "destaque: a primeira cujo ponto da frequência acumulada fica na linha tracejada de 50% ou acima dela.",
+        "Se a acumulada bater exatamente 50% numa categoria, ela e a seguinte cumprem o critério, e o app mostra a primeira."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
-        "escolha o formato \"Polarizada\". As modas ficam nos extremos, mas a mediana cai no meio, numa categoria",
+        "escolha o formato \"Polarizada\". As modas ficam nos extremos, mas a mediana costuma cair no meio, numa categoria",
         "que pouca gente escolheu. Nenhum resumo de um número só descreve bem esse caso: olhe a distribuição inteira."
       )
     ),
@@ -37,11 +38,12 @@ texto_ordinal <- function() {
       ),
       shiny::p(
         "The median is the first category where the cumulative frequency reaches 50%. In the chart it is the",
-        "highlighted bar: the first one whose cumulative point is at or above the dashed 50% line."
+        "highlighted bar: the first one whose cumulative point is at or above the dashed 50% line.",
+        "If the cumulative share hits exactly 50% at a category, both it and the next one qualify, and the app shows the first."
       ),
       shiny::p(
         shiny::strong("Try it:"),
-        "choose the \"Polarized\" shape. The modes sit at the extremes, but the median falls in the middle, in a",
+        "choose the \"Polarized\" shape. The modes sit at the extremes, but the median usually falls in the middle, in a",
         "category few people chose. No single-number summary describes this case well: look at the whole distribution."
       )
     )

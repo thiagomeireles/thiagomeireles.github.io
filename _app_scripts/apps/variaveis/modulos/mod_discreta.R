@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_discreta.R (módulo: variável quantitativa discreta)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-23
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -14,9 +14,10 @@ texto_discreta <- function() {
     shiny::tagList(
       shiny::p(
         "Numa variável discreta, os valores possíveis são separados entre si. O caso mais comum é a contagem:",
-        "0, 1, 2 filhos, nunca 1,5. Como os valores são quantidades de verdade, as contas fazem sentido e todas",
-        "as estatísticas descritivas se aplicam: medidas de posição (média, mediana, moda, quartis) e de",
-        "dispersão (amplitude, distância interquartil, variância, desvio padrão)."
+        "0, 1, 2 filhos, nunca 1,5. Como os valores são quantidades de verdade, as contas fazem sentido e as",
+        "medidas de posição (média, mediana, moda, quartis) e de dispersão (amplitude, distância interquartil,",
+        "variância, desvio padrão) se aplicam. Com poucos valores distintos, no entanto, mediana e quartis podem",
+        "coincidir, a distância interquartil pode dar zero e a regra empírica, vista na aba Contínua, deixa de valer."
       ),
       shiny::p(
         "A média pode dar um valor impossível, como 1,6 filho, e isso não é erro, uma vez que a média resume o",
@@ -34,8 +35,10 @@ texto_discreta <- function() {
       shiny::p(
         "In a discrete variable, the possible values are separate from each other. The most common case is a",
         "count: 0, 1, 2 children, never 1.5. Because the values are actual quantities, arithmetic makes sense and",
-        "every descriptive statistic applies: measures of center and position (mean, median, mode, quartiles) and",
-        "of variability (range, interquartile range, variance, standard deviation)."
+        "the measures of center and position (mean, median, mode, quartiles) and of variability (range,",
+        "interquartile range, variance, standard deviation) apply. With few distinct values, however, the median",
+        "and quartiles may coincide, the interquartile range may be zero, and the Empirical Rule, shown in the",
+        "Continuous tab, no longer holds."
       ),
       shiny::p(
         "The mean can be an impossible value, such as 1.6 children, and that is not a mistake, since the mean",
@@ -173,7 +176,7 @@ mod_discreta_server <- function(id, modo = shiny::reactive("light")) {
         ggplot2::scale_x_continuous(breaks = function(l) unique(round(scales::breaks_pretty()(l)))) +
         ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.05))) +
         ggplot2::labs(
-          title = tr("Uma barra para cada valor possível", "One bar for each possible value"),
+          title = tr("Uma barra para cada valor observado", "One bar for each observed value"),
           subtitle = exemplo()$rotulo,
           x = exemplo()$unidade, y = tr("Frequência (n)", "Frequency (n)"),
           caption = sprintf(

@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_continua.R (módulo: variável quantitativa contínua)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-23
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -20,14 +20,18 @@ texto_continua <- function() {
       ),
       shiny::p(
         "O coeficiente de assimetria resume a forma. Pela regra prática usada aqui, entre −0,5 e 0,5 a",
-        "distribuição é tratada como aproximadamente simétrica, e média e mediana ficam próximas. Quando o",
-        "coeficiente é positivo, há uma cauda longa à direita (comum em renda e tempos de espera), e a média",
-        "costuma ficar acima da mediana, puxada pela cauda. No boxplot, a mesma assimetria aparece nas distâncias,",
-        "já que a mediana fica mais longe do terceiro quartil e do máximo do que do primeiro quartil e do mínimo."
+        "distribuição é tratada como aproximadamente simétrica, e média e mediana costumam ficar próximas. Acima",
+        "de 0,5, há uma cauda longa à direita (comum em renda e tempos de espera), e a média costuma ficar acima",
+        "da mediana, puxada pela cauda. No boxplot, essa assimetria costuma aparecer nas distâncias: a mediana",
+        "fica mais longe do terceiro quartil do que do primeiro, e o bigode da direita é mais longo, muitas vezes",
+        "com pontos exteriores desse lado. Morettin e Bussab avaliam a simetria justamente comparando essas distâncias."
       ),
       shiny::p(
-        "Em dados com forma de sino, como a altura, cerca de 68% das observações ficam a até 1 desvio padrão",
-        "da média e cerca de 95% a até 2 (a regra empírica). Isso não vale para dados assimétricos, como a renda."
+        "Em dados com forma aproximada de sino, como a altura, cerca de 68% das observações ficam a até 1 desvio",
+        "padrão da média, cerca de 95% a até 2 e quase todas a até 3 (a regra empírica). Em dados muito",
+        "assimétricos ou com poucos valores distintos, essas porcentagens falham: na renda simulada, perto de 89%",
+        "das observações ficam a até 1 desvio padrão. O que vale para qualquer conjunto de dados é bem mais fraco",
+        "(desigualdade de Chebyshev): pelo menos 75% das observações ficam a até 2 desvios padrão da média."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -45,14 +49,18 @@ texto_continua <- function() {
       ),
       shiny::p(
         "The skewness coefficient summarizes the shape. By the rule of thumb used here, between −0.5 and 0.5 the",
-        "distribution is treated as roughly symmetric, and the mean and median are close. When it is positive,",
+        "distribution is treated as roughly symmetric, and the mean and median are usually close. Above 0.5,",
         "there is a long right tail (common for income and waiting times), and the mean usually sits above the",
-        "median, pulled toward the tail. In the boxplot, the same skew shows up in the distances, since the median",
-        "is farther from the third quartile and the maximum than from the first quartile and the minimum."
+        "median, pulled toward the tail. In the box plot, this skew usually shows up in the distances: the median",
+        "is farther from the third quartile than from the first, and the right whisker is longer, often with",
+        "potential outliers on that side."
       ),
       shiny::p(
-        "For bell-shaped data such as height, about 68% of the observations fall within 1 standard deviation of",
-        "the mean and about 95% within 2 (the Empirical Rule). It does not hold for skewed data such as income."
+        "If the data are approximately bell-shaped, as height is, about 68% of the observations fall within 1",
+        "standard deviation of the mean, about 95% within 2, and all or nearly all within 3 (the Empirical Rule).",
+        "For highly skewed data, or data with few distinct values, these percentages fail: in the simulated income,",
+        "close to 89% of the observations fall within 1 standard deviation. What holds for any data set is much",
+        "weaker (Chebyshev's inequality): at least 75% of the observations fall within 2 standard deviations of the mean."
       ),
       shiny::p(
         shiny::strong("Try it:"),
@@ -129,7 +137,7 @@ mod_continua_ui <- function(id) {
       seletor_exemplo(ns("exemplo"), exemplos_continua),
       slider_amostra(ns("n"), min = 20, max = 5000, value = 300),
       shiny::sliderInput(ns("classes"), tr("Número aproximado de classes", "Approximate number of bins"), min = 3, max = 60, value = 15, step = 1),
-      shiny::checkboxInput(ns("boxplot"), tr("Mostrar boxplot", "Show boxplot"), value = TRUE),
+      shiny::checkboxInput(ns("boxplot"), tr("Mostrar boxplot", "Show box plot"), value = TRUE),
       caixa_extremo(ns("extremo")),
       shiny::uiOutput(ns("extremo_valor")),
       botao_sortear(ns("sortear"))
@@ -206,13 +214,15 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
           tr(
             paste(
               "Unidade: %s. Cada classe inclui o limite inferior e exclui o superior, exceto a última, que inclui",
-              "os dois. Como as classes têm a mesma amplitude, a altura das barras do histograma pode ser a frequência;",
-              "com amplitudes diferentes, seria preciso usar a densidade (frequência relativa dividida pela amplitude)."
+              "os dois. Em Morettin e Bussab, a altura de cada retângulo do histograma é a densidade de frequência",
+              "(frequência relativa dividida pela amplitude da classe), e a área total vale 1. Como aqui as classes têm",
+              "a mesma amplitude, usar a frequência não muda a forma; com amplitudes diferentes, a densidade é obrigatória."
             ),
             paste(
               "Unit: %s. Each class includes its lower limit and excludes the upper one, except the last, which",
-              "includes both. Because all classes have the same width, the histogram bars can show frequencies;",
-              "with unequal widths, they would have to show density (relative frequency divided by width)."
+              "includes both. Because all classes have the same width, the histogram bars can show frequencies without",
+              "changing the shape; with unequal widths, they would have to show density (relative frequency divided by",
+              "width), so that the area of each bar, not its height, reflects the share of observations."
             )
           ),
           un()
@@ -232,7 +242,13 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
             "Classe com mais observações; o ponto médio dela pode servir de moda. Muda com o número de classes",
             "Class with the most observations; its midpoint can serve as the mode. Changes with the number of bins"
           ),
-          paste(tr("Distribuição", "Distribution is"), leitura_assimetria(r$assimetria))
+          paste0(
+            tr("Distribuição ", "Distribution is "), leitura_assimetria(r$assimetria),
+            tr(
+              ". Média dos desvios ao cubo dividida pelo cubo do desvio padrão, ambos com divisor n; Morettin e Bussab avaliam a forma pelos quartis e por gráficos",
+              ". Mean of the cubed deviations divided by the cubed standard deviation, both with divisor n"
+            )
+          )
         )
       )
       tabela_estatisticas_quant(r, un(), dig(), extras) |>
@@ -281,8 +297,8 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
             fmt_num(r$n, 0),
             if (isTRUE(input$boxplot)) {
               tr(
-                "\nAbaixo: boxplot (pontos vermelhos: valores atípicos, a mais de 1,5 × d_q da caixa)",
-                "\nBelow: boxplot (red dots: potential outliers, more than 1.5 × IQR beyond the box)"
+                "\nAbaixo: boxplot (pontos vermelhos: pontos exteriores, a mais de 1,5 × d_q da caixa; não são necessariamente erros)",
+                "\nBelow: box plot (red dots: potential outliers, more than 1.5 × IQR beyond the box; not necessarily errors)"
               )
             } else ""
           )

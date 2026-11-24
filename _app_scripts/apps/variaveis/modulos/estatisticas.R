@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  estatisticas.R (dados simulados e estatísticas do tema Tipos de variáveis)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-23
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -48,11 +48,11 @@ tipos_variavel <- list(
     nome = tr("Quantitativa discreta", "Discrete quantitative"),
     grupo = tr("Quantitativa (numérica)", "Quantitative (numeric)"),
     definicao = tr(
-      "Números cujos valores possíveis são separados entre si, em geral vindos de contagens (0, 1, 2…).",
-      "Numbers whose possible values are separate from each other, usually counts (0, 1, 2…)."
+      "Números cujos valores possíveis são separados entre si, a ponto de dar para listá-los, em geral vindos de contagens (0, 1, 2…).",
+      "Numbers whose possible values are separate from each other, so they can be listed, usually counts (0, 1, 2…)."
     ),
     exemplos = tr("número de filhos, de moradores, de gols", "number of children, household members, goals"),
-    operacoes = "= ≠ < > + −",
+    operacoes = tr("= ≠ < > + − (× ÷ se o zero for ausência)", "= ≠ < > + − (× ÷ if zero means none)"),
     estatisticas = tr(
       "média, mediana, moda, desvio padrão e quartis",
       "mean, median, mode, standard deviation and quartiles"
@@ -67,12 +67,12 @@ tipos_variavel <- list(
       "Numbers that come from measuring and can take any value within a range."
     ),
     exemplos = tr("altura, renda, tempo de espera, temperatura", "height, income, waiting time, temperature"),
-    operacoes = "= ≠ < > + −",
+    operacoes = tr("= ≠ < > + − (× ÷ se o zero for ausência)", "= ≠ < > + − (× ÷ if zero means none)"),
     estatisticas = tr(
       "média, mediana, desvio padrão, quartis e assimetria",
       "mean, median, standard deviation, quartiles and skewness"
     ),
-    grafico = tr("histograma e boxplot", "histogram and boxplot")
+    grafico = tr("histograma e boxplot", "histogram and box plot")
   )
 )
 
@@ -325,11 +325,17 @@ tabela_estatisticas_quant <- function(r, unidade, digitos, extras = NULL) {
         "Valor do meio dos dados ordenados: pelo menos metade das observações está nele ou abaixo, e pelo menos metade nele ou acima",
         "Menor e maior valor observados",
         "Máximo menos mínimo; depende só dos dois extremos",
-        "Cerca de 25% das observações estão em Q1 ou abaixo, e cerca de 75% em Q3 ou abaixo",
+        paste(
+          "Sem muitos empates, cerca de 25% das observações ficam em Q1 ou abaixo e cerca de 25% em Q3 ou acima.",
+          "Com muitos valores repetidos, como numa contagem, essas frações podem passar bem de 25%"
+        ),
         "Q3 − Q1: largura dos 50% centrais; resiste a extremos",
         "Soma dos desvios ao quadrado em relação à média, dividida por n − 1; em unidade ao quadrado",
         "Raiz da variância: distância típica até a média, na unidade original",
-        "Desvio padrão como % da média; compara a variabilidade de variáveis em unidades diferentes"
+        paste(
+          "Desvio padrão como % da média; compara a variabilidade de variáveis em unidades diferentes.",
+          "Só vale para variáveis positivas em que o zero é ausência"
+        )
       ),
       c(
         "Number of observations",
@@ -337,11 +343,17 @@ tabela_estatisticas_quant <- function(r, unidade, digitos, extras = NULL) {
         "Middle value of the sorted data: at least half of the observations are at or below it, and at least half at or above it",
         "Smallest and largest observed values",
         "Maximum minus minimum; depends only on the two extremes",
-        "About 25% of the observations are at or below Q1, and about 75% at or below Q3",
+        paste(
+          "Without many ties, about 25% of the observations are at or below Q1 and about 25% at or above Q3.",
+          "With many repeated values, as in a count, these shares can be well above 25%"
+        ),
         "Q3 − Q1: width of the middle 50%; resistant to extremes",
         "Sum of squared deviations from the mean divided by n − 1, in squared units",
         "Square root of the variance: typical distance from the mean, in the original unit",
-        "Standard deviation as a % of the mean; compares variability across variables measured in different units"
+        paste(
+          "Standard deviation as a % of the mean; compares variability across variables measured in different units.",
+          "Only valid for positive variables where zero means none"
+        )
       )
     )
   )

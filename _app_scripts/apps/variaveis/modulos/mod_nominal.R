@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_nominal.R (módulo: variável categórica nominal)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-23
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -20,8 +20,8 @@ texto_nominal <- function() {
       ),
       shiny::p(
         "Para a dispersão, o app usa a razão de variação, proposta por Freeman (1965): 1 menos a proporção da moda.",
-        "Ela vale 0 quando todas as observações estão na mesma categoria e cresce à medida que elas se espalham",
-        "por igual, até 1 − 1/k para k categorias (0,80 com cinco). Morettin e Bussab e Agresti e Finlay não",
+        "Ela vale 0 quando todas as observações estão na mesma categoria e chega no máximo a 1 − 1/k para k categorias",
+        "(0,80 com cinco), valor atingido quando todas têm a mesma frequência. Morettin e Bussab e Agresti e Finlay não",
         "a apresentam; nos dois livros, a nominal é descrita pela tabela de frequências e pela moda."
       ),
       shiny::p(
@@ -39,8 +39,8 @@ texto_nominal <- function() {
       ),
       shiny::p(
         "For spread, the app uses the variation ratio proposed by Freeman (1965): 1 minus the share in the modal",
-        "category. It is 0 when all observations are in the same category and grows as they spread evenly across",
-        "categories, up to 1 − 1/k for k categories (0.80 with five). Agresti and Finlay and Morettin and Bussab do",
+        "category. It is 0 when all observations are in the same category and at most 1 − 1/k for k categories",
+        "(0.80 with five), reached when all categories have the same frequency. Agresti and Finlay and Morettin and Bussab do",
         "not cover it; both books describe nominal data through the frequency table and the mode."
       ),
       shiny::p(
@@ -60,7 +60,7 @@ cuidados_nominal <- function() {
         "trocar a codificação muda a \"média\", como mostra o botão ao lado."
       ),
       "Mediana e quartis" = "exigem ordem. Não existe uma categoria \"do meio\".",
-      "Mínimo, máximo e amplitude" = "também exigem ordem. Não há categoria menor nem maior.",
+      "Mínimo, máximo e amplitude" = "mínimo e máximo exigem ordem, e a amplitude exige também distância entre os valores. Aqui não há nenhuma das duas.",
       "Ordem das barras" = "é livre. Ordenar pela frequência costuma facilitar a leitura."
     ),
     c(
@@ -69,7 +69,7 @@ cuidados_nominal <- function() {
         "changing the coding changes the \"mean\", as the button in the sidebar shows."
       ),
       "Median and quartiles" = "require order. There is no \"middle\" category.",
-      "Minimum, maximum and range" = "also require order. No category is smaller or larger.",
+      "Minimum, maximum and range" = "minimum and maximum require order, and the range also requires distance between values. Neither exists here.",
       "Bar order" = "is free. Sorting by frequency usually makes the chart easier to read."
     )
   )

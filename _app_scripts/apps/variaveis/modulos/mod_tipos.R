@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_tipos.R (módulo: visão geral dos tipos de variáveis e quiz)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-23
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -64,13 +64,16 @@ banco_quiz <- data.frame(
         "mesmo sem ser inteira. Discreta não quer dizer inteira."
       ),
       "É uma medição: entre 1,70 m e 1,71 m cabem infinitos valores.",
-      "Tempo é medido numa escala contínua, mesmo que seja registrado em minutos inteiros.",
+      "Tempo é medido numa escala contínua. Registrá-lo em minutos inteiros arredonda a medida, mas o arredondamento vem do registro, e não da variável.",
       "A rigor, varia de centavo em centavo, mas tem tantos valores possíveis que é tratada como contínua.",
       paste(
         "É uma medição contínua, em escala intervalar: o zero em °C não é ausência de calor.",
         "Por isso não faz sentido dizer que 20 °C é \"o dobro\" de 10 °C."
       ),
-      "A idade mede o tempo vivido. Registrar em anos completos arredonda a medida, mas não a transforma em contagem."
+      paste(
+        "A idade mede o tempo vivido. Registrada em anos completos, assume valores separados, mas o arredondamento",
+        "vem do registro, e não da variável. Por isso a convenção é tratá-la como contínua, como fazem Morettin e Bussab."
+      )
     ),
     c(
       "The categories (single, married, divorced…) have no order.",
@@ -95,13 +98,16 @@ banco_quiz <- data.frame(
         "even though the values are not whole numbers. Discrete does not mean whole."
       ),
       "It is a measurement: between 1.70 m and 1.71 m there are infinitely many values.",
-      "Time is measured on a continuous scale, even when it is recorded in whole minutes.",
+      "Time is measured on a continuous scale. Recording it in whole minutes rounds the measurement, but the rounding comes from the record, not from the variable.",
       "Strictly, it moves cent by cent, but it has so many possible values that it is treated as continuous.",
       paste(
         "It is a continuous measurement on an interval scale: zero in °C is not the absence of heat.",
         "That is why it makes no sense to say 20 °C is \"twice\" 10 °C."
       ),
-      "Age measures time lived. Recording it in completed years rounds the measurement, but does not turn it into a count."
+      paste(
+        "Age measures time lived. Recorded in completed years, it takes separate values, but the rounding comes from",
+        "the record, not from the variable. That is why the convention is to treat it as continuous, as Agresti and Finlay do."
+      )
     )
   )
 )
@@ -125,7 +131,7 @@ matriz_estatisticas <- function() {
     c("✓", "✗", "✓", "✗", "✗", "✗", "✗", "✗", "✗", "✗", tr("Barras (qualquer ordem)", "Bars (any order)")),
     c("✓", "✓", "✓", "✓", tr("✓ (categorias)", "✓ (categories)"), "✗", nao_indicado, nao_indicado, "✗", "✗", tr("Barras na ordem natural", "Bars in natural order")),
     c("✓", "✓", "✓", "✓", "✓", "✓", "✓", "✓", "✓", "✓", tr("Barras por valor", "One bar per value")),
-    c(tr("✓ (por classes)", "✓ (by class)"), "✓", tr("Classe modal", "Modal class"), "✓", "✓", "✓", "✓", "✓", "✓*", "✓", tr("Histograma e boxplot", "Histogram and boxplot"))
+    c(tr("✓ (por classes)", "✓ (by class)"), "✓", tr("Classe modal", "Modal class"), "✓", "✓", "✓", "✓", "✓", "✓*", "✓", tr("Histograma e boxplot", "Histogram and box plot"))
   )
   names(tabela) <- tr(
     c("Estatística", "Nominal", "Ordinal", "Discreta", "Contínua"),
@@ -155,7 +161,7 @@ texto_intro_tipos <- function() {
       shiny::p(
         "Antes de calcular qualquer estatística, é preciso saber o que os valores representam. A classificação",
         "depende de duas perguntas: se os valores são categorias ou números e, em seguida, se as categorias têm",
-        "ordem ou se os números vêm de uma contagem ou de uma medição. Dessa forma, o tipo define quais resumos",
+        "ordem ou se os números vêm de uma contagem, com valores separados, ou de uma medição. Dessa forma, o tipo define quais resumos",
         "fazem sentido. A média de CEPs pode ser calculada, mas não quer dizer nada, uma vez que o CEP é um rótulo."
       ),
       shiny::p(
@@ -169,7 +175,7 @@ texto_intro_tipos <- function() {
       shiny::p(
         "Before computing any statistic, you need to know what the values represent. Classifying a variable",
         "comes down to two questions: whether the values are categories or numbers and, then, whether the",
-        "categories have an order or the numbers come from counting or measuring. The type, in turn, decides which",
+        "categories have an order or the numbers come from counting, with separate values, or from measuring. The type, in turn, decides which",
         "summaries make sense. You can compute the mean of ZIP codes, but it means nothing, since a ZIP code is a label."
       ),
       shiny::p(
@@ -227,12 +233,16 @@ mod_tipos_ui <- function(id) {
           shiny::conditionalPanel(
             "input.q1 == 'num'", ns = ns,
             shiny::radioButtons(
-              ns("q2_num"), tr("2. Os valores possíveis são separados ou formam um contínuo?", "2. Are the possible values separate or do they form a continuum?"),
+              ns("q2_num"),
+              tr(
+                "2. Os números vêm de uma medição (mesmo que arredondada) ou só assumem valores separados?",
+                "2. Do the numbers come from measuring (even if rounded), or do they only take separate values?"
+              ),
               choices = stats::setNames(
                 c("discreta", "continua"),
                 tr(
-                  c("Separados, como numa contagem (0, 1, 2…)", "Contínuos, como numa medição: qualquer valor num intervalo"),
-                  c("Separate, as in a count (0, 1, 2…)", "Continuous, as in a measurement: any value within a range")
+                  c("Valores separados, como numa contagem (0, 1, 2…)", "Medição: qualquer valor num intervalo, mesmo que registrado arredondado"),
+                  c("Separate values, as in a count (0, 1, 2…)", "Measurement: any value within a range, even if recorded rounded")
                 )
               ),
               selected = character(0)
@@ -270,8 +280,9 @@ mod_tipos_ui <- function(id) {
           tr(
             paste(
               "† Não é indicado, mas aparece com frequência, sobretudo em escalas de 1 a 5. Agresti e Finlay aceitam",
-              "atribuir escores às categorias (1, 2, 3…) e calcular média e desvio padrão; Morettin e Bussab não usam",
-              "média para variáveis qualitativas. Ainda que a prática tenha respaldo em Agresti e Finlay, ela",
+              "atribuir escores às categorias (1, 2, 3…) e calcular média e desvio padrão; Morettin e Bussab reservam",
+              "a média às variáveis quantitativas, com uma exceção: na variável dicotômica codificada como 0 e 1, a média",
+              "é a proporção de sucessos. Ainda que a prática tenha respaldo em Agresti e Finlay, ela",
               "pressupõe que as distâncias entre categorias vizinhas são iguais, ou seja, que ir de \"Insatisfeito\" a",
               "\"Neutro\" equivale a ir de \"Satisfeito\" a \"Muito satisfeito\". É um pressuposto forte, que a escala",
               "ordinal não garante e que raramente pode ser verificado, e o resultado muda quando os escores mudam.",
@@ -279,8 +290,9 @@ mod_tipos_ui <- function(id) {
             ),
             paste(
               "† Not recommended, but common, especially for 1-to-5 scales. Agresti and Finlay accept assigning scores",
-              "to the categories (1, 2, 3…) and computing the mean and standard deviation; Morettin and Bussab do not",
-              "use the mean for categorical variables. Even though the practice has support in Agresti and Finlay, it",
+              "to the categories (1, 2, 3…) and computing the mean and standard deviation; Morettin and Bussab keep",
+              "the mean for quantitative variables, with one exception: for a binary variable coded 0 and 1, the mean",
+              "is the proportion of successes. Even though the practice has support in Agresti and Finlay, it",
               "assumes that the distances between neighboring categories are equal, that is, that going from",
               "\"Dissatisfied\" to \"Neutral\" is the same as going from \"Satisfied\" to \"Very satisfied\". That is a",
               "strong assumption, which an ordinal scale does not guarantee and which can rarely be checked, and the",
@@ -293,17 +305,22 @@ mod_tipos_ui <- function(id) {
           class = "small text-muted mb-0",
           tr(
             paste(
-              "A classificação em quatro tipos segue Morettin e Bussab (Estatística Básica, cap. 2) e Agresti e Finlay",
-              "(Statistical Methods for the Social Sciences, cap. 2); a divisão entre nominal e ordinal vem das escalas",
-              "de medida de Stevens (1946). Variância e desvio padrão usam divisor n − 1, como em Agresti e Finlay.",
-              "Morettin e Bussab dividem por n na análise descritiva, e a diferença some à medida que a amostra cresce."
+              "A classificação em quatro tipos segue Morettin e Bussab (Estatística Básica, cap. 2). Agresti e Finlay",
+              "(Statistical Methods for the Social Sciences, cap. 2) cruzam duas distinções: a escala de medida",
+              "(nominal, ordinal, intervalar) e a divisão entre discreta e contínua. A separação entre nominal e ordinal",
+              "vem das escalas de medida de Stevens (1946). Variância e desvio padrão usam divisor n − 1, como em",
+              "Agresti e Finlay, ao passo que Morettin e Bussab dividem por n na análise descritiva; a diferença some à",
+              "medida que a amostra cresce. Os quartis seguem o método padrão do R, que em amostras pequenas pode",
+              "diferir um pouco dos quantis empíricos de Morettin e Bussab."
             ),
             paste(
-              "The four-way classification follows Agresti and Finlay (Statistical Methods for the Social Sciences,",
-              "ch. 2) and Morettin and Bussab (Estatística Básica, ch. 2); the split between nominal and ordinal comes",
-              "from Stevens' (1946) levels of measurement. Variance and standard deviation use the n − 1 divisor, as in",
-              "Agresti and Finlay. Morettin and Bussab divide by n in descriptive analysis, and the difference fades as",
-              "the sample grows."
+              "The four-way classification follows Morettin and Bussab (Estatística Básica, ch. 2). Agresti and Finlay",
+              "(Statistical Methods for the Social Sciences, ch. 2) cross two distinctions: the measurement scale",
+              "(nominal, ordinal, interval) and the split between discrete and continuous. The split between nominal and",
+              "ordinal comes from Stevens' (1946) levels of measurement. Variance and standard deviation use the n − 1",
+              "divisor, as in Agresti and Finlay, whereas Morettin and Bussab divide by n in descriptive analysis; the",
+              "difference fades as the sample grows. Quartiles follow R's default method, which in small samples can",
+              "differ slightly from the methods in either book."
             )
           )
         )
