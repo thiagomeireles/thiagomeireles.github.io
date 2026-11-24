@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tema Tipos de variáveis)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-19
+# Atualizado: 2026-11-23
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -28,12 +28,14 @@ ui <- pagina_tema(
     paste(
       "Como classificar uma variável (qualitativa nominal ou ordinal, quantitativa discreta ou contínua) e",
       "quais estatísticas descritivas fazem sentido para cada tipo, com quiz e dados simulados. Os conceitos",
-      "seguem Morettin e Bussab (Estatística Básica) e Agresti e Finlay (Statistical Methods for the Social Sciences)."
+      "seguem Morettin e Bussab (Estatística Básica) e Agresti e Finlay (Statistical Methods for the Social Sciences),",
+      "com o rigor das definições conferido em Casella e Berger (Statistical Inference)."
     ),
     paste(
       "How to classify a variable (nominal or ordinal categorical, discrete or continuous quantitative) and",
       "which descriptive statistics make sense for each type, with a quiz and simulated data. The concepts",
-      "follow Agresti and Finlay (Statistical Methods for the Social Sciences) and Morettin and Bussab (Estatística Básica)."
+      "follow Agresti and Finlay (Statistical Methods for the Social Sciences) and Morettin and Bussab (Estatística Básica),",
+      "with the definitions checked for rigor against Casella and Berger (Statistical Inference)."
     )
   ),
   bslib::nav_panel(tr("Como classificar", "How to classify"), value = "tipos", mod_tipos_ui("tipos")),
