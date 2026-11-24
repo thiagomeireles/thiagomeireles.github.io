@@ -311,7 +311,9 @@ mod_tipos_ui <- function(id) {
               "vem das escalas de medida de Stevens (1946). Variância e desvio padrão usam divisor n − 1, como em",
               "Agresti e Finlay, ao passo que Morettin e Bussab dividem por n na análise descritiva; a diferença some à",
               "medida que a amostra cresce. Os quartis seguem o método padrão do R, que em amostras pequenas pode",
-              "diferir um pouco dos quantis empíricos de Morettin e Bussab."
+              "diferir um pouco dos quantis empíricos de Morettin e Bussab. Na ordinal, mediana e quartis são a primeira",
+              "categoria em que a frequência acumulada atinge 50%, 25% ou 75%, a inversa generalizada da função de",
+              "distribuição empírica (Casella e Berger, Statistical Inference, seção 2.1)."
             ),
             paste(
               "The four-way classification follows Morettin and Bussab (Estatística Básica, ch. 2). Agresti and Finlay",
@@ -320,7 +322,9 @@ mod_tipos_ui <- function(id) {
               "ordinal comes from Stevens' (1946) levels of measurement. Variance and standard deviation use the n − 1",
               "divisor, as in Agresti and Finlay, whereas Morettin and Bussab divide by n in descriptive analysis; the",
               "difference fades as the sample grows. Quartiles follow R's default method, which in small samples can",
-              "differ slightly from the methods in either book."
+              "differ slightly from the methods in either book. For ordinal data, the median and quartiles are the first",
+              "category where the cumulative frequency reaches 50%, 25% or 75%, the generalized inverse of the empirical",
+              "distribution function (Casella and Berger, Statistical Inference, section 2.1)."
             )
           )
         )

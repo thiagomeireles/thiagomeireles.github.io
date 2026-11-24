@@ -31,7 +31,8 @@ texto_continua <- function() {
         "padrão da média, cerca de 95% a até 2 e quase todas a até 3 (a regra empírica). Em dados muito",
         "assimétricos ou com poucos valores distintos, essas porcentagens falham: na renda simulada, perto de 89%",
         "das observações ficam a até 1 desvio padrão. O que vale para qualquer conjunto de dados é bem mais fraco",
-        "(desigualdade de Chebyshev): pelo menos 75% das observações ficam a até 2 desvios padrão da média."
+        "(desigualdade de Chebyshev, ver Casella e Berger, Statistical Inference, seção 3.6): pelo menos 75% das",
+        "observações ficam a até 2 desvios padrão da média."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -60,7 +61,8 @@ texto_continua <- function() {
         "standard deviation of the mean, about 95% within 2, and all or nearly all within 3 (the Empirical Rule).",
         "For highly skewed data, or data with few distinct values, these percentages fail: in the simulated income,",
         "close to 89% of the observations fall within 1 standard deviation. What holds for any data set is much",
-        "weaker (Chebyshev's inequality): at least 75% of the observations fall within 2 standard deviations of the mean."
+        "weaker (Chebyshev's inequality; see Casella and Berger, Statistical Inference, section 3.6): at least 75%",
+        "of the observations fall within 2 standard deviations of the mean."
       ),
       shiny::p(
         shiny::strong("Try it:"),
