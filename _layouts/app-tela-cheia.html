@@ -1,7 +1,7 @@
 <!doctype html>
 {%- comment -%}
 Layout: app-tela-cheia (um app de tema ocupando a tela inteira)
-Autor: Thiago Meireles | Atualizado: 2026-11-21
+Autor: Thiago Meireles | Atualizado: 2026-11-25
 Entrada: page.slug (pasta do tema em _data/apps.yml), page.idioma ("pt" ou "en"),
          site.apps_servidor (endereço do Space no Hugging Face)
 Saída: página no domínio do site com o app do Space num iframe de tela cheia
@@ -45,6 +45,11 @@ Saída: página no domínio do site com o app do Space num iframe de tela cheia
 </head>
 <body>
   <p class="aguarde">{{ aguarde }}</p>
-  <iframe src="{{ site.apps_servidor }}/{{ caminho }}/" title="{{ titulo }}" allow="fullscreen"></iframe>
+  <iframe id="app" title="{{ titulo }}" allow="fullscreen"></iframe>
+  <script>
+    // O app abre no mesmo tema do site (?tema=); ele fica em outro domínio e não lê o localStorage daqui
+    document.getElementById("app").src = "{{ site.apps_servidor }}/{{ caminho }}/?tema=" +
+      (document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
+  </script>
 </body>
 </html>

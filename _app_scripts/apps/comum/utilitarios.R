@@ -1,14 +1,16 @@
 # =============================================================================
 # Script:  utilitarios.R (modelo comum a todos os apps de tema)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-19
+# Atualizado: 2026-11-25
 #
 # Entrada:
 #   - idioma.txt (opcional): "pt" ou "en", gravado por
 #     _app_scripts/hf-space/montar_apps.R
+#   - parâmetro ?tema=dark|light na URL (opcional, enviado pela tela cheia do
+#     site); sem ele, o app segue o tema do sistema
 # Saída:
 #   - objetos em memória: idioma, tr(), cores_app, tema_zephyr(), estilo_app(),
-#     texto_execucao(), pagina_tema(), item_em_breve(),
+#     script_tema_inicial(), texto_execucao(), pagina_tema(), item_em_breve(),
 #     modo_app(), paleta_modo(), tema_grafico(), fmt_num(), fmt_pct(),
 #     sep_milhar(), tabela_html()
 # =============================================================================
@@ -57,6 +59,27 @@ estilo_app <- function() {
     .tabela-app td.num, .tabela-app th.num { text-align: right; font-variant-numeric: tabular-nums; }
     .tabela-app td.leitura { color: var(--bs-secondary-color); font-size: 0.92em; }
   "))
+}
+
+# Tema claro/escuro decidido antes da página aparecer, para não piscar branco.
+# Vale o ?tema= da URL (escolha feita no site); sem ele, o tema do sistema. O
+# botão do topo (input_dark_mode) segue o sistema sozinho, inclusive quando o
+# sistema muda com o app aberto, mas só depois que o JavaScript do bslib carrega.
+# No <head> só se grava "dark": o botão do bslib 0.12 não se inicializa quando
+# encontra data-bs-theme="light" já no <html>. O claro entra no DOMContentLoaded,
+# depois que o botão conectou, e ele acompanha a troca pelo próprio observador.
+script_tema_inicial <- function() {
+  shiny::tags$head(shiny::tags$script(shiny::HTML("
+    (function () {
+      var pedido = new URLSearchParams(window.location.search).get('tema');
+      var sistema = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var tema = pedido === 'dark' || pedido === 'light' ? pedido : sistema;
+      if (tema === 'dark') document.documentElement.setAttribute('data-bs-theme', 'dark');
+      document.addEventListener('DOMContentLoaded', function () {
+        document.documentElement.setAttribute('data-bs-theme', tema);
+      });
+    })();
+  ")))
 }
 
 # Como o app roda (aba Sobre)
@@ -113,7 +136,7 @@ pagina_tema <- function(titulo, ..., descricao, versao = tr("0.2 (novembro de 20
     title        = titulo,
     window_title = paste(titulo, tr("| Estatística na prática", "| Statistics in practice")),
     theme        = tema_zephyr(),
-    header       = estilo_app(),
+    header       = shiny::tagList(script_tema_inicial(), estilo_app()),
     ...,
     bslib::nav_spacer(),
     bslib::nav_panel(tr("Sobre", "About"), value = "sobre", pagina_sobre(titulo, descricao, versao)),
