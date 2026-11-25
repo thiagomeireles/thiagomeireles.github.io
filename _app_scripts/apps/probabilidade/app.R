@@ -1,7 +1,7 @@
 # =============================================================================
-# Script:  app.R (tema Probabilidade: distribuições)
+# Script:  app.R (app Distribuições normal e t)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-19
+# Atualizado: 2026-11-25
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -22,7 +22,7 @@ c(
   purrr::walk(source)
 
 ui <- pagina_tema(
-  titulo = tr("Probabilidade", "Probability"),
+  titulo = tr("Distribuições normal e t", "Normal and t distributions"),
   descricao = tr(
     paste(
       "Demonstrações interativas de distribuições de probabilidade: como calcular áreas,",

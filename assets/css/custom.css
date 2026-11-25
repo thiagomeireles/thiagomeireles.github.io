@@ -215,4 +215,4 @@ html[data-theme="dark"] .news-link-btn:hover { background-color: var(--link); co
 html[data-theme="dark"] .busca-apps details summary,
 html[data-theme="dark"] .busca-status,
 html[data-theme="dark"] .busca-resultados .busca-topico,
-html[data-theme="dark"] .app-topicos .temas { color: var(--texto-suave); }
+html[data-theme="dark"] .app-lista-temas .topicos { color: var(--texto-suave); }

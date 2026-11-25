@@ -1,0 +1,122 @@
+# Temas do "Estatística na prática", na ordem de estudo, cada um com seus tópicos
+# Autor: Thiago Meireles | Atualizado: 2026-11-25
+# Lido por aplicativos.md e en/apps.md (cartões dos temas), por _layouts/apps-tema.html
+# (páginas /aplicativos/<slug>/ e /en/apps/<slug_en>/) e por _includes/busca-apps.html.
+# Tópico com app: campo app com o slug de _data/apps.yml (o cartão leva à tela cheia).
+# Tópico sem app: fica listado como "em breve", sem link.
+# Tema novo: entrada aqui + duas páginas (aplicativos/<slug>.md e en/apps/<slug_en>.md, copiando uma existente).
+
+- slug: descricao-dados
+  slug_en: describing-data
+  titulo: Descrição de dados
+  title: Describing data
+  descricao: Como organizar, resumir e representar dados antes de qualquer probabilidade, com uma e com duas variáveis.
+  description: How to organize, summarize and display data before any probability, with one and with two variables.
+  topicos:
+    - titulo: População, amostra, parâmetro e estatística
+      title: Population, sample, parameter and statistic
+      descricao: O que se quer conhecer, o que de fato se observa e como chamar cada medida.
+      description: What we want to know, what we actually observe and what to call each measure.
+    - titulo: Tipos de variáveis
+      title: Types of variables
+      app: variaveis
+    - titulo: Distribuições de frequência e gráficos
+      title: Frequency distributions and graphs
+      descricao: Tabela de frequências, gráfico de barras, histograma com densidade e ramo-e-folhas.
+      description: Frequency tables, bar charts, density histograms and stem-and-leaf plots.
+    - titulo: Medidas de posição e dispersão
+      title: Measures of center and spread
+      descricao: Média, mediana, quantis, variância, desvio padrão, box plot e escore z.
+      description: Mean, median, quantiles, variance, standard deviation, box plot and z-score.
+    - titulo: Análise bidimensional
+      title: Bivariate analysis
+      app: bidimensional
+
+- slug: probabilidade
+  slug_en: probability
+  titulo: Probabilidade
+  title: Probability
+  descricao: A linguagem da incerteza, do espaço amostral à regra de Bayes.
+  description: The language of uncertainty, from the sample space to Bayes' rule.
+  topicos:
+    - titulo: Espaço amostral, eventos e axiomas
+      title: Sample space, events and axioms
+      descricao: Experimento aleatório, eventos, axiomas da probabilidade e técnicas de contagem.
+      description: Random experiments, events, probability axioms and counting techniques.
+    - titulo: Probabilidade condicional e Bayes
+      title: Conditional probability and Bayes
+      descricao: Condicional, independência, árvores, probabilidade total e teorema de Bayes.
+      description: Conditioning, independence, tree diagrams, total probability and Bayes' theorem.
+
+- slug: variaveis-aleatorias
+  slug_en: random-variables
+  titulo: Variáveis aleatórias e modelos
+  title: Random variables and models
+  descricao: Os modelos de probabilidade mais usados, com esperança e variância.
+  description: The most common probability models, with expected value and variance.
+  topicos:
+    - titulo: Variáveis aleatórias discretas
+      title: Discrete random variables
+      descricao: Função de probabilidade, esperança, variância e os modelos Bernoulli, binomial e Poisson.
+      description: Probability mass function, expected value, variance and the Bernoulli, binomial and Poisson models.
+    - titulo: Variáveis aleatórias contínuas e a normal
+      title: Continuous random variables and the normal
+      descricao: Densidade, função de distribuição, uniforme, exponencial e normal. O app atual cobre a normal padrão.
+      description: Density, distribution function, uniform, exponential and normal. The current app covers the standard normal.
+      app: probabilidade
+    - titulo: Duas variáveis aleatórias
+      title: Two random variables
+      descricao: Distribuição conjunta, marginais, covariância e correlação.
+      description: Joint distribution, marginals, covariance and correlation.
+
+- slug: amostra-populacao
+  slug_en: sample-to-population
+  titulo: Da amostra à população
+  title: From sample to population
+  descricao: Por que uma amostra diz algo sobre a população e como as estatísticas variam de amostra para amostra.
+  description: Why a sample tells us something about the population and how statistics vary from sample to sample.
+  topicos:
+    - titulo: Amostragem
+      title: Sampling
+      descricao: Amostra aleatória simples com e sem reposição e a estatística como variável aleatória.
+      description: Simple random sampling with and without replacement, and the statistic as a random variable.
+    - titulo: Teoremas limite
+      title: Limit theorems
+      app: teoremas-limite
+    - titulo: Qui-quadrado, t de Student e F
+      title: Chi-squared, Student's t and F
+      descricao: As distribuições que nascem da normal e aparecem na inferência. O app atual cobre a t de Student.
+      description: The distributions derived from the normal that show up in inference. The current app covers Student's t.
+      app: probabilidade
+
+- slug: inferencia
+  slug_en: inference
+  titulo: Inferência
+  title: Inference
+  descricao: Estimar e testar com base na amostra, de uma média a uma reta de regressão.
+  description: Estimating and testing from a sample, from a single mean to a regression line.
+  topicos:
+    - titulo: Estimação e intervalos de confiança
+      title: Estimation and confidence intervals
+      descricao: Estimadores, erro padrão e intervalos de confiança para média e proporção.
+      description: Estimators, standard error and confidence intervals for a mean and a proportion.
+    - titulo: Testes de hipóteses
+      title: Hypothesis testing
+      descricao: Erros tipo I e II, poder e valor-p.
+      description: Type I and II errors, power and p-values.
+    - titulo: Comparação de duas populações
+      title: Comparing two populations
+      descricao: Médias com amostras independentes e pareadas, variâncias e proporções.
+      description: Means with independent and paired samples, variances and proportions.
+    - titulo: Qui-quadrado de aderência e independência
+      title: Chi-squared goodness of fit and independence
+      descricao: Se os dados seguem um modelo e se duas variáveis categóricas estão associadas.
+      description: Whether data follow a model and whether two categorical variables are associated.
+    - titulo: Análise de variância
+      title: Analysis of variance
+      descricao: Comparação de várias médias com a ANOVA de um fator.
+      description: Comparing several means with one-way ANOVA.
+    - titulo: Regressão linear simples
+      title: Simple linear regression
+      descricao: Mínimos quadrados, R², intervalos para a reta e análise de resíduos.
+      description: Least squares, R², intervals for the line and residual analysis.

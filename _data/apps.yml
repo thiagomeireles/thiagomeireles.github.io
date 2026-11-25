@@ -1,15 +1,16 @@
-# Temas do app "Estatística na prática" (um app Shiny por tema, no Space do Hugging Face)
-# Autor: Thiago Meireles | Atualizado: 2026-11-19
-# Lido por _includes/busca-apps.html (busca e tags em /aplicativos/ e /en/apps/), por _layouts/apps-topico.html
-# (cartões das subpáginas de tópico, que levam à tela cheia), por _layouts/app-tela-cheia.html
+# Apps do "Estatística na prática" (um app Shiny por tópico, no Space do Hugging Face)
+# Autor: Thiago Meireles | Atualizado: 2026-11-25
+# Lido por _includes/busca-apps.html (busca e tags em /aplicativos/ e /en/apps/), por _layouts/apps-tema.html
+# (cartões dos tópicos com app, que levam à tela cheia), por _layouts/app-tela-cheia.html
 # (páginas apps/<slug>/ e apps/en/<slug_en ou slug>/) e por _app_scripts/hf-space/montar_apps.R,
-# que monta cada tema no Space. Tema novo: pasta em _app_scripts/apps/ + entrada aqui (com o
-# topico, um slug de _data/topicos.yml, e as listas tags e tags_en) + duas páginas de tela cheia em apps/.
-# Tags: termos que alguém digitaria para achar o tema, em minúsculas (salvo nomes próprios, como os dos teoremas).
+# que monta cada app no Space. App novo: pasta em _app_scripts/apps/ + entrada aqui (com o tema,
+# um slug de _data/temas.yml, e as listas tags e tags_en) + app: <slug> no tópico em _data/temas.yml
+# + duas páginas de tela cheia em apps/.
+# Tags: termos que alguém digitaria para achar o app, em minúsculas (salvo nomes próprios, como os dos teoremas).
 
 - slug: variaveis
   slug_en: variables
-  topico: introducao-estatistica
+  tema: descricao-dados
   titulo: Tipos de variáveis
   title: Types of variables
   descricao: Como classificar uma variável em nominal, ordinal, discreta ou contínua e quais estatísticas fazem sentido para cada tipo, com quiz.
@@ -20,7 +21,7 @@
 
 - slug: bidimensional
   slug_en: bivariate
-  topico: introducao-estatistica
+  tema: descricao-dados
   titulo: Análise bidimensional
   title: Bivariate analysis
   descricao: Como descrever a relação entre duas variáveis conforme o par de tipos, com tabela de dupla entrada, gráfico de dispersão, box plots e quiz.
@@ -30,16 +31,16 @@
   novo: true
 
 - slug: probabilidade
-  topico: introducao-estatistica
-  titulo: Probabilidade
-  title: Probability
+  tema: variaveis-aleatorias
+  titulo: Distribuições normal e t
+  title: Normal and t distributions
   descricao: Distribuição normal padrão (Z) e t de Student, com áreas e valores críticos.
   description: Standard normal (Z) and Student's t distributions, with areas and critical values.
   tags: [probabilidade, distribuição normal, normal padrão, escore z, t de Student, graus de liberdade, valor crítico, nível de confiança, área sob a curva]
   tags_en: [probability, normal distribution, standard normal, z-score, "Student's t", degrees of freedom, critical value, confidence level, area under the curve]
 
 - slug: teoremas-limite
-  topico: introducao-estatistica
+  tema: amostra-populacao
   titulo: Teoremas limite
   title: Limit theorems
   descricao: Lei dos Grandes Números e Teorema Central do Limite, com simulações.

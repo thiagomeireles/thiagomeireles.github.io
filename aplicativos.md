@@ -7,27 +7,29 @@ author: "Thiago Meireles"
 ---
 
 <style>
-  .app-topicos .card { display: block; height: 100%; border: 2px solid transparent; transition: border-color 0.15s; }
-  .app-topicos .card:hover { border-color: #b5c3f5; }
-  .app-topicos .card .tag { margin-left: 0.4rem; vertical-align: middle; }
-  .app-topicos .temas { color: #6c757d; font-size: 0.9rem; }
+  .app-lista-temas .card { display: block; height: 100%; border: 2px solid transparent; transition: border-color 0.15s; }
+  .app-lista-temas .card:hover { border-color: #b5c3f5; }
+  .app-lista-temas .card .tag { margin-left: 0.4rem; vertical-align: middle; }
+  .app-lista-temas .numero { font-size: 0.85rem; font-weight: 600; opacity: 0.7; margin-bottom: 0.3rem; }
+  .app-lista-temas .topicos { color: #6c757d; font-size: 0.9rem; }
 </style>
 
 ## Estatística na prática
 
-Os aplicativos são demonstrações interativas de conceitos de estatística e amostragem, organizadas por tópico. Cada tópico reúne alguns temas, e novos tópicos e temas entram aos poucos. Escolha um tópico abaixo para começar ou busque direto pelo conceito que você procura.
+Os aplicativos são demonstrações interativas de conceitos de estatística e probabilidade. Estão organizados em temas, na ordem em que costumam ser estudados, e cada tema reúne alguns tópicos. Os tópicos ganham aplicativo aos poucos. Escolha um tema abaixo para começar ou busque direto pelo conceito que você procura.
 
 {% include busca-apps.html idioma="pt" %}
 
-<div class="columns is-multiline app-topicos">
-{%- for topico in site.data.topicos -%}
-  {%- assign temas = site.data.apps | where: "topico", topico.slug -%}
+<div class="columns is-multiline app-lista-temas">
+{%- for tema in site.data.temas -%}
+  {%- assign com_app = tema.topicos | where_exp: "t", "t.app" -%}
   <div class="column is-one-third">
-    <a class="card" href="{{ '/aplicativos/' | relative_url }}{{ topico.slug }}/">
+    <a class="card" href="{{ '/aplicativos/' | relative_url }}{{ tema.slug }}/">
       <div class="card-content">
-        <p class="title is-5">{{ topico.titulo }}{% if topico.novo %}<span class="tag is-info is-light">novo</span>{% endif %}</p>
-        <p class="content">{{ topico.descricao }}</p>
-        <p class="temas">{{ temas.size }} {% if temas.size == 1 %}tema{% else %}temas{% endif %}: {{ temas | map: "titulo" | join: ", " }}</p>
+        <p class="numero">Tema {{ forloop.index }}</p>
+        <p class="title is-5">{{ tema.titulo }}{% if tema.novo %}<span class="tag is-info is-light">novo</span>{% endif %}</p>
+        <p class="content">{{ tema.descricao }}</p>
+        <p class="topicos">{{ tema.topicos.size }} tópicos, {% if com_app.size == 0 %}nenhum{% else %}{{ com_app.size }}{% endif %} com aplicativo{% if com_app.size == 0 %} ainda{% endif %}: {{ tema.topicos | map: "titulo" | join: ", " }}</p>
       </div>
     </a>
   </div>
@@ -35,15 +37,11 @@ Os aplicativos são demonstrações interativas de conceitos de estatística e a
 </div>
 
 <script>
-  // Endereços antigos (/aplicativos/#<tema>) vão para a subpágina do tópico do tema
+  // Endereços antigos (/aplicativos/#<app>) vão direto para a tela cheia do app
   (function () {
-    var destinos = {
-      {%- for app in site.data.apps %}
-      "{{ app.slug }}": "{{ '/aplicativos/' | relative_url }}{{ app.topico }}/#{{ app.slug }}"{% unless forloop.last %},{% endunless %}
-      {%- endfor %}
-    };
-    var destino = destinos[location.hash.slice(1)];
-    if (destino) location.replace(destino);
+    var slug = location.hash.slice(1);
+    var apps = [{% for app in site.data.apps %}{{ app.slug | jsonify }}{% unless forloop.last %}, {% endunless %}{% endfor %}];
+    if (apps.indexOf(slug) >= 0) location.replace("{{ '/apps/' | relative_url }}" + slug + "/");
   })();
 </script>
 

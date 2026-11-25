@@ -1,0 +1,114 @@
+---
+layout: page
+---
+{%- comment -%}
+Layout: apps-tema (página de um tema do "Estatística na prática")
+Autor: Thiago Meireles | Atualizado: 2026-11-25
+Entrada: page.tema (slug em _data/temas.yml), page.idioma ("pt" ou "en"),
+         apps de _data/apps.yml citados no campo app dos tópicos
+Saída: cartões numerados dos tópicos do tema, na ordem de estudo; tópico com app leva à tela
+       cheia (_layouts/app-tela-cheia.html), tópico sem app aparece como "em breve", sem link.
+       Links para o tema anterior e o seguinte. Links antigos com #slug redirecionam para a tela cheia.
+{%- endcomment -%}
+{%- assign tema = site.data.temas | where: "slug", page.tema | first -%}
+{%- if page.idioma == "en" -%}
+  {%- assign base = '/apps/en/' | relative_url -%}
+  {%- assign hub = '/en/apps/' | relative_url -%}
+  {%- assign rotulo_novo = "new" -%}
+  {%- assign rotulo_breve = "coming soon" -%}
+{%- else -%}
+  {%- assign base = '/apps/' | relative_url -%}
+  {%- assign hub = '/aplicativos/' | relative_url -%}
+  {%- assign rotulo_novo = "novo" -%}
+  {%- assign rotulo_breve = "em breve" -%}
+{%- endif -%}
+{%- comment -%} Numeração contínua entre os temas: soma os tópicos dos temas anteriores {%- endcomment -%}
+{%- assign inicio = 0 -%}
+{%- assign anterior = nil -%}
+{%- assign seguinte = nil -%}
+{%- assign achou = false -%}
+{%- for t in site.data.temas -%}
+  {%- if achou and seguinte == nil -%}{%- assign seguinte = t -%}{%- endif -%}
+  {%- if t.slug == page.tema -%}
+    {%- assign achou = true -%}
+  {%- elsif achou == false -%}
+    {%- assign inicio = inicio | plus: t.topicos.size -%}
+    {%- assign anterior = t -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<style>
+  .app-temas .card { display: block; height: 100%; border: 2px solid transparent; transition: border-color 0.15s; }
+  .app-temas a.card:hover { border-color: #3459e6; }
+  .app-temas .card .tag { margin-left: 0.4rem; vertical-align: middle; }
+  .app-temas .card.em-breve { opacity: 0.6; }
+  .app-temas .numero { font-size: 0.85rem; font-weight: 600; opacity: 0.7; margin-bottom: 0.3rem; }
+  .app-navegacao { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+</style>
+
+<p><a href="{{ hub }}">{% if page.idioma == "en" %}&larr; All themes{% else %}&larr; Todos os temas{% endif %}</a></p>
+
+<p>{% if page.idioma == "en" %}{{ tema.description }} The topics follow the study order; the ones without an app yet are on the way.{% else %}{{ tema.descricao }} Os tópicos seguem a ordem de estudo, e os que ainda não têm app vão chegando aos poucos.{% endif %}</p>
+
+<div class="notification is-light">
+{%- if page.idioma == "en" %}
+  The apps run on a server. If nobody has used them for a few days, the server is asleep and the first load can take up to a minute; after that, they open quickly.
+{%- else %}
+  Os aplicativos rodam em um servidor. Se ninguém os usou nos últimos dias, o servidor está parado e a primeira abertura pode levar até um minuto; depois disso, eles abrem rápido.
+{%- endif %}
+</div>
+
+<div class="columns is-multiline app-temas">
+{%- for topico in tema.topicos -%}
+  {%- assign numero = inicio | plus: forloop.index -%}
+  {%- assign app = nil -%}
+  {%- if topico.app -%}{%- assign app = site.data.apps | where: "slug", topico.app | first -%}{%- endif -%}
+  {%- if page.idioma == "en" -%}
+    {%- assign titulo = topico.title -%}
+    {%- assign descricao = topico.description | default: app.description -%}
+    {%- assign slug = app.slug_en | default: app.slug -%}
+  {%- else -%}
+    {%- assign titulo = topico.titulo -%}
+    {%- assign descricao = topico.descricao | default: app.descricao -%}
+    {%- assign slug = app.slug -%}
+  {%- endif -%}
+  <div class="column is-one-third">
+  {%- if app %}
+    <a class="card" href="{{ base }}{{ slug }}/" data-app="{{ slug }}">
+      <div class="card-content">
+        <p class="numero">{{ numero }}</p>
+        <p class="title is-5">{{ titulo }}{% if app.novo %}<span class="tag is-info is-light">{{ rotulo_novo }}</span>{% endif %}</p>
+        <p class="content">{{ descricao }}</p>
+      </div>
+    </a>
+  {%- else %}
+    <div class="card em-breve">
+      <div class="card-content">
+        <p class="numero">{{ numero }}</p>
+        <p class="title is-5">{{ titulo }}<span class="tag is-light">{{ rotulo_breve }}</span></p>
+        <p class="content">{{ descricao }}</p>
+      </div>
+    </div>
+  {%- endif %}
+  </div>
+{%- endfor -%}
+</div>
+
+<nav class="app-navegacao">
+  <span>{% if anterior %}{% if page.idioma == "en" %}<a href="{{ hub }}{{ anterior.slug_en | default: anterior.slug }}/">&larr; {{ anterior.title }}</a>{% else %}<a href="{{ hub }}{{ anterior.slug }}/">&larr; {{ anterior.titulo }}</a>{% endif %}{% endif %}</span>
+  <span>{% if seguinte %}{% if page.idioma == "en" %}<a href="{{ hub }}{{ seguinte.slug_en | default: seguinte.slug }}/">{{ seguinte.title }} &rarr;</a>{% else %}<a href="{{ hub }}{{ seguinte.slug }}/">{{ seguinte.titulo }} &rarr;</a>{% endif %}{% endif %}</span>
+</nav>
+
+<script>
+  // Links antigos (/aplicativos/<página>/#slug) abriam o app num iframe; agora vão direto à tela cheia.
+  (function () {
+    var slug = decodeURIComponent(location.hash.slice(1)).replace(/"/g, "");
+    if (!slug) return;
+    var cartao = document.querySelector('.app-temas .card[data-app="' + slug + '"]');
+    if (cartao) location.replace(cartao.href);
+  })();
+</script>
+
+{%- if page.idioma != "en" %}
+{% include pix-contribua.html %}
+{%- endif %}

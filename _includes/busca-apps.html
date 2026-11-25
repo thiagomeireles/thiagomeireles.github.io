@@ -1,10 +1,10 @@
 {%- comment -%}
-Include: busca-apps (campo de busca e tags dos temas do "Estatística na prática")
-Autor: Thiago Meireles | Atualizado: 2026-11-19
-Entrada: include.idioma ("pt" ou "en"); temas de _data/apps.yml (titulo/title, descricao/description,
-         tags/tags_en) e tópicos de _data/topicos.yml; Fuse.js 7.1.0 (basic) pelo cdnjs
+Include: busca-apps (campo de busca e tags dos apps do "Estatística na prática")
+Autor: Thiago Meireles | Atualizado: 2026-11-25
+Entrada: include.idioma ("pt" ou "en"); apps de _data/apps.yml (titulo/title, descricao/description,
+         tags/tags_en) e o tema de cada um em _data/temas.yml; Fuse.js 7.1.0 (basic) pelo cdnjs
 Saída: busca por texto (tolerante a acentos e erros de digitação) e filtro por tag; com busca ativa,
-       os cartões de tópico (.app-topicos) somem e aparecem os temas encontrados, com link para a tela cheia.
+       os cartões de tema (.app-lista-temas) somem e aparecem os apps encontrados, com link para a tela cheia.
        Estado na URL (?q=...&tag=...). Sem o Fuse.js (CDN fora do ar), cai numa busca simples por trecho.
 {%- endcomment -%}
 {%- if include.idioma == "en" -%}
@@ -13,9 +13,9 @@ Saída: busca por texto (tolerante a acentos e erros de digitação) e filtro po
   {%- assign t_todas = "Browse all tags" -%}
   {%- assign t_filtro = "Tag:" -%}
   {%- assign t_remover = "Remove tag" -%}
-  {%- assign t_um = "1 theme found" -%}
-  {%- assign t_varios = "themes found" -%}
-  {%- assign t_nenhum = "No theme found. Try another word or browse the tags." -%}
+  {%- assign t_um = "1 app found" -%}
+  {%- assign t_varios = "apps found" -%}
+  {%- assign t_nenhum = "No app found. Try another word or browse the tags." -%}
   {%- assign t_abrir = "Open the app" -%}
 {%- else -%}
   {%- assign t_rotulo = "Buscar nos aplicativos" -%}
@@ -23,13 +23,13 @@ Saída: busca por texto (tolerante a acentos e erros de digitação) e filtro po
   {%- assign t_todas = "Ver todas as tags" -%}
   {%- assign t_filtro = "Tag:" -%}
   {%- assign t_remover = "Remover tag" -%}
-  {%- assign t_um = "1 tema encontrado" -%}
-  {%- assign t_varios = "temas encontrados" -%}
-  {%- assign t_nenhum = "Nenhum tema encontrado. Tente outra palavra ou veja as tags." -%}
+  {%- assign t_um = "1 aplicativo encontrado" -%}
+  {%- assign t_varios = "aplicativos encontrados" -%}
+  {%- assign t_nenhum = "Nenhum aplicativo encontrado. Tente outra palavra ou veja as tags." -%}
   {%- assign t_abrir = "Abrir o aplicativo" -%}
 {%- endif -%}
 <style>
-  .app-topicos[hidden], .busca-resultados[hidden], .busca-apps [hidden], .busca-status[hidden] { display: none !important; }
+  .app-lista-temas[hidden], .busca-resultados[hidden], .busca-apps [hidden], .busca-status[hidden] { display: none !important; }
   .busca-apps { margin-bottom: 1.5rem; }
   .busca-apps details summary { cursor: pointer; color: #6c757d; font-size: 0.9rem; margin-top: 0.6rem; }
   .busca-apps .tags { margin-top: 0.6rem; }
@@ -60,7 +60,7 @@ Saída: busca por texto (tolerante a acentos e erros de digitação) e filtro po
   (function () {
     var temas = [
       {%- for app in site.data.apps %}
-      {%- assign busca_topico = site.data.topicos | where: "slug", app.topico | first %}
+      {%- assign busca_topico = site.data.temas | where: "slug", app.tema | first %}
       {%- if include.idioma == "en" %}
       {%- assign busca_slug = app.slug_en | default: app.slug %}
       {%- assign busca_url = '/apps/en/' | append: busca_slug | append: '/' | relative_url %}
@@ -170,7 +170,7 @@ Saída: busca por texto (tolerante a acentos e erros de digitação) e filtro po
     function atualizar() {
       var q = campo.value.trim();
       var ativa = q !== "" || tagAtiva !== "";
-      var topicos = document.querySelector(".app-topicos");
+      var topicos = document.querySelector(".app-lista-temas");
       if (topicos) topicos.hidden = ativa;
       resultados.hidden = !ativa;
       status.hidden = !ativa;

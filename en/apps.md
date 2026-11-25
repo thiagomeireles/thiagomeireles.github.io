@@ -7,29 +7,31 @@ author: "Thiago Meireles"
 ---
 
 <style>
-  .app-topicos .card { display: block; height: 100%; border: 2px solid transparent; transition: border-color 0.15s; }
-  .app-topicos .card:hover { border-color: #b5c3f5; }
-  .app-topicos .card .tag { margin-left: 0.4rem; vertical-align: middle; }
-  .app-topicos .temas { color: #6c757d; font-size: 0.9rem; }
+  .app-lista-temas .card { display: block; height: 100%; border: 2px solid transparent; transition: border-color 0.15s; }
+  .app-lista-temas .card:hover { border-color: #b5c3f5; }
+  .app-lista-temas .card .tag { margin-left: 0.4rem; vertical-align: middle; }
+  .app-lista-temas .numero { font-size: 0.85rem; font-weight: 600; opacity: 0.7; margin-bottom: 0.3rem; }
+  .app-lista-temas .topicos { color: #6c757d; font-size: 0.9rem; }
 </style>
 
 ## Statistics in practice
 
-The apps are interactive demos of statistics and sampling concepts, organized by topic. Each topic covers a few themes, and new topics and themes are added over time. Pick a topic below to start, or search for the concept you need.
+The apps are interactive demos of statistics and probability concepts. They are organized into themes, in the order they are usually studied, and each theme covers a few topics. Topics get their apps over time. Pick a theme below to start, or search for the concept you need.
 
 {% include busca-apps.html idioma="en" %}
 
-{% comment %} English URLs use slug_en when there is one (topics: /en/apps/<slug_en>/; themes: #<slug_en>) {% endcomment %}
-<div class="columns is-multiline app-topicos">
-{%- for topico in site.data.topicos -%}
-  {%- assign temas = site.data.apps | where: "topico", topico.slug -%}
-  {%- assign slug = topico.slug_en | default: topico.slug -%}
+{% comment %} English URLs use slug_en when there is one (themes: /en/apps/<slug_en>/; apps: /apps/en/<slug_en>/) {% endcomment %}
+<div class="columns is-multiline app-lista-temas">
+{%- for tema in site.data.temas -%}
+  {%- assign com_app = tema.topicos | where_exp: "t", "t.app" -%}
+  {%- assign slug = tema.slug_en | default: tema.slug -%}
   <div class="column is-one-third">
     <a class="card" href="{{ '/en/apps/' | relative_url }}{{ slug }}/">
       <div class="card-content">
-        <p class="title is-5">{{ topico.title }}{% if topico.novo %}<span class="tag is-info is-light">new</span>{% endif %}</p>
-        <p class="content">{{ topico.description }}</p>
-        <p class="temas">{{ temas.size }} {% if temas.size == 1 %}theme{% else %}themes{% endif %}: {{ temas | map: "title" | join: ", " }}</p>
+        <p class="numero">Theme {{ forloop.index }}</p>
+        <p class="title is-5">{{ tema.title }}{% if tema.novo %}<span class="tag is-info is-light">new</span>{% endif %}</p>
+        <p class="content">{{ tema.description }}</p>
+        <p class="topicos">{{ tema.topicos.size }} topics, {% if com_app.size == 0 %}none with an app yet{% else %}{{ com_app.size }} with an app{% endif %}: {{ tema.topicos | map: "title" | join: ", " }}</p>
       </div>
     </a>
   </div>
@@ -37,15 +39,10 @@ The apps are interactive demos of statistics and sampling concepts, organized by
 </div>
 
 <script>
-  // Old addresses (/en/apps/#<theme>) go to the subpage of the theme's topic
+  // Old addresses (/en/apps/#<app>) go straight to the app's full-screen page
   (function () {
-    var destinos = {
-      {%- for app in site.data.apps %}
-      {%- assign topico = site.data.topicos | where: "slug", app.topico | first %}
-      "{{ app.slug_en | default: app.slug }}": "{{ '/en/apps/' | relative_url }}{{ topico.slug_en | default: topico.slug }}/#{{ app.slug_en | default: app.slug }}"{% unless forloop.last %},{% endunless %}
-      {%- endfor %}
-    };
-    var destino = destinos[location.hash.slice(1)];
-    if (destino) location.replace(destino);
+    var slug = location.hash.slice(1);
+    var apps = [{% for app in site.data.apps %}{{ app.slug_en | default: app.slug | jsonify }}{% unless forloop.last %}, {% endunless %}{% endfor %}];
+    if (apps.indexOf(slug) >= 0) location.replace("{{ '/apps/en/' | relative_url }}" + slug + "/");
   })();
 </script>
