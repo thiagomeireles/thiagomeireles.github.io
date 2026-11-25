@@ -17,6 +17,7 @@
       title: Population, sample, parameter and statistic
       descricao: O que se quer conhecer, o que de fato se observa e como chamar cada medida.
       description: What we want to know, what we actually observe and what to call each measure.
+      app: populacao-amostra
     - titulo: Tipos de variáveis
       title: Types of variables
       app: variaveis

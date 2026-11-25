@@ -8,6 +8,17 @@
 # + duas páginas de tela cheia em apps/.
 # Tags: termos que alguém digitaria para achar o app, em minúsculas (salvo nomes próprios, como os dos teoremas).
 
+- slug: populacao-amostra
+  slug_en: population-sample
+  tema: descricao-dados
+  titulo: População, amostra, parâmetro e estatística
+  title: Population, sample, parameter and statistic
+  descricao: O que se quer conhecer, o que de fato se observa e como chamar cada medida, com quiz, uma população simulada para sortear amostras e o viés da variância com divisor n.
+  description: What we want to know, what we actually observe and what to call each measure, with a quiz, a simulated population to draw samples from and the bias of the variance with divisor n.
+  tags: [população, amostra, parâmetro, estatística, estimador, estimativa, amostra aleatória simples, erro amostral, viés de seleção, pesquisa online, notação, média amostral, variância amostral, n − 1, viés, EQM, quiz]
+  tags_en: [population, sample, parameter, statistic, estimator, estimate, simple random sample, sampling error, sampling bias, online survey, notation, sample mean, sample variance, n − 1, bias, MSE, quiz]
+  novo: true
+
 - slug: variaveis
   slug_en: variables
   tema: descricao-dados
