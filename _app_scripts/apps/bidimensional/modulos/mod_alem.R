@@ -76,12 +76,12 @@ texto_alem_bidim <- function() {
         "Na teoria de probabilidade, ambas são casos da mesma peça: a função de esperança condicional (CEF),",
         "\\(m(x) = E(Y \\mid X = x)\\), que dá a média populacional de \\(Y\\) em cada valor fixado de \\(X\\)",
         "(Casella e Berger, seção 4.2; Wooldridge, apêndice B.4). Pela lei das esperanças iteradas,",
-        "\\(E(Y) = E[E(Y \\mid X)]\\), e o erro \\(\\varepsilon = Y - E(Y \\mid X)\\) tem média condicional zero",
+        "\\(E(Y) = E[E(Y \\mid X)]\\) (Gelman et al., seção 1.8), e o erro \\(\\varepsilon = Y - E(Y \\mid X)\\) tem média condicional zero",
         "em qualquer \\(x\\)."
       ),
       shiny::p(
         "Essa decomposição sustenta dois resultados centrais. Primeiro, a lei da variância total (Casella e Berger,",
-        "Teo. 4.4.7; Angrist e Pischke, Teo. 3.1.3): \\(\\text{Var}(Y) = \\text{Var}(E[Y \\mid X]) + E[\\text{Var}(Y \\mid X)]\\).",
+        "Teo. 4.4.7; Angrist e Pischke, Teo. 3.1.3; Gelman et al., eq. 1.9): \\(\\text{Var}(Y) = \\text{Var}(E[Y \\mid X]) + E[\\text{Var}(Y \\mid X)]\\).",
         "Em outras palavras, a variância total soma a variação das médias condicionais (\"entre valores de \\(X\\)\")",
         "e a média das variâncias condicionais (\"dentro de cada \\(X\\)\") — a versão exata na população do",
         "\\(R^2 = 1 - \\overline{\\text{var}}(S)/\\text{var}(S)\\) de Morettin e Bussab. Segundo, pelo teorema da",
@@ -112,12 +112,12 @@ texto_alem_bidim <- function() {
         "data and fitting a line in quantitative × quantitative data. In probability theory, both stem from the same",
         "object: the conditional expectation function (CEF), \\(m(x) = E(Y \\mid X = x)\\), which gives the population",
         "mean of \\(Y\\) at each fixed value of \\(X\\) (Casella and Berger, section 4.2; Wooldridge, appendix B.4).",
-        "By the law of iterated expectations, \\(E(Y) = E[E(Y \\mid X)]\\), and the residual",
+        "By the law of iterated expectations, \\(E(Y) = E[E(Y \\mid X)]\\) (Gelman et al., section 1.8), and the residual",
         "\\(\\varepsilon = Y - E(Y \\mid X)\\) has mean zero given any \\(x\\)."
       ),
       shiny::p(
         "Two key results follow. First, the law of total variance (Casella and Berger, Thm. 4.4.7; Angrist and Pischke,",
-        "Thm. 3.1.3): \\(\\text{Var}(Y) = \\text{Var}(E[Y \\mid X]) + E[\\text{Var}(Y \\mid X)]\\). Put differently,",
+        "Thm. 3.1.3; Gelman et al., eq. 1.9): \\(\\text{Var}(Y) = \\text{Var}(E[Y \\mid X]) + E[\\text{Var}(Y \\mid X)]\\). Put differently,",
         "total variance adds the variance of the conditional means (\"between \\(X\\) values\") and the average",
         "conditional variance (\"within each \\(X\\)\") — the exact population counterpart of Morettin and Bussab's",
         "\\(R^2 = 1 - \\overline{\\text{var}}(S)/\\text{var}(S)\\). Second, by the Linear CEF-Approximation Theorem",

@@ -32,8 +32,10 @@ texto_experimento <- function() {
         "longo prazo (*long-run relative frequency*, Agresti e Finlay, seção 4.1), \\(P(A)\\) representa a proporção",
         "de vezes em que \\(A\\) ocorreria numa sequência muito longa de repetições sob as mesmas condições, o que",
         "conecta diretamente sorteios amostrais a proporções populacionais; e (3) na leitura subjetiva (Morettin e",
-        "Bussab, seção 5.5), quando o fenômeno não admite repetição idêntica — como a estreia de uma política pública",
-        "ou de um novo negócio —, \\(P(A)\\) expressa o grau de crença coerente dada a informação disponível."
+        "Bussab, seção 5.5; Gelman et al., seção 1.5), quando o fenômeno não admite repetição idêntica — como a estreia",
+        "de uma política pública ou de um novo negócio — ou envolve parâmetros desconhecidos, \\(P(A)\\) quantifica",
+        "conhecimento incompleto sob coerência de apostas: os números precisam obedecer aos axiomas para que nenhuma",
+        "combinação de apostas garanta perda certa."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -61,9 +63,10 @@ texto_experimento <- function() {
         "outcomes share the same weight, \\(P(A) = \\#A / \\#S\\); (2) under the *long-run relative frequency*",
         "view (Agresti and Finlay, section 4.1), \\(P(A)\\) is the proportion of times \\(A\\) would occur in a",
         "very long sequence of independent trials, tying random sampling directly to population proportions; and",
-        "(3) under subjective probability (Morettin and Bussab, section 5.5), when trials cannot be repeated under",
-        "identical conditions — such as a one-off policy reform or a new venture — \\(P(A)\\) summarizes a coherent",
-        "degree of belief given available information."
+        "(3) under subjective probability (Morettin and Bussab, section 5.5; Gelman et al., section 1.5), when",
+        "trials cannot be repeated under identical conditions — such as a one-off policy reform or a new venture —",
+        "or when quantifying uncertainty about unknown parameters, \\(P(A)\\) measures incomplete knowledge under",
+        "coherence of bets: probabilities must obey the axioms so no system of bets guarantees a sure loss."
       ),
       shiny::p(
         shiny::strong("Try it:"),
