@@ -10,7 +10,6 @@ author: "Thiago Meireles"
   .app-lista-temas .card { display: block; height: 100%; border: 2px solid transparent; transition: border-color 0.15s; }
   .app-lista-temas .card:hover { border-color: #b5c3f5; }
   .app-lista-temas .card .tag { margin-left: 0.4rem; vertical-align: middle; }
-  .app-lista-temas .numero { font-size: 0.85rem; font-weight: 600; opacity: 0.7; margin-bottom: 0.3rem; }
   .app-lista-temas .topicos { color: #6c757d; font-size: 0.9rem; }
 </style>
 
@@ -26,7 +25,6 @@ Os aplicativos são demonstrações interativas de conceitos de estatística e p
   <div class="column is-one-third">
     <a class="card" href="{{ '/aplicativos/' | relative_url }}{{ tema.slug }}/">
       <div class="card-content">
-        <p class="numero">Tema {{ forloop.index }}</p>
         <p class="title is-5">{{ tema.titulo }}{% if tema.novo %}<span class="tag is-info is-light">novo</span>{% endif %}</p>
         <p class="content">{{ tema.descricao }}</p>
         <p class="topicos">{{ tema.topicos.size }} tópicos, {% if com_app.size == 0 %}nenhum{% else %}{{ com_app.size }}{% endif %} com aplicativo{% if com_app.size == 0 %} ainda{% endif %}: {{ tema.topicos | map: "titulo" | join: ", " }}</p>

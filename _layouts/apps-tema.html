@@ -6,7 +6,7 @@ Layout: apps-tema (página de um tema do "Estatística na prática")
 Autor: Thiago Meireles | Atualizado: 2026-11-25
 Entrada: page.tema (slug em _data/temas.yml), page.idioma ("pt" ou "en"),
          apps de _data/apps.yml citados no campo app dos tópicos
-Saída: cartões numerados dos tópicos do tema, na ordem de estudo; tópico com app leva à tela
+Saída: cartões dos tópicos do tema, na ordem de estudo; tópico com app leva à tela
        cheia (_layouts/app-tela-cheia.html), tópico sem app aparece como "em breve", sem link.
        Links para o tema anterior e o seguinte. Links antigos com #slug redirecionam para a tela cheia.
 {%- endcomment -%}
@@ -22,8 +22,7 @@ Saída: cartões numerados dos tópicos do tema, na ordem de estudo; tópico com
   {%- assign rotulo_novo = "novo" -%}
   {%- assign rotulo_breve = "em breve" -%}
 {%- endif -%}
-{%- comment -%} Numeração contínua entre os temas: soma os tópicos dos temas anteriores {%- endcomment -%}
-{%- assign inicio = 0 -%}
+{%- comment -%} Tema anterior e seguinte, para a navegação {%- endcomment -%}
 {%- assign anterior = nil -%}
 {%- assign seguinte = nil -%}
 {%- assign achou = false -%}
@@ -32,7 +31,6 @@ Saída: cartões numerados dos tópicos do tema, na ordem de estudo; tópico com
   {%- if t.slug == page.tema -%}
     {%- assign achou = true -%}
   {%- elsif achou == false -%}
-    {%- assign inicio = inicio | plus: t.topicos.size -%}
     {%- assign anterior = t -%}
   {%- endif -%}
 {%- endfor -%}
@@ -42,7 +40,6 @@ Saída: cartões numerados dos tópicos do tema, na ordem de estudo; tópico com
   .app-temas a.card:hover { border-color: #3459e6; }
   .app-temas .card .tag { margin-left: 0.4rem; vertical-align: middle; }
   .app-temas .card.em-breve { opacity: 0.6; }
-  .app-temas .numero { font-size: 0.85rem; font-weight: 600; opacity: 0.7; margin-bottom: 0.3rem; }
   .app-navegacao { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
 </style>
 
@@ -60,7 +57,6 @@ Saída: cartões numerados dos tópicos do tema, na ordem de estudo; tópico com
 
 <div class="columns is-multiline app-temas">
 {%- for topico in tema.topicos -%}
-  {%- assign numero = inicio | plus: forloop.index -%}
   {%- assign app = nil -%}
   {%- if topico.app -%}{%- assign app = site.data.apps | where: "slug", topico.app | first -%}{%- endif -%}
   {%- if page.idioma == "en" -%}
@@ -76,7 +72,6 @@ Saída: cartões numerados dos tópicos do tema, na ordem de estudo; tópico com
   {%- if app %}
     <a class="card" href="{{ base }}{{ slug }}/" data-app="{{ slug }}">
       <div class="card-content">
-        <p class="numero">{{ numero }}</p>
         <p class="title is-5">{{ titulo }}{% if app.novo %}<span class="tag is-info is-light">{{ rotulo_novo }}</span>{% endif %}</p>
         <p class="content">{{ descricao }}</p>
       </div>
@@ -84,7 +79,6 @@ Saída: cartões numerados dos tópicos do tema, na ordem de estudo; tópico com
   {%- else %}
     <div class="card em-breve">
       <div class="card-content">
-        <p class="numero">{{ numero }}</p>
         <p class="title is-5">{{ titulo }}<span class="tag is-light">{{ rotulo_breve }}</span></p>
         <p class="content">{{ descricao }}</p>
       </div>
