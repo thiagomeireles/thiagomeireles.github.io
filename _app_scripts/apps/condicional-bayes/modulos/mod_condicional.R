@@ -48,7 +48,7 @@ mod_condicional_ui <- function(id) {
       bslib::card(
         bslib::card_header(tr("Espaço amostral particionado por B e Bᶜ", "Sample space partitioned by B and Bᶜ")),
         bslib::card_body(
-          shiny::plotOutput(ns("grafico_area"), height = "380px")
+          shiny::plotOutput(ns("grafico_area"), height = "480px")
         )
       ),
       bslib::card(
@@ -119,9 +119,9 @@ mod_condicional_server <- function(id, modo) {
       cel <- r$celulas
       cel$rotulo <- c(
         paste0("A ∩ B\n", fmt_pct(cel$prob[1], 1)),
-        paste0("Aᶜ ∩ B\n", fmt_pct(cel$prob[2], 1)),
-        paste0("A ∩ Bᶜ\n", fmt_pct(cel$prob[3], 1)),
-        paste0("Aᶜ ∩ Bᶜ\n", fmt_pct(cel$prob[4], 1))
+        paste0("A' ∩ B\n", fmt_pct(cel$prob[2], 1)),
+        paste0("A ∩ B'\n", fmt_pct(cel$prob[3], 1)),
+        paste0("A' ∩ B'\n", fmt_pct(cel$prob[4], 1))
       )
       cel$cx <- (cel$xmin + cel$xmax) / 2
       cel$cy <- (cel$ymin + cel$ymax) / 2
@@ -154,18 +154,19 @@ mod_condicional_server <- function(id, modo) {
         ggplot2::scale_colour_manual(values = cores_texto) +
         ggplot2::scale_x_continuous(
           breaks = c(r$p_b / 2, r$p_b + r$p_bc / 2),
-          labels = c(paste0("B (", fmt_pct(r$p_b, 0), ")"), paste0("Bᶜ (", fmt_pct(r$p_bc, 0), ")")),
+          labels = c(paste0("B (", fmt_pct(r$p_b, 0), ")"), paste0("B' (", fmt_pct(r$p_bc, 0), ")")),
           expand = c(0, 0)
         ) +
         ggplot2::scale_y_continuous(labels = rotulos_eixo(), expand = c(0, 0)) +
+        ggplot2::coord_fixed(ratio = 1) +
         ggplot2::labs(
           title = tr("Quadrado unitário de Ω", "Unit square of Ω"),
           subtitle = tr(
-            "Largura = P(B) e P(Bᶜ); altura azul = P(A | B); altura vermelha = P(A | Bᶜ)",
-            "Width = P(B) and P(Bᶜ); blue height = P(A | B); red height = P(A | Bᶜ)"
+            "Largura: P(B) e P(B'); altura: P(A | B) e P(A | B')",
+            "Width: P(B) and P(B'); height: P(A | B) and P(A | B')"
           ),
           x = NULL,
-          y = tr("Probabilidade condicional dentro de cada coluna", "Conditional probability within each column"),
+          y = tr("Probabilidade condicional na coluna", "Conditional probability in column"),
           caption = tr("Área total = 1", "Total area = 1")
         ) +
         tema_grafico(modo()) +
