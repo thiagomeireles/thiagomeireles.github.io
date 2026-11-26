@@ -3,7 +3,7 @@ layout: page
 ---
 {%- comment -%}
 Layout: apps-tema (página de um tema do "Estatística na prática")
-Autor: Thiago Meireles | Atualizado: 2026-11-25
+Autor: Thiago Meireles | Atualizado: 2026-11-26
 Entrada: page.tema (slug em _data/temas.yml), page.idioma ("pt" ou "en"),
          apps de _data/apps.yml citados no campo app dos tópicos
 Saída: cartões dos tópicos do tema, na ordem de estudo; tópico com app leva à tela
@@ -72,7 +72,7 @@ Saída: cartões dos tópicos do tema, na ordem de estudo; tópico com app leva 
   {%- if app %}
     <a class="card" href="{{ base }}{{ slug }}/" data-app="{{ slug }}">
       <div class="card-content">
-        <p class="title is-5">{{ titulo }}{% if app.novo %}<span class="tag is-info is-light">{{ rotulo_novo }}</span>{% endif %}</p>
+        <p class="title is-5">{{ titulo }}{% include etiqueta-novo.html app=app rotulo=rotulo_novo %}</p>
         <p class="content">{{ descricao }}</p>
       </div>
     </a>
@@ -87,6 +87,7 @@ Saída: cartões dos tópicos do tema, na ordem de estudo; tópico com app leva 
   </div>
 {%- endfor -%}
 </div>
+{% include etiqueta-novo-script.html %}
 
 <nav class="app-navegacao">
   <span>{% if anterior %}{% if page.idioma == "en" %}<a href="{{ hub }}{{ anterior.slug_en | default: anterior.slug }}/">&larr; {{ anterior.title }}</a>{% else %}<a href="{{ hub }}{{ anterior.slug }}/">&larr; {{ anterior.titulo }}</a>{% endif %}{% endif %}</span>

@@ -4,6 +4,7 @@
 # (páginas /aplicativos/<slug>/ e /en/apps/<slug_en>/) e por _includes/busca-apps.html.
 # Tópico com app: campo app com o slug de _data/apps.yml (o cartão leva à tela cheia).
 # Tópico sem app: fica listado como "em breve", sem link.
+# Etiqueta "novo" do tema: automática, pelo campo publicado dos apps dos tópicos em _data/apps.yml.
 # Tema novo: entrada aqui + duas páginas (aplicativos/<slug>.md e en/apps/<slug_en>.md, copiando uma existente).
 
 - slug: descricao-dados
@@ -41,7 +42,6 @@
   title: Probability
   descricao: A linguagem da incerteza, do espaço amostral à regra de Bayes.
   description: The language of uncertainty, from the sample space to Bayes' rule.
-  novo: true
   topicos:
     - titulo: Espaço amostral, eventos e axiomas
       title: Sample space, events and axioms

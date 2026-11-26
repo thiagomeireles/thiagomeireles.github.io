@@ -1,0 +1,18 @@
+{%- comment -%}
+Include: etiqueta-novo-script
+Autor: Thiago Meireles | Atualizado: 2026-11-26
+Entrada: etiquetas .etiqueta-novo[data-publicado] geradas por _includes/etiqueta-novo.html; site.apps_novo_dias
+Saída: remove, pela data do navegador, as etiquetas que venceram depois do último build do site.
+       Incluir uma vez por página, depois dos cartões.
+{%- endcomment -%}
+<script>
+  (function () {
+    var limite = {{ site.apps_novo_dias | default: 15 }} * 86400000;
+    var agora = Date.now();
+    document.querySelectorAll(".etiqueta-novo[data-publicado]").forEach(function (el) {
+      var p = el.getAttribute("data-publicado").split("-");
+      var inicio = new Date(+p[0], +p[1] - 1, +p[2]).getTime();
+      if (!isNaN(inicio) && agora - inicio >= limite) el.remove();
+    });
+  })();
+</script>

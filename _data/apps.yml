@@ -6,6 +6,8 @@
 # que monta cada app no Space. App novo: pasta em _app_scripts/apps/ + entrada aqui (com o tema,
 # um slug de _data/temas.yml, e as listas tags e tags_en) + app: <slug> no tópico em _data/temas.yml
 # + duas páginas de tela cheia em apps/.
+# publicado: data ("AAAA-MM-DD", entre aspas) em que o app entrou no Space do Hugging Face com link no site.
+# O app e o seu tema mostram a etiqueta "novo" por apps_novo_dias dias (_config.yml), via _includes/etiqueta-novo.html.
 # Tags: termos que alguém digitaria para achar o app, em minúsculas (salvo nomes próprios, como os dos teoremas).
 
 - slug: populacao-amostra
@@ -17,7 +19,7 @@
   description: What we want to know, what we actually observe and what to call each measure, with a quiz, a simulated population to draw samples from and the bias of the variance with divisor n.
   tags: [população, amostra, parâmetro, estatística, estimador, estimativa, amostra aleatória simples, erro amostral, viés de seleção, pesquisa online, notação, média amostral, variância amostral, n − 1, viés, EQM, quiz]
   tags_en: [population, sample, parameter, statistic, estimator, estimate, simple random sample, sampling error, sampling bias, online survey, notation, sample mean, sample variance, n − 1, bias, MSE, quiz]
-  novo: true
+  publicado: "2026-11-25"
 
 - slug: variaveis
   slug_en: variables
@@ -28,7 +30,7 @@
   description: How to classify a variable as nominal, ordinal, discrete or continuous and which statistics make sense for each type, with a quiz.
   tags: [variáveis, qualitativa, quantitativa, nominal, ordinal, discreta, contínua, estatística descritiva, média, mediana, moda, desvio padrão, histograma, boxplot, gráfico de barras, quiz]
   tags_en: [variables, categorical, numerical, nominal, ordinal, discrete, continuous, descriptive statistics, mean, median, mode, standard deviation, histogram, boxplot, bar chart, quiz]
-  novo: true
+  publicado: "2026-11-19"
 
 - slug: distribuicoes-frequencia
   slug_en: frequency-distributions
@@ -39,7 +41,7 @@
   description: Frequency tables, bar graphs, density histograms and stem-and-leaf plots, plus the histogram as a density estimator, with the optimal bin width by MISE, the KDE, order statistics and the empirical CDF.
   tags: [distribuição de frequências, tabela de frequências, frequência relativa, frequência acumulada, gráfico de barras, gráfico de setores, histograma, densidade de frequência, classes, ramo-e-folhas, estimação não paramétrica, largura das classes, MISE, validação cruzada, KDE, kernel, estatísticas de ordem, distribuição empírica, cdf empírica]
   tags_en: [frequency distribution, frequency table, relative frequency, cumulative frequency, bar graph, pie chart, histogram, density, bins, stem-and-leaf, nonparametric estimation, bin width, MISE, cross-validation, KDE, kernel, order statistics, empirical distribution, empirical CDF]
-  novo: true
+  publicado: "2026-11-25"
 
 - slug: posicao-dispersao
   slug_en: center-spread
@@ -50,7 +52,7 @@
   description: Mean, median, quantiles, variance, standard deviation, box plot and z-score under Morettin and Bussab's and Agresti and Finlay's conventions, with the symmetry plot, Empirical Rule versus Chebyshev, breakdown point and Huber's M-estimator.
   tags: [medidas de posição, medidas de dispersão, média, mediana, quantis, quartis, distância interquartil, IQR, variância, desvio padrão, desvio médio, DAM, MAD, box plot, boxplot, cinco números, pontos exteriores, outliers, gráfico de simetria, escore z, padronização, regra empírica, Chebyshev, robustez, ponto de ruptura, média aparada, Huber, regressão quantílica]
   tags_en: [measures of center, measures of spread, mean, median, quantiles, quartiles, interquartile range, IQR, variance, standard deviation, mean absolute deviation, MAD, box plot, boxplot, five-number summary, outliers, symmetry plot, z-score, standardization, Empirical Rule, Chebyshev, robustness, breakdown point, trimmed mean, Huber, quantile regression]
-  novo: true
+  publicado: "2026-11-25"
 
 - slug: bidimensional
   slug_en: bivariate
@@ -61,7 +63,7 @@
   description: How to describe the relationship between two variables depending on the pair of types, with contingency tables, scatterplots, box plots, a quiz, conditional expectation E(Y | X) and the law of total variance.
   tags: [análise bidimensional, duas variáveis, associação, tabela de dupla entrada, tabela de contingência, qui-quadrado, coeficiente de contingência, gráfico de dispersão, covariância, correlação, reta de regressão, box plot, R², gráfico q × q, esperança condicional, CEF, variância total, Cauchy-Schwarz, independência, quiz]
   tags_en: [bivariate analysis, two variables, association, contingency table, cross-tabulation, chi-squared, contingency coefficient, scatterplot, covariance, correlation, regression line, boxplot, R-squared, Q-Q plot, conditional expectation, CEF, law of total variance, Cauchy-Schwarz, independence, quiz]
-  novo: true
+  publicado: "2026-11-19"
 
 - slug: espaco-amostral
   slug_en: sample-space
@@ -72,7 +74,7 @@
   description: Random experiments, sample space, probability interpretations, set operations, De Morgan's laws, axioms and addition rule, the 2 × 2 counting table and equal probability, plus σ-algebras, Boole-Bonferroni and inclusion-exclusion.
   tags: [probabilidade, espaço amostral, experimento aleatório, eventos, conjuntos, complementar, união, interseção, mutuamente exclusivos, De Morgan, axiomas de Kolmogorov, regra da soma, frequência relativa, probabilidade subjetiva, técnicas de contagem, fatorial, arranjo, combinação, coeficiente binomial, reposição, equiprobabilidade, pôquer, loteria, sigma álgebra, Boole, Bonferroni, inclusão-exclusão]
   tags_en: [probability, sample space, random experiment, events, sets, complement, union, intersection, mutually exclusive, De Morgan, Kolmogorov axioms, addition rule, relative frequency, subjective probability, counting techniques, factorial, permutation, combination, binomial coefficient, replacement, equally likely, poker, lottery, sigma algebra, Boole, Bonferroni, inclusion-exclusion]
-  novo: true
+  publicado: "2026-11-26"
 
 - slug: probabilidade
   tema: variaveis-aleatorias
@@ -82,6 +84,7 @@
   description: General normal N(μ, σ²), Z standardization and Student's t, with areas, critical values and the formal origin of T = Z / √(U/ν) in small samples.
   tags: [probabilidade, distribuição normal, normal padrão, padronização, escore z, t de Student, qui-quadrado, graus de liberdade, valor crítico, nível de confiança, cobertura, área sob a curva]
   tags_en: [probability, normal distribution, standard normal, standardization, z-score, "Student's t", chi-squared, degrees of freedom, critical value, confidence level, coverage, area under the curve]
+  publicado: "2026-11-19"
 
 - slug: teoremas-limite
   tema: amostra-populacao
@@ -91,3 +94,4 @@
   description: Law of Large Numbers, Central Limit Theorem, modes of stochastic convergence and the Cauchy counterexample, with simulations.
   tags: [Lei dos Grandes Números, Teorema Central do Limite, distribuição amostral, média amostral, valor esperado, tamanho da amostra, convergência em probabilidade, convergência em distribuição, Cauchy, simulação]
   tags_en: [Law of Large Numbers, Central Limit Theorem, sampling distribution, sample mean, expected value, sample size, convergence in probability, convergence in distribution, Cauchy, simulation]
+  publicado: "2026-11-19"

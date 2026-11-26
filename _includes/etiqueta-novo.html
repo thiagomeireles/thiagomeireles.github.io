@@ -1,0 +1,29 @@
+{%- comment -%}
+Include: etiqueta-novo
+Autor: Thiago Meireles | Atualizado: 2026-11-26
+Entrada: include.rotulo ("novo" ou "new") e um destes:
+         include.app  (item de _data/apps.yml; vale o campo publicado do app)
+         include.tema (item de _data/temas.yml; vale o publicado mais recente entre os apps dos tópicos)
+         site.apps_novo_dias (_config.yml)
+Saída: etiqueta enquanto tiverem passado menos de apps_novo_dias dias desde publicado. O build já omite
+       as vencidas; _includes/etiqueta-novo-script.html remove no navegador as que vencem entre dois builds.
+{%- endcomment -%}
+{%- assign etiqueta_data = "" -%}
+{%- if include.app -%}
+  {%- assign etiqueta_data = include.app.publicado | default: "" -%}
+{%- elsif include.tema -%}
+  {%- for etiqueta_topico in include.tema.topicos -%}
+    {%- if etiqueta_topico.app -%}
+      {%- assign etiqueta_app = site.data.apps | where: "slug", etiqueta_topico.app | first -%}
+      {%- assign etiqueta_pub = etiqueta_app.publicado | default: "" -%}
+      {%- if etiqueta_pub > etiqueta_data -%}{%- assign etiqueta_data = etiqueta_pub -%}{%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if etiqueta_data != "" -%}
+  {%- assign etiqueta_agora = site.time | date: "%s" | plus: 0 -%}
+  {%- assign etiqueta_inicio = etiqueta_data | date: "%s" | plus: 0 -%}
+  {%- assign etiqueta_idade = etiqueta_agora | minus: etiqueta_inicio -%}
+  {%- assign etiqueta_limite = site.apps_novo_dias | times: 86400 -%}
+  {%- if etiqueta_idade < etiqueta_limite -%}<span class="tag is-info is-light etiqueta-novo" data-publicado="{{ etiqueta_data }}">{{ include.rotulo }}</span>{%- endif -%}
+{%- endif -%}

@@ -13,9 +13,9 @@ author: "Thiago Meireles"
   .app-lista-temas .topicos { color: #6c757d; font-size: 0.9rem; }
 </style>
 
-## Estatística na prática
+## Estatística e probabilidade interativas
 
-Os aplicativos são demonstrações interativas de conceitos de estatística e probabilidade. Estão organizados em temas, na ordem em que costumam ser estudados, e cada tema reúne alguns tópicos. Os tópicos ganham aplicativo aos poucos. Escolha um tema abaixo para começar ou busque direto pelo conceito que você procura.
+Os aplicativos são demonstrações de conceitos de estatística e probabilidade, em que você muda os parâmetros e acompanha o resultado na tela. Estão organizados em temas, na ordem em que costumam ser estudados, e cada tema reúne alguns tópicos. Nem todo tópico tem aplicativo ainda, e os que faltam entram aos poucos. Escolha um tema abaixo para começar ou use a busca para ir direto a um conceito.
 
 {% include busca-apps.html idioma="pt" %}
 
@@ -25,7 +25,7 @@ Os aplicativos são demonstrações interativas de conceitos de estatística e p
   <div class="column is-one-third">
     <a class="card" href="{{ '/aplicativos/' | relative_url }}{{ tema.slug }}/">
       <div class="card-content">
-        <p class="title is-5">{{ tema.titulo }}{% if tema.novo %}<span class="tag is-info is-light">novo</span>{% endif %}</p>
+        <p class="title is-5">{{ tema.titulo }}{% include etiqueta-novo.html tema=tema rotulo="novo" %}</p>
         <p class="content">{{ tema.descricao }}</p>
         <p class="topicos">{{ tema.topicos.size }} tópicos, {% if com_app.size == 0 %}nenhum{% else %}{{ com_app.size }}{% endif %} com aplicativo{% if com_app.size == 0 %} ainda{% endif %}: {{ tema.topicos | map: "titulo" | join: ", " }}</p>
       </div>
@@ -33,6 +33,7 @@ Os aplicativos são demonstrações interativas de conceitos de estatística e p
   </div>
 {%- endfor -%}
 </div>
+{% include etiqueta-novo-script.html %}
 
 <script>
   // Endereços antigos (/aplicativos/#<app>) vão direto para a tela cheia do app

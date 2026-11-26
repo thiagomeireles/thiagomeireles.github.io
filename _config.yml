@@ -49,3 +49,5 @@ giscus:
 # Space montado por _app_scripts/hf-space/ e publicado por .github/workflows/hf-space.yml.
 # Usado em /aplicativos/, /en/apps/ e nas páginas de tela cheia /apps/<tema>/ (_layouts/app-tela-cheia.html).
 apps_servidor: "https://thiagomeireles-estatistica-na-pratica.hf.space"
+# Dias em que um app (e o seu tema) mostra a etiqueta "novo", contados do campo publicado em _data/apps.yml.
+apps_novo_dias: 15
