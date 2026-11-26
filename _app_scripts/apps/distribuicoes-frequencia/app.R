@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tópico Distribuições de frequência e gráficos)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -48,6 +48,12 @@ ui <- pagina_tema(
       "Machine Learning, ch. 8) for nonparametric estimation and Casella and Berger (Statistical Inference,",
       "section 5.4) for order statistics."
     )
+  ),
+  referencias = list(
+    referencia_livro("Agresti, A., & Finlay, B.", 2009, "Statistical methods for the social sciences", "Pearson Prentice Hall", edicao = 4),
+    referencia_livro("Casella, G., & Berger, R. L.", 2002, "Statistical inference", "Duxbury", edicao = 2),
+    referencia_livro("Morettin, P. A., & Bussab, W. O.", 2010, "Estatística básica", "Saraiva", edicao = 6),
+    referencia_livro("Yuksel, M., & Aydede, Y.", tr("s.d.", "n.d."), "Causal inference and machine learning: In economics, social, and health sciences", "https://www.causalmlbook.com")
   ),
   # O estilo vale para o app todo: cabeçalhos das tabelas sem caixa alta,
   # porque nᵢ e Nᵢ (ou fᵢ e Fᵢ) são coisas diferentes
