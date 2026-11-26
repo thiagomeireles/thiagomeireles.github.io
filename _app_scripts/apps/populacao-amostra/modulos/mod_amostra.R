@@ -432,6 +432,7 @@ mod_amostra_server <- function(id, modo = shiny::reactive("light")) {
       )
       limites <- stats::quantile(populacao[[v]], c(0, 0.99))
       quebras <- seq(limites[1], limites[2], length.out = 26)
+      dados <- dados[dados$valor >= limites[1] & dados$valor <= limites[2], ]
 
       ggplot2::ggplot(mapping = ggplot2::aes(x = valor)) +
         ggplot2::geom_histogram(

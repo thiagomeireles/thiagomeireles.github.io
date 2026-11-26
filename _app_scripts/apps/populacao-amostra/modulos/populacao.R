@@ -88,7 +88,7 @@ selecoes <- list(
 # dentro desse grupo, o sorteio é aleatório.
 sortear_amostra <- function(n, selecao = "aas", pop = populacao) {
   elegiveis <- if (identical(selecao, "online")) pop$id[pop$internet == 1] else pop$id
-  sample(elegiveis, min(n, length(elegiveis)))
+  elegiveis[sample.int(length(elegiveis), min(n, length(elegiveis)))]
 }
 
 # Parâmetro: a medida calculada com todos os N. O desvio padrão da população
