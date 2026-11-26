@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_continua.R (módulo: variável quantitativa contínua)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-23
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -38,7 +38,8 @@ texto_continua <- function() {
         shiny::strong("Experimente:"),
         "compare altura e renda. Na altura, média e mediana quase coincidem; na renda, a média fica bem acima,",
         "puxada por poucas rendas altas. Depois mude o número de classes e veja a forma do histograma mudar,",
-        "sem que nenhum dado tenha mudado."
+        "sem que nenhum dado tenha mudado. Por fim, escolha a temperatura e troque °C por °F: os dados são os",
+        "mesmos, mas o coeficiente de variação muda, e o quadro acima do histograma mostra por quê."
       )
     ),
     shiny::tagList(
@@ -68,7 +69,42 @@ texto_continua <- function() {
         shiny::strong("Try it:"),
         "compare height and income. For height, the mean and median almost coincide; for income, the mean is",
         "well above, pulled up by a few high incomes. Then change the number of bins and watch the histogram's shape",
-        "change without any data changing."
+        "change without any data changing. Finally, choose temperature and switch from °C to °F: the data are the",
+        "same, but the coefficient of variation changes, and the panel above the histogram shows why."
+      )
+    )
+  )
+}
+
+texto_escala_intervalar <- function() {
+  tr(
+    shiny::tagList(
+      shiny::p(
+        "Os dados são os mesmos nas duas colunas; só muda a unidade (°F = 32 + 1,8 × °C). A média segue a",
+        "conversão, e o desvio padrão só é multiplicado por 1,8, porque somar 32 a todos os valores não muda a",
+        "distância entre eles. Já o coeficiente de variação muda sem que nada nos dados tenha mudado: ele divide",
+        "o desvio padrão pela média, e a média depende de onde fica o zero, que na temperatura é uma convenção."
+      ),
+      shiny::p(
+        class = "mb-0",
+        "Pelo mesmo motivo, 20 °C não é o dobro de 10 °C: em Fahrenheit, as mesmas temperaturas são 68 °F e 50 °F.",
+        "Compare com a altura: passar de centímetros para metros divide a média e o desvio padrão por 100 e deixa",
+        "o coeficiente de variação igual, porque nas duas unidades o zero significa ausência de altura."
+      )
+    ),
+    shiny::tagList(
+      shiny::p(
+        "The data are the same in both columns; only the unit changes (°F = 32 + 1.8 × °C). The mean follows the",
+        "conversion, and the standard deviation is only multiplied by 1.8, because adding 32 to every value does not",
+        "change the distance between them. The coefficient of variation, however, changes even though nothing in the",
+        "data has changed: it divides the standard deviation by the mean, and the mean depends on where zero is, which",
+        "for temperature is a convention."
+      ),
+      shiny::p(
+        class = "mb-0",
+        "For the same reason, 20 °C is not twice 10 °C: in Fahrenheit, the same temperatures are 68 °F and 50 °F.",
+        "Compare with height: going from centimeters to meters divides the mean and standard deviation by 100 and",
+        "leaves the coefficient of variation unchanged, because in both units zero means no height at all."
       )
     )
   )
@@ -137,6 +173,10 @@ mod_continua_ui <- function(id) {
     sidebar = bslib::sidebar(
       width = 300,
       seletor_exemplo(ns("exemplo"), exemplos_continua),
+      shiny::conditionalPanel(
+        "input.exemplo == 'temperatura'", ns = ns,
+        shiny::radioButtons(ns("unidade_temp"), tr("Unidade", "Unit"), choices = c("°C", "°F"), inline = TRUE)
+      ),
       slider_amostra(ns("n"), min = 20, max = 5000, value = 300),
       shiny::sliderInput(ns("classes"), tr("Número aproximado de classes", "Approximate number of bins"), min = 3, max = 60, value = 15, step = 1),
       shiny::checkboxInput(ns("boxplot"), tr("Mostrar boxplot", "Show box plot"), value = TRUE),
@@ -152,6 +192,7 @@ mod_continua_ui <- function(id) {
       bslib::value_box(title = tr("Desvio padrão", "Standard deviation"), value = shiny::textOutput(ns("dp")), shiny::textOutput(ns("dp_desc")), theme = "info"),
       bslib::value_box(title = tr("Assimetria", "Skewness"), value = shiny::textOutput(ns("assimetria")), shiny::textOutput(ns("assimetria_desc")), theme = "info")
     ),
+    shiny::uiOutput(ns("escala")),
     bslib::layout_columns(
       col_widths = c(7, 5),
       bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico"), height = "440px"))),
@@ -174,24 +215,53 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
   shiny::moduleServer(id, function(input, output, session) {
 
     exemplo <- shiny::reactive(exemplos_continua[[input$exemplo]])
+    e_temperatura <- shiny::reactive(identical(input$exemplo, "temperatura"))
+    un <- shiny::reactive(if (e_temperatura()) input$unidade_temp %||% "°C" else exemplo()$unidade)
+    dig <- shiny::reactive(exemplo()$digitos)
+
+    # Na temperatura, só a unidade de exibição muda: os dados sorteados (em °C) são os mesmos
+    converter <- \(x) if (e_temperatura()) converter_temperatura(x, un()) else x
 
     output$extremo_valor <- shiny::renderUI({
       shiny::req(input$extremo)
-      entrada_extremo(session, exemplo()$extremo)
+      entrada_extremo(session, converter(exemplo()$extremo))
     })
 
-    base <- shiny::reactive({
+    sorteio <- shiny::reactive({
       input$sortear
       exemplo()$gerar(input$n)
     })
+    base <- shiny::reactive(converter(sorteio()))
 
     incluir <- shiny::reactive(isTRUE(input$extremo) && !is.null(input$valor_extremo) && !is.na(input$valor_extremo))
     dados <- shiny::reactive(if (incluir()) c(base(), input$valor_extremo) else base())
 
     resumo <- shiny::reactive(resumo_quantitativo(dados()))
     resumo_sem <- shiny::reactive(resumo_quantitativo(base()))
-    un <- shiny::reactive(exemplo()$unidade)
-    dig <- shiny::reactive(exemplo()$digitos)
+
+    # Mesmos dados nas duas unidades: média e desvio padrão seguem a conversão, o CV não
+    output$escala <- shiny::renderUI({
+      shiny::req(e_temperatura())
+      celsius <- if (identical(un(), "°F")) (dados() - 32) / 1.8 else dados()
+      r_c <- resumo_quantitativo(celsius)
+      r_f <- resumo_quantitativo(converter_temperatura(celsius, "°F"))
+      tabela <- data.frame(
+        tr(c("Média", "Desvio padrão", "Coeficiente de variação"), c("Mean", "Standard deviation", "Coefficient of variation")),
+        c(fmt_valor(r_c$media, "°C", 1), fmt_valor(r_c$dp, "°C", 1), fmt_pct(r_c$cv)),
+        c(fmt_valor(r_f$media, "°F", 1), fmt_valor(r_f$dp, "°F", 1), fmt_pct(r_f$cv))
+      )
+      names(tabela) <- c(tr("Estatística", "Statistic"), "°C", "°F")
+      bslib::card(
+        bslib::card_header(tr("Mesmos dados, outra unidade: escala intervalar", "Same data, another unit: interval scale")),
+        bslib::card_body(
+          bslib::layout_columns(
+            col_widths = c(5, 7),
+            tabela_html(tabela, classes = c("", "num", "num")),
+            texto_escala_intervalar()
+          )
+        )
+      )
+    })
 
     classes <- shiny::reactive({
       x <- dados()

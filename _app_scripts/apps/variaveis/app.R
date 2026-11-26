@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tema Tipos de variáveis)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-23
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -39,6 +39,11 @@ ui <- pagina_tema(
       "follow Agresti and Finlay (Statistical Methods for the Social Sciences) and Morettin and Bussab (Estatística Básica),",
       "with the definitions checked for rigor against Casella and Berger (Statistical Inference)."
     )
+  ),
+  referencias = list(
+    referencia_livro("Agresti, A., & Finlay, B.", 2009, "Statistical methods for the social sciences", "Pearson Prentice Hall", edicao = 4),
+    referencia_livro("Casella, G., & Berger, R. L.", 2002, "Statistical inference", "Duxbury", edicao = 2),
+    referencia_livro("Morettin, P. A., & Bussab, W. O.", 2010, "Estatística básica", "Saraiva", edicao = 6)
   ),
   bslib::nav_panel(tr("Como classificar", "How to classify"), value = "tipos", mod_tipos_ui("tipos")),
   bslib::nav_panel("Nominal", value = "nominal", mod_nominal_ui("nominal")),

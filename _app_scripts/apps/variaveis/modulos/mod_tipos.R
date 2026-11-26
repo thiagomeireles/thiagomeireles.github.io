@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_tipos.R (módulo: visão geral dos tipos de variáveis e quiz)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-23
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -285,7 +285,8 @@ mod_tipos_ui <- function(id) {
               "é a proporção de sucessos. Ainda que a prática tenha respaldo em Agresti e Finlay, ela",
               "pressupõe que as distâncias entre categorias vizinhas são iguais, ou seja, que ir de \"Insatisfeito\" a",
               "\"Neutro\" equivale a ir de \"Satisfeito\" a \"Muito satisfeito\". É um pressuposto forte, que a escala",
-              "ordinal não garante e que raramente pode ser verificado, e o resultado muda quando os escores mudam.",
+              "ordinal não garante e que raramente pode ser verificado, e o resultado muda quando os escores mudam",
+              "(experimente na aba Ordinal).",
               "Se a média for usada, deve vir acompanhada da distribuição e da mediana, nunca sozinha."
             ),
             paste(
@@ -296,7 +297,7 @@ mod_tipos_ui <- function(id) {
               "assumes that the distances between neighboring categories are equal, that is, that going from",
               "\"Dissatisfied\" to \"Neutral\" is the same as going from \"Satisfied\" to \"Very satisfied\". That is a",
               "strong assumption, which an ordinal scale does not guarantee and which can rarely be checked, and the",
-              "result changes when the scores change. If the mean is used, it should come with the distribution and",
+              "result changes when the scores change (try it in the Ordinal tab). If the mean is used, it should come with the distribution and",
               "the median, never on its own."
             )
           )
@@ -375,15 +376,21 @@ mod_tipos_server <- function(id, ir_para = \(tipo) NULL) {
 
     output$feedback <- shiny::renderUI({
       if (!estado$respondida) return(NULL)
-      certo <- tolower(tipos_variavel[[atual()$tipo]]$nome)
+      nome <- tipos_variavel[[atual()$tipo]]$nome
       shiny::div(
         class = paste("alert mt-3 mb-2", if (estado$acertou) "alert-success" else "alert-warning"),
         shiny::strong(
-          if (estado$acertou) tr("Isso mesmo. ", "That's right. ") else sprintf(tr("Não é bem isso: é %s. ", "Not quite: it is %s. "), certo)
+          if (estado$acertou) tr("Isso mesmo. ", "That's right. ") else sprintf(tr("Não é bem isso: é %s. ", "Not quite: it is %s. "), tolower(nome))
         ),
-        atual()$explicacao
+        atual()$explicacao,
+        shiny::div(
+          class = "mt-2",
+          shiny::actionButton(session$ns("ir_quiz"), paste(tr("Ver a aba", "Open the tab"), nome), class = "btn-outline-secondary btn-sm")
+        )
       )
     })
+
+    shiny::observeEvent(input$ir_quiz, ir_para(atual()$tipo))
 
     output$placar <- shiny::renderText({
       if (estado$respondidas == 0) return(tr("Escolha uma opção e clique em Conferir.", "Choose an option and click Check."))

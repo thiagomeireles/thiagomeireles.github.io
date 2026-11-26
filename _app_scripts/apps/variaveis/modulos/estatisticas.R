@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  estatisticas.R (dados simulados e estatísticas do tema Tipos de variáveis)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-23
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -166,8 +166,18 @@ exemplos_continua <- list(
   espera = list(
     rotulo = tr("Tempo de espera na fila", "Waiting time in line"), unidade = "min", digitos = 1, extremo = 150,
     gerar = \(n) stats::rexp(n, 1 / 12)
+  ),
+  # Escala intervalar: a aba mostra os mesmos dados em °C ou °F (ver converter_temperatura)
+  temperatura = list(
+    rotulo = tr("Temperatura máxima do dia", "Daily high temperature"), unidade = "°C", digitos = 1, extremo = 45,
+    gerar = \(n) stats::rnorm(n, 27, 4)
   )
 )
+
+# °C para a unidade escolhida; °F = 32 + 1,8 × °C muda a origem (o zero), não só a escala
+converter_temperatura <- function(x, unidade) {
+  if (identical(unidade, "°F")) 32 + 1.8 * x else x
+}
 
 opcoes_exemplo <- function(exemplos) {
   stats::setNames(names(exemplos), purrr::map_chr(exemplos, "rotulo"))

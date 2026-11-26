@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_ordinal.R (módulo: variável categórica ordinal)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-23
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -87,6 +87,37 @@ cuidados_ordinal <- function() {
   )
 }
 
+# Conjuntos de escores para k categorias: todos crescem com a ordem, mas com distâncias diferentes
+escores_ordinal <- list(
+  iguais = list(rotulo = tr("Igualmente espaçados", "Equally spaced"), valores = \(k) seq_len(k)),
+  topo   = list(rotulo = tr("Última categoria bem mais distante", "Last category much farther away"), valores = \(k) c(seq_len(k - 1), 2 * k)),
+  base   = list(rotulo = tr("Primeira categoria bem mais distante", "First category much farther away"), valores = \(k) c(1 - k, 2:k))
+)
+
+# Onde a média cai na escala de escores (crescentes): numa categoria ou entre duas vizinhas.
+# Arredonda como na tabela (2 casas), para o texto não contradizer o número mostrado.
+posicao_media <- function(m, escores, categorias) {
+  m <- round(m, 2)
+  i <- findInterval(m, escores)
+  if (isTRUE(all.equal(m, escores[i]))) return(sprintf(tr("em %s", "at %s"), categorias[i]))
+  sprintf(tr("entre %s e %s", "between %s and %s"), categorias[i], categorias[i + 1])
+}
+
+texto_escores <- function() {
+  tr(
+    shiny::p(
+      "A média dos códigos usa os escores 1, 2, 3…, o que supõe distâncias iguais entre categorias vizinhas.",
+      "Escolha outro conjunto de escores, ou digite os seus, e compare as duas colunas: a mediana não muda,",
+      "porque depende só da ordem. Já a média e o desvio padrão mudam, e a média pode até cair em outra categoria."
+    ),
+    shiny::p(
+      "The mean of the codes uses the scores 1, 2, 3…, which assumes equal distances between neighboring categories.",
+      "Pick another set of scores, or type your own, and compare the two columns: the median does not change,",
+      "because it depends only on the order. The mean and standard deviation do change, and the mean can even land in another category."
+    )
+  )
+}
+
 mod_ordinal_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -119,6 +150,20 @@ mod_ordinal_ui <- function(id) {
       bslib::card(bslib::card_header(tr("Estatísticas aplicáveis", "Applicable statistics")), bslib::card_body(shiny::uiOutput(ns("estatisticas")))),
       cartao_cuidados(tr("O que não usar, e por quê", "What not to use, and why"), cuidados_ordinal())
     ),
+    bslib::card(
+      bslib::card_header(tr("Escores: o que a média dos códigos pressupõe", "Scores: what the mean of the codes assumes")),
+      bslib::card_body(
+        texto_escores(),
+        bslib::layout_columns(
+          col_widths = c(4, 8),
+          shiny::div(
+            shiny::radioButtons(ns("conjunto_escores"), tr("Conjunto de escores", "Set of scores"), choices = opcoes_exemplo(escores_ordinal)),
+            shiny::uiOutput(ns("entradas_escores"))
+          ),
+          shiny::uiOutput(ns("comparacao_escores"))
+        )
+      )
+    ),
     bslib::card(bslib::card_header(rotulo_entenda()), bslib::card_body(texto_ordinal()))
   )
 }
@@ -150,6 +195,87 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
       )
     })
     output$quartis <- shiny::renderText(de_a(quartis()[1], quartis()[2]))
+
+    # Escores editáveis: um campo por categoria, preenchido pelo conjunto escolhido
+    id_escore <- \(i) paste0("escore_", i)
+    valores_conjunto <- \(k) escores_ordinal[[input$conjunto_escores %||% "iguais"]]$valores(k)
+
+    output$entradas_escores <- shiny::renderUI({
+      categorias <- exemplo()$categorias
+      valores <- shiny::isolate(valores_conjunto(length(categorias)))
+      purrr::imap(categorias, \(categoria, i) {
+        shiny::numericInput(session$ns(id_escore(i)), categoria, value = valores[i], step = 1, width = "100%")
+      })
+    })
+
+    shiny::observeEvent(input$conjunto_escores, {
+      purrr::iwalk(valores_conjunto(length(exemplo()$categorias)), \(valor, i) {
+        shiny::updateNumericInput(session, id_escore(i), value = valor)
+      })
+    }, ignoreInit = TRUE)
+
+    escores <- shiny::reactive({
+      purrr::map_dbl(seq_along(exemplo()$categorias), \(i) input[[id_escore(i)]] %||% NA_real_)
+    })
+
+    output$comparacao_escores <- shiny::renderUI({
+      e <- escores()
+      categorias <- exemplo()$categorias
+      if (anyNA(e)) {
+        return(shiny::p(class = "text-muted", tr("Preencha um escore para cada categoria.", "Enter a score for each category.")))
+      }
+      if (any(diff(e) <= 0)) {
+        return(shiny::div(
+          class = "alert alert-warning mb-0",
+          tr(
+            paste(
+              "Os escores precisam crescer com a ordem das categorias, cada um maior que o anterior. Se não crescerem,",
+              "a média deixa de respeitar a única coisa que a variável ordinal informa: a ordem."
+            ),
+            paste(
+              "The scores must increase with the order of the categories, each one larger than the previous. If they",
+              "do not, the mean no longer respects the one thing an ordinal variable tells you: the order."
+            )
+          )
+        ))
+      }
+
+      codigos <- as.integer(dados())
+      padrao <- seq_along(categorias)
+      com_escores <- e[codigos]
+      tabela <- data.frame(
+        tr(
+          c("Mediana", "Média", "Onde a média cai", "Desvio padrão"),
+          c("Median", "Mean", "Where the mean falls", "Standard deviation")
+        ),
+        c(mediana(), fmt_num(mean(codigos), 2), posicao_media(mean(codigos), padrao, categorias), fmt_num(stats::sd(codigos), 2)),
+        c(mediana(), fmt_num(mean(com_escores), 2), posicao_media(mean(com_escores), e, categorias), fmt_num(stats::sd(com_escores), 2))
+      )
+      names(tabela) <- c(
+        tr("Estatística", "Statistic"),
+        sprintf(tr("Códigos 1 a %d", "Codes 1 to %d"), length(categorias)),
+        tr("Escores escolhidos", "Chosen scores")
+      )
+
+      shiny::tagList(
+        tabela_html(tabela, classes = c("", "num", "num")),
+        shiny::p(
+          class = "small text-muted mb-0",
+          tr(
+            paste(
+              "A mediana é a mesma nas duas colunas. A média e o desvio padrão dependem dos escores, e a escala",
+              "ordinal não diz qual conjunto é o certo, porque ela só informa a ordem. Por isso, se usar a média,",
+              "mostre junto a distribuição e a mediana."
+            ),
+            paste(
+              "The median is the same in both columns. The mean and standard deviation depend on the scores, and an",
+              "ordinal scale does not say which set is right, because it only gives the order. So if you use the mean,",
+              "show the distribution and the median alongside it."
+            )
+          )
+        )
+      )
+    })
 
     output$tabela <- shiny::renderUI({
       f <- freq()
