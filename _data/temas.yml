@@ -52,6 +52,7 @@
       title: Conditional probability and Bayes
       descricao: Condicional, independência, árvores, probabilidade total e teorema de Bayes.
       description: Conditioning, independence, tree diagrams, total probability and Bayes' theorem.
+      app: condicional-bayes
 
 - slug: variaveis-aleatorias
   slug_en: random-variables

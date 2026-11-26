@@ -77,6 +77,17 @@
   tags_en: [probability, sample space, random experiment, events, sets, complement, union, intersection, mutually exclusive, De Morgan, Kolmogorov axioms, addition rule, relative frequency, subjective probability, counting techniques, factorial, permutation, combination, binomial coefficient, replacement, equally likely, poker, lottery, sigma algebra, Boole, Bonferroni, inclusion-exclusion]
   publicado: "2026-11-26"
 
+- slug: condicional-bayes
+  slug_en: conditional-bayes
+  tema: probabilidade
+  titulo: Probabilidade condicional e Bayes
+  title: Conditional probability and Bayes
+  descricao: Probabilidade condicional, regra do produto, independência versus eventos mutuamente exclusivos, árvores com e sem reposição, probabilidade total, teorema de Bayes, razão de chances, independência mútua, Três Prisioneiros, atualização sequencial e crítica de modelo.
+  description: Conditional probability, product rule, independence versus mutually exclusive events, trees with and without replacement, total probability, Bayes' theorem, posterior odds, mutual independence, Three Prisoners, sequential updating and model checking.
+  tags: [probabilidade condicional, Bayes, teorema de Bayes, regra do produto, independência, mutuamente exclusivos, árvore de probabilidade, reposição, probabilidade total, partição, priori, verossimilhança, posteriori, razão de chances, frequências naturais, taxa base, independência mútua, Três Prisioneiros, atualização sequencial, preditiva a posteriori]
+  tags_en: [conditional probability, Bayes, "Bayes' theorem", product rule, independence, mutually exclusive, probability tree, replacement, total probability, partition, prior, likelihood, posterior, posterior odds, natural frequencies, base rate, mutual independence, Three Prisoners, sequential updating, posterior predictive]
+  publicado: "2026-11-26"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t
