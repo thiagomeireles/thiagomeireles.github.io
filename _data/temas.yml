@@ -25,6 +25,7 @@
       title: Frequency distributions and graphs
       descricao: Tabela de frequências, gráfico de barras, histograma com densidade e ramo-e-folhas.
       description: Frequency tables, bar charts, density histograms and stem-and-leaf plots.
+      app: distribuicoes-frequencia
     - titulo: Medidas de posição e dispersão
       title: Measures of center and spread
       descricao: Média, mediana, quantis, variância, desvio padrão, box plot e escore z.

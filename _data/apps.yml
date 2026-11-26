@@ -30,6 +30,17 @@
   tags_en: [variables, categorical, numerical, nominal, ordinal, discrete, continuous, descriptive statistics, mean, median, mode, standard deviation, histogram, boxplot, bar chart, quiz]
   novo: true
 
+- slug: distribuicoes-frequencia
+  slug_en: frequency-distributions
+  tema: descricao-dados
+  titulo: Distribuições de frequência e gráficos
+  title: Frequency distributions and graphs
+  descricao: Tabela de frequências, gráfico de barras, histograma com densidade e ramo-e-folhas, e o histograma como estimador da densidade, com a largura ótima pelo MISE, a KDE, as estatísticas de ordem e a distribuição empírica.
+  description: Frequency tables, bar graphs, density histograms and stem-and-leaf plots, plus the histogram as a density estimator, with the optimal bin width by MISE, the KDE, order statistics and the empirical CDF.
+  tags: [distribuição de frequências, tabela de frequências, frequência relativa, frequência acumulada, gráfico de barras, gráfico de setores, histograma, densidade de frequência, classes, ramo-e-folhas, estimação não paramétrica, largura das classes, MISE, validação cruzada, KDE, kernel, estatísticas de ordem, distribuição empírica, cdf empírica]
+  tags_en: [frequency distribution, frequency table, relative frequency, cumulative frequency, bar graph, pie chart, histogram, density, bins, stem-and-leaf, nonparametric estimation, bin width, MISE, cross-validation, KDE, kernel, order statistics, empirical distribution, empirical CDF]
+  novo: true
+
 - slug: bidimensional
   slug_en: bivariate
   tema: descricao-dados
