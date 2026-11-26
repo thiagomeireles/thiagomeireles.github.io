@@ -233,7 +233,7 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
     })
     base <- shiny::reactive(converter(sorteio()))
 
-    incluir <- shiny::reactive(isTRUE(input$extremo) && !is.null(input$valor_extremo) && !is.na(input$valor_extremo))
+    incluir <- shiny::reactive(isTRUE(input$extremo) && !is.null(input$valor_extremo) && is.finite(input$valor_extremo))
     dados <- shiny::reactive(if (incluir()) c(base(), input$valor_extremo) else base())
 
     resumo <- shiny::reactive(resumo_quantitativo(dados()))

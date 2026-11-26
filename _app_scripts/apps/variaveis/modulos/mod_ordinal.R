@@ -221,7 +221,7 @@ mod_ordinal_server <- function(id, modo = shiny::reactive("light")) {
     output$comparacao_escores <- shiny::renderUI({
       e <- escores()
       categorias <- exemplo()$categorias
-      if (anyNA(e)) {
+      if (any(!is.finite(e))) {
         return(shiny::p(class = "text-muted", tr("Preencha um escore para cada categoria.", "Enter a score for each category.")))
       }
       if (any(diff(e) <= 0)) {

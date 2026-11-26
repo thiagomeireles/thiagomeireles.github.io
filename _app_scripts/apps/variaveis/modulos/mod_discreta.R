@@ -125,7 +125,7 @@ mod_discreta_server <- function(id, modo = shiny::reactive("light")) {
       exemplo()$gerar(input$n)
     })
 
-    incluir <- shiny::reactive(isTRUE(input$extremo) && !is.null(input$valor_extremo) && !is.na(input$valor_extremo))
+    incluir <- shiny::reactive(isTRUE(input$extremo) && !is.null(input$valor_extremo) && is.finite(input$valor_extremo))
 
     dados <- shiny::reactive({
       if (incluir()) c(base(), round(input$valor_extremo)) else base()
