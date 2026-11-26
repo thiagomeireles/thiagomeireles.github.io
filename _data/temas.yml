@@ -30,6 +30,7 @@
       title: Measures of center and spread
       descricao: Média, mediana, quantis, variância, desvio padrão, box plot e escore z.
       description: Mean, median, quantiles, variance, standard deviation, box plot and z-score.
+      app: posicao-dispersao
     - titulo: Análise bidimensional
       title: Bivariate analysis
       app: bidimensional

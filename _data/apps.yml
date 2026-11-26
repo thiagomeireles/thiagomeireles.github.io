@@ -41,6 +41,17 @@
   tags_en: [frequency distribution, frequency table, relative frequency, cumulative frequency, bar graph, pie chart, histogram, density, bins, stem-and-leaf, nonparametric estimation, bin width, MISE, cross-validation, KDE, kernel, order statistics, empirical distribution, empirical CDF]
   novo: true
 
+- slug: posicao-dispersao
+  slug_en: center-spread
+  tema: descricao-dados
+  titulo: Medidas de posição e dispersão
+  title: Measures of center and spread
+  descricao: Média, mediana, quantis, variância, desvio padrão, box plot e escore z nas convenções de Morettin e Bussab e de Agresti e Finlay, com gráfico de simetria, regra empírica contra Chebyshev, ponto de ruptura e M-estimador de Huber.
+  description: Mean, median, quantiles, variance, standard deviation, box plot and z-score under Morettin and Bussab's and Agresti and Finlay's conventions, with the symmetry plot, Empirical Rule versus Chebyshev, breakdown point and Huber's M-estimator.
+  tags: [medidas de posição, medidas de dispersão, média, mediana, quantis, quartis, distância interquartil, IQR, variância, desvio padrão, desvio médio, DAM, MAD, box plot, boxplot, cinco números, pontos exteriores, outliers, gráfico de simetria, escore z, padronização, regra empírica, Chebyshev, robustez, ponto de ruptura, média aparada, Huber, regressão quantílica]
+  tags_en: [measures of center, measures of spread, mean, median, quantiles, quartiles, interquartile range, IQR, variance, standard deviation, mean absolute deviation, MAD, box plot, boxplot, five-number summary, outliers, symmetry plot, z-score, standardization, Empirical Rule, Chebyshev, robustness, breakdown point, trimmed mean, Huber, quantile regression]
+  novo: true
+
 - slug: bidimensional
   slug_en: bivariate
   tema: descricao-dados
