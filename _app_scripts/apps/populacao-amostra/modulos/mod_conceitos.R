@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_conceitos.R (módulo: os quatro conceitos, notação e quiz)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/populacao-amostra/app.R)
@@ -15,12 +15,12 @@ conceitos <- list(
     pergunta = tr("O que se quer conhecer", "What we want to know"),
     definicao = tr(
       paste(
-        "O conjunto de todos os elementos (pessoas, domicílios, empresas) que têm a característica de interesse.",
+        "O conjunto de todos os elementos sob investigação (pessoas, domicílios, empresas).",
         "Pode ser concreta, como os eleitores de 2026, ou hipotética, como todas as peças que uma máquina ainda vai produzir."
       ),
       paste(
-        "The total set of subjects of interest (people, households, firms). It can be real, like the voters in a",
-        "given election, or conceptual, like all the parts a machine will ever make."
+        "The total set of subjects of interest (people, households, firms). It can be actual, like the voters in a",
+        "given election, or conceptual, like all the parts a machine will or could make."
       )
     ),
     exemplo = tr("todos os adultos que moram no Brasil.", "all adults living in Brazil.")
@@ -110,21 +110,21 @@ banco_conceitos <- data.frame(
       "A PNAD Contínua divulgou a taxa de desocupação do último trimestre.",
       "Numa pesquisa eleitoral com 2.000 entrevistas, 41% disseram que votariam no candidato A.",
       "Apuradas todas as urnas, o candidato A teve 43% dos votos válidos.",
-      "A pesquisa TIC Domicílios estima a proporção de domicílios com acesso à internet.",
+      "A pesquisa TIC Domicílios divulgou o percentual de domicílios com acesso à internet.",
       "A professora calculou a nota média da sua turma, e o interesse é só nessa turma.",
-      "A mesma nota média da turma foi usada para falar de todos os alunos da escola.",
+      "A mesma nota média da turma foi tomada como a nota média de todos os alunos da escola.",
       "Uma enquete num portal de notícias teve 500 mil votos, e 70% foram a favor da proposta.",
       "A idade média de todos os servidores ativos, calculada com o cadastro completo da prefeitura.",
       "O desvio padrão da renda de 300 adultos sorteados numa cidade foi de R$ 1.900."
     ),
     c(
       "Brazil's 2022 Census counted 203 million residents.",
-      "Brazil's continuous household survey released the unemployment rate for the last quarter.",
+      "Brazil's continuous household survey (PNAD Contínua) released the unemployment rate for the last quarter.",
       "In a poll of 2,000 voters, 41% said they would vote for candidate A.",
-      "Once every ballot was counted, candidate A got 43% of the valid votes.",
-      "The ICT Households survey estimates the proportion of Brazilian households with internet access.",
+      "Once every ballot was counted, candidate A got 43% of the valid votes cast.",
+      "The ICT Households survey reported the percentage of Brazilian households with internet access.",
       "A teacher computed the mean score of her class, and she only cares about that class.",
-      "The same class mean was used to describe every student in the school.",
+      "The same class mean was taken as the mean score of all students in the school.",
       "An online news poll got 500,000 votes, and 70% were in favor of the proposal.",
       "The mean age of all active city employees, computed from the city's complete personnel records.",
       "The standard deviation of income among 300 randomly chosen adults in a city was R$ 1,900."
@@ -145,7 +145,7 @@ banco_conceitos <- data.frame(
       "Agora a turma é uma amostra da escola, e uma amostra que não foi sorteada. Generalizar para a escola inteira exige cuidado.",
       paste(
         "É uma estatística de uma amostra voluntária. Meio milhão de votos não corrige o viés: responde quem quer,",
-        "e quem escolhe responder tende a pensar diferente de quem não responde."
+        "e quem escolhe responder tende a ter opinião forte e pensar diferente de quem não responde."
       ),
       "O cadastro completo cobre todos os servidores, a população de interesse.",
       "É o s de uma amostra. O σ seria o desvio padrão da renda de todos os adultos da cidade."
@@ -160,17 +160,119 @@ banco_conceitos <- data.frame(
       "Now the class is a sample of the school, and one that was not drawn at random. Generalizing to the whole school requires care.",
       paste(
         "It is a statistic from a volunteer sample. Half a million votes do not fix the bias: people choose whether",
-        "to respond, and those who do tend to think differently from those who do not."
+        "to respond, and those who do tend to have strong opinions and differ from those who do not."
       ),
       "The complete records cover every employee, the population of interest.",
       "It is the s of a sample. σ would be the standard deviation of income among all adults in the city."
     )
   )
 )
+banco_conceitos$tipo <- "pe"
+banco_conceitos$pergunta <- tr("O número citado é um parâmetro ou uma estatística?", "Is the number quoted a parameter or a statistic?")
+
+# Perguntas sobre o grupo: população ou amostra? (Morettin e Bussab, exemplos
+# 10.1 a 10.3 e seção 10.4; Agresti e Finlay, seções 1.2 e 2.2)
+banco_grupos <- data.frame(
+  afirmacao = tr(
+    c(
+      "Para estudar os salários dos 500 funcionários de uma empresa, anotaram-se os salários de 36 deles.",
+      "Duzentos moradores de uma cidade, sorteados, disseram se apoiam um projeto da prefeitura.",
+      "Uma fábrica deixou 100 lâmpadas de um novo tipo acesas até queimarem.",
+      "Para saber se os operários de uma fábrica apoiam mudar o horário, entrevistaram-se os 30 primeiros a chegar.",
+      "Um pesquisador sorteou 100 dos 30.000 alunos de uma universidade e perguntou quantas horas eles estudam.",
+      "Uma prefeitura analisou o cadastro de todos os seus 4.000 servidores."
+    ),
+    c(
+      "To study the salaries of a company's 500 employees, the salaries of 36 of them were recorded.",
+      "Two hundred randomly drawn residents of a city said whether they support a city project.",
+      "A factory left 100 light bulbs of a new type on until they burned out.",
+      "To find out whether a factory's workers support a schedule change, the first 30 to arrive were interviewed.",
+      "A researcher drew 100 of a university's 30,000 students and asked how many hours they study.",
+      "A city analyzed the records of all its 4,000 employees."
+    )
+  ),
+  pergunta = tr(
+    c(
+      "Os 36 salários anotados são a população ou uma amostra?",
+      "Todos os moradores da cidade, inclusive os contrários ao projeto, são a população ou uma amostra?",
+      "Todas as lâmpadas desse tipo que a fábrica já fez ou ainda vai fazer são a população ou uma amostra?",
+      "Os 30 entrevistados são a população ou uma amostra?",
+      "Os 30.000 alunos da universidade são a população ou uma amostra?",
+      "Os 4.000 servidores analisados são a população ou uma amostra?"
+    ),
+    c(
+      "Are the 36 recorded salaries the population or a sample?",
+      "Are all the city's residents, including those who oppose the project, the population or a sample?",
+      "Are all the bulbs of this type the factory has made or will make the population or a sample?",
+      "Are the 30 people interviewed the population or a sample?",
+      "Are the university's 30,000 students the population or a sample?",
+      "Are the 4,000 employees analyzed the population or a sample?"
+    )
+  ),
+  resposta = c("amostra", "populacao", "populacao", "amostra", "populacao", "populacao"),
+  explicacao = tr(
+    c(
+      "São parte dos 500 salários que se quer conhecer. Os 500 formam a população.",
+      "A população é todo mundo sob investigação, e não só quem apoia. Os 200 sorteados são a amostra.",
+      "É uma população hipotética: inclui lâmpadas que ainda nem existem. Observá-la inteira, além disso, queimaria todas.",
+      "São uma amostra, e uma amostra que não foi sorteada. Quem chega cedo pode pensar diferente de quem chega tarde.",
+      "São o grupo sobre o qual se quer concluir algo. Os 100 sorteados são a amostra.",
+      "Quando se observa todo mundo, a amostra é a população inteira: é um censo, e não há o que estimar."
+    ),
+    c(
+      "They are part of the 500 salaries we want to know about. The 500 form the population.",
+      "The population is everyone under study, not only those in favor. The 200 drawn are the sample.",
+      "It is a conceptual population: it includes bulbs that do not exist yet. Observing all of it would also burn them all out.",
+      "They are a sample, and one that was not drawn at random. Early arrivals may think differently from late ones.",
+      "They are the group we want to draw conclusions about. The 100 drawn are the sample.",
+      "When everyone is observed, the sample is the whole population: it is a census, and there is nothing to estimate."
+    )
+  )
+)
+banco_grupos$tipo <- "pa"
+
+# Perguntas de notação: o símbolo já diz de que lado está o número
+banco_notacao <- data.frame(
+  afirmacao = tr(
+    c("x̄ = 41 anos", "μ = 43,3 anos", "p̂ = 0,62", "σ² = 3,6 milhões (R$)²", "md = R$ 1.970", "σ = 12 anos"),
+    c("ȳ = 41 years", "μ = 43.3 years", "π̂ = 0.62", "σ² = 3.6 million (R$)²", "md = R$ 1,970", "σ = 12 years")
+  ),
+  resposta = c("estatistica", "parametro", "estatistica", "parametro", "estatistica", "parametro"),
+  explicacao = tr(
+    c(
+      "x̄ é o valor da média amostral X̄ numa amostra concreta.",
+      "Letra grega: é a média da população, um número fixo e em geral desconhecido.",
+      "O chapéu indica a proporção calculada na amostra. Na população, a proporção é p.",
+      "Letra grega: é a variância da população, calculada com divisor N.",
+      "Letra minúscula: é a mediana da amostra. A da população é Md.",
+      "Letra grega: é o desvio padrão de toda a população em torno de μ."
+    ),
+    c(
+      "ȳ is the sample mean.",
+      "A Greek letter: it is the population mean, a fixed and usually unknown number.",
+      "The hat marks the proportion computed from the sample. In the population, the proportion is π.",
+      "A Greek letter: it is the population variance, computed with divisor N.",
+      "Lowercase: it is the sample median. The population median is Md.",
+      "A Greek letter: it is the standard deviation of the whole population around μ."
+    )
+  )
+)
+banco_notacao$tipo <- "pe"
+banco_notacao$pergunta <- tr("O símbolo indica um parâmetro ou uma estatística?", "Does the symbol stand for a parameter or a statistic?")
+
+banco_conceitos <- rbind(banco_conceitos, banco_grupos, banco_notacao)
 
 opcoes_quiz <- stats::setNames(
   c("parametro", "estatistica"),
   tr(c("Parâmetro", "Estatística"), c("Parameter", "Statistic"))
+)
+
+opcoes_por_tipo <- list(
+  pe = opcoes_quiz,
+  pa = stats::setNames(
+    c("populacao", "amostra"),
+    tr(c("População", "Amostra"), c("Population", "Sample"))
+  )
 )
 
 texto_intro_conceitos <- function() {
@@ -204,17 +306,18 @@ nota_notacao <- function() {
   tr(
     paste(
       "Regra geral: letras gregas para parâmetros, latinas para estatísticas. A tabela segue Morettin e Bussab",
-      "(seção 10.6): a maiúscula (X̄, S²) indica a estatística como regra, que varia de amostra para amostra; a",
+      "(seções 10.6 e 11.2): a maiúscula (X̄, S²) indica a estatística como regra, que varia de amostra para amostra; a",
       "minúscula (x̄, s²), o valor observado numa amostra concreta. Agresti e Finlay escrevem ȳ para a média da",
       "amostra e π e π̂ para a proporção. A variância da população divide por N; a da amostra, por n − 1 (a aba",
-      "\"Estimador e estimativa\" mostra por quê). Na análise descritiva, porém, Morettin e Bussab dividem por n.",
-      "Para a mediana não há letra grega consagrada; o app usa Md e md, como Morettin e Bussab."
+      "\"Estimador e estimativa\" mostra por quê). No capítulo 3, de análise descritiva, Morettin e Bussab dividem",
+      "por n, porque ali não importa se os dados são população ou amostra. Para a mediana não há letra grega",
+      "consagrada; o app usa Md e md, como Morettin e Bussab (exemplo 11.7)."
     ),
     paste(
-      "General rule: Greek letters for parameters, Roman letters for statistics. The table follows Agresti and",
-      "Finlay. Morettin and Bussab write x̄ for the sample mean and p and p̂ for the proportion. The population",
+      "General rule: Greek letters for parameters; Roman letters, or a Greek letter with a hat (π̂), for statistics.",
+      "The table follows Agresti and Finlay. Morettin and Bussab write x̄ for the sample mean and p and p̂ for the proportion. The population",
       "variance divides by N; the sample variance, s², divides by n − 1 (the \"Estimator and estimate\" tab shows",
-      "why). There is no standard Greek letter for the median; the app uses Md and md, as Morettin and Bussab do."
+      "why). Agresti and Finlay use no symbol for the median; the app uses Md and md, as Morettin and Bussab do."
     )
   )
 }
@@ -239,7 +342,7 @@ mod_conceitos_ui <- function(id) {
         )
       ),
       bslib::card(
-        bslib::card_header(tr("Quiz: parâmetro ou estatística?", "Quiz: parameter or statistic?")),
+        bslib::card_header(tr("Quiz: de que lado está cada um?", "Quiz: which side is it on?")),
         bslib::card_body(
           shiny::uiOutput(ns("pergunta")),
           shiny::radioButtons(ns("resposta"), NULL, choices = opcoes_quiz, selected = character(0), inline = TRUE),
@@ -274,10 +377,15 @@ mod_conceitos_server <- function(id, ir_para = \(aba) NULL) {
 
     output$pergunta <- shiny::renderUI({
       shiny::tagList(
-        shiny::p(class = "text-muted small mb-1", sprintf(tr("Afirmação %d de %d", "Statement %d of %d"), estado$posicao, total)),
+        shiny::p(class = "text-muted small mb-1", sprintf(tr("Pergunta %d de %d", "Question %d of %d"), estado$posicao, total)),
         shiny::h5(atual()$afirmacao),
-        shiny::p(class = "small mb-1", tr("O número citado é um parâmetro ou uma estatística?", "Is the number quoted a parameter or a statistic?"))
+        shiny::p(class = "small mb-1", atual()$pergunta)
       )
+    })
+
+    # Cada tipo de pergunta tem suas opções; trocar de pergunta limpa a resposta
+    shiny::observeEvent(atual(), {
+      shiny::updateRadioButtons(session, "resposta", choices = opcoes_por_tipo[[atual()$tipo]], selected = character(0), inline = TRUE)
     })
 
     shiny::observeEvent(input$conferir, {
@@ -296,16 +404,16 @@ mod_conceitos_server <- function(id, ir_para = \(aba) NULL) {
         estado$posicao <- estado$posicao + 1
       }
       estado$respondida <- FALSE
-      shiny::updateRadioButtons(session, "resposta", selected = character(0))
     })
 
     output$feedback <- shiny::renderUI({
       if (!estado$respondida) return(NULL)
-      certo <- tolower(names(opcoes_quiz)[opcoes_quiz == atual()$resposta])
+      opcoes <- opcoes_por_tipo[[atual()$tipo]]
+      certo <- tolower(names(opcoes)[opcoes == atual()$resposta])
       shiny::div(
         class = paste("alert mt-3 mb-2", if (estado$acertou) "alert-success" else "alert-warning"),
         shiny::strong(
-          if (estado$acertou) tr("Isso mesmo. ", "That's right. ") else sprintf(tr("Não é bem isso: é %s. ", "Not quite: it is a %s. "), certo)
+          if (estado$acertou) tr("Isso mesmo. ", "That's right. ") else sprintf(tr("Não é bem isso: a resposta é %s. ", "Not quite: the answer is %s. "), certo)
         ),
         atual()$explicacao
       )

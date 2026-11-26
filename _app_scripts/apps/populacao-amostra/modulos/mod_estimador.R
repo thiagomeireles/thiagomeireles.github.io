@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_estimador.R (módulo: estimador e estimativa; divisor n e n − 1)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/populacao-amostra/app.R)
@@ -33,7 +33,31 @@ variancia_populacao <- function(x) mean((x - mean(x))^2)
 simular_variancias <- function(x, n, k) {
   m <- matrix(sample(x, n * k, replace = TRUE), nrow = k)
   soma_quadrados <- rowSums((m - rowMeans(m))^2)
-  list(s2 = soma_quadrados / (n - 1), s2_n = soma_quadrados / n)
+  list(s2 = soma_quadrados / (n - 1), s2_n = soma_quadrados / n, ultima = m[k, ])
+}
+
+# A última amostra, valor por valor, e as duas estimativas que ela produz:
+# o estimador é a regra; a estimativa é o número que a regra dá nesta amostra
+ultima_amostra_ui <- function(valores, s2, s2_n, digitos, fmt_var) {
+  shiny::tagList(
+    shiny::p(
+      class = "small text-muted mb-1",
+      sprintf(tr("Os %d valores sorteados:", "The %d values drawn:"), length(valores))
+    ),
+    shiny::p(class = "font-monospace", paste(fmt_num(valores, digitos), collapse = tr("; ", ", "))),
+    shiny::tags$ul(
+      class = "mb-2",
+      shiny::tags$li(tr("Regra com n − 1 (S²) aplicada a eles: ", "Rule with n − 1 (s²) applied to them: "), shiny::strong(fmt_var(s2))),
+      shiny::tags$li(tr("Regra com n aplicada a eles: ", "Rule with n applied to them: "), shiny::strong(fmt_var(s2_n)))
+    ),
+    shiny::p(
+      class = "small text-muted mb-0",
+      tr(
+        "Cada número acima é uma estimativa. A regra que o produziu é o estimador, e é ela que o gráfico avalia ao longo de muitas amostras.",
+        "Each number above is an estimate. The rule that produced it is the estimator, and the chart judges that rule over many samples."
+      )
+    )
+  )
 }
 
 resumo_estimador <- function(estimativas, alvo) {
@@ -63,8 +87,9 @@ texto_estimador <- function() {
       ),
       shiny::p(
         "Não viesado não quer dizer melhor em tudo. A tabela mostra também o erro quadrático médio (EQM), que soma",
-        "variância e viés ao quadrado. Com populações aproximadamente normais, o divisor \\(n\\) tem EQM menor, porque",
-        "erra um pouco para baixo, mas varia menos. Com \\(n\\) grande, a diferença entre os dois fica desprezível."
+        "variância e viés ao quadrado. Com \\(n\\) pequeno, o divisor \\(n\\) costuma ter EQM menor: erra um pouco para",
+        "baixo, mas varia menos (Casella e Berger, Ex. 7.3.4, mostram isso para a normal). A vantagem é ainda maior em",
+        "populações de cauda pesada, como a renda. Com \\(n\\) grande, a diferença entre os dois fica desprezível."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -87,8 +112,9 @@ texto_estimador <- function() {
       ),
       shiny::p(
         "Unbiased does not mean better in every way. The table also shows the mean squared error (MSE), which adds",
-        "the variance and the squared bias. For roughly normal populations, divisor \\(n\\) has the smaller MSE, because",
-        "it misses slightly low but varies less. As \\(n\\) grows, the difference between the two becomes negligible."
+        "the variance and the squared bias. With small \\(n\\), divisor \\(n\\) usually has the smaller MSE: it misses",
+        "slightly low but varies less (Casella and Berger, Ex. 7.3.4, show this for the normal). The advantage is even",
+        "larger for heavy-tailed populations such as income. As \\(n\\) grows, the difference becomes negligible."
       ),
       shiny::p(
         shiny::strong("Try it:"),
@@ -112,9 +138,9 @@ texto_para_ir_alem <- function() {
       shiny::p(
         "Usada para estimar um parâmetro \\(\\theta\\), a estatística se chama estimador, \\(W = h(X_1, \\dots, X_n)\\),",
         "uma regra fixada antes de ver os dados. A estimativa é o número \\(w = h(x_1, \\dots, x_n)\\) obtido na amostra",
-        "observada (Wooldridge, apêndice C.2). Viés e variância são propriedades do estimador, nunca de uma estimativa:",
+        "observada (Casella e Berger, Def. 7.1.1; Wooldridge, apêndice C.2). Viés e variância são propriedades do estimador, nunca de uma estimativa:",
         "\\(\\text{viés}(W) = E(W) - \\theta\\) e \\(\\text{EQM}(W) = \\text{Var}(W) + \\text{viés}(W)^2\\)",
-        "(Casella e Berger, seção 7.3)."
+        "(Casella e Berger, seção 7.3.1)."
       ),
       shiny::p(
         "Esta aba sorteia com reposição para que as observações sejam i.i.d. e \\(E(S^2) = \\sigma^2\\) valha exatamente",
@@ -138,9 +164,9 @@ texto_para_ir_alem <- function() {
       shiny::p(
         "When used to estimate a parameter \\(\\theta\\), the statistic is called an estimator, \\(W = h(Y_1, \\dots, Y_n)\\),",
         "a rule fixed before seeing the data. The estimate is the number \\(w = h(y_1, \\dots, y_n)\\) obtained from the",
-        "observed sample (Wooldridge, appendix C.2). Bias and variance are properties of the estimator, never of a single",
+        "observed sample (Casella and Berger, Def. 7.1.1; Wooldridge, appendix C.2). Bias and variance are properties of the estimator, never of a single",
         "estimate: \\(\\text{Bias}(W) = E(W) - \\theta\\) and \\(\\text{MSE}(W) = \\text{Var}(W) + \\text{Bias}(W)^2\\)",
-        "(Casella and Berger, section 7.3)."
+        "(Casella and Berger, section 7.3.1)."
       ),
       shiny::p(
         "This tab draws with replacement so that the observations are i.i.d. and \\(E(S^2) = \\sigma^2\\) holds exactly",
@@ -198,11 +224,17 @@ mod_estimador_ui <- function(id) {
     bslib::layout_columns(
       col_widths = bslib::breakpoints(sm = 12, lg = c(7, 5)),
       bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico_acumulado"), height = "400px"))),
-      bslib::card(
-        bslib::card_header(tr("Os dois estimadores lado a lado", "The two estimators side by side")),
-        bslib::card_body(
-          shiny::uiOutput(ns("tabela")),
-          shiny::p(class = "small text-muted mb-0", shiny::textOutput(ns("nota_tabela"), inline = TRUE))
+      shiny::div(
+        bslib::card(
+          bslib::card_header(tr("Uma amostra, duas estimativas", "One sample, two estimates")),
+          bslib::card_body(shiny::uiOutput(ns("ultima")))
+        ),
+        bslib::card(
+          bslib::card_header(tr("Os dois estimadores lado a lado", "The two estimators side by side")),
+          bslib::card_body(
+            shiny::uiOutput(ns("tabela")),
+            shiny::p(class = "small text-muted mb-0", shiny::textOutput(ns("nota_tabela"), inline = TRUE))
+          )
         )
       )
     ),
@@ -245,6 +277,12 @@ mod_estimador_server <- function(id, modo = shiny::reactive("light")) {
         tr("Diferença para σ²: %s (o esperado é −σ²/n = %s)", "Difference from σ²: %s (expected: −σ²/n = %s)"),
         fmt_vies(mean(simulacao()$s2_n) - sigma2()), fmt_vies(esperado)
       )
+    })
+
+    output$ultima <- shiny::renderUI({
+      s <- simulacao()
+      k <- length(s$s2)
+      ultima_amostra_ui(s$ultima, s$s2[k], s$s2_n[k], variavel()$digitos, fmt_var)
     })
 
     output$grafico_acumulado <- shiny::renderPlot({

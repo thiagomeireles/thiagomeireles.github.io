@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  utilitarios.R (modelo comum a todos os apps de tema)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - idioma.txt (opcional): "pt" ou "en", gravado por
@@ -11,6 +11,7 @@
 # Saída:
 #   - objetos em memória: idioma, tr(), cores_app, tema_zephyr(), estilo_app(),
 #     script_tema_inicial(), texto_execucao(), pagina_tema(), item_em_breve(),
+#     referencia_livro(), lista_referencias(),
 #     modo_app(), paleta_modo(), tema_grafico(), fmt_num(), fmt_pct(),
 #     sep_milhar(), tabela_html()
 # =============================================================================
@@ -58,6 +59,8 @@ estilo_app <- function() {
     .tabela-app { margin-bottom: 0; }
     .tabela-app td.num, .tabela-app th.num { text-align: right; font-variant-numeric: tabular-nums; }
     .tabela-app td.leitura { color: var(--bs-secondary-color); font-size: 0.92em; }
+    .referencias-apa { list-style: none; padding-left: 0; }
+    .referencias-apa li { padding-left: 2em; text-indent: -2em; margin-bottom: 0.4em; }
   "))
 }
 
@@ -97,11 +100,41 @@ texto_execucao <- function() {
   )
 }
 
-pagina_sobre <- function(titulo, descricao, versao) {
+# Referência de livro no padrão APA (7ª ed.): Autor, A. A., & Autor, B. B. (ano).
+# Título em itálico (n.ª ed.). Editora. `edicao` é o número da edição; o
+# ordinal sai no idioma do app (6ª ed. em pt, 6th ed. em en).
+referencia_livro <- function(autores, ano, titulo, editora, edicao = NULL) {
+  ordinal <- function(n) {
+    if (identical(idioma, "en")) {
+      sufixo <- if (n %% 100 %in% 11:13) "th" else c("th", "st", "nd", "rd", rep("th", 6))[n %% 10 + 1]
+      paste0(n, sufixo, " ed.")
+    } else {
+      paste0(n, "ª ed.")
+    }
+  }
+  # Uma string só: tags separadas ganhariam espaços antes do ponto
+  esc <- htmltools::htmlEscape
+  shiny::tags$li(shiny::HTML(paste0(
+    esc(autores), " (", ano, "). <em>", esc(titulo), "</em>",
+    if (!is.null(edicao)) paste0(" (", ordinal(edicao), ")"),
+    ". ", esc(editora), "."
+  )))
+}
+
+# Lista de referências com recuo francês, como pede a APA
+lista_referencias <- function(referencias) {
+  shiny::tagList(
+    shiny::h6(class = "mt-3", tr("Referências", "References")),
+    shiny::tags$ul(class = "referencias-apa", referencias)
+  )
+}
+
+pagina_sobre <- function(titulo, descricao, versao, referencias = NULL) {
   bslib::card(
     bslib::card_header(paste(tr("Sobre:", "About:"), titulo)),
     bslib::card_body(
       shiny::p(descricao),
+      if (length(referencias) > 0) lista_referencias(referencias),
       shiny::p(texto_execucao()),
       shiny::p(sprintf(tr("Autor: Thiago Meireles | Versão %s", "Author: Thiago Meireles | Version %s"), versao)),
       shiny::p(
@@ -127,7 +160,8 @@ item_em_breve <- function(rotulo) {
 # Para trocar de aba pelo server: bslib::nav_select("abas", "<value do nav_panel>").
 # fillable = FALSE: as abas têm várias linhas de cards e rolam como página comum.
 # Todo app abre na aba "Sobre" (value = "sobre"), padrão de todos os temas.
-pagina_tema <- function(titulo, ..., descricao, versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)")) {
+# `referencias`: lista de referencia_livro() com os livros usados no app (APA).
+pagina_tema <- function(titulo, ..., descricao, versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)"), referencias = NULL) {
   bslib::page_navbar(
     id           = "abas",
     selected     = "sobre",
@@ -139,7 +173,7 @@ pagina_tema <- function(titulo, ..., descricao, versao = tr("0.2 (novembro de 20
     header       = shiny::tagList(script_tema_inicial(), estilo_app()),
     ...,
     bslib::nav_spacer(),
-    bslib::nav_panel(tr("Sobre", "About"), value = "sobre", pagina_sobre(titulo, descricao, versao)),
+    bslib::nav_panel(tr("Sobre", "About"), value = "sobre", pagina_sobre(titulo, descricao, versao, referencias)),
     bslib::nav_item(shiny::tags$a(class = "nav-link", href = url_temas, target = "_top", tr("Outros temas", "Other topics"))),
     bslib::nav_item(bslib::input_dark_mode(id = "modo"))
   )

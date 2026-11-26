@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_amostra.R (módulo: uma amostra tirada da população)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/populacao-amostra/app.R)
@@ -20,6 +20,37 @@ opcoes_medida <- function(variavel) {
   stats::setNames(ids, purrr::map_chr(medidas[ids], "rotulo"))
 }
 
+# Erro com sinal. O sinal sai do valor já arredondado, para um erro desprezível
+# (como o do censo) aparecer como 0, e não como +0 ou −0.
+fmt_erro <- function(erro, variavel, medida) {
+  texto <- fmt_medida(abs(erro), variavel, medida)
+  zero <- fmt_medida(0, variavel, medida)
+  if (identical(texto, zero)) return(zero)
+  paste0(if (erro > 0) "+" else "−", texto)
+}
+
+# Palpite antes do teste (prever, observar, explicar)
+opcoes_palpite <- stats::setNames(
+  c("some", "fica", "cresce"),
+  tr(
+    c("Cai até quase zero", "Continua mais ou menos o mesmo", "Fica maior"),
+    c("It drops to almost zero", "It stays about the same", "It gets larger")
+  )
+)
+
+texto_palpite <- function() {
+  tr(
+    paste(
+      "Na pesquisa online, a idade média estimada erra para o mesmo lado. Se o tamanho da amostra subir de 50 para",
+      "500, o que acontece com o erro médio?"
+    ),
+    paste(
+      "In the online survey, the estimated mean age misses to the same side. If the sample size goes from 50 to",
+      "500, what happens to the average error?"
+    )
+  )
+}
+
 texto_amostra <- function() {
   tr(
     shiny::tagList(
@@ -30,8 +61,10 @@ texto_amostra <- function() {
         "desconhecido, porque o parâmetro é desconhecido."
       ),
       shiny::p(
-        "Com amostra aleatória simples, cada sorteio erra um pouco para cima ou para baixo, e os erros se compensam:",
-        "os pontos do gráfico oscilam em torno da linha vermelha. Quanto maior o n, mais perto dela eles ficam."
+        "Com amostra aleatória simples, cada sorteio erra um pouco para cima ou para baixo. Para a média e a",
+        "proporção, os erros se compensam: os pontos oscilam em torno da linha vermelha, e quanto maior o n, mais",
+        "perto dela eles ficam. A mediana e o desvio padrão têm um pequeno erro sistemático com n pequeno (com",
+        "n = 10, o desvio padrão da renda fica, em média, cerca de 8% abaixo de σ), que some quando n cresce."
       ),
       shiny::p(
         "A pesquisa online é diferente. Como quem não usa internet nunca é sorteado, e esse grupo é mais velho e tem",
@@ -52,13 +85,16 @@ texto_amostra <- function() {
         "error. In a real survey it is unknown, because the parameter is unknown."
       ),
       shiny::p(
-        "With a simple random sample, each draw misses a little high or a little low, and the errors balance out:",
-        "the points in the chart scatter around the red line. The larger n is, the closer they stay to it."
+        "With a simple random sample, each draw misses a little high or a little low. For the mean and the",
+        "proportion, the errors balance out: the points scatter around the red line, and the larger n is, the closer",
+        "they stay to it. The median and the standard deviation have a small systematic error when n is small (with",
+        "n = 10, the income standard deviation falls, on average, about 8% below σ), which fades as n grows."
       ),
       shiny::p(
         "The online survey is different. Since people who do not use the internet are never drawn, and that group is",
-        "older and earns less, the statistic now misses, on average, to the same side. That is sampling bias",
-        "(undercoverage), and a larger sample does not remove it: increasing n only makes the error more stable."
+        "older and earns less, the statistic now misses, on average, to the same side. That is sampling bias, here",
+        "caused by undercoverage: the group that can be drawn leaves out part of the population (Agresti and Finlay,",
+        "section 2.3). A larger sample does not remove it: increasing n only makes the error more stable."
       ),
       shiny::p(
         shiny::strong("Try it:"),
@@ -77,13 +113,19 @@ mod_amostra_ui <- function(id) {
       width = 300,
       shiny::selectInput(ns("variavel"), tr("Variável", "Variable"), choices = opcoes_variavel()),
       shiny::selectInput(ns("medida"), tr("Medida", "Measure"), choices = opcoes_medida("idade")),
-      shiny::sliderInput(ns("n"), tr("Tamanho da amostra (n)", "Sample size (n)"), min = 10, max = 500, value = 50, step = 10, sep = sep_milhar()),
+      shiny::sliderInput(ns("n"), tr("Tamanho da amostra (n)", "Sample size (n)"), min = 10, max = nrow(populacao), value = 50, step = 10, sep = sep_milhar()),
       shiny::radioButtons(ns("selecao"), tr("Como a amostra é escolhida", "How the sample is chosen"), choices = stats::setNames(names(selecoes), unlist(selecoes))),
       shiny::actionButton(ns("sortear"), tr("Sortear nova amostra", "Draw a new sample"), class = "btn-primary", icon = shiny::icon("dice")),
       shiny::actionButton(ns("sortear_varias"), tr("Sortear mais 20", "Draw 20 more"), icon = shiny::icon("forward")),
       shiny::helpText(tr(
-        "Trocar a variável ou a medida mantém as mesmas pessoas sorteadas. Trocar n ou a forma de escolha recomeça o histórico.",
-        "Changing the variable or the measure keeps the same people. Changing n or how the sample is chosen restarts the history."
+        paste(
+          "Trocar a variável ou a medida mantém as mesmas pessoas sorteadas. Trocar n ou a forma de escolha recomeça o",
+          "histórico. Com n = 2.000, a amostra aleatória simples inclui todo mundo: é um censo."
+        ),
+        paste(
+          "Changing the variable or the measure keeps the same people. Changing n or how the sample is chosen restarts",
+          "the history. With n = 2,000, the simple random sample includes everyone: it is a census."
+        )
       ))
     ),
     bslib::layout_columns(
@@ -110,14 +152,35 @@ mod_amostra_ui <- function(id) {
     bslib::layout_columns(
       col_widths = bslib::breakpoints(sm = 12, lg = c(7, 5)),
       bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico_grade"), height = "420px"))),
-      bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico_historico"), height = "420px")))
+      bslib::navset_card_underline(
+        full_screen = TRUE,
+        bslib::nav_panel(
+          tr("Sorteio a sorteio", "Draw by draw"),
+          shiny::plotOutput(ns("grafico_historico"), height = "380px")
+        ),
+        bslib::nav_panel(
+          tr("Distribuição amostral", "Sampling distribution"),
+          shiny::plotOutput(ns("grafico_distribuicao"), height = "380px")
+        )
+      )
     ),
     bslib::layout_columns(
       col_widths = bslib::breakpoints(sm = 12, lg = c(6, 6)),
       bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico_comparacao"), height = "360px"))),
-      bslib::card(
-        bslib::card_header(rotulo_entenda()),
-        bslib::card_body(texto_amostra())
+      shiny::div(
+        bslib::card(
+          bslib::card_header(tr("Antes de testar, dê seu palpite", "Before you test it, make a guess")),
+          bslib::card_body(
+            shiny::p(class = "mb-1", texto_palpite()),
+            shiny::radioButtons(ns("palpite"), NULL, choices = opcoes_palpite, selected = character(0)),
+            shiny::actionButton(ns("montar_teste"), tr("Registrar palpite e montar o teste", "Lock in my guess and set up the test"), class = "btn-outline-primary btn-sm", icon = shiny::icon("flask")),
+            shiny::uiOutput(ns("resultado_palpite"))
+          )
+        ),
+        bslib::card(
+          bslib::card_header(rotulo_entenda()),
+          bslib::card_body(texto_amostra())
+        )
       )
     )
   )
@@ -170,9 +233,11 @@ mod_amostra_server <- function(id, modo = shiny::reactive("light")) {
 
     output$titulo_estatistica <- shiny::renderText({
       m <- medidas[[medida()]]
+      n <- length(ultima())
       sprintf(
-        tr("Estatística: %s da amostra (%s), n = %s", "Statistic: sample %s (%s), n = %s"),
-        tolower(m$rotulo), m$estatistica, fmt_num(length(ultima()), 0)
+        tr("Estatística: %s da amostra (%s), n = %s%s", "Statistic: sample %s (%s), n = %s%s"),
+        tolower(m$rotulo), m$estatistica, fmt_num(n, 0),
+        if (n == nrow(populacao)) tr(" (censo)", " (census)") else ""
       )
     })
 
@@ -180,19 +245,56 @@ mod_amostra_server <- function(id, modo = shiny::reactive("light")) {
     output$estatistica <- shiny::renderText(fmt_medida(utils::tail(estatisticas(), 1), input$variavel, medida()))
 
     output$erro <- shiny::renderText({
-      erro <- utils::tail(estatisticas(), 1) - parametro()
-      sinal <- if (erro > 0) "+" else if (erro < 0) "−" else ""
-      paste0(sinal, fmt_medida(abs(erro), input$variavel, medida()))
+      fmt_erro(utils::tail(estatisticas(), 1) - parametro(), input$variavel, medida())
     })
 
     output$erro_medio <- shiny::renderText({
       k <- length(estatisticas())
       if (k < 2) return(tr("Sorteie mais amostras para ver o erro médio", "Draw more samples to see the average error"))
-      erro <- mean(estatisticas()) - parametro()
-      sinal <- if (erro > 0) "+" else if (erro < 0) "−" else ""
       sprintf(
         tr("Erro médio em %s amostras: %s", "Average error over %s samples: %s"),
-        fmt_num(k, 0), paste0(sinal, fmt_medida(abs(erro), input$variavel, medida()))
+        fmt_num(k, 0), fmt_erro(mean(estatisticas()) - parametro(), input$variavel, medida())
+      )
+    })
+
+    # Palpite: registra a escolha e monta o teste; quem sorteia é o leitor
+    palpite <- shiny::reactiveVal(NULL)
+
+    shiny::observeEvent(input$montar_teste, {
+      shiny::req(input$palpite)
+      palpite(input$palpite)
+      shiny::updateSelectInput(session, "variavel", selected = "idade")
+      shiny::updateSelectInput(session, "medida", selected = "media")
+      shiny::updateRadioButtons(session, "selecao", selected = "online")
+      shiny::updateSliderInput(session, "n", value = 50)
+    })
+
+    output$resultado_palpite <- shiny::renderUI({
+      shiny::req(palpite())
+      teste_montado <- identical(input$selecao, "online") && identical(input$variavel, "idade") && identical(input$medida, "media")
+      k <- length(estatisticas())
+
+      passo <- if (!teste_montado) {
+        tr("Volte para a pesquisa online, a idade e a média para fazer o teste.", "Switch back to the online survey, age and the mean to run the test.")
+      } else if (input$n < 500 || k < 20) {
+        tr(
+          "Teste montado. Clique em \"Sortear mais 20\" e anote o erro médio. Depois leve n para 500 e sorteie mais 20.",
+          "Test set up. Click \"Draw 20 more\" and note the average error. Then move n to 500 and draw 20 more."
+        )
+      }
+      if (!is.null(passo)) return(shiny::div(class = "alert alert-info mt-3 mb-0 small", passo))
+
+      acertou <- identical(palpite(), "fica")
+      shiny::div(
+        class = paste("alert mt-3 mb-0 small", if (acertou) "alert-success" else "alert-warning"),
+        shiny::strong(if (acertou) tr("Seu palpite se confirmou. ", "Your guess held up. ") else tr("O resultado contraria o palpite. ", "The result goes against your guess. ")),
+        sprintf(
+          tr(
+            "Com n = %s, o erro médio ficou em %s. Quem não usa internet continua de fora, e por isso o erro não some: amostra maior reduz a oscilação, não o viés.",
+            "With n = %s, the average error was %s. People who do not use the internet are still left out, so the error does not go away: a larger sample reduces the scatter, not the bias."
+          ),
+          fmt_num(input$n, 0), fmt_erro(mean(estatisticas()) - parametro(), "idade", "media")
+        )
       )
     })
 
@@ -242,6 +344,58 @@ mod_amostra_server <- function(id, modo = shiny::reactive("light")) {
           caption = sprintf(tr("Linha vermelha: o parâmetro (%s)", "Red line: the parameter (%s)"), m$parametro)
         ) +
         tema_grafico(modo())
+    })
+
+    # A distribuição das estatísticas ao longo das amostras: a distribuição amostral
+    output$grafico_distribuicao <- shiny::renderPlot({
+      pal <- paleta_modo(modo())
+      est <- estatisticas()
+      m <- medidas[[medida()]]
+      eixo <- if (identical(medida(), "proporcao")) scales::label_percent(decimal.mark = tr(",", ".")) else rotulos_eixo()
+
+      base <- ggplot2::ggplot() +
+        ggplot2::labs(
+          title = sprintf(tr("Distribuição amostral de %s, aproximada", "Sampling distribution of %s, approximated"), m$estatistica),
+          subtitle = sprintf(
+            tr(
+              "%s amostras sorteadas. Com todas as amostras possíveis, seria a distribuição exata.",
+              "%s samples drawn. With every possible sample, it would be the exact distribution."
+            ),
+            fmt_num(length(est), 0)
+          ),
+          x = NULL, y = NULL
+        ) +
+        tema_grafico(modo())
+
+      if (length(est) < 20) {
+        return(
+          base +
+            ggplot2::annotate(
+              "text", x = 0, y = 0, size = 5, colour = pal$secundario,
+              label = tr("Clique em \"Sortear mais 20\" para\nver a forma da distribuição", "Click \"Draw 20 more\" to\nsee the shape of the distribution")
+            ) +
+            ggplot2::theme(axis.text = ggplot2::element_blank(), panel.grid = ggplot2::element_blank())
+        )
+      }
+
+      base +
+        ggplot2::geom_histogram(
+          data = data.frame(valor = est), ggplot2::aes(x = valor),
+          bins = 25, fill = cores_app$destaque, colour = pal$fundo, alpha = 0.8
+        ) +
+        ggplot2::geom_vline(xintercept = parametro(), colour = cores_app$referencia, linewidth = 1.2) +
+        ggplot2::geom_vline(xintercept = mean(est), colour = pal$linha, linetype = "dashed", linewidth = 0.9) +
+        ggplot2::scale_x_continuous(labels = eixo) +
+        ggplot2::scale_y_continuous(labels = NULL) +
+        ggplot2::labs(
+          caption = sprintf(
+            tr(
+              "Linha vermelha: o parâmetro (%s). Tracejada: a média das estatísticas. A distância entre as duas é o viés.",
+              "Red line: the parameter (%s). Dashed: the mean of the statistics. The gap between them is the bias."
+            ),
+            m$parametro
+          )
+        )
     })
 
     output$grafico_comparacao <- shiny::renderPlot({
