@@ -13,9 +13,9 @@ author: "Thiago Meireles"
   .app-lista-temas .topicos { color: #6c757d; font-size: 0.9rem; }
 </style>
 
-## Statistics in practice
+## Interactive statistics and probability
 
-The apps are interactive demos of statistics and probability concepts. They are organized into themes, in the order they are usually studied, and each theme covers a few topics. Topics get their apps over time. Pick a theme below to start, or search for the concept you need.
+The apps are demonstrations of statistics and probability concepts in which you change the parameters and follow the result on screen. They are organized into themes, in the order they are usually studied, and each theme brings together a few topics. Not every topic has an app yet, and the missing ones are being added a few at a time. Pick a theme below to start, or use the search to go straight to a concept.
 
 {% include busca-apps.html idioma="en" %}
 
@@ -29,7 +29,7 @@ The apps are interactive demos of statistics and probability concepts. They are 
       <div class="card-content">
         <p class="title is-5">{{ tema.title }}{% include etiqueta-app.html tema=tema idioma="en" %}</p>
         <p class="content">{{ tema.description }}</p>
-        <p class="topicos">{{ tema.topicos.size }} topics, {% if com_app.size == 0 %}none with an app yet{% else %}{{ com_app.size }} with an app{% endif %}: {{ tema.topicos | map: "title" | join: ", " }}</p>
+        <p class="topicos">{{ tema.topicos.size }} {% if tema.topicos.size == 1 %}topic{% else %}topics{% endif %} ({% if tema.topicos.size == 1 %}{% if com_app.size == 0 %}no app yet{% else %}with an app{% endif %}{% elsif com_app.size == 0 %}none with an app yet{% elsif com_app.size == tema.topicos.size %}all with an app{% else %}{{ com_app.size }} with an app{% endif %}): {{ tema.topicos | map: "title" | join: "; " }}</p>
       </div>
     </a>
   </div>

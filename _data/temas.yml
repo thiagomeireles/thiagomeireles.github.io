@@ -40,8 +40,8 @@
   slug_en: probability
   titulo: Probabilidade
   title: Probability
-  descricao: A linguagem da incerteza, do espaço amostral à regra de Bayes.
-  description: The language of uncertainty, from the sample space to Bayes' rule.
+  descricao: Como atribuir e calcular probabilidades, do espaço amostral ao teorema de Bayes.
+  description: How to assign and calculate probabilities, from the sample space to Bayes' theorem.
   topicos:
     - titulo: Espaço amostral, eventos e axiomas
       title: Sample space, events and axioms
@@ -57,8 +57,8 @@
   slug_en: random-variables
   titulo: Variáveis aleatórias e modelos
   title: Random variables and models
-  descricao: Os modelos de probabilidade mais usados, com esperança e variância.
-  description: The most common probability models, with expected value and variance.
+  descricao: Os modelos de probabilidade mais usados, discretos e contínuos, com esperança e variância, e o comportamento conjunto de duas variáveis.
+  description: The most widely used probability models, discrete and continuous, with expected value and variance, and how two random variables behave together.
   topicos:
     - titulo: Variáveis aleatórias discretas
       title: Discrete random variables
@@ -76,8 +76,8 @@
 
 - slug: amostra-populacao
   slug_en: sample-to-population
-  titulo: Da amostra à população
-  title: From sample to population
+  titulo: Distribuições amostrais
+  title: Sampling distributions
   descricao: Por que uma amostra diz algo sobre a população e como as estatísticas variam de amostra para amostra.
   description: Why a sample tells us something about the population and how statistics vary from sample to sample.
   topicos:

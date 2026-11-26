@@ -27,7 +27,7 @@ Os aplicativos são demonstrações de conceitos de estatística e probabilidade
       <div class="card-content">
         <p class="title is-5">{{ tema.titulo }}{% include etiqueta-app.html tema=tema idioma="pt" %}</p>
         <p class="content">{{ tema.descricao }}</p>
-        <p class="topicos">{{ tema.topicos.size }} tópicos, {% if com_app.size == 0 %}nenhum{% else %}{{ com_app.size }}{% endif %} com aplicativo{% if com_app.size == 0 %} ainda{% endif %}: {{ tema.topicos | map: "titulo" | join: ", " }}</p>
+        <p class="topicos">{{ tema.topicos.size }} {% if tema.topicos.size == 1 %}tópico{% else %}tópicos{% endif %} ({% if tema.topicos.size == 1 %}{% if com_app.size == 0 %}sem aplicativo ainda{% else %}com aplicativo{% endif %}{% elsif com_app.size == 0 %}nenhum com aplicativo ainda{% elsif com_app.size == tema.topicos.size %}todos com aplicativo{% else %}{{ com_app.size }} com aplicativo{% endif %}): {{ tema.topicos | map: "titulo" | join: "; " }}</p>
       </div>
     </a>
   </div>
