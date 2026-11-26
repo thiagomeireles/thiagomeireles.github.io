@@ -20,7 +20,7 @@ densidade_ordem <- function(x, modelo, n, j) {
 # k amostras de tamanho n; devolve a j-ésima menor de cada uma
 simular_ordem <- function(modelo, n, j, k) {
   m <- matrix(modelo$gerar(n * k), nrow = k)
-  apply(m, 1, \(linha) sort(linha)[j])
+  purrr::map_dbl(seq_len(k), \(i) sort(m[i, ])[j])
 }
 
 texto_ordem <- function() {

@@ -48,15 +48,17 @@ texto_quanti_quanti <- function() {
         "The lines at the two means split the chart into four quadrants. In the blue quadrants, \\(x\\) and \\(y\\) are",
         "on the same side of their means, and the product \\((x_i - \\bar{x})(y_i - \\bar{y})\\) is positive; in the red",
         "ones, the product is negative. The covariance is the mean of these products,",
-        "\\(\\text{cov}(X, Y) = \\sum (x_i - \\bar{x})(y_i - \\bar{y}) / n\\) in Morettin and Bussab. Its sign tells whether",
-        "the relationship goes up or down, but its size depends on the units. The correlation fixes that by dividing by",
-        "both standard deviations: \\(r = \\text{cov}(X, Y) / (s_X\\, s_Y)\\), always between −1 and 1."
+        "\\(\\text{cov}(X, Y) = \\sum (x_i - \\bar{x})(y_i - \\bar{y}) / n\\) in Morettin and Bussab (Agresti and Finlay",
+        "divide by \\(n - 1\\)). Its sign tells whether the relationship goes up or down, but its size depends on the",
+        "units. The correlation fixes that by dividing by both standard deviations:",
+        "\\(r = \\text{cov}(X, Y) / (\\text{sd}(X)\\, \\text{sd}(Y))\\), which yields the exact same number under divisor",
+        "\\(n\\) or \\(n - 1\\) and always lies between −1 and 1."
       ),
       shiny::p(
         "Correlation only measures the linear part of a relationship. A U-shaped relationship can be strong and still",
         "have a correlation near zero, since the points on the left and on the right cancel each other out. The",
         "regression line, \\(\\hat{y} = a + b x\\), summarizes the linear trend and predicts \\(y\\) from \\(x\\); its slope",
-        "is \\(b = r\\, s_Y / s_X\\)."
+        "is \\(b = r\\, \\text{sd}(Y) / \\text{sd}(X)\\)."
       ),
       shiny::p(
         shiny::strong("Try it:"),

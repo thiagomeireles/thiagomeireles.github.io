@@ -213,7 +213,10 @@ mod_qq_server <- function(id, modo = shiny::reactive("light")) {
         ggplot2::labs(
           title = tr("As mesmas amostras em box plots", "The same samples as box plots"),
           x = tr("Nota (pontos)", "Score (points)"), y = NULL,
-          caption = tr("Pontos vermelhos: a mais de 1,5 × d_q da caixa", "Red dots: more than 1.5 × IQR beyond the box")
+          caption = tr(
+            "Quartis do R (type = 7) | Pontos vermelhos: a mais de 1,5 × d_q da caixa",
+            "R default quartiles (type = 7) | Red dots: more than 1.5 × IQR beyond the box"
+          )
         ) +
         tema_grafico(modo()) +
         ggplot2::theme(panel.grid.major.y = ggplot2::element_blank(), axis.text.y = ggplot2::element_text(size = 13, colour = pal$texto))

@@ -130,8 +130,8 @@ texto_intro_escolher <- function() {
       shiny::p(
         class = "mb-0",
         "Test yourself with the quiz, use the assistant for a pair of variables of your own and then visit each tab,",
-        "with simulated data, charts and the measures from Agresti and Finlay (Statistical Methods for the Social",
-        "Sciences, ch. 3) and Morettin and Bussab (Estatística Básica, ch. 4)."
+        "with simulated data, charts and the measures from Morettin and Bussab (Estatística Básica, ch. 4) and",
+        "Agresti and Finlay (Statistical Methods for the Social Sciences, ch. 3)."
       )
     )
   )

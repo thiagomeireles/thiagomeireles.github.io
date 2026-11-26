@@ -66,9 +66,10 @@ cuidados_quali_quanti <- function() {
         "como a de salários, afastam média e mediana. Nesse caso, compare as medianas e leia o R² com cautela,",
         "porque poucos valores altos pesam muito na variância."
       ),
-      "Divisor da variância" = paste(
-        "esta aba divide por n, como Morettin e Bussab no Cap. 4. Com esse divisor, o R² é exatamente a fração",
-        "da soma de quadrados entre grupos, a mesma da análise de variância (Cap. 15)."
+      "Divisor da variância e quartis" = paste(
+        "esta aba divide a variância por n, como Morettin e Bussab no Cap. 4: com esse divisor, o R² é exatamente",
+        "a fração da soma de quadrados entre grupos da ANOVA (Cap. 15). No gráfico, geom_boxplot() usa o padrão",
+        "do R (quantile type = 7), próximo das convenções dos dois livros para amostras moderadas."
       ),
       "Associação não é causa" = paste(
         "a diferença de salário entre níveis de escolaridade também carrega idade, região e origem familiar,",
@@ -82,9 +83,10 @@ cuidados_quali_quanti <- function() {
         "such as salaries, pull the mean and median apart. In that case, compare medians and read R² with care,",
         "because a few high values weigh heavily on the variance."
       ),
-      "Variance divisor" = paste(
-        "this tab divides by n, as Morettin and Bussab do in ch. 4. With that divisor, R² is exactly the share of",
-        "the between-group sum of squares, the same as in analysis of variance (ch. 15)."
+      "Variance divisor and quartiles" = paste(
+        "this tab divides the variance by n, as Morettin and Bussab do in ch. 4: with that divisor, R² is exactly",
+        "the share of the between-group sum of squares, as in ANOVA (ch. 15). In the chart, geom_boxplot() uses",
+        "R's default quartiles (type = 7), close to both books' conventions for moderate samples."
       ),
       "Association is not causation" = paste(
         "the salary gap between education levels also carries age, region and family background, among other",

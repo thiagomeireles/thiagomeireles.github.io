@@ -16,10 +16,12 @@
 options(scipen = 999)
 
 pasta_comum <- if (dir.exists("comum")) "comum" else file.path("..", "comum")
-c(
-  list.files(pasta_comum, pattern = "\\.R$", full.names = TRUE),
-  list.files("modulos", pattern = "\\.R$", full.names = TRUE)
-) |>
+
+# estatisticas.R primeiro: os outros módulos usam os exemplos e resumos na definição da interface
+modulos <- list.files("modulos", pattern = "\\.R$", full.names = TRUE)
+modulos <- c(modulos[basename(modulos) == "estatisticas.R"], modulos[basename(modulos) != "estatisticas.R"])
+
+c(list.files(pasta_comum, pattern = "\\.R$", full.names = TRUE), modulos) |>
   purrr::walk(source)
 
 ui <- pagina_tema(
