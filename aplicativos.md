@@ -25,7 +25,7 @@ Os aplicativos são demonstrações de conceitos de estatística e probabilidade
   <div class="column is-one-third">
     <a class="card" href="{{ '/aplicativos/' | relative_url }}{{ tema.slug }}/">
       <div class="card-content">
-        <p class="title is-5">{{ tema.titulo }}{% include etiqueta-novo.html tema=tema rotulo="novo" %}</p>
+        <p class="title is-5">{{ tema.titulo }}{% include etiqueta-app.html tema=tema idioma="pt" %}</p>
         <p class="content">{{ tema.descricao }}</p>
         <p class="topicos">{{ tema.topicos.size }} tópicos, {% if com_app.size == 0 %}nenhum{% else %}{{ com_app.size }}{% endif %} com aplicativo{% if com_app.size == 0 %} ainda{% endif %}: {{ tema.topicos | map: "titulo" | join: ", " }}</p>
       </div>
@@ -33,7 +33,7 @@ Os aplicativos são demonstrações de conceitos de estatística e probabilidade
   </div>
 {%- endfor -%}
 </div>
-{% include etiqueta-novo-script.html %}
+{% include etiqueta-app-script.html %}
 
 <script>
   // Endereços antigos (/aplicativos/#<app>) vão direto para a tela cheia do app

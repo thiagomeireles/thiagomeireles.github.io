@@ -1,0 +1,44 @@
+{%- comment -%}
+Include: etiqueta-app
+Autor: Thiago Meireles | Atualizado: 2026-11-26
+Entrada: include.idioma ("pt" ou "en") e um destes:
+         include.app  (item de _data/apps.yml)
+         include.tema (item de _data/temas.yml; valem os apps dos seus tópicos)
+         campos publicado e atualizado dos apps; site.apps_novo_dias (_config.yml)
+Saída: etiqueta "novo" enquanto o app (ou algum app do tema) tiver menos de apps_novo_dias dias desde
+       publicado; "atualizado" pelo mesmo prazo desde atualizado, desde que a atualização tenha ocorrido
+       depois de vencido o "novo". As duas vêm num grupo e só a primeira aparece (CSS em
+       _includes/etiqueta-app-script.html); o script remove no navegador as que vencem entre dois builds,
+       e então a seguinte do grupo aparece.
+{%- endcomment -%}
+{%- assign etq_novo = "" -%}
+{%- assign etq_atual = "" -%}
+{%- assign etq_limite = site.apps_novo_dias | times: 86400 -%}
+{%- assign etq_agora = site.time | date: "%s" | plus: 0 -%}
+{%- for etq_item in site.data.apps -%}
+  {%- assign etq_usa = false -%}
+  {%- if include.app -%}
+    {%- if etq_item.slug == include.app.slug -%}{%- assign etq_usa = true -%}{%- endif -%}
+  {%- else -%}
+    {%- for etq_topico in include.tema.topicos -%}
+      {%- if etq_topico.app == etq_item.slug -%}{%- assign etq_usa = true -%}{%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if etq_usa and etq_item.publicado -%}
+    {%- assign etq_pub = etq_item.publicado | date: "%s" | plus: 0 -%}
+    {%- assign etq_idade = etq_agora | minus: etq_pub -%}
+    {%- if etq_idade < etq_limite and etq_item.publicado > etq_novo -%}{%- assign etq_novo = etq_item.publicado -%}{%- endif -%}
+    {%- if etq_item.atualizado -%}
+      {%- assign etq_atu = etq_item.atualizado | date: "%s" | plus: 0 -%}
+      {%- assign etq_depois = etq_atu | minus: etq_pub -%}
+      {%- assign etq_idade = etq_agora | minus: etq_atu -%}
+      {%- if etq_depois >= etq_limite and etq_idade >= 0 and etq_idade < etq_limite and etq_item.atualizado > etq_atual -%}{%- assign etq_atual = etq_item.atualizado -%}{%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if etq_novo != "" or etq_atual != "" -%}
+<span class="etiquetas-app">
+  {%- if etq_novo != "" -%}<span class="tag is-info is-light etiqueta-app" data-desde="{{ etq_novo }}">{% if include.idioma == "en" %}new{% else %}novo{% endif %}</span>{%- endif -%}
+  {%- if etq_atual != "" -%}<span class="tag is-success is-light etiqueta-app" data-desde="{{ etq_atual }}">{% if include.idioma == "en" %}updated{% else %}atualizado{% endif %}</span>{%- endif -%}
+</span>
+{%- endif -%}

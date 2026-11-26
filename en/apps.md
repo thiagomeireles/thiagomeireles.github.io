@@ -27,7 +27,7 @@ The apps are interactive demos of statistics and probability concepts. They are 
   <div class="column is-one-third">
     <a class="card" href="{{ '/en/apps/' | relative_url }}{{ slug }}/">
       <div class="card-content">
-        <p class="title is-5">{{ tema.title }}{% include etiqueta-novo.html tema=tema rotulo="new" %}</p>
+        <p class="title is-5">{{ tema.title }}{% include etiqueta-app.html tema=tema idioma="en" %}</p>
         <p class="content">{{ tema.description }}</p>
         <p class="topicos">{{ tema.topicos.size }} topics, {% if com_app.size == 0 %}none with an app yet{% else %}{{ com_app.size }} with an app{% endif %}: {{ tema.topicos | map: "title" | join: ", " }}</p>
       </div>
@@ -35,7 +35,7 @@ The apps are interactive demos of statistics and probability concepts. They are 
   </div>
 {%- endfor -%}
 </div>
-{% include etiqueta-novo-script.html %}
+{% include etiqueta-app-script.html %}
 
 <script>
   // Old addresses (/en/apps/#<app>) go straight to the app's full-screen page

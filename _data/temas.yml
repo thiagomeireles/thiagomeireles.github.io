@@ -4,7 +4,7 @@
 # (páginas /aplicativos/<slug>/ e /en/apps/<slug_en>/) e por _includes/busca-apps.html.
 # Tópico com app: campo app com o slug de _data/apps.yml (o cartão leva à tela cheia).
 # Tópico sem app: fica listado como "em breve", sem link.
-# Etiqueta "novo" do tema: automática, pelo campo publicado dos apps dos tópicos em _data/apps.yml.
+# Etiquetas "novo" e "atualizado" do tema: automáticas, pelos campos publicado e atualizado dos apps dos tópicos.
 # Tema novo: entrada aqui + duas páginas (aplicativos/<slug>.md e en/apps/<slug_en>.md, copiando uma existente).
 
 - slug: descricao-dados

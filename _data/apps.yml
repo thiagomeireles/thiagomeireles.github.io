@@ -7,7 +7,8 @@
 # um slug de _data/temas.yml, e as listas tags e tags_en) + app: <slug> no tópico em _data/temas.yml
 # + duas páginas de tela cheia em apps/.
 # publicado: data ("AAAA-MM-DD", entre aspas) em que o app entrou no Space do Hugging Face com link no site.
-# O app e o seu tema mostram a etiqueta "novo" por apps_novo_dias dias (_config.yml), via _includes/etiqueta-novo.html.
+# atualizado (opcional): data da última atualização que vale anunciar; só conta se vier depois de vencido o "novo".
+# O app e o seu tema mostram "novo" ou "atualizado" por apps_novo_dias dias (_config.yml), via _includes/etiqueta-app.html.
 # Tags: termos que alguém digitaria para achar o app, em minúsculas (salvo nomes próprios, como os dos teoremas).
 
 - slug: populacao-amostra

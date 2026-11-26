@@ -1,0 +1,21 @@
+{%- comment -%}
+Include: etiqueta-app-script
+Autor: Thiago Meireles | Atualizado: 2026-11-26
+Entrada: grupos .etiquetas-app gerados por _includes/etiqueta-app.html; site.apps_novo_dias
+Saída: mostra só a primeira etiqueta de cada grupo e remove, pela data do navegador, as que venceram
+       depois do último build do site. Incluir uma vez por página, depois dos cartões.
+{%- endcomment -%}
+<style>
+  .etiquetas-app .tag + .tag { display: none; }
+</style>
+<script>
+  (function () {
+    var limite = {{ site.apps_novo_dias | default: 15 }} * 86400000;
+    var agora = Date.now();
+    document.querySelectorAll(".etiqueta-app[data-desde]").forEach(function (el) {
+      var p = el.getAttribute("data-desde").split("-");
+      var inicio = new Date(+p[0], +p[1] - 1, +p[2]).getTime();
+      if (!isNaN(inicio) && agora - inicio >= limite) el.remove();
+    });
+  })();
+</script>

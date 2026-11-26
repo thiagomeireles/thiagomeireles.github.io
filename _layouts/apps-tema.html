@@ -14,12 +14,10 @@ Saída: cartões dos tópicos do tema, na ordem de estudo; tópico com app leva 
 {%- if page.idioma == "en" -%}
   {%- assign base = '/apps/en/' | relative_url -%}
   {%- assign hub = '/en/apps/' | relative_url -%}
-  {%- assign rotulo_novo = "new" -%}
   {%- assign rotulo_breve = "coming soon" -%}
 {%- else -%}
   {%- assign base = '/apps/' | relative_url -%}
   {%- assign hub = '/aplicativos/' | relative_url -%}
-  {%- assign rotulo_novo = "novo" -%}
   {%- assign rotulo_breve = "em breve" -%}
 {%- endif -%}
 {%- comment -%} Tema anterior e seguinte, para a navegação {%- endcomment -%}
@@ -72,7 +70,7 @@ Saída: cartões dos tópicos do tema, na ordem de estudo; tópico com app leva 
   {%- if app %}
     <a class="card" href="{{ base }}{{ slug }}/" data-app="{{ slug }}">
       <div class="card-content">
-        <p class="title is-5">{{ titulo }}{% include etiqueta-novo.html app=app rotulo=rotulo_novo %}</p>
+        <p class="title is-5">{{ titulo }}{% include etiqueta-app.html app=app idioma=page.idioma %}</p>
         <p class="content">{{ descricao }}</p>
       </div>
     </a>
@@ -87,7 +85,7 @@ Saída: cartões dos tópicos do tema, na ordem de estudo; tópico com app leva 
   </div>
 {%- endfor -%}
 </div>
-{% include etiqueta-novo-script.html %}
+{% include etiqueta-app-script.html %}
 
 <nav class="app-navegacao">
   <span>{% if anterior %}{% if page.idioma == "en" %}<a href="{{ hub }}{{ anterior.slug_en | default: anterior.slug }}/">&larr; {{ anterior.title }}</a>{% else %}<a href="{{ hub }}{{ anterior.slug }}/">&larr; {{ anterior.titulo }}</a>{% endif %}{% endif %}</span>
