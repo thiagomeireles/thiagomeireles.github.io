@@ -1,5 +1,5 @@
 # Apps do "Estatística na prática" (um app Shiny por tópico, no Space do Hugging Face)
-# Autor: Thiago Meireles | Atualizado: 2026-11-25
+# Autor: Thiago Meireles | Atualizado: 2026-11-26
 # Lido por _includes/busca-apps.html (busca e tags em /aplicativos/ e /en/apps/), por _layouts/apps-tema.html
 # (cartões dos tópicos com app, que levam à tela cheia), por _layouts/app-tela-cheia.html
 # (páginas apps/<slug>/ e apps/en/<slug_en ou slug>/) e por _app_scripts/hf-space/montar_apps.R,
@@ -61,6 +61,17 @@
   description: How to describe the relationship between two variables depending on the pair of types, with contingency tables, scatterplots, box plots, a quiz, conditional expectation E(Y | X) and the law of total variance.
   tags: [análise bidimensional, duas variáveis, associação, tabela de dupla entrada, tabela de contingência, qui-quadrado, coeficiente de contingência, gráfico de dispersão, covariância, correlação, reta de regressão, box plot, R², gráfico q × q, esperança condicional, CEF, variância total, Cauchy-Schwarz, independência, quiz]
   tags_en: [bivariate analysis, two variables, association, contingency table, cross-tabulation, chi-squared, contingency coefficient, scatterplot, covariance, correlation, regression line, boxplot, R-squared, Q-Q plot, conditional expectation, CEF, law of total variance, Cauchy-Schwarz, independence, quiz]
+  novo: true
+
+- slug: espaco-amostral
+  slug_en: sample-space
+  tema: probabilidade
+  titulo: Espaço amostral, eventos e axiomas
+  title: Sample space, events and axioms
+  descricao: Experimento aleatório, espaço amostral, interpretações da probabilidade, operações de conjuntos, leis de De Morgan, axiomas e regra da soma, tabela 2 × 2 de contagem e equiprobabilidade, com σ-álgebras, Boole-Bonferroni e inclusão-exclusão.
+  description: Random experiments, sample space, probability interpretations, set operations, De Morgan's laws, axioms and addition rule, the 2 × 2 counting table and equal probability, plus σ-algebras, Boole-Bonferroni and inclusion-exclusion.
+  tags: [probabilidade, espaço amostral, experimento aleatório, eventos, conjuntos, complementar, união, interseção, mutuamente exclusivos, De Morgan, axiomas de Kolmogorov, regra da soma, frequência relativa, probabilidade subjetiva, técnicas de contagem, fatorial, arranjo, combinação, coeficiente binomial, reposição, equiprobabilidade, pôquer, loteria, sigma álgebra, Boole, Bonferroni, inclusão-exclusão]
+  tags_en: [probability, sample space, random experiment, events, sets, complement, union, intersection, mutually exclusive, De Morgan, Kolmogorov axioms, addition rule, relative frequency, subjective probability, counting techniques, factorial, permutation, combination, binomial coefficient, replacement, equally likely, poker, lottery, sigma algebra, Boole, Bonferroni, inclusion-exclusion]
   novo: true
 
 - slug: probabilidade

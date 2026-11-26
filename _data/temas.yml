@@ -1,5 +1,5 @@
 # Temas do "Estatística na prática", na ordem de estudo, cada um com seus tópicos
-# Autor: Thiago Meireles | Atualizado: 2026-11-25
+# Autor: Thiago Meireles | Atualizado: 2026-11-26
 # Lido por aplicativos.md e en/apps.md (cartões dos temas), por _layouts/apps-tema.html
 # (páginas /aplicativos/<slug>/ e /en/apps/<slug_en>/) e por _includes/busca-apps.html.
 # Tópico com app: campo app com o slug de _data/apps.yml (o cartão leva à tela cheia).
@@ -41,11 +41,13 @@
   title: Probability
   descricao: A linguagem da incerteza, do espaço amostral à regra de Bayes.
   description: The language of uncertainty, from the sample space to Bayes' rule.
+  novo: true
   topicos:
     - titulo: Espaço amostral, eventos e axiomas
       title: Sample space, events and axioms
       descricao: Experimento aleatório, eventos, axiomas da probabilidade e técnicas de contagem.
       description: Random experiments, events, probability axioms and counting techniques.
+      app: espaco-amostral
     - titulo: Probabilidade condicional e Bayes
       title: Conditional probability and Bayes
       descricao: Condicional, independência, árvores, probabilidade total e teorema de Bayes.
