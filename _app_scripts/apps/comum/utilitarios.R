@@ -56,6 +56,11 @@ estilo_app <- function() {
     .irs.irs--shiny .irs-bar { background: #3459e6; border-top-color: #3459e6; border-bottom-color: #3459e6; }
     .irs.irs--shiny .irs-single, .irs.irs--shiny .irs-from, .irs.irs--shiny .irs-to { background-color: #3459e6; }
     .navbar .dropdown-item.disabled { color: var(--bs-secondary-color); }
+    .navbar-brand { white-space: normal; line-height: 1.15; max-width: 13.5rem; font-size: 1.05rem; }
+    @media (min-width: 992px) {
+      .navbar-nav { flex-wrap: nowrap; align-items: center; }
+      .navbar-nav .nav-link { white-space: nowrap; padding-left: 0.55rem; padding-right: 0.55rem; font-size: 0.92rem; }
+    }
     .tabela-app { margin-bottom: 0; }
     .tabela-app td.num, .tabela-app th.num { text-align: right; font-variant-numeric: tabular-nums; }
     .tabela-app td.leitura { color: var(--bs-secondary-color); font-size: 0.92em; }

@@ -64,10 +64,7 @@ ui <- pagina_tema(
   # Cabeçalhos sem caixa alta: preserva Ω, S, Aᶜ, P(A ∩ B), C(n, r) e P_k
   bslib::nav_panel(
     tr("Experimento e Ω", "Experiment and Ω"), value = "experimento",
-    shiny::tags$style(shiny::HTML("
-      .tabela-app th { text-transform: none; }
-      .navbar-brand { white-space: normal; line-height: 1.15; max-width: 14rem; }
-    ")),
+    shiny::tags$style(".tabela-app th { text-transform: none; }"),
     mod_experimento_ui("experimento")
   ),
   bslib::nav_panel(tr("Eventos e axiomas", "Events and axioms"), value = "eventos", mod_eventos_ui("eventos")),
