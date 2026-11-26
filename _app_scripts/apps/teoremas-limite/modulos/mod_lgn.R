@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_lgn.R (módulo: Lei dos Grandes Números)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-25
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/teoremas-limite/app.R)
@@ -36,7 +36,7 @@ experimentos_lgn <- list(
   )
 )
 
-# Pontos usados no gráfico (~600 por trajetória, para não pesar no navegador)
+# Pontos usados no gráfico (~600 por trajetória, para não pesar na renderização)
 pontos_grafico <- function(n_max, escala_log) {
   pontos <- if (escala_log) exp(seq(0, log(n_max), length.out = 600)) else seq(1, n_max, length.out = 600)
   unique(round(pontos))
@@ -55,44 +55,71 @@ texto_lgn <- function() {
   tr(
     shiny::withMathJax(
       shiny::p(
-        "Repita um experimento várias vezes e acompanhe a média acumulada dos resultados.",
-        "A Lei dos Grandes Números diz que essa média se aproxima do valor esperado \\(\\mu\\) à medida que",
-        "o número de repetições \\(n\\) cresce. Cada linha do gráfico é uma sequência independente de repetições."
+        "Quando um experimento é repetido sob as mesmas condições, de forma independente e com valor esperado finito",
+        "\\(\\mu\\), a média acumulada \\(\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^{n} X_i\\) aproxima-se de \\(\\mu\\) à",
+        "medida que \\(n\\) cresce (Casella e Berger, Teo. 5.5.9 e 5.5.14; Morettin e Bussab, cap. 10). Essa é a",
+        "propriedade de consistência que garante que frequências relativas observadas numa amostra aleatória grande",
+        "recuperam probabilidades e médias da população."
       ),
       shiny::p(
-        "A faixa sombreada mostra \\(\\mu \\pm 1{,}96\\,\\sigma / \\sqrt{n}\\). Para \\(n\\) não muito pequeno,",
-        "cerca de 95% das trajetórias passam dentro dela em cada ponto. A faixa estreita devagar: para cortar a",
-        "largura pela metade, é preciso quadruplicar \\(n\\)."
-      ),
-      shiny::p(
-        "LGN e TCL se complementam. A LGN diz para onde a média vai (\\(\\mu\\)). O TCL descreve a forma",
-        "da variação da média em torno de \\(\\mu\\)."
+        "A convergência, no entanto, ocorre por diluição e não por compensação: dez caras seguidas no início não",
+        "tornam coroas mais prováveis nos lançamentos seguintes; elas apenas pesam cada vez menos no denominador",
+        "\\(n\\). Além disso, o estreitamento em torno de \\(\\mu\\) segue a escala \\(\\sigma / \\sqrt{n}\\),",
+        "ilustrada pela faixa \\(\\mu \\pm 1{,}96\\,\\sigma/\\sqrt{n}\\): para reduzir a incerteza pela metade é",
+        "preciso multiplicar o tamanho da amostra por quatro."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
-        "olhe as primeiras 10 ou 20 jogadas da moeda. Sequências curtas se afastam bastante de 0,5, e isso",
-        "é esperado. A lei não promete que os resultados \"se compensam\" no curto prazo."
+        "observe as primeiras 10 ou 20 repetições com eixo logarítmico ativado: trajetórias curtas oscilam longe de",
+        "\\(\\mu\\) com frequência. Depois desative a escala logarítmica para ver quão devagar a faixa afunila",
+        "depois das primeiras centenas de sorteios."
       )
     ),
     shiny::withMathJax(
       shiny::p(
-        "Repeat an experiment many times and follow the running mean of the results.",
-        "The Law of Large Numbers says this mean approaches the expected value \\(\\mu\\) as the",
-        "number of repetitions \\(n\\) grows. Each line in the chart is an independent sequence of repetitions."
+        "When an experiment is repeated independently under identical conditions with finite expected value",
+        "\\(\\mu\\), the running mean \\(\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^{n} X_i\\) settles toward \\(\\mu\\)",
+        "as \\(n\\) grows (Casella and Berger, Thms. 5.5.9 and 5.5.14; Morettin and Bussab, ch. 10). That",
+        "consistency property is why sample proportions and averages from large random samples recover population",
+        "probabilities and means."
       ),
       shiny::p(
-        "The shaded band shows \\(\\mu \\pm 1.96\\,\\sigma / \\sqrt{n}\\). For \\(n\\) that is not too small,",
-        "about 95% of the paths are inside it at each point. The band narrows slowly: to halve its width,",
-        "you need to quadruple \\(n\\)."
-      ),
-      shiny::p(
-        "The LLN and the CLT complement each other. The LLN says where the mean is heading (\\(\\mu\\)). The CLT",
-        "describes the shape of the mean's variation around \\(\\mu\\)."
+        "Convergence works by dilution rather than compensation, however: ten heads in a row at the start do not",
+        "make tails more likely next; they simply carry less weight as the denominator \\(n\\) grows. Moreover,",
+        "the band \\(\\mu \\pm 1.96\\,\\sigma/\\sqrt{n}\\) narrows at rate \\(1/\\sqrt{n}\\): halving the margin",
+        "of error requires quadrupling the sample size."
       ),
       shiny::p(
         shiny::strong("Try it:"),
-        "look at the first 10 or 20 coin tosses. Short sequences stray quite far from 0.5, and that is",
-        "expected. The law does not promise that results \"even out\" in the short run."
+        "inspect the first 10 or 20 repetitions on the log axis: short paths stray far from \\(\\mu\\) routinely.",
+        "Then untick the logarithmic scale to see how slowly the band narrows past the first few hundred draws."
+      )
+    )
+  )
+}
+
+cuidados_lgn <- function() {
+  tr(
+    c(
+      "Falácia do apostador" = "a moeda não tem memória. A média converge porque novos sorteios diluem o desvio inicial, não porque resultados opostos passem a ser \"devidos\".",
+      "Amostra viciada não converge para μ" = "se o mecanismo de seleção exclui parte da população, x̄ₙ converge para a média do subgrupo amostrado, perpetuando o viés.",
+      "Esperança finita é obrigatória" = "distribuições de cauda extrema como a Cauchy não têm valor esperado; a aba \"Para ir além\" mostra a média acumulada saltar sem nunca estabilizar."
+    ),
+    c(
+      "Gambler's fallacy" = "a fair coin has no memory. The mean converges because fresh draws dilute early swings, not because opposite outcomes become \"due\".",
+      "Biased sampling misses μ" = "if selection excludes part of the population, x̄ₙ converges to the sampled subgroup's mean rather than μ, locking in the bias.",
+      "Finite expectation is required" = "heavy-tailed distributions such as the Cauchy lack a finite mean; the \"Going further\" tab shows the running average jumping forever."
+    )
+  )
+}
+
+cartao_cuidados_tl <- function(titulo, itens) {
+  bslib::card(
+    bslib::card_header(titulo),
+    bslib::card_body(
+      shiny::tags$ul(
+        class = "mb-0",
+        purrr::imap(itens, \(texto, nome) shiny::tags$li(shiny::strong(paste0(nome, ": ")), texto))
       )
     )
   )
@@ -111,7 +138,7 @@ mod_lgn_ui <- function(id) {
       shiny::sliderInput(ns("n_max"), tr("Número de repetições", "Number of repetitions"), min = 100, max = 10000, value = 2000, step = 100, sep = sep_milhar()),
       shiny::sliderInput(ns("trajetorias"), tr("Número de trajetórias", "Number of paths"), min = 1, max = 20, value = 5, step = 1),
       shiny::checkboxInput(ns("escala_log"), tr("Eixo x em escala logarítmica", "Logarithmic x axis"), value = TRUE),
-      shiny::checkboxInput(ns("faixa"), tr("Mostrar faixa de 95%", "Show 95% band"), value = TRUE),
+      shiny::checkboxInput(ns("faixa"), tr("Mostrar faixa pontual de 95%", "Show pointwise 95% band"), value = TRUE),
       shiny::actionButton(ns("sortear"), tr("Sortear novamente", "Draw again"), class = "btn-primary", icon = shiny::icon("dice"))
     ),
     bslib::layout_columns(
@@ -132,9 +159,13 @@ mod_lgn_ui <- function(id) {
       full_screen = TRUE,
       bslib::card_body(shiny::plotOutput(ns("grafico"), height = "440px"))
     ),
-    bslib::card(
-      bslib::card_header(rotulo_entenda()),
-      bslib::card_body(texto_lgn())
+    bslib::layout_columns(
+      col_widths = bslib::breakpoints(sm = 12, lg = c(7, 5)),
+      bslib::card(
+        bslib::card_header(rotulo_entenda()),
+        bslib::card_body(texto_lgn())
+      ),
+      cartao_cuidados_tl(tr("Cuidados", "Watch out"), cuidados_lgn())
     )
   )
 }

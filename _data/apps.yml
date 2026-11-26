@@ -67,16 +67,16 @@
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t
   title: Normal and t distributions
-  descricao: Distribuição normal padrão (Z) e t de Student, com áreas e valores críticos.
-  description: Standard normal (Z) and Student's t distributions, with areas and critical values.
-  tags: [probabilidade, distribuição normal, normal padrão, escore z, t de Student, graus de liberdade, valor crítico, nível de confiança, área sob a curva]
-  tags_en: [probability, normal distribution, standard normal, z-score, "Student's t", degrees of freedom, critical value, confidence level, area under the curve]
+  descricao: Distribuição normal N(μ, σ²), padronização Z e t de Student, com áreas, valores críticos e a origem formal de T = Z / √(U/ν) em amostras pequenas.
+  description: General normal N(μ, σ²), Z standardization and Student's t, with areas, critical values and the formal origin of T = Z / √(U/ν) in small samples.
+  tags: [probabilidade, distribuição normal, normal padrão, padronização, escore z, t de Student, qui-quadrado, graus de liberdade, valor crítico, nível de confiança, cobertura, área sob a curva]
+  tags_en: [probability, normal distribution, standard normal, standardization, z-score, "Student's t", chi-squared, degrees of freedom, critical value, confidence level, coverage, area under the curve]
 
 - slug: teoremas-limite
   tema: amostra-populacao
   titulo: Teoremas limite
   title: Limit theorems
-  descricao: Lei dos Grandes Números e Teorema Central do Limite, com simulações.
-  description: Law of Large Numbers and Central Limit Theorem, with simulations.
-  tags: [Lei dos Grandes Números, Teorema Central do Limite, distribuição amostral, média amostral, valor esperado, tamanho da amostra, simulação]
-  tags_en: [Law of Large Numbers, Central Limit Theorem, sampling distribution, sample mean, expected value, sample size, simulation]
+  descricao: Lei dos Grandes Números, Teorema Central do Limite, modos de convergência estocástica e o contraexemplo de Cauchy, com simulações.
+  description: Law of Large Numbers, Central Limit Theorem, modes of stochastic convergence and the Cauchy counterexample, with simulations.
+  tags: [Lei dos Grandes Números, Teorema Central do Limite, distribuição amostral, média amostral, valor esperado, tamanho da amostra, convergência em probabilidade, convergência em distribuição, Cauchy, simulação]
+  tags_en: [Law of Large Numbers, Central Limit Theorem, sampling distribution, sample mean, expected value, sample size, convergence in probability, convergence in distribution, Cauchy, simulation]

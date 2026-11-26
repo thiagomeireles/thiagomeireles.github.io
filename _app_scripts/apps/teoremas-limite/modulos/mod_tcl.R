@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_tcl.R (módulo: Teorema Central do Limite)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-18
+# Atualizado: 2026-11-25
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/teoremas-limite/app.R)
@@ -18,13 +18,13 @@ populacoes_tcl <- list(
     dp     = sqrt(1 / 12)
   ),
   exponencial = list(
-    rotulo = tr("Exponencial (λ = 1), assimétrica", "Exponential (λ = 1), skewed"),
+    rotulo = tr("Exponencial (média = 1), assimétrica", "Exponential (mean = 1), skewed"),
     gerar  = \(n) stats::rexp(n, rate = 1),
     media  = 1,
     dp     = 1
   ),
   bimodal = list(
-    rotulo = tr("Bimodal (duas normais misturadas)", "Bimodal (mixture of two normals)"),
+    rotulo = tr("Bimodal (mistura de duas normais)", "Bimodal (mixture of two normals)"),
     gerar  = \(n) stats::rnorm(n, mean = sample(c(-2, 2), n, replace = TRUE), sd = 0.7),
     media  = 0,
     dp     = sqrt(0.7^2 + 4)
@@ -46,41 +46,63 @@ texto_tcl <- function() {
   tr(
     shiny::withMathJax(
       shiny::p(
-        "Tire muitas amostras de tamanho \\(n\\) de uma população e calcule a média de cada uma.",
-        "O Teorema Central do Limite diz que, para \\(n\\) grande o bastante, essas médias se distribuem",
-        "aproximadamente como uma normal com média \\(\\mu\\) e desvio padrão \\(\\sigma / \\sqrt{n}\\),",
-        "chamado de erro padrão. Isso vale qualquer que seja o formato da população, desde que ela tenha",
-        "variância finita."
+        "Enquanto a Lei dos Grandes Números garante que \\(\\bar{X}_n\\) se aproxima de \\(\\mu\\), o Teorema Central",
+        "do Limite (Morettin e Bussab, seção 10.8; Casella e Berger, Teo. 5.5.15) descreve a distribuição das",
+        "flutuações antes de esse limite chegar: para observações independentes e identicamente distribuídas com",
+        "variância finita \\(0 < \\sigma^2 < \\infty\\), a média padronizada",
+        "\\(Z_n = \\frac{\\bar{X}_n - \\mu}{\\sigma / \\sqrt{n}}\\) converge em distribuição para \\(N(0, 1)\\).",
+        "Em termos práticos, \\(\\bar{X}_n\\) comporta-se aproximadamente como \\(N(\\mu, \\sigma^2/n)\\), em que",
+        "\\(\\sigma/\\sqrt{n}\\) é o erro padrão da média."
       ),
       shiny::p(
-        "É por causa do TCL que intervalos de confiança e testes baseados na normal funcionam para médias",
-        "de dados que não são normais."
+        "O alcance do resultado vem do fato de a população não precisar ser normal: ela pode ser uniforme, bimodal",
+        "ou assimétrica à direita, e ainda assim o histograma das médias amostrais ganha forma de sino quando \\(n\\)",
+        "cresce. A velocidade dessa aproximação depende da simetria e do peso das caudas na população — simétrica",
+        "como a uniforme já fica próxima da normal com \\(n = 5\\), ao passo que a log-normal ainda exibe cauda",
+        "direita perceptível em amostras moderadas."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
-        "escolha a população log-normal com \\(n = 2\\) e aumente \\(n\\) devagar. O histograma das médias",
-        "começa torto e vai ficando simétrico. Compare com a uniforme, que já parece normal com \\(n\\) pequeno:",
-        "quanto mais assimétrica a população, maior o \\(n\\) necessário."
+        "selecione a população log-normal com \\(n = 2\\) e suba \\(n\\) aos poucos até 80, acompanhando como o",
+        "histograma da direita perde a assimetria e encosta na curva vermelha, enquanto a população da esquerda",
+        "continua exatamente igual."
       )
     ),
     shiny::withMathJax(
       shiny::p(
-        "Draw many samples of size \\(n\\) from a population and compute the mean of each one.",
-        "The Central Limit Theorem says that, for large enough \\(n\\), these means are distributed",
-        "approximately as a normal with mean \\(\\mu\\) and standard deviation \\(\\sigma / \\sqrt{n}\\),",
-        "called the standard error. This holds whatever the shape of the population, as long as it has",
-        "finite variance."
+        "Whereas the Law of Large Numbers says \\(\\bar{X}_n\\) settles at \\(\\mu\\), the Central Limit Theorem",
+        "(Morettin and Bussab, section 10.8; Casella and Berger, Thm. 5.5.15) describes the shape of its fluctuations",
+        "along the way: for i.i.d. observations with finite variance \\(0 < \\sigma^2 < \\infty\\), the standardized",
+        "mean \\(Z_n = \\frac{\\bar{X}_n - \\mu}{\\sigma / \\sqrt{n}}\\) converges in distribution to \\(N(0, 1)\\).",
+        "Equivalently, \\(\\bar{X}_n\\) is approximately \\(N(\\mu, \\sigma^2/n)\\), where \\(\\sigma/\\sqrt{n}\\) is",
+        "the standard error of the mean."
       ),
       shiny::p(
-        "The CLT is why confidence intervals and tests based on the normal work for means of data",
-        "that are not normal."
+        "What makes the theorem remarkable is that the parent population need not be normal: whether it is uniform,",
+        "bimodal or right-skewed, the sampling distribution of the mean becomes bell-shaped as \\(n\\) increases.",
+        "How fast the normal approximation kicks in depends on skewness and tail weight — a symmetric uniform already",
+        "looks normal at \\(n = 5\\), whereas a skewed log-normal still shows a right tail at moderate sample sizes."
       ),
       shiny::p(
         shiny::strong("Try it:"),
-        "choose the log-normal population with \\(n = 2\\) and increase \\(n\\) slowly. The histogram of the means",
-        "starts lopsided and becomes symmetric. Compare it with the uniform, which already looks normal for small",
-        "\\(n\\): the more skewed the population, the larger the \\(n\\) needed."
+        "pick the log-normal population at \\(n = 2\\) and raise \\(n\\) gradually toward 80, watching the right-hand",
+        "histogram shed its skewness and match the red curve while the population on the left never changes."
       )
+    )
+  )
+}
+
+cuidados_tcl <- function() {
+  tr(
+    c(
+      "A amostra individual não vira normal" = "aumentar n aproxima da normal a distribuição da média x̄ entre amostras, não o histograma dos dados brutos de uma única amostra (que converge para a própria população).",
+      "Regra de bolso n ≥ 30" = "não é universal: em distribuições simétricas n = 10 já funciona bem, mas em rendas ou gastos muito concentrados n = 30 ainda pode manter assimetria relevante na média.",
+      "Amostragem sem reposição" = "numa população finita de tamanho N, quando a fração amostrada n/N passa de ~5%, o erro padrão ganha o fator de correção √((N − n)/(N − 1)) (Morettin e Bussab, seção 10.7)."
+    ),
+    c(
+      "Individual data do not turn normal" = "increasing n makes the distribution of the sample mean x̄ across samples look normal, not the histogram of a single sample (which mirrors the parent population).",
+      "The n ≥ 30 rule of thumb" = "is not universal: for symmetric populations n = 10 is already close, whereas heavily skewed income data can retain noticeable skew in x̄ past n = 30.",
+      "Sampling without replacement" = "from a finite population of size N, once n/N exceeds ~5%, the standard error shrinks by the finite-population factor √((N − n)/(N − 1)) (Morettin and Bussab, section 10.7)."
     )
   )
 }
@@ -119,9 +141,13 @@ mod_tcl_ui <- function(id) {
       bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico_pop"), height = "380px"))),
       bslib::card(full_screen = TRUE, bslib::card_body(shiny::plotOutput(ns("grafico_medias"), height = "380px")))
     ),
-    bslib::card(
-      bslib::card_header(rotulo_entenda()),
-      bslib::card_body(texto_tcl())
+    bslib::layout_columns(
+      col_widths = bslib::breakpoints(sm = 12, lg = c(7, 5)),
+      bslib::card(
+        bslib::card_header(rotulo_entenda()),
+        bslib::card_body(texto_tcl())
+      ),
+      cartao_cuidados_tl(tr("Cuidados", "Watch out"), cuidados_tcl())
     )
   )
 }
