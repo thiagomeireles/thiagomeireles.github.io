@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tópico Medidas de posição e dispersão)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-26
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -53,6 +53,12 @@ ui <- pagina_tema(
       "sections 2.2, 3.6, 5.4 and 10.1–10.2) and Angrist and Pischke (Mostly Harmless Econometrics, section",
       "7.1) in the advanced tab."
     )
+  ),
+  referencias = list(
+    referencia_livro("Agresti, A., & Finlay, B.", 2009, "Statistical methods for the social sciences", "Pearson Prentice Hall", edicao = 4),
+    referencia_livro("Angrist, J. D., & Pischke, J.-S.", 2009, "Mostly harmless econometrics: An empiricist's companion", "Princeton University Press"),
+    referencia_livro("Casella, G., & Berger, R. L.", 2002, "Statistical inference", "Duxbury", edicao = 2),
+    referencia_livro("Morettin, P. A., & Bussab, W. O.", 2010, "Estatística básica", "Saraiva", edicao = 6)
   ),
   # Cabeçalhos sem caixa alta: preserva q(0,25), d_q, s², zᵢ e DAM
   bslib::nav_panel(
