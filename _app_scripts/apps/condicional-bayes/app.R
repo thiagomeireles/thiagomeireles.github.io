@@ -65,7 +65,10 @@ ui <- pagina_tema(
   bslib::nav_panel(
     tr("Condicional e produto", "Conditional and product"),
     value = "condicional",
-    shiny::tags$style(shiny::HTML(".tabela-app th { text-transform: none; }")),
+    shiny::tags$style(shiny::HTML("
+      .tabela-app th { text-transform: none; }
+      .navbar-brand { white-space: normal; line-height: 1.15; max-width: 14rem; }
+    ")),
     mod_condicional_ui("condicional")
   ),
   bslib::nav_panel(
