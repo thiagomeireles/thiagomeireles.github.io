@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tópico Análise bidimensional)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -26,7 +26,7 @@ c(list.files(pasta_comum, pattern = "\\.R$", full.names = TRUE), modulos) |>
 
 ui <- pagina_tema(
   titulo = tr("Análise bidimensional", "Bivariate analysis"),
-  versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)"),
+  versao = tr("0.3 (novembro de 2026)", "0.3 (November 2026)"),
   descricao = tr(
     paste(
       "Como descrever a relação entre duas variáveis conforme o par de tipos: tabela de dupla entrada, qui-quadrado",

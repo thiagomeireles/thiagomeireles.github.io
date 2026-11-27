@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_quali_quanti.R (módulo: variável qualitativa × quantitativa)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-19
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/bidimensional/app.R)
@@ -212,12 +212,23 @@ mod_quali_quanti_server <- function(id, modo = shiny::reactive("light")) {
           title = sprintf(tr("%s por %s", "%s by %s"), ex$nome_y, tolower(ex$nome_grupo)),
           subtitle = sprintf("%s | R² = %s", ex$rotulo, fmt_num(r$r2, 3)),
           x = sprintf("%s (%s)", ex$nome_y, ex$un_y), y = NULL,
-          caption = sprintf(
-            tr(
-              "Dados simulados, n = %s | Losango: média do grupo | Tracejada: média geral\nPontos vermelhos: valores atípicos, a mais de 1,5 × d_q da caixa",
-              "Simulated data, n = %s | Diamond: group mean | Dashed: overall mean\nRed dots: potential outliers, more than 1.5 × IQR beyond the box"
+          # Com os pontos à mostra, os atípicos não ganham marca própria
+          caption = paste0(
+            sprintf(
+              tr(
+                "Dados simulados, n = %s | Losango: média do grupo | Tracejada: média geral",
+                "Simulated data, n = %s | Diamond: group mean | Dashed: overall mean"
+              ),
+              fmt_num(r$n, 0)
             ),
-            fmt_num(r$n, 0)
+            if (isTRUE(input$pontos)) {
+              tr("\nPontos azuis: cada observação", "\nBlue dots: each observation")
+            } else {
+              tr(
+                "\nPontos vermelhos: possíveis valores atípicos, a mais de 1,5 × d_q da caixa",
+                "\nRed dots: potential outliers, more than 1.5 × IQR beyond the box"
+              )
+            }
           )
         ) +
         tema_grafico(modo()) +

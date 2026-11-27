@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_quanti_quanti.R (módulo: duas variáveis quantitativas)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-19
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/bidimensional/app.R)
@@ -20,10 +20,12 @@ texto_quanti_quanti <- function() {
       shiny::p(
         "As linhas das médias dividem o gráfico em quatro quadrantes. Nos quadrantes azuis, \\(x\\) e \\(y\\) estão",
         "do mesmo lado das suas médias, e o produto \\((x_i - \\bar{x})(y_i - \\bar{y})\\) é positivo; nos vermelhos,",
-        "o produto é negativo. A covariância é a média desses produtos,",
-        "\\(\\text{cov}(X, Y) = \\sum (x_i - \\bar{x})(y_i - \\bar{y}) / n\\), em Morettin e Bussab. Seu sinal diz se a",
-        "relação é crescente ou decrescente, mas o valor depende das unidades. A correlação resolve isso dividindo",
-        "pelos dois desvios padrão: \\(r = \\text{cov}(X, Y) / (dp(X)\\, dp(Y))\\), sempre entre −1 e 1."
+        "o produto é negativo. Em Morettin e Bussab, a covariância é a média desses produtos,",
+        "\\(\\text{cov}(X, Y) = \\sum (x_i - \\bar{x})(y_i - \\bar{y}) / n\\) (Agresti e Finlay",
+        "dividem por \\(n - 1\\)). Seu sinal diz se a relação é crescente ou decrescente, mas o valor depende das",
+        "unidades. A correlação resolve isso dividindo pelos dois desvios padrão:",
+        "\\(r = \\text{cov}(X, Y) / (dp(X)\\, dp(Y))\\), que dá o mesmo número com divisor \\(n\\) ou \\(n - 1\\) e fica",
+        "sempre entre −1 e 1."
       ),
       shiny::p(
         "A correlação mede só a parte linear da relação. Uma relação em U pode ser forte e, ainda assim, ter correlação",
@@ -47,11 +49,11 @@ texto_quanti_quanti <- function() {
       shiny::p(
         "The lines at the two means split the chart into four quadrants. In the blue quadrants, \\(x\\) and \\(y\\) are",
         "on the same side of their means, and the product \\((x_i - \\bar{x})(y_i - \\bar{y})\\) is positive; in the red",
-        "ones, the product is negative. The covariance is the mean of these products,",
-        "\\(\\text{cov}(X, Y) = \\sum (x_i - \\bar{x})(y_i - \\bar{y}) / n\\) in Morettin and Bussab (Agresti and Finlay",
+        "ones, the product is negative. In Morettin and Bussab, the covariance is the mean of these products,",
+        "\\(\\text{cov}(X, Y) = \\sum (x_i - \\bar{x})(y_i - \\bar{y}) / n\\) (Agresti and Finlay",
         "divide by \\(n - 1\\)). Its sign tells whether the relationship goes up or down, but its size depends on the",
         "units. The correlation fixes that by dividing by both standard deviations:",
-        "\\(r = \\text{cov}(X, Y) / (\\text{sd}(X)\\, \\text{sd}(Y))\\), which yields the exact same number under divisor",
+        "\\(r = \\text{cov}(X, Y) / (\\text{sd}(X)\\, \\text{sd}(Y))\\), which gives the same number with divisor",
         "\\(n\\) or \\(n - 1\\) and always lies between −1 and 1."
       ),
       shiny::p(
@@ -140,9 +142,11 @@ mod_quanti_quanti_server <- function(id, modo = shiny::reactive("light")) {
 
     exemplo <- shiny::reactive(exemplos_quanti_quanti[[input$exemplo]])
 
-    # O controle de força muda de sentido conforme a forma da relação
-    shiny::observeEvent(input$exemplo, {
+    # O controle de força muda de sentido conforme a forma da relação. Congelar o
+    # input evita sortear uma amostra com a força antiga antes de o slider mudar.
+    shiny::observeEvent(input$exemplo, ignoreInit = TRUE, {
       ex <- exemplo()
+      shiny::freezeReactiveValue(input, "forca")
       if (identical(ex$forma, "u")) {
         shiny::updateSliderInput(session, "forca", label = tr("Força da relação em U", "Strength of the U-shaped relationship"), min = 0, max = 1, value = ex$forca)
       } else {
@@ -184,8 +188,9 @@ mod_quanti_quanti_server <- function(id, modo = shiny::reactive("light")) {
       sprintf("ŷ = %s %s %s x", fmt_num(r$a, 2), if (r$b < 0) "−" else "+", fmt_num(abs(r$b), 3))
     })
     output$reta_desc <- shiny::renderText(sprintf(
-      tr("Cada 1 %s a mais em x: %s %s em y", "Each extra 1 %s in x: %s %s in y"),
-      exemplo()$un_x, paste0(if (resumo()$b < 0) "−" else "+", fmt_num(abs(resumo()$b), 3)), exemplo()$un_y
+      tr("Cada %s a mais em x: %s em y", "Each extra %s in x: %s in y"),
+      fmt_valor(1, exemplo()$un_x, 0),
+      paste0(if (resumo()$b < 0) "−" else "+", fmt_valor(abs(resumo()$b), exemplo()$un_y, 3))
     ))
 
     output$medidas <- shiny::renderUI({
