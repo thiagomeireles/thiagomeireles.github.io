@@ -114,6 +114,7 @@
       title: Hypothesis testing
       descricao: Erros tipo I e II, poder e valor-p.
       description: Type I and II errors, power and p-values.
+      app: testes-hipoteses
     - titulo: Comparação de duas populações
       title: Comparing two populations
       descricao: Médias com amostras independentes e pareadas, variâncias e proporções.

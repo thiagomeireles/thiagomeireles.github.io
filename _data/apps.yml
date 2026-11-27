@@ -132,6 +132,17 @@
   tags_en: [estimation, estimator, bias, MSE, efficiency, confidence interval, coverage, standard error, Wald, Wilson, maximum likelihood, MLE, credible interval, Beta-Binomial]
   publicado: "2026-11-27"
 
+- slug: testes-hipoteses
+  slug_en: hypothesis-testing
+  tema: inferencia
+  titulo: Testes de hipóteses
+  title: Hypothesis testing
+  descricao: Cinco passos do teste de hipóteses, região crítica e valor-p (Z, t e proporção), erros tipo I e II, poder estatístico, função poder por tamanho de amostra, múltiplos testes e correção de Bonferroni.
+  description: Five steps of hypothesis testing, critical region and p-value (Z, t and proportion), type I and II errors, statistical power, power function by sample size, multiple testing and Bonferroni correction.
+  tags: [teste de hipóteses, hipótese nula, região crítica, valor-p, erro tipo I, erro tipo II, poder, função poder, significância, Bonferroni, múltiplos testes]
+  tags_en: [hypothesis testing, null hypothesis, critical region, p-value, type I error, type II error, power, power function, significance, Bonferroni, multiple testing]
+  publicado: "2026-11-27"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t
