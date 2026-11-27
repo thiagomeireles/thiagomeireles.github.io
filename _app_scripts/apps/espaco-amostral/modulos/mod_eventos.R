@@ -2,7 +2,7 @@
 # Script:  mod_eventos.R (módulo: operações de conjuntos, leis de De Morgan,
 #          axiomas da probabilidade e regra da soma)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - objetos e funções de _app_scripts/apps/espaco-amostral/modulos/dados.R
@@ -24,10 +24,10 @@ texto_eventos <- function() {
         "\\((A \\cap B)^c = A^c \\cup B^c\\)."
       ),
       shiny::p(
-        "Toda a aritmética básica da incerteza decorre de apenas três axiomas (Morettin e Bussab, seção 5.2;",
-        "Casella e Berger, Def. 1.2.4): (1) \\(P(A) \\ge 0\\); (2) \\(P(\\Omega) = 1\\); e (3) se eventos são",
-        "mutuamente exclusivos dois a dois, a probabilidade da união é a soma das probabilidades individuais.",
-        "De forma mais específica, partir \\(\\Omega = A \\cup A^c\\) em dois blocos sem sobreposição entrega",
+        "As regras básicas da probabilidade decorrem de apenas três axiomas (Casella e Berger, Def. 1.2.4):",
+        "(1) \\(P(A) \\ge 0\\); (2) \\(P(\\Omega) = 1\\); e (3) se os eventos são mutuamente exclusivos dois a dois,",
+        "a probabilidade da união é a soma das probabilidades individuais. Morettin e Bussab (seção 5.2) chegam às",
+        "mesmas regras pelas frequências relativas, que ficam entre 0 e 1 e somam 1. De forma mais específica, partir \\(\\Omega = A \\cup A^c\\) em dois blocos sem sobreposição entrega",
         "imediatamente \\(P(A^c) = 1 - P(A)\\) e \\(P(\\varnothing) = 0\\) (Teo. 1.2.8). Da mesma maneira,",
         "escrever \\(A \\cup B\\) como a união disjunta de \\(A\\) com a parte exclusiva \\(B \\cap A^c\\) mostra",
         "por que a regra geral da soma precisa descontar \\(P(A \\cap B)\\):",
@@ -52,9 +52,10 @@ texto_eventos <- function() {
         "yields the union of the complements, \\((A \\cap B)^c = A^c \\cup B^c\\)."
       ),
       shiny::p(
-        "All basic probability rules follow from just three axioms (Casella and Berger, Def. 1.2.4; Morettin and",
-        "Bussab, section 5.2): (1) \\(P(A) \\ge 0\\); (2) \\(P(S) = 1\\); and (3) for pairwise disjoint events,",
-        "the probability of the union equals the sum of the individual probabilities. More specifically, splitting",
+        "The basic rules of probability follow from just three axioms (Casella and Berger, Def. 1.2.4):",
+        "(1) \\(P(A) \\ge 0\\); (2) \\(P(S) = 1\\); and (3) for pairwise disjoint events, the probability of the union",
+        "equals the sum of the individual probabilities. Morettin and Bussab (section 5.2) reach the same rules from",
+        "relative frequencies, which lie between 0 and 1 and add up to 1. More specifically, splitting",
         "\\(S = A \\cup A^c\\) into two disjoint pieces immediately gives \\(P(A^c) = 1 - P(A)\\) and",
         "\\(P(\\varnothing) = 0\\) (Thm. 1.2.8). Likewise, decomposing \\(A \\cup B\\) into the disjoint union of",
         "\\(A\\) and \\(B \\cap A^c\\) explains why the general addition rule subtracts \\(P(A \\cap B)\\):",
@@ -79,8 +80,9 @@ cuidados_eventos <- function() {
         "Em demonstrações, Casella e Berger (seção 1.1) exigem mostrar a dupla inclusão A ⊂ B e B ⊂ A."
       ),
       "Mutuamente exclusivos ≠ independentes" = paste(
-        "se A e B têm probabilidade positiva e são mutuamente exclusivos (A ∩ B = ∅), saber que A ocorreu impede B",
-        "de ocorrer. Portanto, eventos exclusivos nunca são independentes — distinção retomada no próximo aplicativo."
+        "se A e B têm probabilidade positiva e são mutuamente exclusivos (A ∩ B = ∅), saber que A ocorreu descarta B",
+        "por completo. Por isso, eventos exclusivos com probabilidade positiva nunca são independentes, ponto retomado",
+        "no próximo aplicativo."
       ),
       "\"Ou\" inclusivo" = paste(
         "em probabilidade, A ∪ B inclui sempre o caso em que A e B ocorrem juntos. Se o interesse for 'exatamente um",
@@ -94,7 +96,8 @@ cuidados_eventos <- function() {
       ),
       "Mutually exclusive ≠ independent" = paste(
         "when A and B have positive probability and are disjoint (A ∩ B = ∅), knowing A occurred rules B out",
-        "completely. Disjoint events with positive probability are therefore strongly dependent — revisited in the next app."
+        "completely. Disjoint events with positive probability are therefore never independent, a point revisited in",
+        "the next app."
       ),
       "Inclusive \"or\"" = paste(
         "in probability, A ∪ B always includes outcomes where both A and B happen. For 'exactly one of the two',",
@@ -367,7 +370,7 @@ mod_eventos_server <- function(id, modo = shiny::reactive("light")) {
       df <- data.frame(
         tr(
           c(
-            "Axioma 1 e 2: 0 ≤ P(E) ≤ 1 e P(Ω) = 1",
+            "Axiomas 1 e 2: P(E) ≥ 0 e P(Ω) = 1",
             "Evento impossível: P(∅) = 0 (Teo. 1.2.8a)",
             "Complementar: P(Aᶜ) = 1 − P(A) (Teo. 1.2.8c)",
             "Diferença: P(B ∩ Aᶜ) = P(B) − P(A ∩ B) (Teo. 1.2.9a)",
@@ -376,7 +379,7 @@ mod_eventos_server <- function(id, modo = shiny::reactive("light")) {
             "De Morgan II: P((A ∩ B)ᶜ) = P(Aᶜ ∪ Bᶜ)"
           ),
           c(
-            "Axioms 1 & 2: 0 ≤ P(E) ≤ 1 and P(S) = 1",
+            "Axioms 1 & 2: P(E) ≥ 0 and P(S) = 1",
             "Impossible event: P(∅) = 0 (Thm. 1.2.8a)",
             "Complement: P(Aᶜ) = 1 − P(A) (Thm. 1.2.8c)",
             "Difference: P(B ∩ Aᶜ) = P(B) − P(A ∩ B) (Thm. 1.2.9a)",

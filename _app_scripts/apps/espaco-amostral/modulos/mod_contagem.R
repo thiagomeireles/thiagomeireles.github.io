@@ -2,7 +2,7 @@
 # Script:  mod_contagem.R (módulo: técnicas de contagem 2 × 2, pôquer, loteria
 #          e armadilha de equiprobabilidade na amostragem com reposição)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - objetos e funções de _app_scripts/apps/espaco-amostral/modulos/dados.R
@@ -15,9 +15,10 @@ texto_contagem <- function() {
     shiny::withMathJax(
       shiny::p(
         "Em espaços amostrais finitos com resultados equiprováveis, calcular \\(P(A) = \\#A / \\#\\Omega\\) reduz-se",
-        "a contar elementos sem precisar listá-los um a um. Pelo Teorema Fundamental da Contagem (Casella e Berger,",
-        "Teo. 1.2.14; Morettin e Bussab, cap. 5), uma tarefa realizada em \\(k\\) etapas com \\(n_1, n_2, \\dots, n_k\\)",
-        "escolhas possíveis admite \\(n_1 \\times n_2 \\times \\dots \\times n_k\\) sequências. Cruzar duas perguntas —",
+        "a contar elementos sem precisar listá-los um a um. Pelo princípio multiplicativo (Morettin e Bussab, seção",
+        "5.2), que Casella e Berger chamam de Teorema Fundamental da Contagem (Teo. 1.2.14), uma tarefa realizada em",
+        "\\(k\\) etapas, com \\(n_1, n_2, \\dots, n_k\\) escolhas possíveis em cada uma, admite",
+        "\\(n_1 \\times n_2 \\times \\dots \\times n_k\\) sequências. Cruzar duas perguntas —",
         "se a ordem importa e se há reposição dos objetos — organiza todas as escolhas de \\(r\\) itens entre \\(n\\)",
         "disponíveis na tabela \\(2 \\times 2\\) de Casella e Berger (Tabela 1.2.1): ordenado sem reposição",
         "\\(n!/(n - r)!\\), ordenado com reposição \\(n^r\\), não ordenado sem reposição",
@@ -38,16 +39,18 @@ texto_contagem <- function() {
       ),
       shiny::p(
         shiny::strong("Experimente:"),
-        "selecione a loteria 6 de 44 para comparar os quatro quadrantes da tabela \\(2 \\times 2\\); depois alterne o",
-        "painel da direita entre os sorteios com reposição em \\(\\{1, 2, 3\\}\\), a distribuição exata das médias em",
+        "selecione a loteria 6 de 44 para comparar as quatro células da tabela \\(2 \\times 2\\), ou a Mega-Sena para",
+        "ver por que o cartão de 7 dezenas custa o mesmo que 7 apostas simples. Depois, alterne o painel da direita",
+        "entre os sorteios com reposição em \\(\\{1, 2, 3\\}\\), a distribuição exata das médias amostrais em",
         "\\(\\{2, 4, 9, 12\\}\\) e as mãos de pôquer."
       )
     ),
     shiny::withMathJax(
       shiny::p(
         "On finite sample spaces with equally likely outcomes, evaluating \\(P(A) = \\#A / \\#S\\) comes down to",
-        "counting outcomes without listing them all. By the Fundamental Theorem of Counting (Casella and Berger,",
-        "Thm. 1.2.14), a procedure with \\(k\\) stages offering \\(n_1, n_2, \\dots, n_k\\) choices produces",
+        "counting outcomes without listing them all. By the multiplication principle (Morettin and Bussab, section",
+        "5.2), which Casella and Berger call the Fundamental Theorem of Counting (Thm. 1.2.14), a procedure with",
+        "\\(k\\) stages, offering \\(n_1, n_2, \\dots, n_k\\) choices respectively, produces",
         "\\(n_1 \\times n_2 \\times \\dots \\times n_k\\) sequences. Crossing two questions — whether order matters",
         "and whether items are replaced — organizes every selection of \\(r\\) objects from \\(n\\) into Casella and",
         "Berger's \\(2 \\times 2\\) table (Table 1.2.1): ordered without replacement \\(n!/(n - r)!\\), ordered with",
@@ -68,9 +71,10 @@ texto_contagem <- function() {
       ),
       shiny::p(
         shiny::strong("Try it:"),
-        "load the 6-from-44 lottery to inspect all four cells of the \\(2 \\times 2\\) table; then switch the right",
-        "panel across draws with replacement from \\(\\{1, 2, 3\\}\\), the exact distribution of sample means from",
-        "\\(\\{2, 4, 9, 12\\}\\) and classic poker hands."
+        "select the 6-from-44 lottery to compare all four cells of the \\(2 \\times 2\\) table, or the Mega-Sena to",
+        "see why a 7-number ticket costs the same as 7 single bets. Then switch the right panel between draws with",
+        "replacement from \\(\\{1, 2, 3\\}\\), the exact distribution of sample means from \\(\\{2, 4, 9, 12\\}\\) and",
+        "poker hands."
       )
     )
   )
@@ -321,8 +325,12 @@ mod_contagem_server <- function(id, modo = shiny::reactive("light")) {
       tabela_html(df, classes = c("", "num", "num"))
     })
 
+    # A nota do exemplo só vale com o n e o r dele; mexendo nos sliders, vale a nota geral
     output$nota_preset <- shiny::renderText({
       ex <- exemplos_contagem[[input$preset]] %||% exemplos_contagem$livre
+      if (!identical(as.integer(input$n), ex$n) || !identical(as.integer(input$r), ex$r)) {
+        ex <- exemplos_contagem$livre
+      }
       ex$nota
     })
 

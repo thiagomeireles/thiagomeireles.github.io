@@ -2,7 +2,7 @@
 # Script:  mod_experimento.R (módulo: experimento aleatório, espaço amostral Ω
 #          e interpretações clássica, frequentista e subjetiva)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - objetos e funções de _app_scripts/apps/espaco-amostral/modulos/dados.R
@@ -83,8 +83,10 @@ cuidados_experimento <- function() {
   tr(
     c(
       "Equiprobabilidade não é axioma" = paste(
-        "a fórmula #A / #Ω só vale quando há simetria ou sorteio aleatório simples entre os pontos de Ω.",
-        "Tratar duas categorias quaisquer ('chover' vs. 'não chover') como 50% cada confunde cardinalidade com probabilidade."
+        "a fórmula #A / #Ω só vale quando a simetria física ou o sorteio aleatório simples tornam os pontos de Ω",
+        "igualmente prováveis. O fato de Ω ter dois pontos ('chover' e 'não chover') não faz cada um valer 50%.",
+        "Quem diz 1/2 sem informação nenhuma faz um juízo subjetivo, e quem conhece o clima da cidade pode dizer 2/3",
+        "(Morettin e Bussab, seção 5.5)."
       ),
       "Longo prazo ≠ compensação no curto prazo" = paste(
         "a estabilização da frequência relativa n_A / n vem da diluição das oscilações iniciais quando n cresce,",
@@ -97,8 +99,10 @@ cuidados_experimento <- function() {
     ),
     c(
       "Equal probability is not an axiom" = paste(
-        "the ratio #A / #S holds only when physical symmetry or simple random sampling makes elementary outcomes",
-        "equally likely. Treating any two labels ('rain' vs. 'no rain') as 50% each confuses counting with probability."
+        "the ratio #A / #S holds only when physical symmetry or simple random sampling makes the points of S",
+        "equally likely. Having two points ('rain' and 'no rain') does not make each one worth 50%. Saying 1/2 with",
+        "no information at all is a subjective judgment, and someone who knows the local climate may say 2/3",
+        "(Morettin and Bussab, section 5.5)."
       ),
       "Long run ≠ short-run compensation" = paste(
         "relative frequency n_A / n stabilizes because early swings are diluted as n grows, not because a fair coin",
@@ -226,8 +230,8 @@ mod_experimento_server <- function(id, modo = shiny::reactive("light")) {
       if (identical(input$exp, "dado")) {
         shiny::sliderInput(
           session$ns("param"),
-          tr("Peso da face 6 (1/6 ≈ 0,167 = dado honesto)", "Weight of face 6 (1/6 ≈ 0.167 = fair die)"),
-          min = 0.05, max = 0.65, value = round(1 / 6, 3), step = 0.01
+          tr("Peso da face 6 (0,17 ≈ 1/6: dado honesto)", "Weight of face 6 (0.17 ≈ 1/6: fair die)"),
+          min = 0.05, max = 0.65, value = 0.17, step = 0.01
         )
       } else {
         shiny::sliderInput(
@@ -242,6 +246,8 @@ mod_experimento_server <- function(id, modo = shiny::reactive("light")) {
       e <- exp_atual()
       padrao <- if (identical(input$exp, "dado")) 1 / 6 else 0.50
       val <- if (isTRUE(e$permite_vicio) && !is.null(input$param) && is.finite(input$param)) input$param else padrao
+      # O slider anda em passos de 0,01; 0,17 representa o dado honesto, com peso exato 1/6
+      if (identical(input$exp, "dado") && abs(val - 1 / 6) < 0.005) val <- 1 / 6
       df <- e$distribuicao(val)
       evs <- e$eventos
       ev_chave <- if (!is.null(input$evento) && input$evento %in% names(evs)) input$evento else names(evs)[1]
@@ -346,7 +352,7 @@ mod_experimento_server <- function(id, modo = shiny::reactive("light")) {
           ),
           x = tr("Número de repetições (n)", "Number of trials (n)"),
           y = tr("Proporção acumulada n_A / n", "Cumulative proportion n_A / n"),
-          caption = tr("Agresti e Finlay, seção 4.1; Morettin e Bussab, cap. 9", "Agresti and Finlay, section 4.1; Morettin and Bussab, ch. 9")
+          caption = tr("Agresti e Finlay, seção 4.1; Morettin e Bussab, seções 5.1 e 9.1", "Agresti and Finlay, section 4.1; Morettin and Bussab, sections 5.1 and 9.1")
         )
     })
   })

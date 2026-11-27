@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tópico Espaço amostral, eventos e axiomas)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -26,7 +26,7 @@ c(list.files(pasta_comum, pattern = "\\.R$", full.names = TRUE), modulos) |>
 
 ui <- pagina_tema(
   titulo = tr("Espaço amostral, eventos e axiomas", "Sample space, events and axioms"),
-  versao = tr("0.1 (novembro de 2026)", "0.1 (November 2026)"),
+  versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)"),
   descricao = tr(
     paste(
       "Como traduzir experimentos com resultado incerto em conjuntos e números entre 0 e 1, partindo do espaço",

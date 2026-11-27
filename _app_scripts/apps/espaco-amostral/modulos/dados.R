@@ -2,7 +2,7 @@
 # Script:  dados.R (espaços amostrais, funções de conjuntos, contagem e cotas
 #          do tópico Espaço amostral, eventos e axiomas)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/espaco-amostral/app.R antes
@@ -49,7 +49,7 @@ experimentos_omega <- list(
     cardinalidade = "6",
     tipo_espaco = tr("Finito (enumerável)", "Finite (countable)"),
     permite_vicio = TRUE,
-    fonte = tr("Morettin e Bussab, seção 5.1; Casella e Berger, Ex. 1.2.5", "Morettin and Bussab, section 5.1; Casella and Berger, Ex. 1.2.5"),
+    fonte = tr("Morettin e Bussab, Exemplo 5.1; Casella e Berger, Ex. 1.2.5 e Teo. 1.2.6", "Morettin and Bussab, Example 5.1; Casella and Berger, Ex. 1.2.5 and Thm. 1.2.6"),
     eventos = list(
       par = list(
         rotulo = tr("Face par: A = {2, 4, 6}", "Even face: A = {2, 4, 6}"),
@@ -85,7 +85,7 @@ experimentos_omega <- list(
     cardinalidade = tr("36 pares (11 somas)", "36 pairs (11 sums)"),
     tipo_espaco = tr("Finito: pares equiprováveis, somas não", "Finite: pairs equally likely, sums not"),
     permite_vicio = FALSE,
-    fonte = tr("Morettin e Bussab, Exemplo 5.4 (seção 5.1)", "Morettin and Bussab, Example 5.4 (section 5.1)"),
+    fonte = tr("Morettin e Bussab, seção 5.1 (Problema 6a); Casella e Berger, Ex. 1.4.2", "Morettin and Bussab, section 5.1 (Problem 6a); Casella and Berger, Ex. 1.4.2"),
     eventos = list(
       soma7 = list(
         rotulo = tr("Soma igual a 7: 6 dos 36 pares", "Sum equal to 7: 6 of 36 pairs"),
@@ -120,7 +120,7 @@ experimentos_omega <- list(
     cardinalidade = "8",
     tipo_espaco = tr("Finito (2³ = 8 sequências)", "Finite (2³ = 8 sequences)"),
     permite_vicio = TRUE,
-    fonte = tr("Casella e Berger, Exemplo 1.3.13; Morettin e Bussab, seção 5.1", "Casella and Berger, Example 1.3.13; Morettin and Bussab, section 5.1"),
+    fonte = tr("Casella e Berger, Ex. 1.3.13; Morettin e Bussab, Exemplo 5.4 (mesmas 8 sequências)", "Casella and Berger, Ex. 1.3.13; Morettin and Bussab, Example 5.4 (same 8 sequences)"),
     eventos = list(
       duas_caras = list(
         rotulo = tr("Exatamente 2 caras (3 sequências)", "Exactly 2 heads (3 sequences)"),
@@ -326,6 +326,22 @@ exemplos_contagem <- list(
       )
     )
   ),
+  megasena_mb = list(
+    rotulo = tr("Mega-Sena: 6 de 60 dezenas (Morettin e Bussab, Exemplo 5.9)", "Mega-Sena: 6 of 60 numbers (Morettin and Bussab, Example 5.9)"),
+    n = 60L, r = 6L,
+    nota = tr(
+      paste(
+        "A Mega-Sena sorteia 6 das 60 dezenas, sem reposição e sem ordem: são C(60, 6) = 50.063.860 apostas possíveis,",
+        "e a chance de acertar a sena com um cartão simples é de cerca de 1 em 50 milhões. Um cartão de 7 dezenas",
+        "contém C(7, 6) = 7 apostas de 6 e custa o preço de 7 apostas simples; o de 15 dezenas contém C(15, 6) = 5.005."
+      ),
+      paste(
+        "Brazil's Mega-Sena draws 6 of 60 numbers, without replacement and without order: there are C(60, 6) = 50,063,860",
+        "possible tickets, and a single ticket wins the jackpot with a chance of about 1 in 50 million. A 7-number ticket",
+        "holds C(7, 6) = 7 six-number bets and costs as much as 7 single bets; a 15-number ticket holds C(15, 6) = 5,005."
+      )
+    )
+  ),
   poquer_cb = list(
     rotulo = tr("Mão de pôquer: 5 cartas de 52 (Casella e Berger, Ex. 1.2.18)", "Poker hand: 5 cards from 52 (Casella and Berger, Ex. 1.2.18)"),
     n = 52L, r = 5L,
@@ -406,7 +422,7 @@ distribuicao_medias_cb1220 <- function() {
   grade <- expand.grid(a = vals, b = vals, c = vals, d = vals)
   medias <- (grade$a + grade$b + grade$c + grade$d) / 4
   tab <- table(medias)
-   data.frame(
+  data.frame(
     media = as.numeric(names(tab)),
     contagem_ordenada = as.integer(tab),
     prob_real = as.numeric(tab) / 256,
@@ -513,9 +529,10 @@ cotas_inclusao_exclusao <- function(k, p, regime = "independente") {
     p_uniao_real <- p
     p_inter_real <- p
   } else {
-    # Disjuntos quando k*p <= 1; se k*p > 1, eventos com sobreposição mínima no círculo [0, 1)
-    # Simulação determinística sobre grade fina de 2.000 pontos equiprováveis para qualquer k e p!
-    grade_n <- 2000L
+    # Disjuntos quando k*p <= 1; se k*p > 1, arcos igualmente espaçados no círculo [0, 1)
+    # (sobreposição mínima). Grade de 84.000 pontos = 840 × 100, com 840 = mmc(1, ..., 8):
+    # os inícios (i − 1)/k e as larguras p em passos de 0,01 caem na grade, e as contagens são exatas
+    grade_n <- 84000L
     u <- (seq_len(grade_n) - 0.5) / grade_n
     largura <- p
     indicadores <- purrr::map(seq_len(k), \(i) {

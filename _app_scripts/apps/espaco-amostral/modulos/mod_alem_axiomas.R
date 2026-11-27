@@ -2,7 +2,7 @@
 # Script:  mod_alem_axiomas.R (módulo Para ir além: σ-álgebras, aditividade
 #          enumerável, desigualdades de Boole-Bonferroni e inclusão-exclusão)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - objetos e funções de _app_scripts/apps/espaco-amostral/modulos/dados.R
@@ -31,10 +31,11 @@ texto_alem_axiomas <- function() {
         "(Teo. 1.2.11b), a probabilidade da união nunca supera a soma individual,",
         "\\(P\\!\\left(\\bigcup_{i=1}^k A_i\\right) \\le \\sum_{i=1}^k P(A_i)\\). Aplicada aos complementares, a",
         "mesma desigualdade vira a cota de Bonferroni (eq. 1.2.10),",
-        "\\(P\\!\\left(\\bigcap_{i=1}^k A_i\\right) \\ge \\sum_{i=1}^k P(A_i) - (k - 1)\\): se dois intervalos de",
-        "confiança têm cobertura \\(0{,}95\\) cada, a cobertura simultânea é de pelo menos \\(0{,}90\\) mesmo sob",
-        "dependência desconhecida (Ex. 1.2.10), embora a cota fique negativa — correta, porém inócua — quando",
-        "\\(k\\) cresce demais ou \\(P(A_i)\\) é pequena."
+        "\\(P\\!\\left(\\bigcap_{i=1}^k A_i\\right) \\ge \\sum_{i=1}^k P(A_i) - (k - 1)\\). Com",
+        "\\(P(A) = P(B) = 0{,}95\\), a interseção tem probabilidade de pelo menos \\(0{,}90\\) (Ex. 1.2.10), seja qual",
+        "for a dependência entre os eventos. É por isso que dois intervalos de confiança de 95% acertam juntos em pelo",
+        "menos 90% das amostras. Se as probabilidades individuais não forem grandes, a cota pode ficar negativa:",
+        "correta, mas inútil."
       ),
       shiny::p(
         "Caso as interseções duas a duas, três a três e assim por diante sejam conhecidas, a identidade de",
@@ -69,10 +70,10 @@ texto_alem_axiomas <- function() {
         "union probabilities from the marginals \\(P(A_i)\\) alone. By Boole's inequality (Thm. 1.2.11b),",
         "\\(P\\!\\left(\\bigcup_{i=1}^k A_i\\right) \\le \\sum_{i=1}^k P(A_i)\\). Applying Boole to the complements",
         "produces Bonferroni's inequality (eq. 1.2.10),",
-        "\\(P\\!\\left(\\bigcap_{i=1}^k A_i\\right) \\ge \\sum_{i=1}^k P(A_i) - (k - 1)\\): if two confidence",
-        "intervals each have \\(0.95\\) coverage, their simultaneous coverage is at least \\(0.90\\) regardless of",
-        "how the two estimators covary (Ex. 1.2.10), even though the bound drops below zero — still true, yet",
-        "vacuous — once \\(k\\) is large or \\(P(A_i)\\) is modest."
+        "\\(P\\!\\left(\\bigcap_{i=1}^k A_i\\right) \\ge \\sum_{i=1}^k P(A_i) - (k - 1)\\). With",
+        "\\(P(A) = P(B) = 0.95\\), the intersection has probability at least \\(0.90\\) (Ex. 1.2.10), whatever the",
+        "dependence between the events. That is why two 95% confidence intervals are jointly right in at least 90%",
+        "of samples. When the individual probabilities are not large, the bound can turn negative: true, but useless."
       ),
       shiny::p(
         "When pairwise, triple and higher-order intersections are available, the inclusion-exclusion identity",
@@ -101,9 +102,10 @@ cuidados_alem_axiomas <- function() {
         "matematicamente verdadeira, mas não acrescenta nada ao Axioma 1 (P ≥ 0)."
       ),
       "Oscilação das somas parciais" = paste(
-        "quando p e k são grandes (sobretudo sob sobreposição forte), os termos intermediários P_m = C(k, m) p",
-        "crescem antes de encolher: cotas truncadas de baixa ordem podem passar longe de [0, 1], embora garantam",
-        "a direção correta (acima nos passos ímpares, abaixo nos pares)."
+        "o termo P_m vale C(k, m) p^m sob independência e C(k, m) p sob sobreposição total. No segundo caso, ele",
+        "cresce antes de diminuir (com k = 4 e p = 0,5, P₁ = 2 e P₂ = 3), ao contrário da afirmação da seção 1.8.1",
+        "de que P_i ≥ P_j para i ≤ j. As somas parciais podem passar longe de [0, 1], mas as cotas continuam valendo:",
+        "acima de P(⋃ Aᵢ) nos passos ímpares e abaixo nos pares."
       ),
       "Boole e Bonferroni são a mesma desigualdade" = paste(
         "aplicar Boole a A₁ᶜ, …, Aₖᶜ e usar De Morgan transforma P(⋃ Aᵢᶜ) ≤ Σ(1 − P(Aᵢ)) exatamente em",
@@ -115,10 +117,11 @@ cuidados_alem_axiomas <- function() {
         "with k = 5 and P(Aᵢ) = 0.70, the formula gives 5(0.70) − 4 = −0.50. The statement P(⋂ Aᵢ) ≥ −0.50 remains",
         "true, yet adds nothing beyond Axiom 1 (P ≥ 0)."
       ),
-      "Swings in intermediate partial sums" = paste(
-        "when p and k are large (especially under strong overlap), intermediate combinations P_m = C(k, m) p swell",
-        "before shrinking: low-order truncations can overshoot [0, 1] even though odd steps stay ≥ P(⋃ Aᵢ) and even",
-        "steps stay ≤ P(⋃ Aᵢ)."
+      "Swings in the partial sums" = paste(
+        "the term P_m equals C(k, m) p^m under independence and C(k, m) p under complete overlap. In the second case",
+        "it grows before it shrinks (with k = 4 and p = 0.5, P₁ = 2 and P₂ = 3), contrary to the claim in section 1.8.1",
+        "that P_i ≥ P_j for i ≤ j. The partial sums can land far outside [0, 1], yet the bounds still hold: above",
+        "P(⋃ Aᵢ) at odd steps and below it at even steps."
       ),
       "Boole and Bonferroni are duals" = paste(
         "applying Boole to A₁ᶜ, …, Aₖᶜ and invoking De Morgan turns P(⋃ Aᵢᶜ) ≤ Σ(1 − P(Aᵢ)) directly into",
