@@ -25,25 +25,23 @@ c(list.files(pasta_comum, pattern = "\\.R$", full.names = TRUE), modulos) |>
 
 ui <- pagina_tema(
   titulo = tr("Duas variáveis aleatórias", "Two random variables"),
-  versao = tr("0.1 (novembro de 2026)", "0.1 (November 2026)"),
+  versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)"),
   descricao = tr(
     paste(
-      "Como analisar duas variáveis aleatórias em conjunto: distribuição conjunta p(x, y), marginais, teste de",
-      "independência, distribuições condicionais P(X | Y = y), distribuição da soma Z = X + Y, covariância,",
-      "correlação e variância de combinações lineares aX + bY. O menu \"Para ir além\" verifica numericamente",
-      "as leis da esperança e variância totais (incluindo o contraexemplo Y = X² com covariância nula) e simula",
-      "a normal bidimensional. O conteúdo segue Morettin e Bussab (Estatística Básica, cap. 8), com Casella e",
-      "Berger (Statistical Inference, cap. 4), Gelman et al. (Bayesian Data Analysis, seção 1.8) e Wooldridge",
-      "(Introductory Econometrics, apêndice B) no aprofundamento."
+      "Como analisar duas variáveis aleatórias juntas: distribuição conjunta p(x, y), marginais, independência,",
+      "distribuições condicionais P(X | Y = y), distribuição da soma Z = X + Y, covariância, correlação e",
+      "variância de combinações lineares aX + bY. Os exemplos são os do cap. 8 de Morettin e Bussab (famílias",
+      "com três crianças e a tabela de covariância nula do Ex. 8.7), mais o caso Y = X². Todas as abas usam a",
+      "conjunta escolhida na primeira. O menu \"Para ir além\" confere a esperança total e a variância total",
+      "(Gelman et al., seção 1.8; Casella e Berger, seção 4.4) e simula a normal bidimensional."
     ),
     paste(
-      "How to analyze two random variables together: joint distribution p(x, y), marginals, independence check,",
+      "How to analyze two random variables together: joint distribution p(x, y), marginals, independence,",
       "conditional distributions P(X | Y = y), distribution of the sum Z = X + Y, covariance, correlation and",
-      "variance of linear combinations aX + bY. The \"Going further\" menu numerically verifies the laws of total",
-      "expectation and variance (including the Y = X² counterexample with zero covariance) and simulates the",
-      "bivariate normal. Content follows Morettin and Bussab (Estatística Básica, ch. 8), with Casella and",
-      "Berger (Statistical Inference, ch. 4), Gelman et al. (Bayesian Data Analysis, section 1.8) and Wooldridge",
-      "(Introductory Econometrics, appendix B) in the advanced tab."
+      "variance of linear combinations aX + bY. The examples are those from chapter 8 of Morettin and Bussab",
+      "(families with three children and the zero covariance table of Ex. 8.7), plus the Y = X² case. Every tab",
+      "uses the joint chosen in the first one. The \"Going further\" menu checks total expectation and total",
+      "variance (Gelman et al., section 1.8; Casella and Berger, section 4.4) and simulates the bivariate normal."
     )
   ),
   referencias = list(
