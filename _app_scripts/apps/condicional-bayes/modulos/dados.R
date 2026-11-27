@@ -163,34 +163,44 @@ calcular_bayes_particao <- function(nomes, priori, verossim) {
     stringsAsFactors = FALSE
   )
 
-  odds <- NULL
-  if (length(nomes) == 2 && priori_norm[2] > 0 && verossim[2] > 0 && !is.na(posteriori[2]) && posteriori[2] > 0) {
-    odds <- list(
-      odds_priori = priori_norm[1] / priori_norm[2],
-      razao_verossim = verossim[1] / verossim[2],
-      odds_posteriori = posteriori[1] / posteriori[2]
+  # Chances de Cᵢ contra Cⱼ para cada par i < j (eq. 1.5); NA quando o
+  # denominador é zero e a razão não está definida
+  razao <- function(a, b) if (b > 0) a / b else NA_real_
+  pares <- utils::combn(length(nomes), 2, simplify = FALSE)
+  odds <- purrr::map(pares, \(par) {
+    i <- par[1]
+    j <- par[2]
+    data.frame(
+      i = i,
+      j = j,
+      odds_priori = razao(priori_norm[i], priori_norm[j]),
+      razao_verossim = razao(verossim[i], verossim[j]),
+      odds_posteriori = if (prob_total > 0) razao(posteriori[i], posteriori[j]) else NA_real_
     )
-  }
+  }) |>
+    purrr::list_rbind()
 
   list(tabela = tabela, prob_total = prob_total, odds = odds)
 }
 
-# Frequências naturais: contagens inteiras das quatro células em n casos.
-# Usa maiores restos, para o arredondamento não criar nem sumir casos.
+# Frequências naturais: contagens inteiras de "Cᵢ e A" para cada hipótese e
+# de "sem A" em n casos. Usa maiores restos, para o arredondamento não criar
+# nem sumir casos.
 contagens_naturais <- function(tabela, n = 1000L) {
-  probs <- c(
-    tabela$conjunta[1],
-    tabela$conjunta[2],
-    tabela$priori[1] - tabela$conjunta[1],
-    tabela$priori[2] - tabela$conjunta[2]
-  )
+  k <- nrow(tabela)
+  probs <- c(tabela$conjunta, 1 - sum(tabela$conjunta))
   bruto <- pmax(probs, 0) * n
   base <- floor(bruto + 1e-9)
   faltam <- n - sum(base)
   extra <- order(bruto - base, decreasing = TRUE)[seq_len(faltam)]
   base[extra] <- base[extra] + 1
-  stats::setNames(as.integer(base), c("C1_A", "C2_A", "C1_nA", "C2_nA"))
+  stats::setNames(as.integer(base), c(paste0("C", seq_len(k), "_A"), "nA"))
 }
+
+# Passo dos sliders de priori e verossimilhança: com 0,001, 3/7 vira 0,429 e
+# 1/3 vira 0,333 (os valores exatos ficam na descrição de cada exemplo)
+passo_bayes <- 0.001
+arredondar_bayes <- function(x) round(x / passo_bayes) * passo_bayes
 
 # Fração irredutível k/n, para mostrar as probabilidades exatas
 mdc <- function(a, b) if (b == 0) a else mdc(b, a %% b)
