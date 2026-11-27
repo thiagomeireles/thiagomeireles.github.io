@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tema Tipos de variáveis)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -43,7 +43,12 @@ ui <- pagina_tema(
   referencias = list(
     referencia_livro("Agresti, A., & Finlay, B.", 2009, "Statistical methods for the social sciences", "Pearson Prentice Hall", edicao = 4),
     referencia_livro("Casella, G., & Berger, R. L.", 2002, "Statistical inference", "Duxbury", edicao = 2),
-    referencia_livro("Morettin, P. A., & Bussab, W. O.", 2010, "Estatística básica", "Saraiva", edicao = 6)
+    referencia_livro("Freeman, L. C.", 1965, "Elementary applied statistics: For students in behavioral science", "Wiley"),
+    referencia_livro("Morettin, P. A., & Bussab, W. O.", 2010, "Estatística básica", "Saraiva", edicao = 6),
+    referencia_artigo(
+      "Stevens, S. S.", 1946, "On the theory of scales of measurement", "Science",
+      volume = 103, numero = 2684, paginas = "677–680", doi = "10.1126/science.103.2684.677"
+    )
   ),
   bslib::nav_panel(tr("Como classificar", "How to classify"), value = "tipos", mod_tipos_ui("tipos")),
   bslib::nav_panel("Nominal", value = "nominal", mod_nominal_ui("nominal")),

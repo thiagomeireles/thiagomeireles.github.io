@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_tipos.R (módulo: visão geral dos tipos de variáveis e quiz)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -72,7 +72,7 @@ banco_quiz <- data.frame(
       ),
       paste(
         "A idade mede o tempo vivido. Registrada em anos completos, assume valores separados, mas o arredondamento",
-        "vem do registro, e não da variável. Por isso a convenção é tratá-la como contínua, como fazem Morettin e Bussab."
+        "vem do registro, e não da variável. Por isso a convenção é tratá-la como contínua, e é o que fazem Agresti e Finlay."
       )
     ),
     c(
@@ -311,8 +311,8 @@ mod_tipos_ui <- function(id) {
               "(nominal, ordinal, intervalar) e a divisão entre discreta e contínua. A separação entre nominal e ordinal",
               "vem das escalas de medida de Stevens (1946). Variância e desvio padrão usam divisor n − 1, como em",
               "Agresti e Finlay, ao passo que Morettin e Bussab dividem por n na análise descritiva; a diferença some à",
-              "medida que a amostra cresce. Os quartis seguem o método padrão do R, que em amostras pequenas pode",
-              "diferir um pouco dos quantis empíricos de Morettin e Bussab. Na ordinal, mediana e quartis são a primeira",
+              "medida que a amostra cresce. Os quartis seguem o método padrão do R, que, em amostras pequenas, pode",
+              "diferir um pouco dos métodos dos dois livros. Na ordinal, mediana e quartis são a primeira",
               "categoria em que a frequência acumulada atinge 50%, 25% ou 75%, a inversa generalizada da função de",
               "distribuição empírica (Casella e Berger, Statistical Inference, seção 2.1)."
             ),

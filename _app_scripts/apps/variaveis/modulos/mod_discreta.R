@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_discreta.R (módulo: variável quantitativa discreta)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-23
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -82,6 +82,7 @@ mod_discreta_ui <- function(id) {
       slider_amostra(ns("n"), min = 10, max = 2000, value = 100),
       caixa_extremo(ns("extremo")),
       shiny::uiOutput(ns("extremo_valor")),
+      shiny::uiOutput(ns("aviso_extremo")),
       botao_sortear(ns("sortear"))
     ),
     cabecalho_tipo("discreta"),
@@ -117,15 +118,19 @@ mod_discreta_server <- function(id, modo = shiny::reactive("light")) {
 
     output$extremo_valor <- shiny::renderUI({
       shiny::req(input$extremo)
-      entrada_extremo(session, exemplo()$extremo, step = 1)
+      entrada_extremo(session, exemplo()$extremo, minimo = exemplo()$minimo, step = 1)
     })
+
+    shiny::observeEvent(input$exemplo, congelar_extremo(input), ignoreInit = TRUE)
+
+    output$aviso_extremo <- shiny::renderUI(aviso_extremo(input$extremo, input$valor_extremo, exemplo()$minimo))
 
     base <- shiny::reactive({
       input$sortear
       exemplo()$gerar(input$n)
     })
 
-    incluir <- shiny::reactive(isTRUE(input$extremo) && !is.null(input$valor_extremo) && is.finite(input$valor_extremo))
+    incluir <- shiny::reactive(extremo_aceito(input$extremo, input$valor_extremo, exemplo()$minimo))
 
     dados <- shiny::reactive({
       if (incluir()) c(base(), round(input$valor_extremo)) else base()

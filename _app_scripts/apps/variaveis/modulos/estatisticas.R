@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  estatisticas.R (dados simulados e estatísticas do tema Tipos de variáveis)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -141,35 +141,35 @@ formatos_ordinal <- list(
 
 exemplos_discreta <- list(
   filhos = list(
-    rotulo = tr("Número de filhos", "Number of children"), unidade = tr("filhos", "children"), extremo = 12,
+    rotulo = tr("Número de filhos", "Number of children"), unidade = tr("filhos", "children"), extremo = 12, minimo = 0,
     gerar = \(n) sample(0:6, n, replace = TRUE, prob = c(0.28, 0.24, 0.25, 0.13, 0.06, 0.03, 0.01))
   ),
   moradores = list(
-    rotulo = tr("Moradores no domicílio", "Household members"), unidade = tr("moradores", "people"), extremo = 15,
+    rotulo = tr("Moradores no domicílio", "Household members"), unidade = tr("moradores", "people"), extremo = 15, minimo = 1,
     gerar = \(n) 1 + stats::rpois(n, 1.9)
   ),
   gols = list(
-    rotulo = tr("Gols em uma partida de futebol", "Goals in a soccer match"), unidade = tr("gols", "goals"), extremo = 10,
+    rotulo = tr("Gols em uma partida de futebol", "Goals in a soccer match"), unidade = tr("gols", "goals"), extremo = 10, minimo = 0,
     gerar = \(n) stats::rpois(n, 2.5)
   )
 )
 
 exemplos_continua <- list(
   altura = list(
-    rotulo = tr("Altura de adultos", "Adult height"), unidade = "cm", digitos = 1, extremo = 215,
+    rotulo = tr("Altura de adultos", "Adult height"), unidade = "cm", digitos = 1, extremo = 215, minimo = 0,
     gerar = \(n) stats::rnorm(n, 168, 9)
   ),
   renda = list(
-    rotulo = tr("Renda mensal", "Monthly income"), unidade = "R$", digitos = 0, extremo = 80000,
+    rotulo = tr("Renda mensal", "Monthly income"), unidade = "R$", digitos = 0, extremo = 80000, minimo = 0,
     gerar = \(n) stats::rlnorm(n, log(2500), 0.8)
   ),
   espera = list(
-    rotulo = tr("Tempo de espera na fila", "Waiting time in line"), unidade = "min", digitos = 1, extremo = 150,
+    rotulo = tr("Tempo de espera na fila", "Waiting time in line"), unidade = "min", digitos = 1, extremo = 150, minimo = 0,
     gerar = \(n) stats::rexp(n, 1 / 12)
   ),
   # Escala intervalar: a aba mostra os mesmos dados em °C ou °F (ver converter_temperatura)
   temperatura = list(
-    rotulo = tr("Temperatura máxima do dia", "Daily high temperature"), unidade = "°C", digitos = 1, extremo = 45,
+    rotulo = tr("Temperatura máxima do dia", "Daily high temperature"), unidade = "°C", digitos = 1, extremo = 45, minimo = -Inf,
     gerar = \(n) stats::rnorm(n, 27, 4)
   )
 )
@@ -301,9 +301,42 @@ descricao_sem_extremo <- function(sem, unidade, digitos, incluir) {
   paste(tr("Sem o valor extremo:", "Without the extreme value:"), fmt_valor(sem, unidade, digitos))
 }
 
-# Entrada do valor extremo, mostrada quando a caixa está marcada
-entrada_extremo <- function(session, valor, step = NA) {
-  shiny::numericInput(session$ns("valor_extremo"), tr("Valor extremo", "Extreme value"), value = valor, min = 0, step = step)
+# Entrada do valor extremo, mostrada quando a caixa está marcada. O `min` do
+# campo só orienta o navegador; quem barra valores impossíveis é extremo_aceito().
+entrada_extremo <- function(session, valor, minimo = -Inf, step = NA) {
+  shiny::numericInput(
+    session$ns("valor_extremo"), tr("Valor extremo", "Extreme value"),
+    value = valor, min = if (is.finite(minimo)) minimo else NA, step = step
+  )
+}
+
+# O extremo entra nos dados só se a caixa estiver marcada e o valor for possível
+# para a variável (sem filhos negativos ou renda abaixo de zero). `valor` só é
+# lido com a caixa marcada, o que importa quando o campo está congelado.
+extremo_aceito <- function(ligado, valor, minimo) {
+  isTRUE(ligado) && !is.null(valor) && is.finite(valor) && valor >= minimo
+}
+
+# Aviso abaixo do campo quando o valor digitado fica abaixo do mínimo possível
+aviso_extremo <- function(ligado, valor, minimo, digitos = 0) {
+  if (!isTRUE(ligado) || is.null(valor) || !is.finite(valor) || valor >= minimo) return(NULL)
+  shiny::p(
+    class = "small text-danger",
+    sprintf(
+      tr(
+        "Esta variável não assume valores menores que %s, então o valor extremo ficou fora dos cálculos.",
+        "This variable cannot take values below %s, so the extreme value was left out of the calculations."
+      ),
+      fmt_num(minimo, digitos)
+    )
+  )
+}
+
+# Ao trocar de variável, o campo do extremo é redesenhado com outro valor
+# padrão. Congelar o input evita que, por um ciclo, o valor antigo (de outra
+# variável ou unidade) entre nos dados novos.
+congelar_extremo <- function(input) {
+  if (isTRUE(input$extremo)) shiny::freezeReactiveValue(input, "valor_extremo")
 }
 
 caixa_extremo <- function(id) {

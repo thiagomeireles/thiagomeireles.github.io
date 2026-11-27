@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  utilitarios.R (modelo comum a todos os apps de tema)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - idioma.txt (opcional): "pt" ou "en", gravado por
@@ -11,7 +11,7 @@
 # Saída:
 #   - objetos em memória: idioma, tr(), cores_app, tema_zephyr(), estilo_app(),
 #     script_tema_inicial(), texto_execucao(), pagina_tema(), item_em_breve(),
-#     referencia_livro(), lista_referencias(),
+#     referencia_livro(), referencia_artigo(), lista_referencias(),
 #     modo_app(), paleta_modo(), tema_grafico(), fmt_num(), fmt_pct(),
 #     sep_milhar(), tabela_html()
 # =============================================================================
@@ -126,7 +126,20 @@ referencia_livro <- function(autores, ano, titulo, editora, edicao = NULL) {
   )))
 }
 
-# Lista de referências com recuo francês, como pede a APA
+# Artigo no padrão APA (7ª ed.): Autor, A. A. (ano). Título. *Periódico,
+# volume*(número), páginas. https://doi.org/...
+referencia_artigo <- function(autores, ano, titulo, periodico, volume, paginas, numero = NULL, doi = NULL) {
+  esc <- htmltools::htmlEscape
+  shiny::tags$li(shiny::HTML(paste0(
+    esc(autores), " (", ano, "). ", esc(titulo), ". <em>", esc(periodico), ", ", volume, "</em>",
+    if (!is.null(numero)) paste0("(", numero, ")"),
+    ", ", paginas, ".",
+    if (!is.null(doi)) paste0(" https://doi.org/", esc(doi))
+  )))
+}
+
+# Lista de referências com recuo francês, como pede a APA. A lista é a mesma
+# nos dois idiomas: só os rótulos (ed., n.d.) acompanham o idioma do app.
 lista_referencias <- function(referencias) {
   shiny::tagList(
     shiny::h6(class = "mt-3", tr("Referências", "References")),

@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_continua.R (módulo: variável quantitativa contínua)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/variaveis/app.R)
@@ -55,7 +55,7 @@ texto_continua <- function() {
         "there is a long right tail (common for income and waiting times), and the mean usually sits above the",
         "median, pulled toward the tail. In the box plot, this skew usually shows up in the distances: the median",
         "is farther from the third quartile than from the first, and the right whisker is longer, often with",
-        "potential outliers on that side."
+        "potential outliers on that side. Morettin and Bussab assess symmetry precisely by comparing these distances."
       ),
       shiny::p(
         "If the data are approximately bell-shaped, as height is, about 68% of the observations fall within 1",
@@ -131,7 +131,7 @@ cuidados_continua <- function() {
     c(
       "Mode" = paste(
         "almost no continuous value repeats, so the mode of the raw values tells you nothing.",
-        "Use the modal class (or its midpoint), which depends on how the bins are chosen."
+        "Use the modal class (or its midpoint, as in Morettin and Bussab), which depends on how the bins are chosen."
       ),
       "Number of bins" = "changes how the histogram looks. Few bins hide detail; many bins show noise.",
       "Skewed distributions" = paste(
@@ -182,6 +182,7 @@ mod_continua_ui <- function(id) {
       shiny::checkboxInput(ns("boxplot"), tr("Mostrar boxplot", "Show box plot"), value = TRUE),
       caixa_extremo(ns("extremo")),
       shiny::uiOutput(ns("extremo_valor")),
+      shiny::uiOutput(ns("aviso_extremo")),
       botao_sortear(ns("sortear"))
     ),
     cabecalho_tipo("continua"),
@@ -222,10 +223,30 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
     # Na temperatura, só a unidade de exibição muda: os dados sorteados (em °C) são os mesmos
     converter <- \(x) if (e_temperatura()) converter_temperatura(x, un()) else x
 
+    minimo <- shiny::reactive(converter(exemplo()$minimo))
+
+    # O campo é redesenhado só quando a variável muda. A troca °C/°F não o
+    # redesenha: o observador abaixo converte o valor que já está digitado.
     output$extremo_valor <- shiny::renderUI({
       shiny::req(input$extremo)
-      entrada_extremo(session, converter(exemplo()$extremo))
+      ex <- exemplo()
+      shiny::isolate(entrada_extremo(session, converter(ex$extremo), minimo = converter(ex$minimo)))
     })
+
+    shiny::observeEvent(input$exemplo, congelar_extremo(input), ignoreInit = TRUE)
+
+    # Congelar o campo até o navegador devolver o valor convertido evita que, por
+    # um ciclo, o valor antigo (em °C) entre nos dados já convertidos (em °F)
+    shiny::observeEvent(input$unidade_temp, {
+      shiny::req(e_temperatura(), isTRUE(input$extremo))
+      v <- input$valor_extremo
+      if (is.null(v) || !is.finite(v)) return()
+      novo <- if (identical(input$unidade_temp, "°F")) converter_temperatura(v, "°F") else (v - 32) / 1.8
+      shiny::freezeReactiveValue(input, "valor_extremo")
+      shiny::updateNumericInput(session, "valor_extremo", value = round(novo, 1))
+    }, ignoreInit = TRUE)
+
+    output$aviso_extremo <- shiny::renderUI(aviso_extremo(input$extremo, input$valor_extremo, minimo()))
 
     sorteio <- shiny::reactive({
       input$sortear
@@ -233,7 +254,7 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
     })
     base <- shiny::reactive(converter(sorteio()))
 
-    incluir <- shiny::reactive(isTRUE(input$extremo) && !is.null(input$valor_extremo) && is.finite(input$valor_extremo))
+    incluir <- shiny::reactive(extremo_aceito(input$extremo, input$valor_extremo, minimo()))
     dados <- shiny::reactive(if (incluir()) c(base(), input$valor_extremo) else base())
 
     resumo <- shiny::reactive(resumo_quantitativo(dados()))
@@ -292,9 +313,9 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
             ),
             paste(
               "Unit: %s. Each class includes its lower limit and excludes the upper one, except the last, which",
-              "includes both. Because all classes have the same width, the histogram bars can show frequencies without",
-              "changing the shape; with unequal widths, they would have to show density (relative frequency divided by",
-              "width), so that the area of each bar, not its height, reflects the share of observations."
+              "includes both. In Morettin and Bussab, the height of each histogram bar is the frequency density",
+              "(relative frequency divided by class width), and the total area is 1. Because the classes here all have",
+              "the same width, using the frequency does not change the shape; with unequal widths, density is required."
             )
           ),
           un()
@@ -318,7 +339,7 @@ mod_continua_server <- function(id, modo = shiny::reactive("light")) {
             tr("Distribuição ", "Distribution is "), leitura_assimetria(r$assimetria),
             tr(
               ". Média dos desvios ao cubo dividida pelo cubo do desvio padrão, ambos com divisor n; Morettin e Bussab avaliam a forma pelos quartis e por gráficos",
-              ". Mean of the cubed deviations divided by the cubed standard deviation, both with divisor n"
+              ". Mean of the cubed deviations divided by the cubed standard deviation, both with divisor n; Morettin and Bussab assess shape using quartiles and graphs"
             )
           )
         )
