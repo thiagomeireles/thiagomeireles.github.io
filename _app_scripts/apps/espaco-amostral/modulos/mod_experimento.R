@@ -227,25 +227,29 @@ mod_experimento_server <- function(id, modo = shiny::reactive("light")) {
       if (!isTRUE(exp_atual()$permite_vicio)) {
         return(shiny::helpText(exp_atual()$fonte))
       }
+      # Um slider por experimento (o peso do dado não vira p da moeda na troca) e recriado com o
+      # último valor escolhido, para a volta a um experimento não sortear duas vezes
       if (identical(input$exp, "dado")) {
         shiny::sliderInput(
-          session$ns("param"),
+          session$ns("param_dado"),
           tr("Peso da face 6 (0,17 ≈ 1/6: dado honesto)", "Weight of face 6 (0.17 ≈ 1/6: fair die)"),
-          min = 0.05, max = 0.65, value = 0.17, step = 0.01
+          min = 0.05, max = 0.65, value = shiny::isolate(input$param_dado) %||% 0.17, step = 0.01
         )
       } else {
         shiny::sliderInput(
-          session$ns("param"),
+          session$ns("param_moeda"),
           tr("Probabilidade de cara em cada lançamento (p)", "Probability of heads on each toss (p)"),
-          min = 0.10, max = 0.90, value = 0.50, step = 0.05
+          min = 0.10, max = 0.90, value = shiny::isolate(input$param_moeda) %||% 0.50, step = 0.05
         )
       }
     })
 
     dist_atual <- shiny::reactive({
       e <- exp_atual()
-      padrao <- if (identical(input$exp, "dado")) 1 / 6 else 0.50
-      val <- if (isTRUE(e$permite_vicio) && !is.null(input$param) && is.finite(input$param)) input$param else padrao
+      dado <- identical(input$exp, "dado")
+      padrao <- if (dado) 1 / 6 else 0.50
+      param <- if (dado) input$param_dado else input$param_moeda
+      val <- if (isTRUE(e$permite_vicio) && !is.null(param) && is.finite(param)) param else padrao
       # O slider anda em passos de 0,01; 0,17 representa o dado honesto, com peso exato 1/6
       if (identical(input$exp, "dado") && abs(val - 1 / 6) < 0.005) val <- 1 / 6
       df <- e$distribuicao(val)
@@ -258,10 +262,15 @@ mod_experimento_server <- function(id, modo = shiny::reactive("light")) {
 
     prob_a <- shiny::reactive(sum(dist_atual()$prob[dist_atual()$em_a]))
 
+    # reactiveVal só invalida quando o valor muda: a chegada do seletor de evento recriado,
+    # com o mesmo P(A), não sorteia trajetórias novas (o gráfico não pisca)
+    prob_sorteio <- shiny::reactiveVal(NULL)
+    shiny::observe(prob_sorteio(prob_a()))
+
     trajetorias <- shiny::reactive({
       input$sortear
-      shiny::req(input$n_lanc, input$n_traj)
-      simular_trajetorias_freq(prob_a(), as.integer(input$n_lanc), as.integer(input$n_traj))
+      shiny::req(input$n_lanc, input$n_traj, !is.null(prob_sorteio()))
+      simular_trajetorias_freq(prob_sorteio(), as.integer(input$n_lanc), as.integer(input$n_traj))
     })
 
     output$vb_prob <- shiny::renderText({
