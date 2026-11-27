@@ -1,5 +1,5 @@
 # Apps do "Estatística na prática" (um app Shiny por tópico, no Space do Hugging Face)
-# Autor: Thiago Meireles | Atualizado: 2026-11-26
+# Autor: Thiago Meireles | Atualizado: 2026-11-27
 # Lido por _includes/busca-apps.html (busca e tags em /aplicativos/ e /en/apps/), por _layouts/apps-tema.html
 # (cartões dos tópicos com app, que levam à tela cheia), por _layouts/app-tela-cheia.html
 # (páginas apps/<slug>/ e apps/en/<slug_en ou slug>/) e por _app_scripts/hf-space/montar_apps.R,
@@ -206,3 +206,14 @@
   tags: [Lei dos Grandes Números, Teorema Central do Limite, distribuição amostral, média amostral, valor esperado, tamanho da amostra, convergência em probabilidade, convergência em distribuição, Cauchy, simulação]
   tags_en: [Law of Large Numbers, Central Limit Theorem, sampling distribution, sample mean, expected value, sample size, convergence in probability, convergence in distribution, Cauchy, simulation]
   publicado: "2026-11-19"
+
+- slug: simulacao-bootstrap
+  slug_en: simulation-bootstrap
+  tema: amostra-populacao
+  titulo: Simulação e bootstrap
+  title: Simulation and bootstrap
+  descricao: Geradores congruenciais lineares, método da transformação inversa, Box-Müller, erro padrão de Monte Carlo (1/√M) e reamostragem bootstrap não paramétrica e paramétrica, com comparação ao Método Delta e falha na fronteira de U(0, θ).
+  description: Linear congruential generators, inverse transform method, Box-Muller, Monte Carlo standard error (1/√M) and nonparametric and parametric bootstrap resampling, compared with the Delta Method and boundary failure under U(0, θ).
+  tags: [simulação, números pseudoaleatórios, gerador congruencial, semente, transformação inversa, Box-Müller, Monte Carlo, erro de Monte Carlo, bootstrap, reamostragem, erro padrão bootstrap, método percentil, bootstrap paramétrico, método delta]
+  tags_en: [simulation, pseudorandom numbers, congruential generator, seed, inverse transform, Box-Muller, Monte Carlo, Monte Carlo error, bootstrap, resampling, bootstrap standard error, percentile method, parametric bootstrap, delta method]
+  publicado: "2026-11-27"

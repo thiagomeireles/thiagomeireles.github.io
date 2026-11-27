@@ -1,5 +1,5 @@
 # Temas do "Estatística na prática", na ordem de estudo, cada um com seus tópicos
-# Autor: Thiago Meireles | Atualizado: 2026-11-26
+# Autor: Thiago Meireles | Atualizado: 2026-11-27
 # Lido por aplicativos.md e en/apps.md (cartões dos temas), por _layouts/apps-tema.html
 # (páginas /aplicativos/<slug>/ e /en/apps/<slug_en>/) e por _includes/busca-apps.html.
 # Tópico com app: campo app com o slug de _data/apps.yml (o cartão leva à tela cheia).
@@ -101,6 +101,7 @@
       title: Simulation and bootstrap
       descricao: Números pseudoaleatórios, transformação inversa, Monte Carlo e reamostragem bootstrap.
       description: Pseudorandom numbers, inverse transform, Monte Carlo and bootstrap resampling.
+      app: simulacao-bootstrap
 
 - slug: inferencia
   slug_en: inference
