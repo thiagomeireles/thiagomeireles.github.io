@@ -119,6 +119,7 @@
       title: Comparing two populations
       descricao: Médias com amostras independentes e pareadas, variâncias e proporções.
       description: Means with independent and paired samples, variances and proportions.
+      app: duas-populacoes
     - titulo: Qui-quadrado de aderência e independência
       title: Chi-squared goodness of fit and independence
       descricao: Se os dados seguem um modelo e se duas variáveis categóricas estão associadas.

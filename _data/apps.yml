@@ -143,6 +143,17 @@
   tags_en: [hypothesis testing, null hypothesis, critical region, p-value, type I error, type II error, power, power function, significance, Bonferroni, multiple testing]
   publicado: "2026-11-27"
 
+- slug: duas-populacoes
+  slug_en: two-populations
+  tema: inferencia
+  titulo: Comparação de duas populações
+  title: Comparing two populations
+  descricao: Comparação de médias com amostras independentes (teste F, t com variâncias iguais, Welch e Wilcoxon/Mann-Whitney), amostras pareadas, duas proporções e teste de permutação aleatória.
+  description: Comparing means with independent samples (F test, pooled t, Welch and Wilcoxon/Mann-Whitney), paired samples, two proportions and random permutation testing.
+  tags: [duas populações, teste t, Welch, teste F, variâncias, amostras pareadas, Mann-Whitney, Wilcoxon, duas proporções, permutação]
+  tags_en: [two populations, t test, Welch, F test, variances, paired samples, Mann-Whitney, Wilcoxon, two proportions, permutation]
+  publicado: "2026-11-27"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t
