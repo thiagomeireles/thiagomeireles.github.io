@@ -191,7 +191,22 @@ combinacao_linear_vars <- function(vx, vy, cov_xy, ex, ey, a, b) {
 
 # Coeficiente sem casas decimais desnecessárias: 1, −0,5, 2
 fmt_coef <- function(x) {
-  if (isTRUE(all.equal(x, round(x)))) sprintf("%d", as.integer(round(x))) else fmt_num(x, 1)
+  txt <- if (isTRUE(all.equal(x, round(x)))) sprintf("%d", as.integer(round(x))) else fmt_num(x, 1)
+  sub("^-", "−", txt)
+}
+
+# Combinação aX + bY escrita como no papel: X − Y, 2X + 0,5Y, −Y, 0
+fmt_combinacao <- function(a, b) {
+  termo <- function(coef, var) {
+    if (coef == 0) return(NULL)
+    modulo <- if (abs(coef) == 1) "" else sub("^−", "", fmt_coef(abs(coef)))
+    list(sinal = if (coef < 0) "−" else "+", texto = paste0(modulo, var))
+  }
+  termos <- purrr::compact(list(termo(a, "X"), termo(b, "Y")))
+  if (length(termos) == 0) return("0")
+  primeiro <- paste0(if (termos[[1]]$sinal == "−") "−" else "", termos[[1]]$texto)
+  resto <- purrr::map_chr(termos[-1], \(t) paste0(" ", t$sinal, " ", t$texto))
+  paste0(primeiro, paste(resto, collapse = ""))
 }
 
 leis_totais <- function(an) {

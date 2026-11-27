@@ -68,8 +68,8 @@ mod_conjunta_ui <- function(id) {
             class = "mb-0",
             shiny::strong(tr("Experimente:", "Try this:")),
             tr(
-              "no Ex. 8.1, confira Cov(X, Y) = 0,25 e ρ = 0,58, como no Ex. 8.9 do livro. Depois troque para o Ex. 8.7: a covariância é zero, mas a célula (X = 0, Y = 3) tem 0,200 contra 0,160 do produto das marginais.",
-              "in Ex. 8.1, check Cov(X, Y) = 0.25 and ρ = 0.58, as in the book's Ex. 8.9. Then switch to Ex. 8.7: the covariance is zero, yet cell (X = 0, Y = 3) holds 0.200 against 0.160 from the product of the marginals."
+              "no Ex. 8.1, confira Cov(X, Y) = 0,25 e ρ = 0,5774, que o Ex. 8.9 do livro arredonda para 0,58. Depois troque para o Ex. 8.7: a covariância é zero, mas a célula (X = 0, Y = 3) tem 0,2000 contra 0,1600 do produto das marginais.",
+              "in Ex. 8.1, check Cov(X, Y) = 0.25 and ρ = 0.5774, which the book's Ex. 8.9 rounds to 0.58. Then switch to Ex. 8.7: the covariance is zero, yet cell (X = 0, Y = 3) holds 0.2000 against 0.1600 from the product of the marginals."
             )
           )
         )

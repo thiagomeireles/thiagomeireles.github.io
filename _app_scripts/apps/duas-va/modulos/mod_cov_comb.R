@@ -106,7 +106,7 @@ mod_cov_comb_server <- function(id, modo, conjunta_reativa) {
         ggplot2::scale_fill_manual(values = c(p$neutro, cores_app$referencia, cores_app$destaque)) +
         ggplot2::scale_y_continuous(labels = rotulos_eixo()) +
         ggplot2::labs(
-          title = sprintf("Var(%s·X + %s·Y) = %s", fmt_coef(input$coef_a), fmt_coef(input$coef_b), fmt_num(c_lin$var_total, 4)),
+          title = sprintf("Var(%s) = %s", fmt_combinacao(input$coef_a, input$coef_b), fmt_num(c_lin$var_total, 4)),
           x = NULL, y = tr("Variância", "Variance")
         ) +
         tema_grafico(modo())
