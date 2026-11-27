@@ -25,25 +25,27 @@ c(list.files(pasta_comum, pattern = "\\.R$", full.names = TRUE), modulos) |>
 
 ui <- pagina_tema(
   titulo = tr("Variáveis aleatórias discretas", "Discrete random variables"),
-  versao = tr("0.1 (novembro de 2026)", "0.1 (November 2026)"),
+  versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)"),
   descricao = tr(
     paste(
-      "Como descrever contagens incertas com funções de probabilidade p(x), funções de distribuição em escada",
-      "F(x), esperança, variância e os principais modelos discretos: uniforme discreto, Bernoulli, binomial",
-      "b(n, p), Poisson e aproximação binomial-Poisson. O menu \"Para ir além\" compara a hipergeométrica",
-      "(sem reposição) à binomial e contrasta as duas convenções da distribuição geométrica (ensaios versus",
-      "fracassos). O conteúdo segue Morettin e Bussab (Estatística Básica, cap. 6) e Agresti e Finlay",
-      "(Statistical Methods for the Social Sciences, cap. 4, seção 4.2), com Casella e Berger (Statistical",
-      "Inference, caps. 1 e 3) e Gelman et al. (Bayesian Data Analysis, apêndice A) no formalismo."
+      "Como descrever uma variável aleatória discreta com a função de probabilidade p(x), a função de distribuição",
+      "em escada F(x), a esperança, a variância e a mediana, e como elas mudam em Y = aX + b. Depois, os principais",
+      "modelos discretos: uniforme discreto, Bernoulli, binomial b(n, p), Poisson, a aproximação da binomial pela",
+      "Poisson e o processo de Poisson. O menu \"Para ir além\" compara a hipergeométrica (sem reposição) à binomial,",
+      "contrasta as duas convenções da geométrica (ensaios ou fracassos) e mostra a falta de memória. O conteúdo segue",
+      "Morettin e Bussab (Estatística Básica, cap. 6) e Agresti e Finlay (Statistical Methods for the Social",
+      "Sciences, seção 4.2), com Casella e Berger (Statistical Inference, seção 3.2) e Gelman et al. (Bayesian",
+      "Data Analysis, apêndice A)."
     ),
     paste(
-      "How to describe uncertain counts using probability mass functions p(x), step cumulative distribution",
-      "functions F(x), expected value, variance and the core discrete models: discrete uniform, Bernoulli,",
-      "binomial b(n, p), Poisson and the binomial-Poisson approximation. The \"Going further\" menu compares",
-      "the hypergeometric (without replacement) with the binomial and contrasts the two geometric conventions",
-      "(trials versus failures). Content follows Agresti and Finlay (Statistical Methods for the Social",
-      "Sciences, ch. 4, section 4.2) and Morettin and Bussab (Estatística Básica, ch. 6), with Casella and",
-      "Berger (Statistical Inference, chs. 1 and 3) and Gelman et al. (Bayesian Data Analysis, appendix A)."
+      "How to describe a discrete random variable with the probability mass function p(x), the step cumulative",
+      "distribution function F(x), the expected value, the variance and the median, and how they change under",
+      "Y = aX + b. Then the core discrete models: discrete uniform, Bernoulli, binomial b(n, p), Poisson, the Poisson",
+      "approximation to the binomial and the Poisson process. The \"Going further\" menu compares the hypergeometric",
+      "(without replacement) with the binomial, contrasts the two geometric conventions (trials or failures) and",
+      "shows memorylessness. Content follows Morettin and Bussab (Estatística Básica, ch. 6) and Agresti and Finlay",
+      "(Statistical Methods for the Social Sciences, section 4.2), with Casella and Berger (Statistical",
+      "Inference, section 3.2) and Gelman et al. (Bayesian Data Analysis, appendix A)."
     )
   ),
   referencias = list(
