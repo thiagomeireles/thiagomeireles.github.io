@@ -13,9 +13,9 @@ author: "Thiago Meireles"
   .app-lista-temas .topicos { color: #6c757d; font-size: 0.9rem; }
 </style>
 
-## Interactive statistics and probability
+## Interactive statistics and data science
 
-The apps are demonstrations of statistics and probability concepts in which you change the parameters and follow the result on screen. They are organized into themes, in the order they are usually studied, and each theme brings together a few topics. Not every topic has an app yet, and the missing ones are being added a few at a time. Pick a theme below to start, or use the search to go straight to a concept.
+The apps are demonstrations of statistics, probability and data science concepts in which you change the parameters and follow the result on screen. They are organized into themes, in the order they are usually studied, and each theme brings together a few topics. Not every topic has an app yet, and the missing ones are being added a few at a time. If you don't find a theme that interests you, send an email to <a href="mailto:thiago.omeireles@gmail.com">thiago.omeireles@gmail.com</a>. Pick a theme below to start, or use the search to go straight to a concept.
 
 {% include busca-apps.html idioma="en" %}
 

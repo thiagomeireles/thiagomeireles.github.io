@@ -13,9 +13,9 @@ author: "Thiago Meireles"
   .app-lista-temas .topicos { color: #6c757d; font-size: 0.9rem; }
 </style>
 
-## Estatística e probabilidade interativas
+## Estatística e ciência de dados interativas
 
-Os aplicativos são demonstrações de conceitos de estatística e probabilidade, em que você muda os parâmetros e acompanha o resultado na tela. Estão organizados em temas, na ordem em que costumam ser estudados, e cada tema reúne alguns tópicos. Nem todo tópico tem aplicativo ainda, e os que faltam entram aos poucos. Escolha um tema abaixo para começar ou use a busca para ir direto a um conceito.
+Os aplicativos são demonstrações de conceitos de estatística, probabilidade e ciência de dados, em que você muda os parâmetros e acompanha o resultado na tela. Estão organizados em temas, na ordem em que costumam ser estudados, e cada tema reúne alguns tópicos. Nem todo tópico tem aplicativo ainda, e os que faltam entram aos poucos. Se não encontrar um tema que lhe interesse, mande um e-mail para <a href="mailto:thiago.omeireles@gmail.com">thiago.omeireles@gmail.com</a>. Escolha um tema abaixo para começar ou use a busca para ir direto a um conceito.
 
 {% include busca-apps.html idioma="pt" %}
 
