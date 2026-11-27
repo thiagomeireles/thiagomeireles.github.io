@@ -88,6 +88,17 @@
   tags_en: [conditional probability, Bayes, "Bayes' theorem", product rule, independence, mutually exclusive, probability tree, replacement, total probability, partition, prior, likelihood, posterior, posterior odds, natural frequencies, base rate, mutual independence, Three Prisoners, sequential updating, posterior predictive]
   publicado: "2026-11-26"
 
+- slug: va-discretas
+  slug_en: discrete-random-variables
+  tema: variaveis-aleatorias
+  titulo: Variáveis aleatórias discretas
+  title: Discrete random variables
+  descricao: Função de probabilidade, função de distribuição em escada, esperança, variância, transformação linear, Bernoulli, binomial b(n, p), Poisson e processo de Poisson, com hipergeométrica e geométrica.
+  description: Probability mass function, step CDF, expected value, variance, linear transformation, Bernoulli, binomial b(n, p), Poisson and Poisson process, plus hypergeometric and geometric distributions.
+  tags: [variável aleatória discreta, função de probabilidade, função de distribuição acumulada, esperança, variância, Bernoulli, binomial, Poisson, processo de Poisson, hipergeométrica, geométrica, falta de memória, contagens]
+  tags_en: [discrete random variable, probability mass function, cumulative distribution function, expected value, variance, Bernoulli, binomial, Poisson, Poisson process, hypergeometric, geometric, memoryless, counts]
+  publicado: "2026-11-27"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t

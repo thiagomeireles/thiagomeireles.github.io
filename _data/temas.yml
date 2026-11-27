@@ -65,6 +65,7 @@
       title: Discrete random variables
       descricao: Função de probabilidade, esperança, variância e os modelos Bernoulli, binomial e Poisson.
       description: Probability mass function, expected value, variance and the Bernoulli, binomial and Poisson models.
+      app: va-discretas
     - titulo: Variáveis aleatórias contínuas e a normal
       title: Continuous random variables and the normal
       descricao: Densidade, função de distribuição, uniforme, exponencial e normal. O app atual cobre a normal padrão.
