@@ -312,8 +312,8 @@ nota_notacao <- function() {
       "numa amostra concreta. Agresti e Finlay escrevem ȳ para a média da amostra e π e π̂ para a proporção. A",
       "variância da população divide por N; a da amostra, por n − 1 (a aba \"Estimador e estimativa\" mostra por",
       "quê). No capítulo 3, de análise descritiva, Morettin e Bussab dividem por n, porque ali não importa se os",
-      "dados são população ou amostra. Para a mediana não há letra grega consagrada: o app usa md para a amostra,",
-      "como Morettin e Bussab no capítulo 3, e Md para a população."
+      "dados são população ou amostra. Para a mediana não há letra grega consagrada: o app usa Md para a população",
+      "e md para a amostra, como Morettin e Bussab (seção 10.6 e exemplo 11.7)."
     ),
     paste(
       "General rule: parameters get Greek letters (μ, σ, π) and statistics get Roman letters (ȳ, s) or a hat (π̂).",
@@ -321,7 +321,7 @@ nota_notacao <- function() {
       "proportion, so in their notation it is the hat, not the alphabet, that marks the statistic. The population",
       "variance divides by N; the sample variance, s², divides by n − 1 (the \"Estimator and estimate\" tab shows",
       "why). There is no standard Greek letter for the median, and Agresti and Finlay use no symbol for it; the app",
-      "uses md for the sample, as Morettin and Bussab do in chapter 3, and Md for the population."
+      "uses Md for the population and md for the sample, as Morettin and Bussab do (section 10.6 and example 11.7)."
     )
   )
 }

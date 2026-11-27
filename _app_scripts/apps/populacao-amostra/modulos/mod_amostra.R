@@ -57,6 +57,29 @@ texto_palpite <- function() {
   )
 }
 
+# Segundo palpite: a proporção de usuários de internet na pesquisa online.
+# Como só entra quem usa internet, p̂ = 100% em qualquer amostra.
+proporcao_internet <- fmt_pct(mean(populacao$internet), 1)
+
+opcoes_palpite_internet <- stats::setNames(
+  c("perto", "acima", "cem"),
+  c(
+    sprintf(tr("Perto de %s, como na população", "Close to %s, as in the population"), proporcao_internet),
+    tr("Um pouco acima, variando de amostra para amostra", "Somewhat higher, varying from sample to sample"),
+    tr("100% em todas as amostras", "100% in every sample")
+  )
+)
+
+texto_palpite_internet <- function() {
+  sprintf(
+    tr(
+      "Na população, %s usam internet. Na pesquisa online, que proporção a amostra vai mostrar?",
+      "In the population, %s use the internet. In the online survey, what proportion will the sample show?"
+    ),
+    proporcao_internet
+  )
+}
+
 texto_amostra <- function() {
   tr(
     shiny::tagList(
@@ -74,9 +97,9 @@ texto_amostra <- function() {
       ),
       shiny::p(
         "A pesquisa online é diferente. Quem não usa internet nunca é sorteado, e esse grupo é mais velho e tem",
-        "renda menor. Por isso, a estatística passa a errar, em média, para o mesmo lado. Isso é viés de amostragem,",
-        "aqui causado por subcobertura: o grupo que pode ser sorteado deixa de fora parte da população (Agresti e",
-        "Finlay, seção 2.3). Esse viés não some com uma amostra maior: aumentar n só deixa o erro mais estável."
+        "renda menor. Por isso, a estatística passa a errar, em média, para o mesmo lado. Isso é viés de seleção",
+        "(Morettin e Bussab, seção 10.4), aqui causado por subcobertura: o grupo que pode ser sorteado deixa de fora",
+        "parte da população (Agresti e Finlay, seção 2.3). Esse viés não some com uma amostra maior: aumentar n só deixa o erro mais estável."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -189,6 +212,15 @@ mod_amostra_ui <- function(id) {
           )
         ),
         bslib::card(
+          bslib::card_header(tr("Segundo palpite: quem usa internet", "Another guess: internet users")),
+          bslib::card_body(
+            shiny::p(class = "mb-1", texto_palpite_internet()),
+            shiny::radioButtons(ns("palpite_internet"), NULL, choices = opcoes_palpite_internet, selected = character(0)),
+            shiny::actionButton(ns("montar_teste_internet"), tr("Registrar palpite e montar o teste", "Lock in my guess and set up the test"), class = "btn-outline-primary btn-sm", icon = shiny::icon("flask")),
+            shiny::uiOutput(ns("resultado_palpite_internet"))
+          )
+        ),
+        bslib::card(
           bslib::card_header(rotulo_entenda()),
           bslib::card_body(texto_amostra())
         )
@@ -278,6 +310,55 @@ mod_amostra_server <- function(id, modo = shiny::reactive("light")) {
       shiny::updateSelectInput(session, "medida", selected = "media")
       shiny::updateRadioButtons(session, "selecao", selected = "online")
       shiny::updateSliderInput(session, "n", value = 50)
+    })
+
+    palpite_internet <- shiny::reactiveVal(NULL)
+
+    shiny::observeEvent(input$montar_teste_internet, {
+      shiny::req(input$palpite_internet)
+      palpite_internet(input$palpite_internet)
+      shiny::updateSelectInput(session, "variavel", selected = "internet")
+      shiny::updateRadioButtons(session, "selecao", selected = "online")
+    })
+
+    output$resultado_palpite_internet <- shiny::renderUI({
+      shiny::req(palpite_internet())
+      teste_montado <- identical(input$selecao, "online") && identical(input$variavel, "internet")
+      k <- length(estatisticas())
+
+      passo <- if (!teste_montado) {
+        tr(
+          "Para fazer o teste, volte à pesquisa online e à variável de uso de internet.",
+          "To run the test, switch back to the online survey and the internet use variable."
+        )
+      } else if (k < 20) {
+        tr(
+          "Teste montado. Clique em \"Sortear mais 20\" e observe o gráfico sorteio a sorteio.",
+          "Test set up. Click \"Draw 20 more\" and watch the draw-by-draw chart."
+        )
+      }
+      if (!is.null(passo)) return(shiny::div(class = "alert alert-info mt-3 mb-0 small", passo))
+
+      acertou <- identical(palpite_internet(), "cem")
+      shiny::div(
+        class = paste("alert mt-3 mb-0 small", if (acertou) "alert-success" else "alert-warning"),
+        shiny::strong(if (acertou) tr("Seu palpite se confirmou. ", "Your guess held up. ") else tr("O resultado contraria o palpite. ", "The result goes against your guess. ")),
+        sprintf(
+          tr(
+            paste(
+              "Todas as %s amostras deram 100%%, um erro de %s em cada uma. Como na pesquisa online só entra quem usa",
+              "internet, p̂ não tem como variar: aumentar n não reduz o erro, e a amostra não informa nada sobre quem",
+              "ficou de fora. É a subcobertura no caso extremo."
+            ),
+            paste(
+              "All %s samples gave 100%%, an error of %s in each one. Since only internet users can enter the online",
+              "survey, π̂ cannot vary: increasing n does not reduce the error, and the sample says nothing about those",
+              "left out. This is undercoverage at its most extreme."
+            )
+          ),
+          fmt_num(k, 0), fmt_erro(1 - mean(populacao$internet), "internet", "proporcao")
+        )
+      )
     })
 
     output$resultado_palpite <- shiny::renderUI({
