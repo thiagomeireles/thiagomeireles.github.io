@@ -154,6 +154,17 @@
   tags_en: [two populations, t test, Welch, F test, variances, paired samples, Mann-Whitney, Wilcoxon, two proportions, permutation]
   publicado: "2026-11-27"
 
+- slug: qui-quadrado
+  slug_en: chi-squared
+  tema: inferencia
+  titulo: Qui-quadrado de aderência e independência
+  title: Chi-squared goodness of fit and independence
+  descricao: Teste qui-quadrado de aderência, independência versus homogeneidade em tabelas de contingência, Kolmogorov-Smirnov, teste t para correlação linear (ρ = 0) e teste exato de Fisher em amostras pequenas.
+  description: Chi-squared goodness-of-fit test, independence versus homogeneity in contingency tables, Kolmogorov-Smirnov, t test for linear correlation (ρ = 0) and Fisher's exact test in small samples.
+  tags: [qui-quadrado, aderência, independência, homogeneidade, tabela de contingência, Kolmogorov-Smirnov, correlação, Fisher, V de Cramér]
+  tags_en: [chi-squared, goodness of fit, independence, homogeneity, contingency table, Kolmogorov-Smirnov, correlation, Fisher, "Cramér's V"]
+  publicado: "2026-11-27"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t

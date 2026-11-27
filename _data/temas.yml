@@ -124,6 +124,7 @@
       title: Chi-squared goodness of fit and independence
       descricao: Se os dados seguem um modelo e se duas variáveis categóricas estão associadas.
       description: Whether data follow a model and whether two categorical variables are associated.
+      app: qui-quadrado
     - titulo: Análise de variância
       title: Analysis of variance
       descricao: Comparação de várias médias com a ANOVA de um fator.
