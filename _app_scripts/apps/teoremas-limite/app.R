@@ -45,6 +45,11 @@ ui <- pagina_tema(
       "formal theory."
     )
   ),
+  referencias = list(
+    referencia_livro("Casella, G., & Berger, R. L.", 2002, "Statistical inference", "Duxbury", edicao = 2),
+    referencia_livro("Morettin, P. A., & Bussab, W. O.", 2010, "Estatística básica", "Saraiva", edicao = 6),
+    referencia_livro("Wooldridge, J. M.", 2013, "Introductory econometrics: A modern approach", "Cengage Learning", edicao = 5)
+  ),
   bslib::nav_panel(
     tr("Lei dos Grandes Números", "Law of Large Numbers"), value = "lgn",
     shiny::tags$style(".tabela-app th { text-transform: none; }"),

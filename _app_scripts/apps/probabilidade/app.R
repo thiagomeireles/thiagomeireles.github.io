@@ -45,6 +45,11 @@ ui <- pagina_tema(
       "3.5 and 5.3) for the formal results."
     )
   ),
+  referencias = list(
+    referencia_livro("Agresti, A., & Finlay, B.", 2009, "Statistical methods for the social sciences", "Pearson Prentice Hall", edicao = 4),
+    referencia_livro("Casella, G., & Berger, R. L.", 2002, "Statistical inference", "Duxbury", edicao = 2),
+    referencia_livro("Morettin, P. A., & Bussab, W. O.", 2010, "Estatística básica", "Saraiva", edicao = 6)
+  ),
   bslib::nav_panel(
     tr("Normal (Z) e t de Student", "Normal (Z) and Student's t"), value = "normal",
     shiny::tags$style(".tabela-app th { text-transform: none; }"),
