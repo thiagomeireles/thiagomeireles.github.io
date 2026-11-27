@@ -2,106 +2,92 @@
 # Script:  mod_origem_t.R (módulo Para ir além: construção formal T = Z / √(U/ν),
 #          independência entre X̄ e S² na normal e cobertura em amostra pequena)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/apps/probabilidade/app.R)
+#   - funções de modulos/dados.R (carregado por _app_scripts/apps/probabilidade/app.R)
 # Saída:
 #   - funções mod_origem_t_ui() e mod_origem_t_server()
 # =============================================================================
-
-simular_pivote_t <- function(n, k_rep, pop = "normal") {
-  if (identical(pop, "exponencial")) {
-    # Exponencial(1) centrada em μ = 1 e σ = 1: assimétrica, quebra independência entre X̄ e S²
-    m <- matrix(stats::rexp(n * k_rep, rate = 1), nrow = k_rep)
-    mu <- 1
-    sigma <- 1
-  } else {
-    m <- matrix(stats::rnorm(n * k_rep, mean = 0, sd = 1), nrow = k_rep)
-    mu <- 0
-    sigma <- 1
-  }
-  medias <- rowMeans(m)
-  s2 <- rowSums((m - medias)^2) / (n - 1)
-  s <- sqrt(s2)
-  z <- (medias - mu) / (sigma / sqrt(n))
-  escala_s <- s / sigma
-  t_stat <- z / escala_s
-  list(z = z, s_sobre_sigma = escala_s, u = (n - 1) * s2 / sigma^2, t = t_stat)
-}
 
 texto_origem_t <- function() {
   tr(
     shiny::withMathJax(
       shiny::p(
-        "Por que substituir \\(\\sigma\\) por \\(S\\) troca a normal pela \\(t\\) de Student, e não por outra curva",
-        "qualquer? Em amostras \\(X_1, \\dots, X_n\\) independentes de uma população \\(N(\\mu, \\sigma^2)\\), o",
-        "Teorema 5.3.1 de Casella e Berger estabelece três resultados exatos: (1) a média padronizada",
-        "\\(Z = \\frac{\\bar{X} - \\mu}{\\sigma/\\sqrt{n}}\\) segue \\(N(0, 1)\\); (2) a soma de quadrados reescalada",
-        "\\(U = \\frac{(n - 1)S^2}{\\sigma^2}\\) segue uma qui-quadrado com \\(\\nu = n - 1\\) graus de liberdade;",
-        "e (3) \\(\\bar{X}\\) e \\(S^2\\) são variáveis aleatórias independentes — uma propriedade exclusiva da",
-        "distribuição normal entre todas as famílias contínuas."
+        "Por que trocar \\(\\sigma\\) por \\(S\\) leva da normal à \\(t\\) de Student, e não a outra curva",
+        "qualquer? Numa amostra \\(X_1, \\dots, X_n\\) independente de uma população \\(N(\\mu, \\sigma^2)\\), o",
+        "Teorema 5.3.1 de Casella e Berger dá três resultados exatos: (1) \\(\\bar{X} \\sim N(\\mu, \\sigma^2/n)\\),",
+        "e a média padronizada \\(Z = \\frac{\\bar{X} - \\mu}{\\sigma/\\sqrt{n}}\\) segue \\(N(0, 1)\\); (2) a soma de",
+        "quadrados reescalada \\(U = \\frac{(n - 1)S^2}{\\sigma^2}\\) segue uma qui-quadrado com \\(\\nu = n - 1\\)",
+        "graus de liberdade; e (3) \\(\\bar{X}\\) e \\(S^2\\) são independentes. Morettin e Bussab chegam ao mesmo",
+        "ponto no Teorema 12.1 (seção 12.9). A independência é a parte delicada, já que a normal é a única",
+        "distribuição em que ela vale (Lukacs, 1942)."
       ),
       shiny::p(
         "Dividindo o numerador e o denominador da estatística \\(t\\) por \\(\\sigma\\), o parâmetro desconhecido",
-        "desaparece e sobra a razão de duas peças independentes (Definição 5.3.2):",
-        "\\(T = \\frac{\\bar{X} - \\mu}{S/\\sqrt{n}} = \\frac{Z}{\\sqrt{U / \\nu}}\\). O gráfico de dispersão mostra o",
-        "mecanismo concreto das caudas pesadas: mesmo quando \\(|Z|\\) é moderado (por exemplo, 1,2), uma amostra",
-        "pequena pode sortear observações casualmente próximas entre si, produzindo \\(S/\\sigma\\) bem abaixo de 1",
-        "e arremessando \\(|T|\\) para 4 ou 5. Se usarmos o corte \\(\\pm 1{,}96\\) da normal ignorando essa oscilação",
-        "de \\(S\\), o intervalo de 95% cobre menos do que promete em amostras pequenas."
+        "some e sobra a razão entre duas peças independentes (Casella e Berger, eq. 5.3.5 e Definição 5.3.4;",
+        "Morettin e Bussab, Teorema 7.1 e seção 12.10):",
+        "\\(T = \\frac{\\bar{X} - \\mu}{S/\\sqrt{n}} = \\frac{Z}{\\sqrt{U / \\nu}}\\). O gráfico de dispersão mostra",
+        "de onde vêm as caudas pesadas: mesmo com \\(|Z|\\) moderado (1,2, por exemplo), uma amostra pequena pode",
+        "sair com observações próximas entre si por acaso, o que dá \\(S/\\sigma\\) bem abaixo de 1 e joga",
+        "\\(|T|\\) para 4 ou 5. Quem usa o corte \\(\\pm 1{,}96\\) da normal e ignora essa oscilação de \\(S\\) tem",
+        "um intervalo de 95% que cobre menos do que promete em amostras pequenas."
       ),
       shiny::p(
-        "Essa construção também explica as propriedades analíticas da \\(t_\\nu\\) (Casella e Berger, cap. 5): sua",
-        "densidade decai como potência \\((1 + t^2/\\nu)^{-(\\nu+1)/2}\\) em vez da queda exponencial \\(e^{-z^2/2}\\),",
-        "logo \\(E(|T|^r) < \\infty\\) somente para \\(r < \\nu\\) e a função geradora de momentos não existe para",
-        "nenhum \\(\\nu\\) finito. E se a população não for normal, como na exponencial? Em amostras pequenas,",
-        "\\(\\bar{X}\\) e \\(S^2\\) passam a ser positivamente correlacionados (amostras na cauda direita têm média",
-        "alta e desvio padrão alto ao mesmo tempo), distorcendo a simetria de \\(T\\) até que o Teorema Central do",
-        "Limite e o Teorema de Slutsky recuperem a aproximação para \\(n\\) grande."
+        "A mesma construção explica outras propriedades da \\(t_\\nu\\) (Casella e Berger, seção 5.3.2): a",
+        "densidade cai como potência, \\((1 + t^2/\\nu)^{-(\\nu+1)/2}\\), e não de forma exponencial como",
+        "\\(e^{-z^2/2}\\). Por isso \\(E(|T|^r) < \\infty\\) só para \\(r < \\nu\\), e a função geradora de momentos",
+        "não existe para nenhum \\(\\nu\\) finito. E se a população não for normal, como a exponencial? Em amostras",
+        "pequenas, \\(\\bar{X}\\) e \\(S^2\\) passam a ter correlação positiva (amostras com valores na cauda",
+        "direita têm média alta e desvio padrão alto ao mesmo tempo), e \\(T\\) fica assimétrica até que o",
+        "Teorema Central do Limite e o Teorema de Slutsky recuperem a aproximação para \\(n\\) grande."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
-        "com população normal e \\(n = 4\\) (\\(\\nu = 3\\)), observe a independência no gráfico da direita",
-        "(\\(\\text{corr}(Z, S/\\sigma) \\approx 0\\)) e veja a cobertura com \\(\\pm 1{,}96\\) cair perto de 86%,",
-        "contra 95% usando \\(t_{3;\\,0{,}975} = 3{,}182\\). Depois troque para a população exponencial e veja",
-        "\\(Z\\) e \\(S/\\sigma\\) caminharem juntos."
+        "com população normal e \\(n = 4\\) (\\(\\nu = 3\\)), veja a independência no gráfico da direita",
+        "(\\(\\text{corr}(Z, S/\\sigma) \\approx 0\\)) e a cobertura com \\(\\pm 1{,}96\\) cair para perto de 86%,",
+        "contra 95% com \\(t_{3;\\,0{,}975} = 3{,}182\\). Depois troque para a exponencial: \\(Z\\) e",
+        "\\(S/\\sigma\\) passam a andar juntos (correlação perto de 0,77), e nem o corte da \\(t\\) salva o",
+        "intervalo, que cobre cerca de 88%. Quase todo o erro fica na cauda esquerda (11% contra 0,5% na direita)."
       )
     ),
     shiny::withMathJax(
       shiny::p(
         "Why does replacing \\(\\sigma\\) with \\(S\\) turn the normal into Student's \\(t\\) rather than some other",
-        "distribution? For an i.i.d. sample \\(X_1, \\dots, X_n\\) from \\(N(\\mu, \\sigma^2)\\), Casella and Berger's",
-        "Theorem 5.3.1 establishes three exact facts: (1) the standardized mean",
-        "\\(Z = \\frac{\\bar{X} - \\mu}{\\sigma/\\sqrt{n}}\\) follows \\(N(0, 1)\\); (2) the rescaled sum of squares",
-        "\\(U = \\frac{(n - 1)S^2}{\\sigma^2}\\) follows a chi-squared distribution with \\(\\nu = n - 1\\) degrees",
-        "of freedom; and (3) \\(\\bar{X}\\) and \\(S^2\\) are independent random variables — a property unique to",
-        "the normal family."
+        "curve? For an i.i.d. sample \\(X_1, \\dots, X_n\\) from \\(N(\\mu, \\sigma^2)\\), Casella and Berger's",
+        "Theorem 5.3.1 gives three exact results: (1) \\(\\bar{X} \\sim N(\\mu, \\sigma^2/n)\\), so the standardized",
+        "mean \\(Z = \\frac{\\bar{X} - \\mu}{\\sigma/\\sqrt{n}}\\) follows \\(N(0, 1)\\); (2) the rescaled sum of",
+        "squares \\(U = \\frac{(n - 1)S^2}{\\sigma^2}\\) follows a chi-squared distribution with \\(\\nu = n - 1\\)",
+        "degrees of freedom; and (3) \\(\\bar{X}\\) and \\(S^2\\) are independent. Morettin and Bussab reach the same",
+        "point in Theorem 12.1 (section 12.9). Independence is the delicate part, since the normal is the only",
+        "distribution for which it holds (Lukacs, 1942)."
       ),
       shiny::p(
         "Dividing numerator and denominator of the \\(t\\)-statistic by \\(\\sigma\\) cancels the unknown parameter",
-        "and leaves the ratio of two independent pieces (Definition 5.3.2):",
-        "\\(T = \\frac{\\bar{X} - \\mu}{S/\\sqrt{n}} = \\frac{Z}{\\sqrt{U / \\nu}}\\). The scatterplot reveals the",
-        "concrete mechanism behind heavy tails: even when \\(|Z|\\) is modest (say, 1.2), a small sample can happen",
-        "to cluster tightly by chance, yielding \\(S/\\sigma\\) well below 1 and sending \\(|T|\\) past 4 or 5.",
-        "Using the normal cutoff \\(\\pm 1.96\\) while ignoring that variability in \\(S\\) makes a nominal 95%",
-        "interval undercover in small samples."
+        "and leaves the ratio of two independent pieces (Casella and Berger, eq. 5.3.5 and Definition 5.3.4;",
+        "Morettin and Bussab, Theorem 7.1 and section 12.10):",
+        "\\(T = \\frac{\\bar{X} - \\mu}{S/\\sqrt{n}} = \\frac{Z}{\\sqrt{U / \\nu}}\\). The scatterplot shows where the",
+        "heavy tails come from: even with a modest \\(|Z|\\) (say, 1.2), a small sample can come out tightly",
+        "clustered by accident, which gives \\(S/\\sigma\\) well below 1 and sends \\(|T|\\) to 4 or 5. Using the",
+        "normal cutoff \\(\\pm 1.96\\) while ignoring that swing in \\(S\\) leaves a nominal 95% interval covering",
+        "less than it promises in small samples."
       ),
       shiny::p(
-        "This construction also explains the analytical traits of \\(t_\\nu\\) (Casella and Berger, ch. 5): its",
-        "density decays polynomially as \\((1 + t^2/\\nu)^{-(\\nu+1)/2}\\) rather than exponentially like \\(e^{-z^2/2}\\),",
-        "so \\(E(|T|^r) < \\infty\\) only for \\(r < \\nu\\) and the moment generating function does not exist for",
-        "any finite \\(\\nu\\). What if the population is skewed, such as an exponential? In small samples,",
-        "\\(\\bar{X}\\) and \\(S^2\\) become positively correlated (draws in the right tail raise both the mean and",
-        "the spread at once), skewing \\(T\\) until the Central Limit Theorem and Slutsky's theorem take over for",
-        "large \\(n\\)."
+        "The same construction explains other traits of \\(t_\\nu\\) (Casella and Berger, section 5.3.2): its",
+        "density decays as a power, \\((1 + t^2/\\nu)^{-(\\nu+1)/2}\\), rather than exponentially like",
+        "\\(e^{-z^2/2}\\). So \\(E(|T|^r) < \\infty\\) only for \\(r < \\nu\\), and the moment generating function",
+        "does not exist for any finite \\(\\nu\\). What if the population is not normal, such as an exponential?",
+        "In small samples, \\(\\bar{X}\\) and \\(S^2\\) become positively correlated (samples with draws in the right",
+        "tail have a high mean and a high spread at once), and \\(T\\) turns skewed until the Central Limit Theorem",
+        "and Slutsky's theorem restore the approximation for large \\(n\\)."
       ),
       shiny::p(
         shiny::strong("Try it:"),
         "with a normal population and \\(n = 4\\) (\\(\\nu = 3\\)), note the independence in the right-hand plot",
-        "(\\(\\text{corr}(Z, S/\\sigma) \\approx 0\\)) and see coverage under \\(\\pm 1.96\\) drop near 86%, versus",
-        "95% with \\(t_{3,\\,0.975} = 3.182\\). Then switch to the exponential population to see \\(Z\\) and",
-        "\\(S/\\sigma\\) move together."
+        "(\\(\\text{corr}(Z, S/\\sigma) \\approx 0\\)) and see coverage under \\(\\pm 1.96\\) drop to about 86%,",
+        "versus 95% with \\(t_{3,\\,0.975} = 3.182\\). Then switch to the exponential: \\(Z\\) and \\(S/\\sigma\\)",
+        "move together (correlation near 0.77), and not even the \\(t\\) cutoff rescues the interval, which covers",
+        "about 88%. Almost all of the misses fall in the left tail (11% versus 0.5% on the right)."
       )
     )
   )
@@ -184,8 +170,7 @@ mod_origem_t_server <- function(id, modo = shiny::reactive("light")) {
 
     output$grafico_hist <- shiny::renderPlot({
       pal <- paleta_modo(modo())
-      t_vals <- sim()$t
-      t_recorte <- t_vals[abs(t_vals) <= 6]
+      barras <- histograma_recortado(sim()$t, lim = 6)
       xs <- seq(-5, 5, length.out = 500)
       nomes_c <- tr(
         c(sprintf("t teórica (%d gl)", nu()), "Normal padrão Z"),
@@ -198,10 +183,10 @@ mod_origem_t_server <- function(id, modo = shiny::reactive("light")) {
       curvas$curva <- factor(curvas$curva, levels = nomes_c)
 
       ggplot2::ggplot() +
-        ggplot2::geom_histogram(
-          data = data.frame(t = t_recorte),
-          ggplot2::aes(x = t, y = ggplot2::after_stat(density)),
-          bins = 45, fill = cores_app$destaque, colour = pal$fundo, alpha = 0.72
+        ggplot2::geom_rect(
+          data = barras,
+          ggplot2::aes(xmin = inf, xmax = sup, ymin = 0, ymax = densidade),
+          fill = cores_app$destaque, colour = pal$fundo, alpha = 0.72
         ) +
         ggplot2::geom_line(
           data = curvas, ggplot2::aes(x = x, y = y, colour = curva, linetype = curva),
@@ -210,13 +195,16 @@ mod_origem_t_server <- function(id, modo = shiny::reactive("light")) {
         ggplot2::scale_colour_manual(values = c(cores_app$referencia, pal$linha), name = NULL) +
         ggplot2::scale_linetype_manual(values = c("solid", "dashed"), name = NULL) +
         ggplot2::coord_cartesian(xlim = c(-5, 5)) +
-        ggplot2::scale_x_continuous(breaks = -5:5) +
+        ggplot2::scale_x_continuous(breaks = -5:5, labels = rotulos_eixo()) +
         ggplot2::scale_y_continuous(labels = rotulos_eixo()) +
         ggplot2::labs(
           title = tr("Distribuição simulada de T = (X̄ − μ) / (S/√n)", "Simulated distribution of T = (X̄ − μ) / (S/√n)"),
           subtitle = sprintf(tr("n = %d (ν = %d gl) | %s amostras", "n = %d (ν = %d df) | %s samples"), input$n, nu(), fmt_num(input$k_rep, 0)),
           x = "T", y = tr("Densidade", "Density"),
-          caption = tr("Barras: valores simulados em [−6; 6]", "Bars: simulated draws in [−6, 6]")
+          caption = tr(
+            "Barras: valores simulados em [−6; 6]; a densidade usa todas as amostras, inclusive as que caem fora",
+            "Bars: simulated values in [−6, 6]; the density uses all samples, including those that fall outside"
+          )
         ) +
         tema_grafico(modo()) +
         ggplot2::theme(legend.position = "top", legend.justification = "left")

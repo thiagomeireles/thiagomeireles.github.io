@@ -1,116 +1,69 @@
 # =============================================================================
 # Script:  mod_normal.R (módulo: distribuições Normal N(μ, σ²), Z e t de Student)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
-#   - nenhuma (carregado por _app_scripts/apps/probabilidade/app.R)
+#   - funções de modulos/dados.R (carregado por _app_scripts/apps/probabilidade/app.R)
 # Saída:
 #   - funções mod_normal_ui() e mod_normal_server()
 # =============================================================================
-
-dens_dist <- function(x, dist, gl, mu = 0, sigma = 1) {
-  if (dist == "normal_geral") return(stats::dnorm(x, mean = mu, sd = sigma))
-  if (dist == "z") stats::dnorm(x) else stats::dt(x, df = gl)
-}
-
-acum_dist <- function(q, dist, gl, mu = 0, sigma = 1) {
-  if (dist == "normal_geral") return(stats::pnorm(q, mean = mu, sd = sigma))
-  if (dist == "z") stats::pnorm(q) else stats::pt(q, df = gl)
-}
-
-quant_dist <- function(p, dist, gl, mu = 0, sigma = 1) {
-  if (dist == "normal_geral") return(stats::qnorm(p, mean = mu, sd = sigma))
-  if (dist == "z") stats::qnorm(p) else stats::qt(p, df = gl)
-}
-
-# Intervalos (lista de pares inf/sup) que formam a área pedida
-intervalos_area <- function(tipo, a, b, centro = 0) {
-  afast <- abs(a - centro)
-  switch(
-    tipo,
-    inferior = list(c(-Inf, a)),
-    superior = list(c(a, Inf)),
-    entre    = list(sort(c(a, b))),
-    bicaudal = list(c(-Inf, centro - afast), c(centro + afast, Inf))
-  )
-}
-
-prob_area <- function(intervalos, dist, gl, mu = 0, sigma = 1) {
-  intervalos |>
-    purrr::map_dbl(\(l) acum_dist(l[2], dist, gl, mu, sigma) - acum_dist(l[1], dist, gl, mu, sigma)) |>
-    sum()
-}
-
-dentro_area <- function(x, intervalos) {
-  intervalos |>
-    purrr::map(\(l) x >= l[1] & x <= l[2]) |>
-    purrr::reduce(`|`)
-}
-
-rotulo_prob <- function(tipo, a, b, centro = 0) {
-  afast <- abs(a - centro)
-  switch(
-    tipo,
-    inferior = sprintf("P(X ≤ %s)", fmt_num(a, 2)),
-    superior = sprintf("P(X ≥ %s)", fmt_num(a, 2)),
-    entre    = sprintf("P(%s ≤ X ≤ %s)", fmt_num(min(a, b), 2), fmt_num(max(a, b), 2)),
-    bicaudal = if (centro == 0) {
-      sprintf("P(|X| ≥ %s)", fmt_num(afast, 2))
-    } else {
-      sprintf("P(|X − μ| ≥ %s)", fmt_num(afast, 2))
-    }
-  )
-}
 
 texto_normal <- function() {
   tr(
     shiny::withMathJax(
       shiny::p(
-        "Numa variável aleatória contínua, probabilidades correspondem a áreas sob a curva de densidade \\(f(x)\\):",
-        "a área total vale 1 e a probabilidade de qualquer ponto isolado é zero, \\(P(X = a) = 0\\) (Morettin e",
-        "Bussab, seção 7.1). A família normal \\(N(\\mu, \\sigma^2)\\) forma uma família de locação-escala (Casella e",
-        "Berger, seção 3.5): \\(\\mu\\) desloca o eixo de simetria sem mudar a forma, e \\(\\sigma\\) abre ou estreita",
-        "a curva. Por decorrência disso, toda variável \\(X \\sim N(\\mu, \\sigma^2)\\) se reduz à normal padrão",
-        "\\(Z = (X - \\mu)/\\sigma \\sim N(0, 1)\\), preservando exatamente a área entre pontos correspondentes."
+        "Numa variável aleatória contínua, probabilidades são áreas sob a curva de densidade \\(f(x)\\): a área",
+        "total vale 1 e a probabilidade de um ponto isolado é zero, \\(P(X = a) = 0\\) (Morettin e Bussab, seção",
+        "7.1). A normal \\(N(\\mu, \\sigma^2)\\) (seção 7.4) é uma família de locação-escala (Casella e Berger, seção",
+        "3.5): \\(\\mu\\) desloca o centro de simetria sem mudar a forma, e \\(\\sigma\\) abre ou estreita a curva.",
+        "Por isso, toda \\(X \\sim N(\\mu, \\sigma^2)\\) se reduz à normal padrão",
+        "\\(Z = (X - \\mu)/\\sigma \\sim N(0, 1)\\), e a área entre dois cortes de \\(X\\) é a mesma área entre os",
+        "escores \\(z\\) correspondentes (Agresti e Finlay, seção 4.3)."
       ),
       shiny::p(
-        "A distribuição \\(t\\) de Student entra em cena na inferência quando \\(\\sigma\\) é desconhecido e precisa",
-        "ser estimado pelo desvio padrão amostral \\(S\\): a estatística \\(T = (\\bar{X} - \\mu)/(S/\\sqrt{n})\\)",
-        "segue uma \\(t\\) com \\(\\nu = n - 1\\) graus de liberdade (Morettin e Bussab, seção 10.9; Agresti e Finlay,",
-        "cap. 5). Como estimar \\(\\sigma\\) acrescenta incerteza em amostras pequenas, a \\(t\\) espalha mais massa",
-        "nas caudas do que a \\(Z\\), exigindo valores críticos maiores para o mesmo nível de confiança. À medida que",
-        "\\(\\nu\\) cresce, \\(S\\) se estabiliza perto de \\(\\sigma\\) e a curva \\(t\\) converge para a normal padrão."
+        "A \\(t\\) de Student (Morettin e Bussab, seção 7.7.3) entra na inferência quando \\(\\sigma\\) é",
+        "desconhecido e precisa ser estimado pelo desvio padrão amostral \\(S\\). Numa população normal,",
+        "\\(T = (\\bar{X} - \\mu)/(S/\\sqrt{n})\\) segue uma \\(t\\) com \\(\\nu = n - 1\\) graus de liberdade",
+        "(Morettin e Bussab, seção 12.10; Agresti e Finlay, seção 5.3). Estimar \\(\\sigma\\) acrescenta incerteza,",
+        "que é grande em amostras pequenas; por isso a \\(t\\) põe mais massa nas caudas do que a \\(Z\\) e pede",
+        "valores críticos maiores para o mesmo nível de confiança. Com \\(\\nu\\) grande, \\(S\\) fica perto de",
+        "\\(\\sigma\\) e a \\(t\\) se aproxima da normal padrão."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
-        "na normal geral \\(N(\\mu, \\sigma^2)\\), mude \\(\\mu\\) e \\(\\sigma\\) mantendo \\(a = \\mu + 1{,}96\\sigma\\)",
-        "para confirmar que a área à direita permanece em 2,5%. Depois passe para a \\(t\\) com 1 ou 2 graus de",
-        "liberdade e veja quanto o valor crítico de 95% excede 1,96 antes de se aproximar de \\(Z\\) perto de 30 gl."
+        "na normal geral, escolha \\(P(X \\geq a)\\) e mude \\(\\mu\\) e \\(\\sigma\\). O corte \\(a\\) se move junto e",
+        "mantém \\(z = 1{,}96\\), então a área à direita continua em 2,5%. Depois passe para a \\(t\\) com 1 ou 2",
+        "graus de liberdade e compare, no terceiro quadro, a área da \\(t\\) com a da \\(Z\\) nos mesmos cortes. Com",
+        "poucos graus de liberdade, o valor crítico de 95% fica bem acima de 1,96, e com 30 gl ele ainda é 2,04."
       )
     ),
     shiny::withMathJax(
       shiny::p(
-        "For a continuous random variable, probabilities are areas under the density curve \\(f(x)\\): the total area",
-        "equals 1 and the probability of any single point is zero, \\(P(X = a) = 0\\) (Morettin and Bussab, section",
-        "7.1). The normal family \\(N(\\mu, \\sigma^2)\\) is a location-scale family (Casella and Berger, section 3.5):",
-        "\\(\\mu\\) shifts the center of symmetry without altering the shape, and \\(\\sigma\\) stretches or",
-        "compresses the spread. Consequently, any \\(X \\sim N(\\mu, \\sigma^2)\\) reduces to the standard normal",
-        "\\(Z = (X - \\mu)/\\sigma \\sim N(0, 1)\\), preserving the exact area between corresponding cutoffs."
+        "For a continuous random variable, probabilities are areas under the density curve \\(f(x)\\): the total",
+        "area is 1 and the probability of any single point is zero, \\(P(X = a) = 0\\) (Morettin and Bussab,",
+        "section 7.1). The normal \\(N(\\mu, \\sigma^2)\\) (section 7.4) is a location-scale family (Casella and",
+        "Berger, section 3.5): \\(\\mu\\) shifts the center of symmetry without changing the shape, and \\(\\sigma\\)",
+        "stretches or compresses the curve. That is why any \\(X \\sim N(\\mu, \\sigma^2)\\) reduces to the standard",
+        "normal \\(Z = (X - \\mu)/\\sigma \\sim N(0, 1)\\), and the area between two cutoffs of \\(X\\) equals the area",
+        "between the matching \\(z\\)-scores (Agresti and Finlay, section 4.3)."
       ),
       shiny::p(
-        "Student's \\(t\\) distribution arises in inference when \\(\\sigma\\) is unknown and has to be estimated by",
-        "the sample standard deviation \\(s\\): the ratio \\(t = (\\bar{Y} - \\mu)/(s/\\sqrt{n})\\) follows a \\(t\\)",
-        "distribution with \\(\\nu = n - 1\\) degrees of freedom (Agresti and Finlay, ch. 5; Morettin and Bussab,",
-        "section 10.9). Because estimating \\(\\sigma\\) adds uncertainty in small samples, \\(t\\) puts more mass in",
-        "its tails than \\(Z\\), requiring wider critical values for the same confidence level. As \\(\\nu\\) grows,",
-        "\\(s\\) settles near \\(\\sigma\\) and the \\(t\\) curve converges to the standard normal."
+        "Student's \\(t\\) (Morettin and Bussab, section 7.7.3) comes into inference when \\(\\sigma\\) is unknown and",
+        "has to be estimated by the sample standard deviation \\(s\\). In a normal population,",
+        "\\(t = (\\bar{y} - \\mu)/(s/\\sqrt{n})\\) follows a \\(t\\) distribution with \\(\\nu = n - 1\\) degrees of",
+        "freedom (Agresti and Finlay, section 5.3; Morettin and Bussab, section 12.10). Estimating \\(\\sigma\\) adds",
+        "uncertainty, which is large in small samples, so \\(t\\) puts more mass in its tails than \\(Z\\) and calls",
+        "for larger critical values at the same confidence level. As \\(\\nu\\) grows, \\(s\\) settles near",
+        "\\(\\sigma\\) and \\(t\\) approaches the standard normal."
       ),
       shiny::p(
         shiny::strong("Try it:"),
-        "under the general normal \\(N(\\mu, \\sigma^2)\\), change \\(\\mu\\) and \\(\\sigma\\) while setting",
-        "\\(a = \\mu + 1.96\\sigma\\) to see the upper-tail area stay at 2.5%. Then switch to \\(t\\) with 1 or 2",
-        "degrees of freedom and see how far the 95% critical value exceeds 1.96 before approaching \\(Z\\) past 30 df."
+        "under the general normal, pick \\(P(X \\geq a)\\) and change \\(\\mu\\) and \\(\\sigma\\). The cutoff \\(a\\)",
+        "moves along and keeps \\(z = 1.96\\), so the upper-tail area stays at 2.5%. Then switch to \\(t\\) with 1 or",
+        "2 degrees of freedom and compare, in the third box, the area under \\(t\\) with the area under \\(Z\\) for",
+        "the same cutoffs. With few degrees of freedom, the 95% critical value sits well above 1.96, and at 30 df it",
+        "is still 2.04."
       )
     )
   )
@@ -119,40 +72,30 @@ texto_normal <- function() {
 cuidados_normal <- function() {
   tr(
     c(
-      "Desigualdades < e ≤" = "em distribuições contínuas, P(X < a) e P(X ≤ a) são idênticas, porque a linha vertical em X = a tem área zero.",
+      "Desigualdades < e ≤" = "em distribuições contínuas, P(X < a) e P(X ≤ a) são iguais, porque a linha vertical em X = a tem área zero.",
       "Variância σ² contra desvio padrão σ" = paste(
         "Morettin e Bussab escrevem N(μ, σ²) com a variância no segundo argumento, mas pnorm() e qnorm() no R",
-        "recebem o desvio padrão σ = √σ². Confundir os dois é um dos erros mais comuns em código."
+        "recebem o desvio padrão σ = √σ². Se você passar a variância no lugar do desvio padrão, o R calcula sem",
+        "reclamar e devolve uma probabilidade errada."
       ),
       "Momentos da t com poucos graus de liberdade" = paste(
-        "com gl = 1 a distribuição t coincide com a Cauchy padrão e não possui média nem variância; com gl = 2 a média",
-        "é 0, mas a variância é infinita; para gl ≥ 3, Var(T) = gl / (gl − 2)."
+        "com gl = 1 a t coincide com a Cauchy padrão e não tem média nem variância; com gl = 2 a média",
+        "é 0, mas a variância é infinita; para gl ≥ 3, Var(T) = gl / (gl − 2) (Casella e Berger, eq. 5.3.7)."
       ),
-      "Densidade não é probabilidade" = "f(x) é altura (densidade por unidade de x) e pode passar de 1 quando σ é pequeno; só a área ∫ f(x) dx está entre 0 e 1."
+      "Densidade não é probabilidade" = "f(x) é altura (densidade por unidade de x) e pode passar de 1 quando σ é pequeno; só a área ∫ f(x) dx fica entre 0 e 1."
     ),
     c(
-      "Strict vs. weak inequalities" = "for continuous distributions, P(X < a) and P(X ≤ a) are identical because a single vertical line at X = a has zero area.",
+      "Strict vs. weak inequalities" = "for continuous distributions, P(X < a) and P(X ≤ a) are equal because the vertical line at X = a has zero area.",
       "Variance σ² vs. standard deviation σ" = paste(
-        "textbooks write N(μ, σ²) with the variance as the second parameter, whereas R's pnorm() and qnorm() take",
-        "the standard deviation σ = √σ². Mixing them up is one of the most frequent coding mistakes."
+        "Morettin and Bussab write N(μ, σ²) with the variance as the second parameter, but R's pnorm() and qnorm()",
+        "take the standard deviation σ = √σ². If you pass the variance instead of the standard deviation, R runs",
+        "without complaint and returns the wrong probability."
       ),
       "Moments of t for small df" = paste(
         "at df = 1 Student's t is the standard Cauchy and has neither mean nor variance; at df = 2 the mean is 0",
-        "but variance is infinite; for df ≥ 3, Var(T) = df / (df − 2)."
+        "but the variance is infinite; for df ≥ 3, Var(T) = df / (df − 2) (Casella and Berger, eq. 5.3.7)."
       ),
-      "Density is not probability" = "f(x) is height per unit of x and can exceed 1 when σ is small; only the integrated area ∫ f(x) dx lies between 0 and 1."
-    )
-  )
-}
-
-cartao_cuidados_prob <- function(titulo, itens) {
-  bslib::card(
-    bslib::card_header(titulo),
-    bslib::card_body(
-      shiny::tags$ul(
-        class = "mb-0",
-        purrr::imap(itens, \(texto, nome) shiny::tags$li(shiny::strong(paste0(nome, ": ")), texto))
-      )
+      "Density is not probability" = "f(x) is height per unit of x and can exceed 1 when σ is small; only the area ∫ f(x) dx lies between 0 and 1."
     )
   )
 }
@@ -176,7 +119,11 @@ mod_normal_ui <- function(id) {
       shiny::conditionalPanel(
         condition = "input.dist == 'normal_geral'", ns = ns,
         shiny::numericInput(ns("mu"), tr("Média (μ)", "Mean (μ)"), value = 100, step = 1),
-        shiny::numericInput(ns("sigma"), tr("Desvio padrão (σ > 0)", "Standard deviation (σ > 0)"), value = 15, min = 0.1, step = 0.5)
+        shiny::numericInput(ns("sigma"), tr("Desvio padrão (σ > 0)", "Standard deviation (σ > 0)"), value = 15, min = 0.1, step = 0.5),
+        shiny::helpText(tr(
+          "Quando você muda μ ou σ, os cortes a e b se movem junto e mantêm o mesmo z.",
+          "When you change μ or σ, cutoffs a and b move along and keep the same z."
+        ))
       ),
       shiny::conditionalPanel(
         condition = "input.dist == 't'", ns = ns,
@@ -213,9 +160,9 @@ mod_normal_ui <- function(id) {
         theme = "info"
       ),
       bslib::value_box(
-        title = tr("Equivalente padronizado (z de a)", "Standardized equivalent (z of a)"),
-        value = shiny::textOutput(ns("z_equiv")),
-        shiny::textOutput(ns("momentos_desc")),
+        title = shiny::textOutput(ns("titulo_terceiro")),
+        value = shiny::textOutput(ns("terceiro")),
+        shiny::textOutput(ns("terceiro_desc")),
         theme = NULL
       )
     ),
@@ -229,7 +176,7 @@ mod_normal_ui <- function(id) {
         bslib::card_header(rotulo_entenda()),
         bslib::card_body(texto_normal())
       ),
-      cartao_cuidados_prob(tr("Cuidados", "Watch out"), cuidados_normal())
+      cartao_cuidados(tr("Cuidados", "Watch out"), cuidados_normal())
     )
   )
 }
@@ -237,37 +184,66 @@ mod_normal_ui <- function(id) {
 mod_normal_server <- function(id, modo = shiny::reactive("light")) {
   shiny::moduleServer(id, function(input, output, session) {
 
+    # Escores z dos cortes a e b na normal geral. Ao mudar μ ou σ, os cortes
+    # são recalculados a partir deles, e a área destacada não muda.
+    z_cortes <- shiny::reactiveVal(c(a = 1.96, b = -1.96))
+
+    escala_valida <- function() {
+      is.numeric(input$mu) && is.finite(input$mu) && is.numeric(input$sigma) && is.finite(input$sigma) && input$sigma > 0
+    }
+
     # Ajusta os pontos iniciais a e b ao trocar entre escala padrão (0, 1) e N(μ, σ²)
     shiny::observeEvent(input$dist, {
       if (identical(input$dist, "normal_geral")) {
-        mu <- if (is.finite(input$mu)) input$mu else 100
-        sg <- if (is.finite(input$sigma) && input$sigma > 0) input$sigma else 15
-        shiny::updateNumericInput(session, "a", value = round(mu + 1.96 * sg, 2))
-        shiny::updateNumericInput(session, "b", value = round(mu - 1.96 * sg, 2))
+        mu <- if (is.numeric(input$mu) && is.finite(input$mu)) input$mu else 100
+        sg <- if (is.numeric(input$sigma) && is.finite(input$sigma) && input$sigma > 0) input$sigma else 15
+        z_cortes(c(a = 1.96, b = -1.96))
+        shiny::updateNumericInput(session, "a", value = round(mu + 1.96 * sg, 4))
+        shiny::updateNumericInput(session, "b", value = round(mu - 1.96 * sg, 4))
       } else {
         shiny::updateNumericInput(session, "a", value = 1.96)
         shiny::updateNumericInput(session, "b", value = -1.96)
       }
     }, ignoreInit = TRUE)
 
+    # Quem digita a ou b na normal geral muda o z guardado
+    shiny::observeEvent(list(input$a, input$b), {
+      if (!identical(input$dist, "normal_geral") || !escala_valida()) return()
+      z <- z_cortes()
+      if (is.numeric(input$a) && is.finite(input$a)) z[["a"]] <- (input$a - input$mu) / input$sigma
+      if (is.numeric(input$b) && is.finite(input$b)) z[["b"]] <- (input$b - input$mu) / input$sigma
+      z_cortes(z)
+    }, ignoreInit = TRUE)
+
+    # Quem muda μ ou σ leva os cortes junto, com o mesmo z
+    shiny::observeEvent(list(input$mu, input$sigma), {
+      if (!identical(input$dist, "normal_geral") || !escala_valida()) return()
+      z <- z_cortes()
+      shiny::updateNumericInput(session, "a", value = round(input$mu + z[["a"]] * input$sigma, 4))
+      shiny::updateNumericInput(session, "b", value = round(input$mu + z[["b"]] * input$sigma, 4))
+    }, ignoreInit = TRUE)
+
     parametros <- shiny::reactive({
-      shiny::req(is.finite(input$a))
-      mu <- if (identical(input$dist, "normal_geral")) {
-        shiny::req(is.finite(input$mu))
-        input$mu
-      } else {
-        0
-      }
-      sigma <- if (identical(input$dist, "normal_geral")) {
-        shiny::req(is.finite(input$sigma), input$sigma > 0)
-        input$sigma
-      } else {
-        1
-      }
+      geral <- identical(input$dist, "normal_geral")
+      shiny::validate(
+        shiny::need(!geral || (is.numeric(input$mu) && is.finite(input$mu)), tr("Informe a média μ.", "Enter the mean μ.")),
+        shiny::need(
+          !geral || (is.numeric(input$sigma) && is.finite(input$sigma) && input$sigma > 0),
+          tr("O desvio padrão σ precisa ser maior que zero.", "The standard deviation σ must be greater than zero.")
+        ),
+        shiny::need(is.numeric(input$a) && is.finite(input$a), tr("Informe o corte a.", "Enter the cutoff a.")),
+        shiny::need(
+          input$tipo != "entre" || (is.numeric(input$b) && is.finite(input$b)),
+          tr("Informe o corte b.", "Enter the cutoff b.")
+        )
+      )
+      mu <- if (geral) input$mu else 0
+      sigma <- if (geral) input$sigma else 1
       b <- if (input$tipo == "entre") input$b else NA
-      if (input$tipo == "entre") shiny::req(is.finite(b))
 
       intervalos <- intervalos_area(input$tipo, input$a, b, centro = mu)
+      # Mesmos cortes em escala z, para comparar a área da t com a da normal padrão
+      intervalos_z <- purrr::map(intervalos, \(l) (l - mu) / sigma)
       list(
         dist       = input$dist,
         gl         = input$gl,
@@ -275,7 +251,9 @@ mod_normal_server <- function(id, modo = shiny::reactive("light")) {
         sigma      = sigma,
         intervalos = intervalos,
         prob       = prob_area(intervalos, input$dist, input$gl, mu, sigma),
-        rotulo     = rotulo_prob(input$tipo, input$a, b, centro = mu)
+        prob_z     = prob_area(intervalos_z, "z", input$gl),
+        rotulo     = rotulo_prob(input$tipo, input$a, b, centro = mu, letra = letra_dist(input$dist)),
+        momentos   = texto_momentos(input$dist, input$gl, mu, sigma)
       )
     })
 
@@ -287,8 +265,7 @@ mod_normal_server <- function(id, modo = shiny::reactive("light")) {
       p_sup <- 1 - (1 - input$nivel / 100) / 2
       q_sup <- quant_dist(p_sup, p$dist, p$gl, p$mu, p$sigma)
       if (p$dist == "normal_geral") {
-        q_inf <- quant_dist(1 - p_sup, p$dist, p$gl, p$mu, p$sigma)
-        sprintf("[%s; %s]", fmt_num(q_inf, 2), fmt_num(q_sup, 2))
+        fmt_intervalo(quant_dist(1 - p_sup, p$dist, p$gl, p$mu, p$sigma), q_sup)
       } else {
         paste0("± ", fmt_num(q_sup, 3))
       }
@@ -300,28 +277,31 @@ mod_normal_server <- function(id, modo = shiny::reactive("light")) {
       base <- sprintf(tr("Para %s%% de confiança", "For %s%% confidence"), fmt_num(input$nivel, 1))
       if (p$dist == "z") return(base)
       if (p$dist == "normal_geral") {
-        return(sprintf(tr("%s (μ ± %s σ)", "%s (μ ± %s σ)"), base, fmt_num(stats::qnorm(p_sup), 3)))
+        return(sprintf("%s (μ ± %s σ)", base, fmt_num(stats::qnorm(p_sup), 3)))
       }
       sprintf(tr("%s. Com Z seria ± %s", "%s. With Z it would be ± %s"), base, fmt_num(stats::qnorm(p_sup), 3))
     })
 
-    output$z_equiv <- shiny::renderText({
-      p <- parametros()
-      if (p$dist == "t") {
-        return(sprintf("t = %s", fmt_num(input$a, 2)))
+    # Terceiro quadro: escore z do corte a (Z e normal geral) ou a mesma área sob a Z (t)
+    output$titulo_terceiro <- shiny::renderText({
+      if (identical(input$dist, "t")) {
+        tr("Área sob a Z nos mesmos cortes", "Area under Z for the same cutoffs")
+      } else {
+        tr("Escore z do corte a", "z-score of cutoff a")
       }
-      z <- (input$a - p$mu) / p$sigma
-      sprintf("z = %s", fmt_num(z, 2))
     })
 
-    output$momentos_desc <- shiny::renderText({
+    output$terceiro <- shiny::renderText({
       p <- parametros()
-      if (p$dist == "t") {
-        if (p$gl == 1) return(tr("gl = 1 (Cauchy): sem E(T) nem Var(T)", "df = 1 (Cauchy): no E(T) or Var(T)"))
-        if (p$gl == 2) return(tr("E(T) = 0 | Var(T) = ∞", "E(T) = 0 | Var(T) = ∞"))
-        return(sprintf("E(T) = 0 | Var(T) = %s", fmt_num(p$gl / (p$gl - 2), 3)))
-      }
-      sprintf("E(X) = %s | Var(X) = %s", fmt_num(p$mu, 2), fmt_num(p$sigma^2, 2))
+      if (p$dist == "t") return(fmt_num(p$prob_z, 4))
+      sprintf("z = %s", fmt_num((input$a - p$mu) / p$sigma, 2))
+    })
+
+    output$terceiro_desc <- shiny::renderText({
+      p <- parametros()
+      if (p$dist != "t") return(p$momentos)
+      dif <- p$prob - p$prob_z
+      sprintf(tr("Diferença t − Z: %s%s", "Difference t − Z: %s%s"), if (dif >= 0) "+" else "−", fmt_num(abs(dif), 4))
     })
 
     output$grafico <- shiny::renderPlot({
@@ -337,7 +317,8 @@ mod_normal_server <- function(id, modo = shiny::reactive("light")) {
         z = tr("Normal padrão: Z ~ N(0, 1)", "Standard normal: Z ~ N(0, 1)"),
         normal_geral = sprintf(
           tr("Normal geral: X ~ N(%s; %s²)", "General normal: X ~ N(%s, %s²)"),
-          fmt_num(p$mu, 1), fmt_num(p$sigma, 1)
+          format(p$mu, decimal.mark = tr(",", "."), big.mark = tr(".", ",")),
+          format(p$sigma, decimal.mark = tr(",", "."), big.mark = tr(".", ","))
         ),
         sprintf(tr("t de Student com %d gl", "Student's t with %d df"), p$gl)
       )
@@ -363,7 +344,7 @@ mod_normal_server <- function(id, modo = shiny::reactive("light")) {
         ggplot2::scale_y_continuous(labels = rotulos_eixo()) +
         ggplot2::labs(
           title    = titulo,
-          subtitle = sprintf("%s = %s", p$rotulo, fmt_num(p$prob, 4)),
+          subtitle = sprintf("%s = %s | %s", p$rotulo, fmt_num(p$prob, 4), p$momentos),
           x = tr("Valor", "Value"), y = tr("Densidade", "Density"),
           caption  = if (comparar) paste(legenda_area, tr("| Tracejado vermelho: normal padrão Z", "| Red dashed: standard normal Z")) else legenda_area
         ) +
