@@ -121,6 +121,17 @@
   tags_en: [sampling, simple random sampling, replacement, finite population, stratified sampling, cluster sampling, DEFF, sample size, margin of error, nonresponse, ignorability]
   publicado: "2026-11-27"
 
+- slug: estimacao-ic
+  slug_en: estimation-ci
+  tema: inferencia
+  titulo: Estimação e intervalos de confiança
+  title: Estimation and confidence intervals
+  descricao: Viés, variância, EQM e eficiência de estimadores; cobertura de 100 intervalos de confiança simultâneos para a média (Z e t); Wald versus Wilson para proporções; MLE e intervalo credível bayesiano.
+  description: Bias, variance, MSE and efficiency of estimators; coverage of 100 simultaneous confidence intervals for the mean (Z and t); Wald versus Wilson for proportions; MLE and Bayesian credible interval.
+  tags: [estimação, estimador, viés, EQM, eficiência, intervalo de confiança, cobertura, erro padrão, Wald, Wilson, máxima verossimilhança, MLE, intervalo credível, Beta-Binomial]
+  tags_en: [estimation, estimator, bias, MSE, efficiency, confidence interval, coverage, standard error, Wald, Wilson, maximum likelihood, MLE, credible interval, Beta-Binomial]
+  publicado: "2026-11-27"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t

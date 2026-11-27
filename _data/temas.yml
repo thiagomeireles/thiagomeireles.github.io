@@ -109,6 +109,7 @@
       title: Estimation and confidence intervals
       descricao: Estimadores, erro padrão e intervalos de confiança para média e proporção.
       description: Estimators, standard error and confidence intervals for a mean and a proportion.
+      app: estimacao-ic
     - titulo: Testes de hipóteses
       title: Hypothesis testing
       descricao: Erros tipo I e II, poder e valor-p.
