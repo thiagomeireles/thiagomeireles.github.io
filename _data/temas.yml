@@ -88,6 +88,7 @@
       title: Sampling
       descricao: Amostra aleatória simples com e sem reposição e a estatística como variável aleatória.
       description: Simple random sampling with and without replacement, and the statistic as a random variable.
+      app: amostragem
     - titulo: Teoremas limite
       title: Limit theorems
       app: teoremas-limite

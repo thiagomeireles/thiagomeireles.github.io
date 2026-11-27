@@ -110,6 +110,17 @@
   tags_en: [two random variables, joint distribution, marginals, conditional distribution, independence, sum of variables, covariance, correlation, linear combination, total expectation, total variance, bivariate normal]
   publicado: "2026-11-27"
 
+- slug: amostragem
+  slug_en: sampling
+  tema: amostra-populacao
+  titulo: Amostragem
+  title: Sampling
+  descricao: Amostragem aleatória simples com e sem reposição, fator de correção para população finita, comparação entre AAS, estratificada e conglomerados, tamanho de amostra e coleta não ignorável.
+  description: Simple random sampling with and without replacement, finite population correction factor, comparison of SRS, stratified and cluster designs, sample size calculation and nonignorable collection.
+  tags: [amostragem, amostra aleatória simples, reposição, população finita, amostragem estratificada, conglomerados, DEFF, tamanho de amostra, margem de erro, não resposta, ignorabilidade]
+  tags_en: [sampling, simple random sampling, replacement, finite population, stratified sampling, cluster sampling, DEFF, sample size, margin of error, nonresponse, ignorability]
+  publicado: "2026-11-27"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t
