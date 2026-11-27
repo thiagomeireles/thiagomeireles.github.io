@@ -165,6 +165,17 @@
   tags_en: [chi-squared, goodness of fit, independence, homogeneity, contingency table, Kolmogorov-Smirnov, correlation, Fisher, "Cramér's V"]
   publicado: "2026-11-27"
 
+- slug: anova
+  slug_en: anova
+  tema: inferencia
+  titulo: Análise de variância
+  title: Analysis of variance
+  descricao: ANOVA de um fator, decomposição das somas de quadrados, teste F, pressupostos (Bartlett e Q-Q dos resíduos), comparações múltiplas (Bonferroni e Tukey HSD) e agrupamento parcial.
+  description: One-way ANOVA, sum-of-squares decomposition, F test, assumptions (Bartlett and residual Q-Q), multiple comparisons (Bonferroni and Tukey HSD) and partial pooling.
+  tags: [ANOVA, análise de variância, soma de quadrados, teste F, Bartlett, homocedasticidade, comparações múltiplas, Bonferroni, Tukey, agrupamento parcial]
+  tags_en: [ANOVA, analysis of variance, sum of squares, F test, Bartlett, homoscedasticity, multiple comparisons, Bonferroni, Tukey, partial pooling]
+  publicado: "2026-11-27"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t

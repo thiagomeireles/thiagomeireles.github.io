@@ -129,6 +129,7 @@
       title: Analysis of variance
       descricao: Comparação de várias médias com a ANOVA de um fator.
       description: Comparing several means with one-way ANOVA.
+      app: anova
     - titulo: Regressão linear simples
       title: Simple linear regression
       descricao: Mínimos quadrados, R², intervalos para a reta e análise de resíduos.
