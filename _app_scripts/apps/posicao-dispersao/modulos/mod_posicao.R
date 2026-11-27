@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_posicao.R (módulo: média, mediana e quantis nas convenções dos livros)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - objetos e funções de _app_scripts/apps/posicao-dispersao/modulos/dados.R
@@ -144,6 +144,7 @@ mod_posicao_ui <- function(id) {
       ),
       shiny::checkboxInput(ns("extremo"), tr("Incluir um valor extremo", "Add an extreme value"), value = FALSE),
       shiny::uiOutput(ns("controle_extremo")),
+      shiny::uiOutput(ns("aviso_extremo")),
       shiny::uiOutput(ns("botao_sortear"))
     ),
     bslib::layout_columns(
@@ -222,9 +223,12 @@ mod_posicao_server <- function(id, modo = shiny::reactive("light")) {
       shiny::numericInput(
         session$ns("valor_extremo"),
         sprintf(tr("Valor extremo (%s)", "Extreme value (%s)"), ex$un_curta),
-        value = ex$extremo, step = 1
+        value = ex$extremo, min = ex$minimo, max = ex$maximo, step = 1
       )
     })
+
+    shiny::observeEvent(input$exemplo, congelar_extremo(input), ignoreInit = TRUE)
+    output$aviso_extremo <- shiny::renderUI(aviso_extremo(input$extremo, input$valor_extremo, exemplo()))
 
     base <- shiny::reactive({
       if (!isTRUE(exemplo()$fixo)) input$sortear
@@ -232,9 +236,7 @@ mod_posicao_server <- function(id, modo = shiny::reactive("light")) {
       exemplo()$gerar(n_val)
     })
 
-    tem_extremo <- shiny::reactive({
-      isTRUE(input$extremo) && !is.null(input$valor_extremo) && is.finite(input$valor_extremo)
-    })
+    tem_extremo <- shiny::reactive(extremo_aceito(input$extremo, input$valor_extremo, exemplo()))
 
     dados <- shiny::reactive({
       if (tem_extremo()) c(base(), input$valor_extremo) else base()
@@ -270,7 +272,10 @@ mod_posicao_server <- function(id, modo = shiny::reactive("light")) {
       metodo <- if (identical(input$convencao, "bm")) "bm" else "r7"
       qp <- quantil_ordem(x, input$ordem_p, metodo)
       abaixo <- mean(x <= qp)
-      sprintf(tr("%s das observações ≤ q(p)", "%s of observations ≤ q(p)"), fmt_pct(abaixo, 1))
+      # As metades de Agresti e Finlay e as dobradiças de Tukey só definem quartis;
+      # para outras ordens p, o app usa o padrão do R
+      definicao <- if (identical(metodo, "bm")) "type = 5" else "type = 7"
+      sprintf(tr("%s das observações ≤ q(p) | %s", "%s of observations ≤ q(p) | %s"), fmt_pct(abaixo, 1), definicao)
     })
 
     output$tabela_quartis <- shiny::renderUI({

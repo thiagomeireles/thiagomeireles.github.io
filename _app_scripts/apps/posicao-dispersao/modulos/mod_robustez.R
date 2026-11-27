@@ -2,7 +2,7 @@
 # Script:  mod_robustez.R (módulo Para ir além: funções de perda, quantis
 #          como otimização, ponto de ruptura, Huber e eficiência assintótica)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - objetos e funções de _app_scripts/apps/posicao-dispersao/modulos/dados.R
@@ -25,8 +25,8 @@ texto_robustez <- function() {
       shiny::p(
         "Média, mediana e quantis nascem da mesma pergunta — qual número \\(b\\) melhor resume \\(X\\)? — quando se",
         "troca a função de perda que penaliza o erro \\(X - b\\). Minimizar o erro quadrático esperado \\(E[(X - b)^2]\\)",
-        "leva a \\(b = E(X)\\), a média (Casella e Berger, Teo. 2.2.1): como os erros são elevados ao quadrado, pontos",
-        "distantes dominam a soma. Minimizar o erro absoluto \\(E[|X - b|]\\) leva à mediana, na qual importa apenas",
+        "leva a \\(b = E(X)\\), a média (Casella e Berger, Ex. 2.2.6): como os erros são elevados ao quadrado, pontos",
+        "distantes dominam a soma. Minimizar o erro absoluto \\(E[|X - b|]\\) leva à mediana (Exercício 2.18), na qual importa apenas",
         "de que lado de \\(b\\) cada ponto está. De forma mais geral, penalizar erros positivos com peso \\(\\tau\\) e",
         "negativos com \\(1 - \\tau\\) pela função *check* \\(\\rho_\\tau(u) = u(\\tau - \\mathbf{1}(u < 0))\\) entrega",
         "o quantil de ordem \\(\\tau\\) — exatamente o princípio que estende os mínimos quadrados para a regressão",
@@ -37,35 +37,35 @@ texto_robustez <- function() {
         "maior fração da amostra que pode ser levada para \\(\\pm\\infty\\) sem arrastar o estimador junto. Na média e",
         "no desvio padrão o ponto de ruptura é \\(0\\%\\), uma vez que uma única observação contaminada basta para",
         "deslocá-los sem limite. A média aparada em \\(10\\%\\) (descarta os \\(10\\%\\) menores e maiores) resiste a",
-        "até \\(10\\%\\) de contaminação; a mediana, a distância interquartil e o desvio absoluto mediano,",
-        "\\(\\text{DAM} = \\text{mediana}(|X_i - md|)\\) (multiplicado por 1,4826 para estimar \\(\\sigma\\) na normal),",
-        "atingem o máximo possível de \\(50\\%\\)."
+        "até \\(10\\%\\) de contaminação, e a distância interquartil, que depende de \\(q_1\\) e \\(q_3\\), resiste a até",
+        "\\(25\\%\\). A mediana e o desvio absoluto mediano, \\(\\text{DAM} = \\text{mediana}(|X_i - md|)\\) (multiplicado",
+        "por 1,4826 para estimar \\(\\sigma\\) na normal), atingem o máximo possível de \\(50\\%\\)."
       ),
       shiny::p(
         "Por que, então, não usar sempre a mediana? Porque resistência tem preço quando os dados são bem-comportados.",
-        "Pela eficiência relativa assintótica (ARE, Casella e Berger, seção 10.1.4), na distribuição normal",
+        "Pela eficiência relativa assintótica (ARE, Casella e Berger, Def. 10.1.16 e Ex. 10.2.4), na distribuição normal",
         "\\(\\text{Var}(md) \\approx \\frac{\\pi}{2}\\frac{\\sigma^2}{n} = 1{,}571\\,\\frac{\\sigma^2}{n}\\), o que dá",
         "\\(\\text{ARE}(md, \\bar{X}) = 2/\\pi \\approx 0{,}637\\): a mediana desperdiça cerca de 36% da amostra efetiva.",
         "Já sob caudas pesadas o quadro se inverte: na dupla exponencial (Laplace), \\(\\text{ARE}(md, \\bar{X}) = 2\\),",
         "e sob contaminação \\((1 - \\delta)N(0, 1) + \\delta N(0, 10^2)\\) bastam 5% de ruído pesado para a variância",
-        "da média saltar de \\(1/n\\) para \\(5{,}95/n\\) (Tabela 10.2.1 de Casella e Berger). O M-estimador de Huber",
-        "(seção 10.2.3) concilia os dois mundos usando perda quadrática no centro (\\(|u| \\le k\\)) e perda linear nas",
+        "da média saltar de \\(1/n\\) para \\(5{,}95/n\\) (Casella e Berger, Ex. 10.2.1). O M-estimador de Huber",
+        "(seção 10.2.2) concilia os dois mundos usando perda quadrática no centro (\\(|u| \\le k\\)) e perda linear nas",
         "caudas (\\(|u| > k\\)): perde quase nada na normal e protege a estimativa quando aparecem extremos."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
         "comece na normal padrão e confirme que a média tem a distribuição mais estreita. Depois mude para a normal",
-        "contaminada com \\(\\delta = 0{,}05\\), para a dupla exponencial ou para a \\(t_3\\), e arraste o valor da",
-        "observação contaminada no gráfico da direita para ver a curva de sensibilidade da média escapar enquanto",
-        "mediana, média aparada e Huber permanecem limitados."
+        "contaminada com \\(\\delta = 0{,}05\\), para a dupla exponencial ou para a \\(t_3\\). Por fim, mova o controle do",
+        "ponto contaminado: no gráfico da direita, a média acompanha o ponto, enquanto mediana, média aparada e Huber",
+        "param de subir."
       )
     ),
     shiny::withMathJax(
       shiny::p(
         "The mean, median and quantiles all answer the same question — which number \\(b\\) best summarizes \\(Y\\)? —",
         "under different loss functions for the error \\(Y - b\\). Minimizing expected squared error \\(E[(Y - b)^2]\\)",
-        "yields \\(b = E(Y)\\), the mean (Casella and Berger, Thm. 2.2.1): because errors are squared, distant points",
-        "dominate. Minimizing expected absolute error \\(E[|Y - b|]\\) yields the median, where only the sign of",
+        "yields \\(b = E(Y)\\), the mean (Casella and Berger, Ex. 2.2.6): because errors are squared, distant points",
+        "dominate. Minimizing expected absolute error \\(E[|Y - b|]\\) yields the median (Exercise 2.18), where only the sign of",
         "\\(Y - b\\) matters. More generally, weighting positive errors by \\(\\tau\\) and negative ones by",
         "\\(1 - \\tau\\) via the check function \\(\\rho_\\tau(u) = u(\\tau - \\mathbf{1}(u < 0))\\) produces the",
         "\\(\\tau\\)-th quantile — the exact principle behind conditional quantile regression \\(Q_\\tau(Y \\mid X)\\)",
@@ -76,26 +76,27 @@ texto_robustez <- function() {
         "the sample that can be sent to \\(\\pm\\infty\\) without carrying the estimator along. For the mean and",
         "standard deviation the breakdown point is \\(0\\%\\), since a single contaminated point moves them without",
         "bound. The \\(10\\%\\) trimmed mean (dropping the lowest and highest \\(10\\%\\)) withstands up to \\(10\\%\\)",
-        "contamination; the median, the IQR and the median absolute deviation,",
-        "\\(\\text{MAD} = \\text{median}(|Y_i - md|)\\) (scaled by 1.4826 to estimate \\(\\sigma\\) under normality),",
-        "reach the \\(50\\%\\) ceiling."
+        "contamination, and the IQR, which depends on \\(Q_1\\) and \\(Q_3\\), withstands up to \\(25\\%\\). The median and",
+        "the median absolute deviation, \\(\\text{MAD} = \\text{median}(|Y_i - md|)\\) (scaled by 1.4826 to estimate",
+        "\\(\\sigma\\) under normality), reach the \\(50\\%\\) ceiling."
       ),
       shiny::p(
         "Why not always use the median, then? Because resistance has a price when tails are light. By asymptotic",
-        "relative efficiency (ARE, Casella and Berger, section 10.1.4), under normality",
+        "relative efficiency (ARE, Casella and Berger, Def. 10.1.16 and Ex. 10.2.4), under normality",
         "\\(\\text{Var}(md) \\approx \\frac{\\pi}{2}\\frac{\\sigma^2}{n} = 1.571\\,\\frac{\\sigma^2}{n}\\), giving",
         "\\(\\text{ARE}(md, \\bar{Y}) = 2/\\pi \\approx 0.637\\): the median gives up about 36% of the effective sample.",
         "Under heavy tails the ranking flips: for the double exponential (Laplace), \\(\\text{ARE}(md, \\bar{Y}) = 2\\),",
         "and under \\((1 - \\delta)N(0, 1) + \\delta N(0, 10^2)\\) just 5% heavy contamination multiplies the variance",
-        "of the mean nearly sixfold (Casella and Berger, Table 10.2.1). Huber's M-estimator (section 10.2.3) bridges",
+        "of the mean nearly sixfold, from \\(1/n\\) to \\(5.95/n\\) (Casella and Berger, Ex. 10.2.1). Huber's M-estimator",
+        "(section 10.2.2) bridges",
         "both regimes with quadratic loss in the center (\\(|u| \\le k\\)) and linear loss in the tails (\\(|u| > k\\)),",
         "staying nearly optimal under normality while bounding the influence of outliers."
       ),
       shiny::p(
         shiny::strong("Try it:"),
         "start with the standard normal and verify that the mean has the tightest sampling distribution. Then switch to",
-        "the contaminated normal with \\(\\delta = 0.05\\), Laplace or \\(t_3\\), and drag the contaminated point to",
-        "watch the mean's sensitivity curve diverge while the median, trimmed mean and Huber level off."
+        "the contaminated normal with \\(\\delta = 0.05\\), Laplace or \\(t_3\\). Finally, move the contaminated-point",
+        "slider: in the right-hand chart, the mean follows the point, while the median, trimmed mean and Huber stop rising."
       )
     )
   )
@@ -184,11 +185,16 @@ mod_robustez_server <- function(id, modo = shiny::reactive("light")) {
       simular_robustez(modelo(), input$n, input$k_rep, delta())
     })
 
-    # Amostra-base fixa por sorteio para traçar a curva de sensibilidade ao mover 1 ponto
+    # Amostra-base fixa por sorteio, tirada da população escolhida, para traçar a
+    # curva de sensibilidade ao mover 1 ponto
     amostra_base <- shiny::reactive({
       input$sortear
-      stats::rnorm(input$n - 1L)
+      modelo()$gerar(input$n - 1L, delta = delta())
     })
+
+    estimativas_posicao <- function(am) {
+      c(mean(am), mean(am, trim = 0.10), huber_locacao(am, k = 1.5), stats::median(am))
+    }
 
     eqm <- function(v) mean(v^2)
 
@@ -265,19 +271,22 @@ mod_robustez_server <- function(id, modo = shiny::reactive("light")) {
         c("Média (0%)", "Aparada 10%", "Huber", "Mediana (50%)"),
         c("Mean (0%)", "Trimmed 10%", "Huber", "Median (50%)")
       )
-      curvas <- purrr::map(grade, \(c_val) {
-        am <- c(base_x, c_val)
-        c(mean(am), mean(am, trim = 0.10), huber_locacao(am, k = 1.5), stats::median(am))
-      })
+      curvas <- purrr::map(grade, \(c_val) estimativas_posicao(c(base_x, c_val)))
       d <- data.frame(
         c_val = rep(grade, each = 4),
         estimativa = unlist(curvas),
         estimador = factor(rep(nomes, times = length(grade)), levels = nomes)
       )
+      ponto <- data.frame(
+        c_val = input$contaminacao_x,
+        estimativa = estimativas_posicao(c(base_x, input$contaminacao_x)),
+        estimador = factor(nomes, levels = nomes)
+      )
 
       ggplot2::ggplot(d, ggplot2::aes(x = c_val, y = estimativa, colour = estimador, linetype = estimador)) +
         ggplot2::geom_vline(xintercept = input$contaminacao_x, colour = pal$secundario, linetype = "dotted") +
         ggplot2::geom_line(linewidth = 1.1) +
+        ggplot2::geom_point(data = ponto, size = 3.2, show.legend = FALSE) +
         ggplot2::scale_colour_manual(values = c(cores_app$referencia, "#287bb5", "#2fb380", cores_app$destaque), name = NULL) +
         ggplot2::scale_linetype_manual(values = c("solid", "dashed", "dotdash", "solid"), name = NULL) +
         ggplot2::scale_x_continuous(labels = rotulos_eixo()) +
@@ -285,7 +294,10 @@ mod_robustez_server <- function(id, modo = shiny::reactive("light")) {
         ggplot2::guides(colour = ggplot2::guide_legend(ncol = 2), linetype = ggplot2::guide_legend(ncol = 2)) +
         ggplot2::labs(
           title = tr("Curva de sensibilidade: 1 ponto contaminado", "Sensitivity curve: 1 contaminated point"),
-          subtitle = sprintf(tr("n − 1 pontos fixos + 1 ponto levado até %d", "n − 1 fixed points + 1 point moved up to %d"), input$contaminacao_x),
+          subtitle = sprintf(
+            tr("Com o ponto em %d: média = %s | mediana = %s", "With the point at %d: mean = %s | median = %s"),
+            input$contaminacao_x, fmt_num(ponto$estimativa[1], 2), fmt_num(ponto$estimativa[4], 2)
+          ),
           x = tr("Valor do ponto contaminado", "Value of the contaminated point"),
           y = tr("Valor do estimador", "Estimator value"),
           caption = tr("A média cresce com inclinação 1/n sem teto; os resistentes estacionam", "The mean grows with slope 1/n without bound; resistant estimators plateau")
@@ -319,7 +331,7 @@ mod_robustez_server <- function(id, modo = shiny::reactive("light")) {
         ggplot2::scale_x_continuous(labels = rotulos_eixo()) +
         ggplot2::scale_y_continuous(labels = rotulos_eixo()) +
         ggplot2::guides(colour = ggplot2::guide_legend(ncol = 2), linetype = ggplot2::guide_legend(ncol = 2)) +
-        ggplot2::labs(x = "u = x − b", y = "ρ(u)") +
+        ggplot2::labs(x = tr("u = x − b", "u = y − b"), y = "ρ(u)") +
         tema_grafico(modo()) +
         ggplot2::theme(legend.position = "top", legend.justification = "left", legend.text = ggplot2::element_text(size = 9.5))
     })

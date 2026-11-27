@@ -2,20 +2,21 @@
 # Script:  dados.R (conjuntos de dados e funções puras do tópico Medidas de
 #          posição e dispersão)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/posicao-dispersao/app.R antes
 #     dos módulos)
 # Saída:
 #   - objetos em memória: salarios_mb, ex35_mb, quiz1_af, quiz2_af,
-#     exemplos_dados, modelos_robustez e funções puras de quantis, variância,
-#     cinco números, simetria, escore z e M-estimador de Huber
+#     exemplos_dados, modelos_robustez, funções puras de quantis, variância,
+#     cinco números, simetria, escore z e M-estimador de Huber, e os ajudantes
+#     do valor extremo (extremo_aceito(), aviso_extremo(), congelar_extremo())
 # =============================================================================
 
 # Salários da Companhia MB (Morettin e Bussab, Tabela 2.1, n = 36, em salários mínimos)
 salarios_mb <- c(
-  4.00, 4.56, 5.25, 5.73, 6.26, 6.66, 6.86, 7.39, 7.59, 7.44, 8.12, 8.46,
+  4.00, 4.56, 5.25, 5.73, 6.26, 6.66, 6.86, 7.39, 7.44, 7.59, 8.12, 8.46,
   8.74, 8.95, 9.13, 9.35, 9.77, 9.80, 10.53, 10.76, 11.06, 11.59, 12.00, 12.79,
   13.23, 13.60, 13.85, 14.69, 14.71, 15.99, 16.22, 16.61, 17.26, 18.75, 19.40, 23.30
 )
@@ -33,42 +34,42 @@ exemplos_dados <- list(
   salarios = list(
     rotulo = tr("Salários da Cia. MB (n = 36, Morettin e Bussab)", "Salaries at MB Co. (n = 36, Morettin and Bussab)"),
     unidade = tr("salários mínimos", "minimum wages"), un_curta = tr("s.m.", "m.w."),
-    fixo = TRUE, digitos = 2, extremo = 55,
+    fixo = TRUE, digitos = 2, extremo = 55, minimo = 0, maximo = Inf,
     fonte = tr("Morettin e Bussab, Tabela 2.1", "Morettin and Bussab, Table 2.1"),
     gerar = function(n) salarios_mb
   ),
   ex35 = list(
     rotulo = tr("Amostra pequena (n = 9, Exemplo 3.5 de Morettin e Bussab)", "Small sample (n = 9, Morettin and Bussab Ex. 3.5)"),
     unidade = tr("unidades", "units"), un_curta = tr("un.", "un."),
-    fixo = TRUE, digitos = 2, extremo = 40,
+    fixo = TRUE, digitos = 2, extremo = 40, minimo = -Inf, maximo = Inf,
     fonte = tr("Morettin e Bussab, Exemplo 3.5", "Morettin and Bussab, Example 3.5"),
     gerar = function(n) ex35_mb
   ),
   quiz_meio = list(
     rotulo = tr("Notas concentradas no meio (n = 6, Agresti e Finlay Ex. 3.7a)", "Scores clustered in the middle (n = 6, Agresti and Finlay Ex. 3.7a)"),
     unidade = tr("pontos", "points"), un_curta = tr("pts", "pts"),
-    fixo = TRUE, digitos = 2, extremo = 25,
+    fixo = TRUE, digitos = 2, extremo = 10, minimo = 0, maximo = 10,
     fonte = tr("Agresti e Finlay, Exemplo 3.7 (amostra 1)", "Agresti and Finlay, Example 3.7 (sample 1)"),
     gerar = function(n) quiz1_af
   ),
   quiz_pontas = list(
     rotulo = tr("Notas polarizadas nos extremos (n = 6, Agresti e Finlay Ex. 3.7b)", "Scores polarized at the extremes (n = 6, Agresti and Finlay Ex. 3.7b)"),
     unidade = tr("pontos", "points"), un_curta = tr("pts", "pts"),
-    fixo = TRUE, digitos = 2, extremo = 25,
+    fixo = TRUE, digitos = 2, extremo = 10, minimo = 0, maximo = 10,
     fonte = tr("Agresti e Finlay, Exemplo 3.7 (amostra 2)", "Agresti and Finlay, Example 3.7 (sample 2)"),
     gerar = function(n) quiz2_af
   ),
   altura = list(
     rotulo = tr("Altura de adultos (simulada, em sino)", "Adult height (simulated, bell-shaped)"),
     unidade = "cm", un_curta = "cm",
-    fixo = FALSE, digitos = 1, extremo = 225,
+    fixo = FALSE, digitos = 1, extremo = 225, minimo = 0, maximo = Inf,
     fonte = tr("dados simulados: N(170, 9²)", "simulated data: N(170, 9²)"),
     gerar = function(n) round(stats::rnorm(n, mean = 170, sd = 9), 1)
   ),
   renda = list(
     rotulo = tr("Renda mensal (simulada, assimétrica à direita)", "Monthly income (simulated, right-skewed)"),
     unidade = tr("R$ mil", "R$ thousand"), un_curta = tr("R$ mil", "R$ k"),
-    fixo = FALSE, digitos = 2, extremo = 35,
+    fixo = FALSE, digitos = 2, extremo = 35, minimo = 0, maximo = Inf,
     fonte = tr("dados simulados: log-normal", "simulated data: log-normal"),
     gerar = function(n) round(stats::rlnorm(n, meanlog = log(2.5), sdlog = 0.65), 2)
   )
@@ -157,7 +158,7 @@ pares_simetria <- function(x) {
   )
 }
 
-# M-estimador de locação de Huber via mínimos quadrados reponderados (Casella e Berger, seção 10.2.3)
+# M-estimador de locação de Huber via mínimos quadrados reponderados (Casella e Berger, seção 10.2.2)
 huber_locacao <- function(x, k = 1.5, max_iter = 30, tol = 1e-6) {
   escala <- stats::mad(x, constant = 1.4826)
   theta <- stats::median(x)
@@ -244,6 +245,42 @@ fmt_un <- function(valor, un, digitos = 2, quadrado = FALSE) {
   } else {
     paste(fmt_num(valor, digitos), u)
   }
+}
+
+# O valor extremo só entra nos dados se for possível para a variável (salário e
+# renda não ficam negativos; as notas do quiz vão de 0 a 10)
+extremo_aceito <- function(ligado, valor, ex) {
+  isTRUE(ligado) && !is.null(valor) && is.finite(valor) && valor >= ex$minimo && valor <= ex$maximo
+}
+
+# Aviso abaixo do campo quando o valor digitado fica fora do intervalo possível
+aviso_extremo <- function(ligado, valor, ex) {
+  if (!isTRUE(ligado) || is.null(valor) || !is.finite(valor)) return(NULL)
+  if (valor >= ex$minimo && valor <= ex$maximo) return(NULL)
+  texto <- if (is.finite(ex$maximo)) {
+    sprintf(
+      tr(
+        "Esta variável só assume valores de %s a %s, então o valor extremo ficou fora dos cálculos.",
+        "This variable only takes values from %s to %s, so the extreme value was left out of the calculations."
+      ),
+      fmt_num(ex$minimo, 0), fmt_num(ex$maximo, 0)
+    )
+  } else {
+    sprintf(
+      tr(
+        "Esta variável não assume valores menores que %s, então o valor extremo ficou fora dos cálculos.",
+        "This variable cannot take values below %s, so the extreme value was left out of the calculations."
+      ),
+      fmt_num(ex$minimo, 0)
+    )
+  }
+  shiny::p(class = "small text-danger", texto)
+}
+
+# Ao trocar de conjunto de dados, o campo do extremo é redesenhado com outro
+# valor; congelar o input impede que o valor antigo entre por um ciclo nos dados novos
+congelar_extremo <- function(input) {
+  if (isTRUE(input$extremo)) shiny::freezeReactiveValue(input, "valor_extremo")
 }
 
 cartao_cuidados <- function(titulo, itens) {

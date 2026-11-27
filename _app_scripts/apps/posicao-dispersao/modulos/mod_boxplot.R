@@ -2,7 +2,7 @@
 # Script:  mod_boxplot.R (módulo: cinco números, box plot nas convenções dos
 #          livros e gráfico de simetria de Morettin e Bussab)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - objetos e funções de _app_scripts/apps/posicao-dispersao/modulos/dados.R
@@ -81,8 +81,10 @@ cuidados_boxplot <- function() {
   tr(
     c(
       "Ponto exterior não é erro" = paste(
-        "Morettin e Bussab distinguem ponto exterior (valor legítimo de uma cauda longa, como São Paulo entre os",
-        "municípios brasileiros) de erro de medida ou digitação. Nunca exclua um ponto só porque passou de 1,5 × d_q."
+        "Morettin e Bussab distinguem o ponto exterior do erro de medida ou de digitação, uma vez que ele pode ser",
+        "um valor legítimo de uma cauda longa (São Paulo entre os municípios brasileiros). Agresti e Finlay pedem para investigar",
+        "o ponto e refazer a análise sem ele, para ver se a conclusão depende de uma observação só. Nenhum dos dois",
+        "manda excluir um ponto só porque ele passou de 1,5 × d_q."
       ),
       "Distribuições bimodais" = paste(
         "duas distribuições com um pico e com dois picos podem ter os mesmos cinco números e gerar o mesmo box plot.",
@@ -95,8 +97,10 @@ cuidados_boxplot <- function() {
     ),
     c(
       "Outlier does not mean error" = paste(
-        "both textbooks distinguish genuine observations from a long tail (such as a megacity among municipalities)",
-        "from recording errors. Never drop a point solely because it lies beyond 1.5 × IQR."
+        "Morettin and Bussab distinguish an outside point from a measurement or typing error, since it may be",
+        "a legitimate value from a long tail (São Paulo among Brazilian municipalities). Agresti and Finlay ask you to",
+        "investigate the point and rerun the analysis without it, to see whether the conclusion hinges on a single",
+        "observation. Neither book tells you to drop a point just because it lies beyond 1.5 × IQR."
       ),
       "Bimodal distributions" = paste(
         "a unimodal and a bimodal distribution can share the exact same five-number summary and look identical in a",
@@ -137,6 +141,7 @@ mod_boxplot_ui <- function(id) {
       shiny::checkboxInput(ns("pontos"), tr("Mostrar observações individuais", "Show individual observations"), value = TRUE),
       shiny::checkboxInput(ns("extremo"), tr("Incluir um valor extremo", "Add an extreme value"), value = FALSE),
       shiny::uiOutput(ns("controle_extremo")),
+      shiny::uiOutput(ns("aviso_extremo")),
       shiny::uiOutput(ns("botao_sortear"))
     ),
     bslib::layout_columns(
@@ -154,7 +159,7 @@ mod_boxplot_ui <- function(id) {
         theme = "info"
       ),
       bslib::value_box(
-        title = tr("Pontos exteriores / valores atípicos", "Outside points / potential outliers"),
+        title = tr("Pontos exteriores / valores atípicos potenciais", "Outside points / potential outliers"),
         value = shiny::textOutput(ns("n_ext")),
         shiny::textOutput(ns("simetria_txt")),
         theme = NULL
@@ -204,9 +209,12 @@ mod_boxplot_server <- function(id, modo = shiny::reactive("light")) {
       shiny::numericInput(
         session$ns("valor_extremo"),
         sprintf(tr("Valor extremo (%s)", "Extreme value (%s)"), ex$un_curta),
-        value = ex$extremo, step = 1
+        value = ex$extremo, min = ex$minimo, max = ex$maximo, step = 1
       )
     })
+
+    shiny::observeEvent(input$exemplo, congelar_extremo(input), ignoreInit = TRUE)
+    output$aviso_extremo <- shiny::renderUI(aviso_extremo(input$extremo, input$valor_extremo, exemplo()))
 
     base <- shiny::reactive({
       if (!isTRUE(exemplo()$fixo)) input$sortear
@@ -215,7 +223,7 @@ mod_boxplot_server <- function(id, modo = shiny::reactive("light")) {
     })
 
     dados <- shiny::reactive({
-      if (isTRUE(input$extremo) && !is.null(input$valor_extremo) && is.finite(input$valor_extremo)) {
+      if (extremo_aceito(input$extremo, input$valor_extremo, exemplo())) {
         c(base(), input$valor_extremo)
       } else {
         base()

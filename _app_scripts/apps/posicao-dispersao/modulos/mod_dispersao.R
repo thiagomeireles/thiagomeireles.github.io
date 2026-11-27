@@ -2,7 +2,7 @@
 # Script:  mod_dispersao.R (módulo: variância, desvio padrão, escore z, regra
 #          empírica e desigualdade de Chebyshev)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - objetos e funções de _app_scripts/apps/posicao-dispersao/modulos/dados.R
@@ -35,8 +35,8 @@ texto_dispersao <- function() {
         "empírica prevê cerca de 68%, 95% e 99,7% das observações em até 1, 2 e 3 desvios padrão da média. Para",
         "distribuições muito assimétricas ou bimodais essa aproximação falha; o limite válido para qualquer conjunto de",
         "dados é a desigualdade de Chebyshev (Casella e Berger, seção 3.6), que garante ao menos \\(1 - 1/k^2\\) das",
-        "observações a até \\(k\\) desvios padrão (75% para \\(k = 2\\) e 88,9% para \\(k = 3\\); na versão amostral,",
-        "calculada exatamente com o mesmo divisor \\(n\\) ou \\(n - 1\\) adotado no desvio padrão)."
+        "observações a até \\(k\\) desvios padrão (75% para \\(k = 2\\) e 88,9% para \\(k = 3\\)). Num conjunto de dados, a garantia",
+        "vale tanto com o divisor \\(n\\) quanto com \\(n - 1\\), que dá um desvio padrão maior e, portanto, uma faixa mais larga."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -67,7 +67,8 @@ texto_dispersao <- function() {
         "Rule places about 68%, 95% and 99.7% of observations within 1, 2 and 3 standard deviations of the mean. For",
         "heavily skewed or bimodal data those percentages break down; what holds for any data set is Chebyshev's",
         "inequality (Casella and Berger, section 3.6), which guarantees at least \\(1 - 1/k^2\\) within \\(k\\)",
-        "standard deviations (75% for \\(k = 2\\) and 88.9% for \\(k = 3\\))."
+        "standard deviations (75% for \\(k = 2\\) and 88.9% for \\(k = 3\\)). In a data set, the guarantee holds with",
+        "divisor \\(n\\) and also with \\(n - 1\\), which gives a larger standard deviation and therefore a wider band."
       ),
       shiny::p(
         shiny::strong("Try it:"),
@@ -88,8 +89,9 @@ cuidados_dispersao <- function() {
         "Sempre informe qual foi usado."
       ),
       "Escore z com valor extremo" = paste(
-        "como o próprio extremo infla x̄ e s, em amostras muito pequenas o |z| nunca passa de (n − 1)/√n",
-        "(com n = 6 e divisor n − 1, o teto matemático de |z| é 2,04, abaixo de 3!)."
+        "o próprio extremo infla x̄ e s, e por isso |z| tem um teto: (n − 1)/√n com divisor n − 1 e √(n − 1) com",
+        "divisor n. Com n = 6, os tetos são 2,04 e 2,24, ambos abaixo de 3: numa amostra tão pequena, o critério",
+        "|z| > 3 nunca aponta um valor atípico."
       ),
       "Regra empírica fora do sino" = "em variáveis positivas muito assimétricas, x̄ − 2s costuma ser negativo, onde nem existem dados."
     ),
@@ -100,8 +102,9 @@ cuidados_dispersao <- function() {
         "Always report which divisor was used."
       ),
       "z-score under an outlier" = paste(
-        "because the outlier itself inflates ȳ and s, in very small samples |z| cannot exceed (n − 1)/√n",
-        "(at n = 6 with divisor n − 1, the mathematical ceiling on |z| is 2.04, never reaching 3)."
+        "the outlier itself inflates ȳ and s, so |z| has a ceiling: (n − 1)/√n with divisor n − 1 and √(n − 1) with",
+        "divisor n. At n = 6 the ceilings are 2.04 and 2.24, both below 3: in a sample this small, the |z| > 3 rule",
+        "never flags an outlier."
       ),
       "Empirical Rule without bell shape" = "for nonnegative right-skewed variables, ȳ − 2s is often negative, where no observations can exist."
     )
@@ -250,7 +253,7 @@ mod_dispersao_server <- function(id, modo = shiny::reactive("light")) {
       emp <- c("68,3%", "95,4%", "99,7%")[k]
       emp_en <- c("68.3%", "95.4%", "99.7%")[k]
       cheb <- if (k == 1L) tr("0% (trivial)", "0% (trivial)") else fmt_pct(1 - 1 / k^2, 1)
-      sprintf(tr("Regra empírica: ~%s | Chebyshev (div. n): ≥ %s", "Empirical Rule: ~%s | Chebyshev (div. n): ≥ %s"),
+      sprintf(tr("Regra empírica: ~%s | Chebyshev: ≥ %s", "Empirical Rule: ~%s | Chebyshev: ≥ %s"),
               tr(emp, emp_en), cheb)
     })
 
@@ -264,7 +267,7 @@ mod_dispersao_server <- function(id, modo = shiny::reactive("light")) {
       sprintf(
         tr("x(%d) = %s (%s)", "y(%d) = %s (%s)"),
         idx(), fmt_un(x_i, exemplo()$un_curta, exemplo()$digitos),
-        if (abs(escores_z()[idx()]) > 3) tr("|z| > 3: valor atípico", "|z| > 3: potential outlier") else tr("|z| ≤ 3", "|z| ≤ 3")
+        if (abs(escores_z()[idx()]) > 3) tr("|z| > 3: valor atípico potencial", "|z| > 3: potential outlier") else tr("|z| ≤ 3", "|z| ≤ 3")
       )
     })
 
@@ -279,15 +282,15 @@ mod_dispersao_server <- function(id, modo = shiny::reactive("light")) {
         tr(
           c(
             "Amplitude (máx. − mín.)", "Desvio médio absoluto (dm)",
-            "Variância com divisor n (Morettin e Bussab, Cap. 3)", "Variância com divisor n − 1 (Agresti e Finlay / Cap. 10)",
+            "Variância com divisor n (Morettin e Bussab, Cap. 3)", "Variância com divisor n − 1 (Agresti e Finlay / R)",
             "Desvio padrão (n contra n − 1)", "Cobertura em ±1 dp / ±2 dp / ±3 dp",
-            "Referência: Regra empírica (sino) | Chebyshev (div. n)"
+            "Referência: Regra empírica (sino) | Chebyshev"
           ),
           c(
             "Range (max − min)", "Mean absolute deviation",
             "Variance with divisor n (Morettin and Bussab, ch. 3)", "Variance with divisor n − 1 (Agresti and Finlay / R)",
             "Standard deviation (n vs. n − 1)", "Share within ±1 sd / ±2 sd / ±3 sd",
-            "Benchmarks: Empirical Rule (bell) | Chebyshev (div. n)"
+            "Benchmarks: Empirical Rule (bell) | Chebyshev"
           )
         ),
         c(

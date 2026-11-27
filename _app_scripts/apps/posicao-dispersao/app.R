@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tópico Medidas de posição e dispersão)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -26,7 +26,7 @@ c(list.files(pasta_comum, pattern = "\\.R$", full.names = TRUE), modulos) |>
 
 ui <- pagina_tema(
   titulo = tr("Medidas de posição e dispersão", "Measures of center and spread"),
-  versao = tr("0.1 (novembro de 2026)", "0.1 (November 2026)"),
+  versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)"),
   descricao = tr(
     paste(
       "Como resumir o centro e a variabilidade de um conjunto de dados com média, mediana, quantis, variância,",
@@ -37,7 +37,7 @@ ui <- pagina_tema(
       "medidas de posição como problemas de otimização (incluindo a perda da regressão quantílica), ponto de",
       "ruptura, M-estimador de Huber e eficiência assintótica da mediana frente à média. O conteúdo segue",
       "Morettin e Bussab (Estatística Básica, cap. 3) e Agresti e Finlay (Statistical Methods for the Social",
-      "Sciences, cap. 3), com Casella e Berger (Statistical Inference, seções 2.2, 3.6, 5.4 e 10.1–10.2) e",
+      "Sciences, cap. 3), com Casella e Berger (Statistical Inference, seções 2.2, 3.6 e 10.1–10.2) e",
       "Angrist e Pischke (Mostly Harmless Econometrics, seção 7.1) no aprofundamento."
     ),
     paste(
@@ -48,10 +48,10 @@ ui <- pagina_tema(
       "potential outliers), the Empirical Rule against Chebyshev's inequality and the symmetry plot. The final",
       "tab moves on to location measures as optimization problems (including the quantile regression check",
       "loss), breakdown point, Huber's M-estimator and the asymptotic efficiency of the median relative to the",
-      "mean. The content follows Agresti and Finlay (Statistical Methods for the Social Sciences, ch. 3) and",
-      "Morettin and Bussab (Estatística Básica, ch. 3), with Casella and Berger (Statistical Inference,",
-      "sections 2.2, 3.6, 5.4 and 10.1–10.2) and Angrist and Pischke (Mostly Harmless Econometrics, section",
-      "7.1) in the advanced tab."
+      "mean. The content follows Morettin and Bussab (Estatística Básica, ch. 3) and Agresti and Finlay",
+      "(Statistical Methods for the Social Sciences, ch. 3), with Casella and Berger (Statistical Inference,",
+      "sections 2.2, 3.6 and 10.1–10.2) and Angrist and Pischke (Mostly Harmless Econometrics, section 7.1)",
+      "in the advanced tab."
     )
   ),
   referencias = list(
