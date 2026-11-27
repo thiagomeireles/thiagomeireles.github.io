@@ -97,6 +97,10 @@
       descricao: As distribuições que nascem da normal e aparecem na inferência. O app atual cobre a t de Student.
       description: The distributions derived from the normal that show up in inference. The current app covers Student's t.
       app: probabilidade
+    - titulo: Simulação e bootstrap
+      title: Simulation and bootstrap
+      descricao: Números pseudoaleatórios, transformação inversa, Monte Carlo e reamostragem bootstrap.
+      description: Pseudorandom numbers, inverse transform, Monte Carlo and bootstrap resampling.
 
 - slug: inferencia
   slug_en: inference
@@ -135,3 +139,100 @@
       descricao: Mínimos quadrados, R², intervalos para a reta e análise de resíduos.
       description: Least squares, R², intervals for the line and residual analysis.
       app: regressao-simples
+
+
+- slug: regressao-series
+  slug_en: regression-time-series
+  titulo: Regressão avançada e séries
+  title: Advanced regression and time series
+  descricao: Extensões do modelo linear para múltiplas variáveis explicativas, respostas categóricas ou de contagem e dados ao longo do tempo.
+  description: Extensions of the linear model to multiple covariates, categorical or count outcomes and data over time.
+  topicos:
+    - titulo: Regressão linear múltipla
+      title: Multiple linear regression
+      descricao: Efeitos parciais, viés de variável omitida, multicolinearidade e testes F conjuntos.
+      description: Partial effects, omitted variable bias, multicollinearity and joint F tests.
+    - titulo: Regressão logística, Poisson e GLMs
+      title: Logistic regression, Poisson and GLMs
+      descricao: Modelos para resposta binária (Logit e Probit), razões de chances e contagens.
+      description: Models for binary outcomes (Logit and Probit), odds ratios and count data.
+    - titulo: Séries temporais e autocorrelação
+      title: Time series and autocorrelation
+      descricao: Tendência, sazonalidade, passeio aleatório, regressão espúria e correlação serial.
+      description: Trend, seasonality, random walk, spurious regression and serial correlation.
+
+- slug: inferencia-causal
+  slug_en: causal-inference
+  titulo: Inferência causal
+  title: Causal inference
+  descricao: Estratégias de identificação para distinguir associação de efeito causal em dados experimentais e observacionais.
+  description: Identification strategies to separate association from causal effects in experimental and observational data.
+  topicos:
+    - titulo: DAGs, confundidores e colisores
+      title: DAGs, confounders and colliders
+      descricao: Grafos causais, controles bons e ruins, viés de colisor e critério back-door.
+      description: Causal graphs, good and bad controls, collider bias and the back-door criterion.
+    - titulo: Experimentos aleatorizados (RCTs)
+      title: Randomized experiments (RCTs)
+      descricao: Resultados potenciais, efeito médio de tratamento, blocos e inferência exata de Fisher.
+      description: Potential outcomes, average treatment effect, blocking and Fisher exact inference.
+    - titulo: Pareamento, IPW e estimadores duplamente robustos
+      title: Matching, IPW and doubly robust estimators
+      descricao: Escore de propensão, sobreposição, ponderação inversa e estimação AIPW.
+      description: Propensity score, overlap, inverse probability weighting and AIPW estimation.
+    - titulo: Diferenças em diferenças e dados em painel
+      title: Difference-in-differences and panel data
+      descricao: Tendências paralelas, efeitos fixos, estudo de eventos e erros-padrão clusterizados.
+      description: Parallel trends, fixed effects, event studies and clustered standard errors.
+    - titulo: Variáveis instrumentais (2SLS)
+      title: Instrumental variables (2SLS)
+      descricao: Relevância, restrição de exclusão, instrumento fraco e efeito local (LATE).
+      description: Relevance, exclusion restriction, weak instruments and local average treatment effect (LATE).
+    - titulo: Regressão com descontinuidade e controle sintético
+      title: Regression discontinuity and synthetic control
+      descricao: Desenhos sharp e fuzzy, escolha de janela e placebos em estudos de caso comparativos.
+      description: Sharp and fuzzy designs, bandwidth selection and placebos in comparative case studies.
+
+- slug: estatistica-bayesiana
+  slug_en: bayesian-statistics
+  titulo: Estatística bayesiana
+  title: Bayesian statistics
+  descricao: Modelagem probabilística completa, computação via MCMC, estrutura hierárquica e avaliação preditiva de modelos.
+  description: Full probability modeling, MCMC computation, hierarchical structure and predictive model evaluation.
+  topicos:
+    - titulo: Modelos multiparamétricos e prioris
+      title: Multiparameter models and priors
+      descricao: Prioris fracamente informativas, conjugadas e análise de sensibilidade.
+      description: Weakly informative priors, conjugate families and sensitivity analysis.
+    - titulo: Computação bayesiana e MCMC
+      title: Bayesian computation and MCMC
+      descricao: Aproximação em grade, Metropolis-Hastings, HMC e diagnósticos de convergência.
+      description: Grid approximation, Metropolis-Hastings, HMC and convergence diagnostics.
+    - titulo: Modelos hierárquicos
+      title: Hierarchical models
+      descricao: Agrupamento parcial (partial pooling), interceptos e inclinações variáveis.
+      description: Partial pooling, varying intercepts and varying slopes.
+    - titulo: Checagem preditiva, WAIC/LOO e dados faltantes
+      title: Predictive checking, WAIC/LOO and missing data
+      descricao: Replicações preditivas a posteriori, comparação de modelos e imputação múltipla.
+      description: Posterior predictive checks, model comparison and multiple imputation.
+
+- slug: ml-causal
+  slug_en: causal-ml
+  titulo: Aprendizado de máquina e causalidade
+  title: Machine learning and causality
+  descricao: Regularização, métodos baseados em árvores e estimação de efeitos heterogêneos com aprendizado de máquina.
+  description: Regularization, tree-based methods and heterogeneous treatment effect estimation with machine learning.
+  topicos:
+    - titulo: Viés–variância, regularização e validação cruzada
+      title: Bias–variance, regularization and cross-validation
+      descricao: Sobreajuste, Ridge, Lasso, Elastic Net e seleção de hiperparâmetros.
+      description: Overfitting, Ridge, Lasso, Elastic Net and hyperparameter tuning.
+    - titulo: Árvores, Random Forest e Boosting
+      title: Trees, Random Forest and Boosting
+      descricao: Particionamento recursivo (CART), bagging e gradient boosting.
+      description: Recursive partitioning (CART), bagging and gradient boosting.
+    - titulo: Double Machine Learning e efeitos heterogêneos
+      title: Double Machine Learning and heterogeneous effects
+      descricao: Ortogonalização de Neyman, Meta-Learners e Florestas Causais.
+      description: Neyman orthogonalization, Meta-Learners and Causal Forests.
