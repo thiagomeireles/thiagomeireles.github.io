@@ -18,6 +18,27 @@ rotulo_tipo <- function(tipo) {
   )
 }
 
+# Posições das fatias no gráfico de setores, em fração da volta (0 a 1, no
+# sentido horário a partir do topo). Fatias abaixo de 12% recebem o rótulo do
+# lado de fora, porque dentro delas o texto não cabe.
+setores_posicoes <- function(tab, limite = 0.12) {
+  tab$ymax <- cumsum(tab$f_i)
+  tab$ymin <- tab$ymax - tab$f_i
+  tab$meio <- (tab$ymin + tab$ymax) / 2
+  tab$fora <- tab$f_i < limite
+  tab$lado <- 0
+  tab
+}
+
+# Giro do círculo (em radianos) que leva o centro do bloco de fatias pequenas
+# para as 3 horas. Ali os rótulos de fora ficam um embaixo do outro, em vez de
+# lado a lado no topo, onde se sobrepunham. Sem fatias pequenas, não gira.
+giro_setores <- function(tab) {
+  if (!any(tab$fora)) return(0)
+  centro <- (min(tab$ymin[tab$fora]) + max(tab$ymax[tab$fora])) / 2
+  2 * pi * (0.25 - centro)
+}
+
 texto_barras <- function() {
   tr(
     shiny::withMathJax(
@@ -195,22 +216,31 @@ mod_barras_server <- function(id, modo = shiny::reactive("light")) {
       legenda <- sprintf(tr("n = %s | %s", "n = %s | %s"), fmt_num(sum(tab$n_i), 0), ex$fonte)
 
       if (isTRUE(input$setores)) {
-        tab <- tab[tab$n_i > 0, ]
+        tab <- setores_posicoes(tab[tab$n_i > 0, ])
+        grandes <- tab[!tab$fora, ]
+        pequenas <- tab[tab$fora, ]
         return(
-          ggplot2::ggplot(tab, ggplot2::aes(x = 1, y = f_i, fill = categoria)) +
-            ggplot2::geom_col(width = 1, colour = pal$fundo) +
+          ggplot2::ggplot(tab) +
+            ggplot2::geom_rect(ggplot2::aes(xmin = 0, xmax = 1, ymin = ymin, ymax = ymax, fill = categoria), colour = pal$fundo) +
             ggplot2::geom_text(
-              ggplot2::aes(x = 1.15, label = paste0(categoria, "\n", fmt_pct(f_i))),
-              position = ggplot2::position_stack(vjust = 0.5), colour = "white", size = 4
+              data = grandes, ggplot2::aes(x = 0.62, y = meio, label = paste0(categoria, "\n", fmt_pct(f_i))),
+              colour = "white", size = 4
             ) +
-            ggplot2::coord_polar(theta = "y") +
+            ggplot2::geom_text(
+              data = pequenas, ggplot2::aes(x = 1.06, y = meio, label = paste0(categoria, " (", fmt_pct(f_i), ")"), hjust = lado),
+              colour = pal$texto, size = 4
+            ) +
+            ggplot2::scale_x_continuous(limits = c(0, 1.3), expand = c(0, 0)) +
+            ggplot2::scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
+            ggplot2::coord_polar(theta = "y", start = giro_setores(tab), clip = "off") +
             ggplot2::scale_fill_manual(values = grDevices::colorRampPalette(c("#1f3a9e", "#7d93ef"))(nrow(tab))) +
             ggplot2::labs(
-              title = tr("Setores: o mesmo dado, mais difícil de comparar", "Pie chart: same data, harder to compare"),
+              # Em duas linhas: o círculo tem proporção fixa e estreita a área do título
+              title = tr("Setores: o mesmo dado,\nmais difícil de comparar", "Pie chart: same data,\nharder to compare"),
               subtitle = ex$rotulo, x = NULL, y = NULL, caption = legenda
             ) +
             tema_grafico(modo()) +
-            ggplot2::theme(axis.text = ggplot2::element_blank(), panel.grid = ggplot2::element_blank())
+            ggplot2::theme(axis.text = ggplot2::element_blank(), panel.grid.major = ggplot2::element_blank())
         )
       }
 
@@ -224,6 +254,6 @@ mod_barras_server <- function(id, modo = shiny::reactive("light")) {
         ) +
         tema_grafico(modo()) +
         ggplot2::theme(panel.grid.major.x = ggplot2::element_blank())
-    })
+    }, bg = "transparent") # o círculo tem proporção fixa: fora dele, vale o fundo do card
   })
 }

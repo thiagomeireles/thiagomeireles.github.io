@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_histograma.R (módulo: tabela por classes e histograma com densidade)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/distribuicoes-frequencia/app.R)
@@ -137,27 +137,37 @@ mod_histograma_server <- function(id, modo = shiny::reactive("light")) {
       exemplo()$gerar(input$n)
     })
 
+    # Os sliders levam o nome da variável no id. Ao trocar de variável, o
+    # slider antigo some e o novo ainda não mandou valor: classes() espera
+    # (req) em vez de desenhar os dados novos com a amplitude da variável
+    # anterior. freezeReactiveValue() não serve aqui, porque o valor novo pode
+    # ser igual ao antigo (altura e espera têm amplitude 5) e o gráfico travaria.
+    id_largura <- shiny::reactive(paste0("largura_", input$exemplo))
+    id_deslocamento <- shiny::reactive(paste0("deslocamento_", input$exemplo))
+
     output$controles_classes <- shiny::renderUI({
       ex <- exemplo()
       ns <- session$ns
       shiny::tagList(
         shiny::sliderInput(
-          ns("largura"), sprintf(tr("Amplitude das classes (%s)", "Interval width (%s)"), ex$unidade),
+          ns(id_largura()), sprintf(tr("Amplitude das classes (%s)", "Interval width (%s)"), ex$unidade),
           min = ex$largura / 4, max = ex$largura * 4, value = ex$largura, step = ex$largura / 4
         ),
         shiny::sliderInput(
-          ns("deslocamento"), tr("Deslocar a origem (fração da amplitude)", "Shift the origin (fraction of the width)"),
+          ns(id_deslocamento()), tr("Deslocar a origem (fração da amplitude)", "Shift the origin (fraction of the width)"),
           min = 0, max = 0.9, value = 0, step = 0.1
         )
       )
     })
 
     classes <- shiny::reactive({
-      shiny::req(input$largura, !is.null(input$deslocamento))
+      largura <- input[[id_largura()]]
+      deslocamento <- input[[id_deslocamento()]]
+      shiny::req(largura, !is.null(deslocamento))
       x <- dados()
       ex <- exemplo()
-      origem <- ex$origem + input$deslocamento * input$largura
-      quebras <- quebras_largura(x, input$largura, origem)
+      origem <- ex$origem + deslocamento * largura
+      quebras <- quebras_largura(x, largura, origem)
       if (isTRUE(input$desiguais) && length(quebras) > 4) quebras <- quebras_desiguais(quebras)
       tabela_classes_densidade(x, quebras, ex$digitos)
     })
