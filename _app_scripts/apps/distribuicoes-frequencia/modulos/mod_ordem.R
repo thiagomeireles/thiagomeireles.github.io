@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_ordem.R (módulo: estatísticas de ordem e função de distribuição empírica)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/distribuicoes-frequencia/app.R)
@@ -15,6 +15,20 @@
 densidade_ordem <- function(x, modelo, n, j) {
   constante <- exp(lgamma(n + 1) - lgamma(j) - lgamma(n - j + 1))
   constante * modelo$f(x) * modelo$F(x)^(j - 1) * (1 - modelo$F(x))^(n - j)
+}
+
+# E X_(j) = ∫ x f_(j)(x) dx. Uma grade larga acha onde está a massa de X_(j)
+# (o máximo da gama com n = 100 passa de 11), e stats::integrate() integra só
+# nesse trecho, cortado no suporte verdadeiro: na uniforme, f_(n) tem um degrau
+# de altura n em x = 1, que a regra do trapézio numa grade não capta bem.
+media_ordem <- function(modelo, n, j) {
+  s <- modelo$suporte
+  xs <- seq(s[1] - diff(s), s[2] + 2 * diff(s), length.out = 20001)
+  fx <- densidade_ordem(xs, modelo, n, j)
+  massa <- range(xs[fx > max(fx) * 1e-12]) + c(-1, 1) * diff(xs[1:2])
+  de <- max(massa[1], modelo$limites[1])
+  ate <- min(massa[2], modelo$limites[2])
+  stats::integrate(\(x) x * densidade_ordem(x, modelo, n, j), de, ate, rel.tol = 1e-8, subdivisions = 500L)$value
 }
 
 # k amostras de tamanho n; devolve a j-ésima menor de cada uma
@@ -157,12 +171,7 @@ mod_ordem_server <- function(id, modo = shiny::reactive("light")) {
       simular_ordem(modelo(), input$n, j(), input$k)
     })
 
-    media_teorica <- shiny::reactive({
-      s <- modelo()$suporte
-      xs <- seq(s[1] - 1, s[2] + 1, length.out = 8000)
-      fx <- densidade_ordem(xs, modelo(), input$n, j())
-      integrar(xs, xs * fx)
-    })
+    media_teorica <- shiny::reactive(media_ordem(modelo(), input$n, j()))
 
     rotulo_j <- function(jj) sprintf("X(%s)", jj)
 
@@ -206,7 +215,12 @@ mod_ordem_server <- function(id, modo = shiny::reactive("light")) {
           colour = pal$linha, linetype = "dashed"
         ) +
         ggplot2::geom_point(data = pontos[pontos$destaque, ], ggplot2::aes(x = x, y = y), colour = pal$linha, size = 3.5) +
-        ggplot2::annotate("label", x = x[j()], y = j() / n, label = sprintf("%s ; %d/%d", rotulo_j(j()), j(), n), hjust = -0.1, vjust = 1.2, fill = pal$fundo, colour = pal$linha, size = 4) +
+        # Na metade de cima, o rótulo vai para a esquerda do ponto, para não sair do painel
+        ggplot2::annotate(
+          "label", x = x[j()], y = j() / n, label = sprintf("%s ; %d/%d", rotulo_j(j()), j(), n),
+          hjust = if (j() / n > 0.5) 1.1 else -0.1, vjust = if (j() / n > 0.5) 1.2 else -0.4,
+          fill = pal$fundo, colour = pal$linha, size = 4
+        ) +
         ggplot2::scale_x_continuous(labels = rotulos_eixo()) +
         ggplot2::scale_y_continuous(labels = rotulos_eixo(), limits = c(0, 1)) +
         ggplot2::labs(

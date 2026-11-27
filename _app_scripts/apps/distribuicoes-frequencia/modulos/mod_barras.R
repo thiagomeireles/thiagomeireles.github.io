@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_barras.R (módulo: tabela de frequências e gráfico de barras)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/distribuicoes-frequencia/app.R)
@@ -38,7 +38,7 @@ texto_barras <- function() {
         "separadas, porque as categorias não se encostam como as classes de um histograma. Numa variável ordinal ou",
         "discreta, a ordem do eixo é a ordem natural. Numa nominal, ordenar pela frequência facilita a leitura.",
         "O gráfico de setores (pizza) mostra o mesmo, mas comparar ângulos é mais difícil do que comparar alturas,",
-        "e Agresti e Finlay recomendam as barras."
+        "e, segundo Agresti e Finlay, as barras comparam com mais precisão categorias de frequências parecidas."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -64,7 +64,7 @@ texto_barras <- function() {
         "separated, because categories do not touch each other the way histogram bins do. For an ordinal or discrete",
         "variable, the axis follows the natural order. For a nominal one, sorting by frequency makes it easier to read.",
         "A pie chart shows the same thing, but comparing angles is harder than comparing heights, and Agresti and",
-        "Finlay recommend bar graphs."
+        "Finlay note that a bar graph compares categories with similar frequencies more precisely."
       ),
       shiny::p(
         shiny::strong("Try it:"),

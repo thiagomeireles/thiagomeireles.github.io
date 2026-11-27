@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  dados.R (dados e funções comuns do tópico Distribuições de frequência)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/distribuicoes-frequencia/app.R,
@@ -97,21 +97,22 @@ exemplos_continuos <- list(
 )
 
 # Modelos com densidade conhecida, para as abas de estimação e de estatísticas
-# de ordem: gerador, densidade, cdf e um intervalo que cobre quase toda a massa.
+# de ordem: gerador, densidade, cdf, um intervalo que cobre quase toda a massa
+# (suporte, usado nas grades) e o suporte verdadeiro (limites, ±Inf se ilimitado).
 modelos_densidade <- list(
   normal = list(
     rotulo = tr("Normal (0, 1)", "Normal (0, 1)"),
     gerar = function(n) stats::rnorm(n),
     f = function(x) stats::dnorm(x),
     F = function(x) stats::pnorm(x),
-    suporte = c(-4, 4)
+    suporte = c(-4, 4), limites = c(-Inf, Inf)
   ),
   assimetrica = list(
     rotulo = tr("Assimétrica: gama (forma 2, escala 1)", "Skewed: gamma (shape 2, scale 1)"),
     gerar = function(n) stats::rgamma(n, shape = 2, scale = 1),
     f = function(x) stats::dgamma(x, shape = 2, scale = 1),
     F = function(x) stats::pgamma(x, shape = 2, scale = 1),
-    suporte = c(0, 10)
+    suporte = c(0, 10), limites = c(0, Inf)
   ),
   bimodal = list(
     rotulo = tr("Bimodal: mistura 0,5 N(−2; 0,5²) + 0,5 N(2; 0,5²)", "Bimodal: mixture 0.5 N(−2, 0.5²) + 0.5 N(2, 0.5²)"),
@@ -121,14 +122,14 @@ modelos_densidade <- list(
     },
     f = function(x) 0.5 * stats::dnorm(x, -2, 0.5) + 0.5 * stats::dnorm(x, 2, 0.5),
     F = function(x) 0.5 * stats::pnorm(x, -2, 0.5) + 0.5 * stats::pnorm(x, 2, 0.5),
-    suporte = c(-4.5, 4.5)
+    suporte = c(-4.5, 4.5), limites = c(-Inf, Inf)
   ),
   uniforme = list(
     rotulo = tr("Uniforme (0, 1)", "Uniform (0, 1)"),
     gerar = function(n) stats::runif(n),
     f = function(x) stats::dunif(x),
     F = function(x) stats::punif(x),
-    suporte = c(0, 1)
+    suporte = c(0, 1), limites = c(0, 1)
   )
 )
 
