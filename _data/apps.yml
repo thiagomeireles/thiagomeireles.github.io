@@ -99,6 +99,17 @@
   tags_en: [discrete random variable, probability mass function, cumulative distribution function, expected value, variance, Bernoulli, binomial, Poisson, Poisson process, hypergeometric, geometric, memoryless, counts]
   publicado: "2026-11-27"
 
+- slug: duas-va
+  slug_en: two-random-variables
+  tema: variaveis-aleatorias
+  titulo: Duas variáveis aleatórias
+  title: Two random variables
+  descricao: Distribuição conjunta, marginais, teste de independência, condicionais, distribuição da soma Z = X + Y, covariância, correlação e variância de combinações lineares aX + bY, com leis totais e normal bidimensional.
+  description: Joint distribution, marginals, independence test, conditionals, distribution of the sum Z = X + Y, covariance, correlation and variance of linear combinations aX + bY, plus total laws and bivariate normal.
+  tags: [duas variáveis aleatórias, distribuição conjunta, marginais, distribuição condicional, independência, soma de variáveis, covariância, correlação, combinação linear, esperança total, variância total, normal bidimensional]
+  tags_en: [two random variables, joint distribution, marginals, conditional distribution, independence, sum of variables, covariance, correlation, linear combination, total expectation, total variance, bivariate normal]
+  publicado: "2026-11-27"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t

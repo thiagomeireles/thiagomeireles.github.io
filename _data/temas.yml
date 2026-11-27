@@ -75,6 +75,7 @@
       title: Two random variables
       descricao: Distribuição conjunta, marginais, covariância e correlação.
       description: Joint distribution, marginals, covariance and correlation.
+      app: duas-va
 
 - slug: amostra-populacao
   slug_en: sample-to-population
