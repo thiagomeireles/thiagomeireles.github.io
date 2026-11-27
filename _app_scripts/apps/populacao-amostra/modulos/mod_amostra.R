@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_amostra.R (módulo: uma amostra tirada da população)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/populacao-amostra/app.R)
@@ -21,10 +21,16 @@ opcoes_medida <- function(variavel) {
 }
 
 # Erro com sinal. O sinal sai do valor já arredondado, para um erro desprezível
-# (como o do censo) aparecer como 0, e não como +0 ou −0.
+# (como o do censo) aparecer como 0, e não como +0 ou −0. Na proporção, o erro
+# é a diferença entre dois percentuais, por isso sai em pontos percentuais.
 fmt_erro <- function(erro, variavel, medida) {
-  texto <- fmt_medida(abs(erro), variavel, medida)
-  zero <- fmt_medida(0, variavel, medida)
+  formatar <- if (identical(medida, "proporcao")) {
+    \(x) paste0(fmt_num(100 * x, 1), tr(" p.p.", " pp"))
+  } else {
+    \(x) fmt_medida(x, variavel, medida)
+  }
+  texto <- formatar(abs(erro))
+  zero <- formatar(0)
   if (identical(texto, zero)) return(zero)
   paste0(if (erro > 0) "+" else "−", texto)
 }
@@ -67,9 +73,10 @@ texto_amostra <- function() {
         "n = 10, o desvio padrão da renda fica, em média, cerca de 8% abaixo de σ), que some quando n cresce."
       ),
       shiny::p(
-        "A pesquisa online é diferente. Como quem não usa internet nunca é sorteado, e esse grupo é mais velho e tem",
-        "renda menor, a estatística passa a errar, em média, para o mesmo lado. Isso é viés de seleção (Morettin e",
-        "Bussab, seção 10.4), e ele não some com uma amostra maior: aumentar n só deixa o erro mais estável."
+        "A pesquisa online é diferente. Quem não usa internet nunca é sorteado, e esse grupo é mais velho e tem",
+        "renda menor. Por isso, a estatística passa a errar, em média, para o mesmo lado. Isso é viés de amostragem,",
+        "aqui causado por subcobertura: o grupo que pode ser sorteado deixa de fora parte da população (Agresti e",
+        "Finlay, seção 2.3). Esse viés não some com uma amostra maior: aumentar n só deixa o erro mais estável."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
@@ -120,11 +127,15 @@ mod_amostra_ui <- function(id) {
       shiny::helpText(tr(
         paste(
           "Trocar a variável ou a medida mantém as mesmas pessoas sorteadas. Trocar n ou a forma de escolha recomeça o",
-          "histórico. Com n = 2.000, a amostra aleatória simples inclui todo mundo: é um censo."
+          "histórico. Com n = 2.000, a amostra aleatória simples inclui todo mundo: é um censo. Na proporção, o erro",
+          "aparece em pontos percentuais (p.p.): se o parâmetro é 75,4% e a estatística, 80,0%, o erro é +4,6 p.p., e",
+          "não 4,6%."
         ),
         paste(
           "Changing the variable or the measure keeps the same people. Changing n or how the sample is chosen restarts",
-          "the history. With n = 2,000, the simple random sample includes everyone: it is a census."
+          "the history. With n = 2,000, the simple random sample includes everyone: it is a census. For the proportion,",
+          "the error is shown in percentage points (pp): if the parameter is 75.4% and the statistic is 80.0%, the error",
+          "is +4.6 pp, not 4.6%."
         )
       ))
     ),

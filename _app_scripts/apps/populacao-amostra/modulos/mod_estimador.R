@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_estimador.R (módulo: estimador e estimativa; divisor n e n − 1)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/populacao-amostra/app.R)
@@ -86,15 +86,17 @@ texto_estimador <- function() {
         "\\(\\sigma^2\\): \\(S^2\\) é não viesado."
       ),
       shiny::p(
-        "Não viesado não quer dizer melhor em tudo. A tabela mostra também o erro quadrático médio (EQM), que soma",
-        "variância e viés ao quadrado. Com \\(n\\) pequeno, o divisor \\(n\\) costuma ter EQM menor: erra um pouco para",
-        "baixo, mas varia menos (Casella e Berger, Ex. 7.3.4, mostram isso para a normal). A vantagem é ainda maior em",
-        "populações de cauda pesada, como a renda. Com \\(n\\) grande, a diferença entre os dois fica desprezível."
+        "Ser não viesado não quer dizer ser melhor em tudo. A tabela mostra também o erro quadrático médio (EQM), que",
+        "soma variância e viés ao quadrado. Nas duas variáveis do app, o divisor \\(n\\) tem EQM menor em qualquer",
+        "\\(n\\) do controle: erra um pouco para baixo, mas varia menos (Casella e Berger, Ex. 7.3.4, mostram isso para",
+        "a normal). A vantagem é maior com \\(n\\) pequeno e na renda, que tem cauda pesada, e encolhe à medida que",
+        "\\(n\\) cresce."
       ),
       shiny::p(
         shiny::strong("Experimente:"),
-        "comece com \\(n = 2\\) e veja a linha cinza estacionar bem abaixo da vermelha. Aumente \\(n\\) e veja as duas",
-        "linhas se aproximarem. Compare o EQM da idade com o da renda, que é muito assimétrica."
+        "comece com \\(n = 2\\) e repare que a linha cinza estaciona bem abaixo da vermelha. Aumente \\(n\\) e as duas",
+        "linhas se aproximam. Depois troque a idade pela renda e confira, na nota da tabela, quanto o divisor \\(n\\)",
+        "reduz o EQM. Como as unidades das duas variáveis são diferentes, compare esse percentual, e não o EQM em si."
       )
     ),
     shiny::withMathJax(
@@ -111,15 +113,17 @@ texto_estimador <- function() {
         "\\(s^2\\) is unbiased."
       ),
       shiny::p(
-        "Unbiased does not mean better in every way. The table also shows the mean squared error (MSE), which adds",
-        "the variance and the squared bias. With small \\(n\\), divisor \\(n\\) usually has the smaller MSE: it misses",
-        "slightly low but varies less (Casella and Berger, Ex. 7.3.4, show this for the normal). The advantage is even",
-        "larger for heavy-tailed populations such as income. As \\(n\\) grows, the difference becomes negligible."
+        "Being unbiased does not mean being better in every way. The table also shows the mean squared error (MSE),",
+        "which adds the variance and the squared bias. For both variables in the app, divisor \\(n\\) has the smaller",
+        "MSE at every \\(n\\) on the slider: it misses slightly low but varies less (Casella and Berger, Ex. 7.3.4, show",
+        "this for the normal). The advantage is largest with small \\(n\\) and for income, which is heavy-tailed, and it",
+        "shrinks as \\(n\\) grows."
       ),
       shiny::p(
         shiny::strong("Try it:"),
-        "start with \\(n = 2\\) and watch the grey line settle well below the red one. Increase \\(n\\) and watch the",
-        "two lines come together. Compare the MSE for age with the MSE for income, which is highly skewed."
+        "start with \\(n = 2\\) and watch the grey line settle well below the red one. Increase \\(n\\) and the two",
+        "lines come together. Then switch from age to income and check, in the note under the table, how much divisor",
+        "\\(n\\) cuts the MSE. The two variables are in different units, so compare that percentage, not the MSE itself."
       )
     )
   )
@@ -336,13 +340,21 @@ mod_estimador_server <- function(id, modo = shiny::reactive("light")) {
 
     output$nota_tabela <- shiny::renderText({
       s <- simulacao()
-      menor <- if (mean((s$s2_n - sigma2())^2) < mean((s$s2 - sigma2())^2)) "n" else "n − 1"
+      eqm_n <- mean((s$s2_n - sigma2())^2)
+      eqm_n1 <- mean((s$s2 - sigma2())^2)
+      menor <- if (eqm_n < eqm_n1) "n" else "n − 1"
       sprintf(
         tr(
-          "Viés: média das estimativas menos σ². EQM: média de (estimativa − σ²)², igual a variância + viés². Nesta simulação, o menor EQM ficou com o divisor %s.",
-          "Bias: mean of the estimates minus σ². MSE: mean of (estimate − σ²)², equal to variance + bias². In this simulation, the smaller MSE went to divisor %s."
+          paste(
+            "Viés: média das estimativas menos σ². EQM: média de (estimativa − σ²)², igual a variância + viés². Nesta",
+            "simulação, o menor EQM ficou com o divisor %s, e o EQM do divisor n equivale a %s do EQM do divisor n − 1."
+          ),
+          paste(
+            "Bias: mean of the estimates minus σ². MSE: mean of (estimate − σ²)², equal to variance + bias². In this",
+            "simulation, the smaller MSE went to divisor %s, and the MSE with divisor n is %s of the MSE with divisor n − 1."
+          )
         ),
-        menor
+        menor, fmt_pct(eqm_n / eqm_n1, 0)
       )
     })
   })

@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  mod_conceitos.R (módulo: os quatro conceitos, notação e quiz)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/populacao-amostra/app.R)
@@ -305,19 +305,23 @@ texto_intro_conceitos <- function() {
 nota_notacao <- function() {
   tr(
     paste(
-      "Regra geral: letras gregas para parâmetros, latinas para estatísticas. A tabela segue Morettin e Bussab",
-      "(seções 10.6 e 11.2): a maiúscula (X̄, S²) indica a estatística como regra, que varia de amostra para amostra; a",
-      "minúscula (x̄, s²), o valor observado numa amostra concreta. Agresti e Finlay escrevem ȳ para a média da",
-      "amostra e π e π̂ para a proporção. A variância da população divide por N; a da amostra, por n − 1 (a aba",
-      "\"Estimador e estimativa\" mostra por quê). No capítulo 3, de análise descritiva, Morettin e Bussab dividem",
-      "por n, porque ali não importa se os dados são população ou amostra. Para a mediana não há letra grega",
-      "consagrada; o app usa Md e md, como Morettin e Bussab (exemplo 11.7)."
+      "Regra geral: o parâmetro leva letra grega (μ, σ) e a estatística, letra latina (x̄, s) ou chapéu (p̂). A",
+      "proporção é a exceção em Morettin e Bussab, que a tabela segue (seções 10.6 e 11.2): a da população é p,",
+      "também uma letra latina, e quem marca a estatística é o chapéu. Nessa notação, a maiúscula (X̄, S²) indica a",
+      "estatística como função da amostra, que muda de uma amostra para outra; a minúscula (x̄, s²), o valor observado",
+      "numa amostra concreta. Agresti e Finlay escrevem ȳ para a média da amostra e π e π̂ para a proporção. A",
+      "variância da população divide por N; a da amostra, por n − 1 (a aba \"Estimador e estimativa\" mostra por",
+      "quê). No capítulo 3, de análise descritiva, Morettin e Bussab dividem por n, porque ali não importa se os",
+      "dados são população ou amostra. Para a mediana não há letra grega consagrada: o app usa md para a amostra,",
+      "como Morettin e Bussab no capítulo 3, e Md para a população."
     ),
     paste(
-      "General rule: Greek letters for parameters; Roman letters, or a Greek letter with a hat (π̂), for statistics.",
-      "The table follows Agresti and Finlay. Morettin and Bussab write x̄ for the sample mean and p and p̂ for the proportion. The population",
+      "General rule: parameters get Greek letters (μ, σ, π) and statistics get Roman letters (ȳ, s) or a hat (π̂).",
+      "The table follows Agresti and Finlay. Morettin and Bussab write x̄ for the sample mean and p and p̂ for the",
+      "proportion, so in their notation it is the hat, not the alphabet, that marks the statistic. The population",
       "variance divides by N; the sample variance, s², divides by n − 1 (the \"Estimator and estimate\" tab shows",
-      "why). Agresti and Finlay use no symbol for the median; the app uses Md and md, as Morettin and Bussab do."
+      "why). There is no standard Greek letter for the median, and Agresti and Finlay use no symbol for it; the app",
+      "uses md for the sample, as Morettin and Bussab do in chapter 3, and Md for the population."
     )
   )
 }

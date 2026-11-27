@@ -2,7 +2,7 @@
 # Script:  populacao.R (população simulada e funções de sorteio do tema
 #          População, amostra, parâmetro e estatística)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-25
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - nenhuma (carregado por _app_scripts/apps/populacao-amostra/app.R)

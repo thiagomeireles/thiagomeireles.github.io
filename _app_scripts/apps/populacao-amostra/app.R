@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tópico População, amostra, parâmetro e estatística)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -26,7 +26,7 @@ c(list.files(pasta_comum, pattern = "\\.R$", full.names = TRUE), modulos) |>
 
 ui <- pagina_tema(
   titulo = tr("População, amostra, parâmetro e estatística", "Population, sample, parameter and statistic"),
-  versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)"),
+  versao = tr("0.3 (novembro de 2026)", "0.3 (November 2026)"),
   descricao = tr(
     paste(
       "O que se quer conhecer (a população e seus parâmetros), o que de fato se observa (a amostra e suas estatísticas)",
@@ -34,7 +34,7 @@ ui <- pagina_tema(
       "simulação que compara dois estimadores da variância. Os conceitos seguem Morettin e Bussab (Estatística Básica,",
       "caps. 10 e 11) e Agresti e Finlay (Statistical Methods for the Social Sciences, caps. 1 a 3), e as definições",
       "formais foram conferidas em Casella e Berger (Statistical Inference, caps. 5 e 7) e Wooldridge (Introductory",
-      "Econometrics, apêndice C)."
+      "Econometrics, seção 9.5 e apêndice C)."
     ),
     paste(
       "What we want to know (the population and its parameters), what we actually observe (the sample and its",
@@ -42,7 +42,7 @@ ui <- pagina_tema(
       "from and a simulation that compares two estimators of the variance. The concepts follow Agresti and Finlay",
       "(Statistical Methods for the Social Sciences, chs. 1 to 3) and Morettin and Bussab (Estatística Básica, chs. 10",
       "and 11), and the formal definitions were checked against Casella and Berger (Statistical Inference, chs. 5 and 7)",
-      "and Wooldridge (Introductory Econometrics, appendix C)."
+      "and Wooldridge (Introductory Econometrics, section 9.5 and appendix C)."
     )
   ),
   referencias = list(
