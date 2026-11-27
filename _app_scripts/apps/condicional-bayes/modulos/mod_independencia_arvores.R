@@ -82,8 +82,8 @@ mod_independencia_arvores_ui <- function(id) {
         bslib::card_header(rotulo_entenda()),
         bslib::card_body(
           shiny::p(tr(
-            "A e B são independentes quando P(A ∩ B) = P(A) · P(B), o que equivale a P(A | B) = P(A): saber que B ocorreu não muda a chance de A (Morettin e Bussab, fórmula 5.9; Agresti e Finlay, seção 4.1; Casella e Berger, Def. 1.3.7). Eventos mutuamente exclusivos são o oposto: se A e B não se sobrepõem, saber que B ocorreu zera a chance de A.",
-            "A and B are independent when P(A ∩ B) = P(A) · P(B), which is the same as P(A | B) = P(A): knowing that B occurred does not change the chance of A (Morettin and Bussab, formula 5.9; Agresti and Finlay, section 4.1; Casella and Berger, Def. 1.3.7). Mutually exclusive events are the opposite: if A and B do not overlap, knowing that B occurred drops the chance of A to zero."
+            "A e B são independentes quando P(A ∩ B) = P(A) · P(B), o que equivale a P(A | B) = P(A): saber que B ocorreu não muda a probabilidade de A (Morettin e Bussab, fórmula 5.9; Agresti e Finlay, seção 4.1; Casella e Berger, Def. 1.3.7). Eventos mutuamente exclusivos são o oposto: se A e B não se sobrepõem, saber que B ocorreu zera a probabilidade de A.",
+            "A and B are independent when P(A ∩ B) = P(A) · P(B), which is the same as P(A | B) = P(A): knowing that B occurred does not change the probability of A (Morettin and Bussab, formula 5.9; Agresti and Finlay, section 4.1; Casella and Berger, Def. 1.3.7). Mutually exclusive events are the opposite: if A and B do not overlap, knowing that B occurred drops the probability of A to zero."
           )),
           shiny::p(tr(
             "A árvore começa com a urna dos Exemplos 5.10 e 5.11 de Morettin e Bussab, com 2 bolas brancas e 3 vermelhas. Cada galho da 2ª etapa traz uma probabilidade condicional, e a de cada caminho sai da regra do produto. Sem reposição, a 2ª extração depende da 1ª; com reposição, as duas são independentes.",
@@ -163,18 +163,18 @@ mod_independencia_arvores_server <- function(id, modo) {
         )
       } else if (r$independentes) {
         tr(
-          "Independentes: saber que B ocorreu não muda a chance de A (P(A | B) = P(A) e P(A ∩ B) = P(A) · P(B)).",
-          "Independent: knowing B occurred does not change the chance of A (P(A | B) = P(A) and P(A ∩ B) = P(A) · P(B))."
+          "Independentes: saber que B ocorreu não muda a probabilidade de A (P(A | B) = P(A) e P(A ∩ B) = P(A) · P(B)).",
+          "Independent: knowing B occurred does not change the probability of A (P(A | B) = P(A) and P(A ∩ B) = P(A) · P(B))."
         )
       } else if (r$diferenca > 0) {
         tr(
-          "Dependentes: saber que B ocorreu aumenta a chance de A (P(A | B) > P(A)).",
-          "Dependent: knowing B occurred raises the chance of A (P(A | B) > P(A))."
+          "Dependentes: saber que B ocorreu aumenta a probabilidade de A (P(A | B) > P(A)).",
+          "Dependent: knowing B occurred raises the probability of A (P(A | B) > P(A))."
         )
       } else {
         tr(
-          "Dependentes: saber que B ocorreu diminui a chance de A (P(A | B) < P(A)).",
-          "Dependent: knowing B occurred lowers the chance of A (P(A | B) < P(A))."
+          "Dependentes: saber que B ocorreu diminui a probabilidade de A (P(A | B) < P(A)).",
+          "Dependent: knowing B occurred lowers the probability of A (P(A | B) < P(A))."
         )
       }
       aviso_disj <- if (!r$disjuncao_possivel) {

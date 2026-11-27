@@ -77,8 +77,8 @@ mod_alem_bayes_ui <- function(id) {
         bslib::card_header(tr("Os Três Prisioneiros (Casella e Berger, Ex. 1.3.4)", "The Three Prisoners (Casella and Berger, Ex. 1.3.4)")),
         bslib::card_body(
           shiny::p(tr(
-            "A, B e C estão condenados, e um deles, sorteado, será perdoado. A pede ao guarda que diga o nome de um dos outros dois que será executado, e ouve \"B\" (evento W). A chance de A continua 1/3, porque W não é o mesmo que Bᶜ: se o perdoado for A, o guarda pode dizer B ou C.",
-            "A, B and C are sentenced to death, and one of them, drawn at random, will be pardoned. A asks the warden to name one of the other two who will be executed, and hears \"B\" (event W). A's chance stays at 1/3, because W is not the same as Bᶜ: if A is the one pardoned, the warden may say B or C."
+            "A, B e C estão condenados, e um deles, sorteado, será perdoado. A pede ao guarda que diga o nome de um dos outros dois que será executado, e ouve \"B\" (evento W). A probabilidade de A continua 1/3, porque W não é o mesmo que Bᶜ: se o perdoado for A, o guarda pode dizer B ou C.",
+            "A, B and C are sentenced to death, and one of them, drawn at random, will be pardoned. A asks the warden to name one of the other two who will be executed, and hears \"B\" (event W). A's probability stays at 1/3, because W is not the same as Bᶜ: if A is the one pardoned, the warden may say B or C."
           )),
           shiny::div(
             class = "d-flex flex-wrap align-items-center gap-3 mb-3",
