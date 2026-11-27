@@ -1,13 +1,31 @@
 # =============================================================================
 # Script:  mod_condicional.R (Aba 1: Condicional e regra do produto)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - Controles de P(B), P(A | B) e P(A | Bᶜ)
 # Saída:
 #   - Diagrama proporcional do espaço unitário, tabela comparativa e alertas
 # =============================================================================
+
+# O que A e B significam em cada cenário de partida
+descricao_cenario <- function(cenario) {
+  switch(cenario,
+    teste = tr(
+      "A = teste positivo; B = ter a doença. P(B) é a prevalência, P(A | B) a sensibilidade e P(A | Bᶜ) a taxa de falso positivo.",
+      "A = positive test; B = having the disease. P(B) is the prevalence, P(A | B) the sensitivity and P(A | Bᶜ) the false positive rate."
+    ),
+    churn = tr(
+      "A = o cliente cancela o serviço; B = o cliente acionou o suporte técnico no mês.",
+      "A = the customer cancels the service; B = the customer called tech support that month."
+    ),
+    tr(
+      "A e B são eventos quaisquer. Mova os controles e veja as áreas mudarem.",
+      "A and B are any two events. Move the controls and watch the areas change."
+    )
+  )
+}
 
 mod_condicional_ui <- function(id) {
   ns <- shiny::NS(id)
@@ -27,6 +45,7 @@ mod_condicional_ui <- function(id) {
           )
         )
       ),
+      shiny::uiOutput(ns("descricao")),
       shiny::sliderInput(
         ns("p_b"),
         tr("Probabilidade de B, P(B)", "Probability of B, P(B)"),
@@ -66,23 +85,34 @@ mod_condicional_ui <- function(id) {
         bslib::card_header(rotulo_entenda()),
         bslib::card_body(
           shiny::p(tr(
-            "Condicionar em B significa descartar tudo o que está fora de B e reescalar a área restante para somar 1. Por isso, P(A | B) = P(A ∩ B) / P(B), de onde vem a regra do produto P(A ∩ B) = P(B) · P(A | B).",
-            "Conditioning on B means discarding everything outside B and rescaling the remaining area to sum to 1. That is why P(A | B) = P(A ∩ B) / P(B), yielding the product rule P(A ∩ B) = P(B) · P(A | B)."
-          ))
+            "Condicionar em B significa descartar tudo o que está fora de B e reescalar a área restante para somar 1. Por isso, P(A | B) = P(A ∩ B) / P(B), com P(B) > 0, de onde vem a regra do produto P(A ∩ B) = P(B) · P(A | B) (Morettin e Bussab, seção 5.3, fórmulas 5.7 e 5.8). Agresti e Finlay (seção 4.1) dão um exemplo: 56% dos adultos são casados e, entre os casados, 40% se dizem muito felizes, então cerca de 0,56 × 0,40 = 22% são casados e muito felizes.",
+            "Conditioning on B means discarding everything outside B and rescaling the remaining area to sum to 1. That is why P(A | B) = P(A ∩ B) / P(B), with P(B) > 0, which yields the product rule P(A ∩ B) = P(B) · P(A | B) (Morettin and Bussab, section 5.3, formulas 5.7 and 5.8). Agresti and Finlay (section 4.1) give an example: 56% of adults are married and, among the married, 40% say they are very happy, so about 0.56 × 0.40 = 22% are married and very happy."
+          )),
+          shiny::p(
+            shiny::strong(tr("Experimente:", "Try this:")),
+            tr(
+              "escolha o teste para doença rara. O teste acerta 95% dos doentes, mas só um terço dos positivos tem a doença. Depois aumente P(B) e veja P(B | A) subir enquanto P(A | B) fica parada em 95%.",
+              "pick the rare disease test. The test catches 95% of the sick, yet only a third of the positives have the disease. Then raise P(B) and watch P(B | A) go up while P(A | B) stays at 95%."
+            )
+          )
         )
       ),
-      bslib::card(
-        bslib::card_header(tr("Cuidados", "Watch out")),
-        bslib::card_body(
-          shiny::tags$ul(
-            shiny::tags$li(tr(
-              "Não inverta a condicional: P(A | B) e P(B | A) dividem a mesma interseção P(A ∩ B) por denominadores diferentes (P(B) contra P(A)).",
-              "Do not invert the conditional: P(A | B) and P(B | A) divide the same intersection P(A ∩ B) by different denominators (P(B) versus P(A))."
-            )),
-            shiny::tags$li(tr(
-              "Não confunda P(A | B) com P(A ∩ B): a primeira restringe o universo a B; a segunda mede a fração do espaço inteiro Ω.",
-              "Do not confuse P(A | B) with P(A ∩ B): the first restricts the universe to B; the second measures a fraction of the whole space Ω."
-            ))
+      cartao_cuidados(
+        tr("Cuidados", "Watch out"),
+        stats::setNames(
+          list(
+            tr(
+              "P(A | B) e P(B | A) dividem a mesma interseção P(A ∩ B) por denominadores diferentes, P(B) e P(A). Só coincidem quando P(A) = P(B).",
+              "P(A | B) and P(B | A) divide the same intersection P(A ∩ B) by different denominators, P(B) and P(A). They match only when P(A) = P(B)."
+            ),
+            tr(
+              "P(A | B) restringe o universo a B; P(A ∩ B) mede uma fração do espaço inteiro Ω. No quadrado, a primeira é uma altura e a segunda, uma área.",
+              "P(A | B) restricts the universe to B; P(A ∩ B) measures a fraction of the whole space Ω. In the square, the first is a height and the second an area."
+            )
+          ),
+          c(
+            tr("Não inverta a condicional", "Do not invert the conditional"),
+            tr("Condicional não é interseção", "Conditional is not intersection")
           )
         )
       )
@@ -103,6 +133,11 @@ mod_condicional_server <- function(id, modo) {
         shiny::updateSliderInput(session, "p_a_dado_bc", value = 0.20)
       }
     }, ignoreInit = TRUE)
+
+    output$descricao <- shiny::renderUI({
+      shiny::req(input$cenario)
+      shiny::p(class = "small text-muted", descricao_cenario(input$cenario))
+    })
 
     res <- shiny::reactive({
       shiny::req(
@@ -146,7 +181,8 @@ mod_condicional_server <- function(id, modo) {
           colour = p$fundo, linewidth = 1.2
         ) +
         ggplot2::geom_text(
-          data = cel[cel$prob >= 0.015, , drop = FALSE],
+          # Coluna estreita não comporta o rótulo; o valor segue na tabela ao lado
+          data = cel[cel$prob >= 0.015 & (cel$xmax - cel$xmin) >= 0.10, , drop = FALSE],
           ggplot2::aes(x = cx, y = cy, label = rotulo, colour = chave),
           size = 4.2, fontface = "bold"
         ) +
@@ -167,7 +203,7 @@ mod_condicional_server <- function(id, modo) {
           ),
           x = NULL,
           y = tr("Probabilidade condicional na coluna", "Conditional probability in column"),
-          caption = tr("Área total = 1", "Total area = 1")
+          caption = tr("Área total = 1. B' é o complemento Bᶜ.", "Total area = 1. B' is the complement Bᶜ.")
         ) +
         tema_grafico(modo()) +
         ggplot2::theme(legend.position = "none")
@@ -196,16 +232,45 @@ mod_condicional_server <- function(id, modo) {
 
     output$leitura_regra <- shiny::renderUI({
       r <- res()
-      p_ba_txt <- if (is.na(r$p_b_dado_a)) tr("indefinido", "undefined") else fmt_pct(r$p_b_dado_a, 1)
-      shiny::p(sprintf(
+      if (is.na(r$p_b_dado_a)) {
+        return(shiny::p(tr(
+          "Com P(A | B) = P(A | Bᶜ) = 0, A tem probabilidade zero, e P(B | A) não está definida.",
+          "With P(A | B) = P(A | Bᶜ) = 0, A has probability zero, and P(B | A) is undefined."
+        )))
+      }
+      base <- sprintf(
         tr(
-          "Mesmo quando P(A | B) vale %s, a condicional invertida P(B | A) vale %s porque A também ocorre fora de B (P(A ∩ Bᶜ) = %s).",
-          "Even when P(A | B) equals %s, the inverted conditional P(B | A) equals %s because A also happens outside B (P(A ∩ Bᶜ) = %s)."
+          "As duas condicionais dividem a mesma interseção P(A ∩ B) = %s. P(A | B) = %s divide por P(B) = %s; P(B | A) = %s divide por P(A) = %s.",
+          "Both conditionals divide the same intersection P(A ∩ B) = %s. P(A | B) = %s divides by P(B) = %s; P(B | A) = %s divides by P(A) = %s."
         ),
-        fmt_pct(r$p_a_dado_b, 1),
-        p_ba_txt,
-        fmt_pct(r$p_a_inter_bc, 1)
-      ))
+        fmt_pct(r$p_a_inter_b, 1), fmt_pct(r$p_a_dado_b, 1), fmt_pct(r$p_b, 1),
+        fmt_pct(r$p_b_dado_a, 1), fmt_pct(r$p_a, 1)
+      )
+      complemento <- if (r$p_a_inter_bc == 0) {
+        tr(
+          "Aqui A só ocorre dentro de B (P(A ∩ Bᶜ) = 0), então P(B | A) = 100%: todo caso de A está em B.",
+          "Here A only happens inside B (P(A ∩ Bᶜ) = 0), so P(B | A) = 100%: every case of A lies in B."
+        )
+      } else if (r$p_a > r$p_b) {
+        sprintf(
+          tr(
+            "Somando a parte de A fora de B (P(A ∩ Bᶜ) = %s), P(A) passa de P(B), e por isso a condicional invertida P(B | A) fica menor que P(A | B).",
+            "Adding the part of A outside B (P(A ∩ Bᶜ) = %s), P(A) exceeds P(B), so the inverted conditional P(B | A) is smaller than P(A | B)."
+          ),
+          fmt_pct(r$p_a_inter_bc, 1)
+        )
+      } else if (r$p_a < r$p_b) {
+        tr(
+          "Aqui P(A) é menor que P(B), então a condicional invertida P(B | A) fica maior que P(A | B).",
+          "Here P(A) is smaller than P(B), so the inverted conditional P(B | A) is larger than P(A | B)."
+        )
+      } else {
+        tr(
+          "Com P(A) = P(B), as duas condicionais coincidem.",
+          "With P(A) = P(B), the two conditionals coincide."
+        )
+      }
+      shiny::tagList(shiny::p(base), shiny::p(class = "mb-0", complemento))
     })
   })
 }

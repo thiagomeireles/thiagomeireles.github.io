@@ -1,14 +1,45 @@
 # =============================================================================
 # Script:  mod_bayes.R (Aba 3: Probabilidade total e Teorema de Bayes)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
-#   - Presets (teste diagnóstico, urnas de Bussab, Código Morse) e sliders
+#   - Exemplos (teste diagnóstico, queda da bolsa de Morettin e Bussab, Código
+#     Morse de Casella e Berger) e sliders
 # Saída:
-#   - Tabela completa de Bayes, razão de chances (Gelman Eq. 1.5), gráfico
-#     priori vs. posteriori e grade de 1.000 frequências naturais
+#   - Tabela completa de Bayes, chances a posteriori (Gelman et al., eq. 1.5),
+#     gráfico priori vs. posteriori e grade de 1.000 frequências naturais
 # =============================================================================
+
+# Valores de partida e significado de C₁, C₂ e A em cada exemplo
+exemplos_bayes <- function() {
+  list(
+    diagnostico = list(
+      valores = c(priori1 = 0.010, verossim1 = 0.95, verossim2 = 0.05),
+      hipoteses = c(tr("C₁: Doença presente", "C₁: Disease present"), tr("C₂: Doença ausente", "C₂: Disease absent")),
+      descricao = tr(
+        "A = teste positivo. A doença atinge 1% das pessoas; o teste dá positivo em 95% dos doentes e em 5% dos sadios.",
+        "A = positive test. The disease affects 1% of people; the test is positive in 95% of the sick and 5% of the healthy."
+      )
+    ),
+    bolsa = list(
+      valores = c(priori1 = 0.100, verossim1 = 0.20, verossim2 = 0.05),
+      hipoteses = c(tr("C₁: Bolsa cai (E)", "C₁: Market falls (E)"), tr("C₂: Bolsa sobe (Eᶜ)", "C₂: Market rises (Eᶜ)")),
+      descricao = tr(
+        "A = notícia de alta do dólar. A previsão inicial de queda da bolsa é 0,10; a notícia precedeu 20% das quedas e 5% das altas (Morettin e Bussab, Ex. 5.16).",
+        "A = news of a rising dollar. The initial forecast of a market fall is 0.10; the news came before 20% of falls and 5% of rises (Morettin and Bussab, Ex. 5.16)."
+      )
+    ),
+    morse = list(
+      valores = c(priori1 = 0.429, verossim1 = 0.875, verossim2 = 0.125),
+      hipoteses = c(tr("C₁: Ponto enviado", "C₁: Dot sent"), tr("C₂: Traço enviado", "C₂: Dash sent")),
+      descricao = tr(
+        "A = ponto recebido. Pontos e traços são enviados na proporção 3:4, então P(C₁) = 3/7 ≈ 0,429, e 1/8 dos símbolos é trocado na transmissão (Casella e Berger, Ex. 1.3.6).",
+        "A = dot received. Dots and dashes are sent in a 3:4 ratio, so P(C₁) = 3/7 ≈ 0.429, and 1/8 of the symbols are switched in transmission (Casella and Berger, Ex. 1.3.6)."
+      )
+    )
+  )
+}
 
 mod_bayes_ui <- function(id) {
   ns <- shiny::NS(id)
@@ -18,30 +49,31 @@ mod_bayes_ui <- function(id) {
       width = 330,
       shiny::selectInput(
         ns("preset"),
-        tr("Exemplo clássico", "Classic example"),
+        tr("Exemplo", "Example"),
         choices = stats::setNames(
-          c("diagnostico", "urnas", "morse"),
+          c("diagnostico", "bolsa", "morse"),
           c(
             tr("Teste diagnóstico (taxa base)", "Diagnostic test (base rate)"),
-            tr("Urnas (Morettin & Bussab, Cap. 5)", "Urns (Morettin & Bussab, Ch. 5)"),
-            tr("Código Morse (Casella & Berger, Ex. 1.3.6)", "Morse code (Casella & Berger, Ex. 1.3.6)")
+            tr("Queda da bolsa (Morettin e Bussab, Ex. 5.16)", "Market fall (Morettin and Bussab, Ex. 5.16)"),
+            tr("Código Morse (Casella e Berger, Ex. 1.3.6)", "Morse code (Casella and Berger, Ex. 1.3.6)")
           )
         )
       ),
+      shiny::uiOutput(ns("descricao")),
       shiny::sliderInput(
         ns("priori1"),
         tr("Priori da hipótese 1, P(C₁)", "Prior of hypothesis 1, P(C₁)"),
-        min = 0.005, max = 0.995, value = 0.010, step = 0.005
+        min = 0.001, max = 0.999, value = 0.010, step = 0.001
       ),
       shiny::sliderInput(
         ns("verossim1"),
         tr("Verossimilhança P(A | C₁)", "Likelihood P(A | C₁)"),
-        min = 0.01, max = 0.99, value = 0.95, step = 0.01
+        min = 0.005, max = 0.995, value = 0.95, step = 0.005
       ),
       shiny::sliderInput(
         ns("verossim2"),
         tr("Verossimilhança P(A | C₂)", "Likelihood P(A | C₂)"),
-        min = 0.01, max = 0.99, value = 0.05, step = 0.01
+        min = 0.005, max = 0.995, value = 0.05, step = 0.005
       )
     ),
     bslib::layout_columns(
@@ -69,9 +101,56 @@ mod_bayes_ui <- function(id) {
         )
       ),
       bslib::card(
-        bslib::card_header(tr("Razão de chances (Gelman et al., Eq. 1.5)", "Posterior odds (Gelman et al., Eq. 1.5)")),
+        bslib::card_header(tr("Chances a posteriori (Gelman et al., eq. 1.5)", "Posterior odds (Gelman et al., eq. 1.5)")),
         bslib::card_body(
           shiny::uiOutput(ns("texto_odds"))
+        )
+      )
+    ),
+    bslib::layout_columns(
+      col_widths = c(6, 6),
+      bslib::card(
+        bslib::card_header(rotulo_entenda()),
+        bslib::card_body(
+          shiny::p(tr(
+            "Quando C₁, …, Cₙ formam uma partição de Ω, A se divide em pedaços disjuntos, e P(A) = Σ P(Cⱼ) P(A | Cⱼ) é a probabilidade total, uma média das verossimilhanças ponderada pelas prioris. O Teorema de Bayes divide cada pedaço por esse total: P(Cᵢ | A) = P(Cᵢ) P(A | Cᵢ) / P(A) (Morettin e Bussab, seção 5.4, Teorema 5.1; Casella e Berger, Teo. 1.3.5).",
+            "When C₁, …, Cₙ form a partition of Ω, A splits into disjoint pieces, and P(A) = Σ P(Cⱼ) P(A | Cⱼ) is the total probability, an average of the likelihoods weighted by the priors. Bayes' theorem divides each piece by that total: P(Cᵢ | A) = P(Cᵢ) P(A | Cᵢ) / P(A) (Morettin and Bussab, section 5.4, Theorem 5.1; Casella and Berger, Thm. 1.3.5)."
+          )),
+          shiny::p(tr(
+            "Na forma de chances, P(A) some: chances a posteriori = chances a priori × razão de verossimilhanças (Gelman et al., eq. 1.5). A grade de 1.000 casos mostra a mesma conta em contagens: a posteriori de C₁ é a fração de pontos em C₁ entre todos os pontos de A.",
+            "In odds form, P(A) drops out: posterior odds = prior odds × likelihood ratio (Gelman et al., eq. 1.5). The 1,000-case grid shows the same computation in counts: the posterior of C₁ is the share of C₁ dots among all the dots in A."
+          )),
+          shiny::p(
+            shiny::strong(tr("Experimente:", "Try this:")),
+            tr(
+              "no teste diagnóstico, um positivo leva a probabilidade de doença de 1% para só 16%. Suba a priori para 10% e veja a posteriori passar de 60%. Na queda da bolsa, use a posteriori 0,308 como nova priori e as verossimilhanças 0,10 e 0,60 da segunda notícia (queda dos juros): a probabilidade de queda cai para 0,07, como no livro.",
+              "in the diagnostic test, a positive result takes the probability of disease from 1% to only 16%. Raise the prior to 10% and watch the posterior pass 60%. In the market example, use the posterior 0.308 as the new prior and the likelihoods 0.10 and 0.60 of the second news item (an interest rate cut): the probability of a fall drops to 0.07, as in the book."
+            )
+          )
+        )
+      ),
+      cartao_cuidados(
+        tr("Cuidados", "Watch out"),
+        stats::setNames(
+          list(
+            tr(
+              "com priori baixa, até um teste bom gera mais falsos positivos que verdadeiros. Ignorar P(C₁) é o erro da taxa base.",
+              "with a low prior, even a good test produces more false positives than true ones. Ignoring P(C₁) is the base-rate fallacy."
+            ),
+            tr(
+              "P(A | C₁) e P(A | C₂) não precisam somar 1, porque cada uma vem de uma hipótese diferente. Quem soma 1 são as prioris e as posterioris.",
+              "P(A | C₁) and P(A | C₂) need not sum to 1, because each comes from a different hypothesis. The priors and the posteriors are what sum to 1."
+            ),
+            tr(
+              "a grade arredonda cada célula para um número inteiro de casos. Com prioris muito pequenas, a fração de pontos pode diferir da posteriori exata da tabela.",
+              "the grid rounds each cell to a whole number of cases. With very small priors, the share of dots may differ from the exact posterior in the table."
+            )
+          ),
+          c(
+            tr("Taxa base", "Base rate"),
+            tr("Verossimilhanças não são uma distribuição", "Likelihoods are not a distribution"),
+            tr("Arredondamento da grade", "Grid rounding")
+          )
         )
       )
     )
@@ -80,30 +159,22 @@ mod_bayes_ui <- function(id) {
 
 mod_bayes_server <- function(id, modo) {
   shiny::moduleServer(id, function(input, output, session) {
+    exemplos <- exemplos_bayes()
+
     shiny::observeEvent(input$preset, {
-      if (identical(input$preset, "diagnostico")) {
-        shiny::updateSliderInput(session, "priori1", value = 0.010)
-        shiny::updateSliderInput(session, "verossim1", value = 0.95)
-        shiny::updateSliderInput(session, "verossim2", value = 0.05)
-      } else if (identical(input$preset, "urnas")) {
-        shiny::updateSliderInput(session, "priori1", value = 0.500)
-        shiny::updateSliderInput(session, "verossim1", value = 0.40)
-        shiny::updateSliderInput(session, "verossim2", value = 0.60)
-      } else if (identical(input$preset, "morse")) {
-        shiny::updateSliderInput(session, "priori1", value = round(3 / 7, 3))
-        shiny::updateSliderInput(session, "verossim1", value = 0.875)
-        shiny::updateSliderInput(session, "verossim2", value = 0.125)
-      }
+      v <- exemplos[[input$preset]]$valores
+      shiny::updateSliderInput(session, "priori1", value = v[["priori1"]])
+      shiny::updateSliderInput(session, "verossim1", value = v[["verossim1"]])
+      shiny::updateSliderInput(session, "verossim2", value = v[["verossim2"]])
     }, ignoreInit = TRUE)
 
-    rotulos_hip <- shiny::reactive({
-      if (identical(input$preset, "urnas")) {
-        c(tr("C₁: Urna 1", "C₁: Urn 1"), tr("C₂: Urna 2", "C₂: Urn 2"))
-      } else if (identical(input$preset, "morse")) {
-        c(tr("C₁: Ponto enviado", "C₁: Dot sent"), tr("C₂: Traço enviado", "C₂: Dash sent"))
-      } else {
-        c(tr("C₁: Condição presente", "C₁: Condition present"), tr("C₂: Condição ausente", "C₂: Condition absent"))
-      }
+    exemplo <- shiny::reactive({
+      shiny::req(input$preset %in% names(exemplos))
+      exemplos[[input$preset]]
+    })
+
+    output$descricao <- shiny::renderUI({
+      shiny::p(class = "small text-muted", exemplo()$descricao)
     })
 
     res <- shiny::reactive({
@@ -113,7 +184,7 @@ mod_bayes_server <- function(id, modo) {
         is.finite(input$verossim2)
       )
       calcular_bayes_particao(
-        nomes = rotulos_hip(),
+        nomes = exemplo()$hipoteses,
         priori = c(input$priori1, 1 - input$priori1),
         verossim = c(input$verossim1, input$verossim2)
       )
@@ -156,53 +227,44 @@ mod_bayes_server <- function(id, modo) {
 
     output$grafico_grade <- shiny::renderPlot({
       r <- res()
-      tb <- r$tabela
       p <- paleta_modo(modo())
       n_tot <- 1000L
-      n_vp <- round(n_tot * tb$conjunta[1])
-      n_fn <- round(n_tot * (tb$priori[1] - tb$conjunta[1]))
-      n_fp <- round(n_tot * tb$conjunta[2])
-      n_vn <- max(0L, n_tot - n_vp - n_fn - n_fp)
-
-      cats <- c(
-        rep("VP", n_vp),
-        rep("FP", n_fp),
-        rep("FN", n_fn),
-        rep("VN", n_vn)
-      )[seq_len(n_tot)]
+      cont <- contagens_naturais(r$tabela, n_tot)
+      niveis <- names(cont)
 
       grade <- data.frame(
         x = rep(1:40, each = 25),
         y = rep(25:1, times = 40),
-        cat = factor(cats, levels = c("VP", "FP", "FN", "VN")),
+        cat = factor(rep(niveis, times = cont), levels = niveis),
         stringsAsFactors = FALSE
       )
 
       nomes_cat <- c(
-        VP = tr("C₁ e A (verdadeiro +)", "C₁ and A (true +)"),
-        FP = tr("C₂ e A (falso +)", "C₂ and A (false +)"),
-        FN = tr("C₁ e Aᶜ", "C₁ and Aᶜ"),
-        VN = tr("C₂ e Aᶜ", "C₂ and Aᶜ")
+        C1_A = tr("C₁ e A", "C₁ and A"),
+        C2_A = tr("C₂ e A", "C₂ and A"),
+        C1_nA = tr("C₁ sem A", "C₁ without A"),
+        C2_nA = tr("C₂ sem A", "C₂ without A")
       )
 
       ggplot2::ggplot(grade, ggplot2::aes(x = x, y = y, colour = cat)) +
         ggplot2::geom_point(size = 2.0) +
         ggplot2::scale_colour_manual(
-          values = c(VP = cores_app$destaque, FP = cores_app$referencia, FN = "#f59f00", VN = p$grade),
-          labels = nomes_cat
+          values = c(C1_A = cores_app$destaque, C2_A = cores_app$referencia, C1_nA = "#f59f00", C2_nA = p$grade),
+          labels = nomes_cat,
+          drop = FALSE
         ) +
         ggplot2::labs(
-          title = tr("Onde estão os casos positivos (A)?", "Where are the positive cases (A)?"),
+          title = tr("Onde estão os casos com A?", "Where are the cases with A?"),
           subtitle = sprintf(
-            tr("%d em C₁∩A contra %d em C₂∩A (total A = %d)", "%d in C₁∩A vs. %d in C₂∩A (total A = %d)"),
-            n_vp, n_fp, n_vp + n_fp
+            tr("%d em C₁ e A contra %d em C₂ e A (total de A = %d)", "%d in C₁ and A vs. %d in C₂ and A (total A = %d)"),
+            cont[["C1_A"]], cont[["C2_A"]], cont[["C1_A"]] + cont[["C2_A"]]
           ),
           x = NULL, y = NULL, colour = NULL
         ) +
         tema_grafico(modo()) +
         ggplot2::theme(
           axis.text = ggplot2::element_blank(),
-          panel.grid = ggplot2::element_blank(),
+          panel.grid.major = ggplot2::element_blank(),
           legend.position = "bottom"
         )
     })
@@ -253,14 +315,14 @@ mod_bayes_server <- function(id, modo) {
           fmt_num(o$razao_verossim, 4)
         )),
         shiny::p(shiny::strong(sprintf(
-          tr("Chances posteriores = %s × %s = %s", "Posterior odds = %s × %s = %s"),
+          tr("Chances a posteriori = %s × %s = %s", "Posterior odds = %s × %s = %s"),
           fmt_num(o$odds_priori, 4),
           fmt_num(o$razao_verossim, 4),
           fmt_num(o$odds_posteriori, 4)
         ))),
         shiny::p(class = "text-muted mb-0", tr(
-          "Note que a probabilidade total P(A) cancela na razão de chances, facilitando atualizações sucessivas.",
-          "Notice that the total probability P(A) cancels out in the odds ratio, making sequential updates straightforward."
+          "A probabilidade total P(A) aparece no numerador e no denominador das chances e se cancela. Por isso a conta de atualizações sucessivas fica mais simples.",
+          "The total probability P(A) appears in both the numerator and the denominator of the odds and cancels out. That is why successive updates are simpler to compute."
         ))
       )
     })

@@ -1,7 +1,7 @@
 # =============================================================================
 # Script:  app.R (tópico Probabilidade condicional e Bayes)
 # Autor:  Thiago Meireles
-# Atualizado: 2026-11-26
+# Atualizado: 2026-11-27
 #
 # Entrada:
 #   - _app_scripts/apps/comum/utilitarios.R
@@ -26,20 +26,20 @@ c(list.files(pasta_comum, pattern = "\\.R$", full.names = TRUE), modulos) |>
 
 ui <- pagina_tema(
   titulo = tr("Probabilidade condicional e Bayes", "Conditional probability and Bayes"),
-  versao = tr("0.1 (novembro de 2026)", "0.1 (November 2026)"),
+  versao = tr("0.2 (novembro de 2026)", "0.2 (November 2026)"),
   descricao = tr(
     paste(
       "Como atualizar probabilidades quando surge informação nova: da restrição do espaço amostral à",
       "regra de Bayes. As três abas principais cobrem: (1) probabilidade condicional P(A | B), regra do",
       "produto e o erro de inverter P(A | B) com P(B | A); (2) independência versus eventos mutuamente",
       "exclusivos e árvores de probabilidade com e sem reposição; e (3) probabilidade total, teorema de",
-      "Bayes, razão de chances e frequências naturais para enxergar o efeito da taxa base. O menu \"Para ir",
+      "Bayes, chances a posteriori e frequências naturais para enxergar o efeito da taxa base. O menu \"Para ir",
       "além\" reúne independência dois a dois versus mútua, o problema dos Três Prisioneiros, a",
       "atualização sequencial com distribuição preditiva a posteriori (caso genético de hemofilia) e a",
       "crítica de modelo no exemplo 'radom'. O conteúdo segue Morettin e Bussab (Estatística Básica, cap.",
-      "5, seções 5.3–5.5) e Agresti e Finlay (Statistical Methods for the Social Sciences, cap. 4, seção",
+      "5, seções 5.3 e 5.4) e Agresti e Finlay (Statistical Methods for the Social Sciences, cap. 4, seção",
       "4.1), com Casella e Berger (Statistical Inference, cap. 1, seção 1.3), Gelman et al. (Bayesian",
-      "Data Analysis, cap. 1) e McElreath (Statistical Rethinking, cap. 2) no aprofundamento."
+      "Data Analysis, cap. 1, seções 1.3 e 1.4) e McElreath (Statistical Rethinking, cap. 2) no aprofundamento."
     ),
     paste(
       "How to update probabilities when new information arrives: from restricting the sample space to",
@@ -49,10 +49,11 @@ ui <- pagina_tema(
       "Bayes' theorem, posterior odds and natural frequencies to highlight the base-rate effect. The",
       "\"Going further\" menu gathers pairwise versus mutual independence, the Three Prisoners problem,",
       "sequential updating with posterior predictive probability (hemophilia genetics case) and model",
-      "checking in the 'radom' example. Content follows Agresti and Finlay (Statistical Methods for the",
-      "Social Sciences, ch. 4, section 4.1) and Morettin and Bussab (Estatística Básica, ch. 5, sections",
-      "5.3–5.5), with Casella and Berger (Statistical Inference, ch. 1, section 1.3), Gelman et al.",
-      "(Bayesian Data Analysis, ch. 1) and McElreath (Statistical Rethinking, ch. 2) in the advanced tab."
+      "checking in the 'radom' example. Content follows Morettin and Bussab (Estatística Básica, ch. 5,",
+      "sections 5.3 and 5.4) and Agresti and Finlay (Statistical Methods for the Social Sciences, ch. 4,",
+      "section 4.1), with Casella and Berger (Statistical Inference, ch. 1, section 1.3), Gelman et al.",
+      "(Bayesian Data Analysis, ch. 1, sections 1.3 and 1.4) and McElreath (Statistical Rethinking, ch. 2)",
+      "in the advanced tab."
     )
   ),
   referencias = list(
