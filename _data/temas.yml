@@ -134,3 +134,4 @@
       title: Simple linear regression
       descricao: Mínimos quadrados, R², intervalos para a reta e análise de resíduos.
       description: Least squares, R², intervals for the line and residual analysis.
+      app: regressao-simples

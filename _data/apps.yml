@@ -176,6 +176,17 @@
   tags_en: [ANOVA, analysis of variance, sum of squares, F test, Bartlett, homoscedasticity, multiple comparisons, Bonferroni, Tukey, partial pooling]
   publicado: "2026-11-27"
 
+- slug: regressao-simples
+  slug_en: simple-regression
+  tema: inferencia
+  titulo: Regressão linear simples
+  title: Simple linear regression
+  descricao: Mínimos quadrados ordinários (MQO) e R², intervalos de confiança para E(Y | X) versus intervalos de predição, diagnóstico de resíduos (linearidade e heterocedasticidade) e erros-padrão robustos de White (HC1).
+  description: Ordinary least squares (OLS) and R², confidence intervals for E(Y | X) versus prediction intervals, residual diagnostics (non-linearity and heteroscedasticity) and White robust (HC1) standard errors.
+  tags: [regressão linear simples, mínimos quadrados, MQO, R², intervalo de predição, análise de resíduos, heterocedasticidade, White, HC1, CEF]
+  tags_en: [simple linear regression, least squares, OLS, R-squared, prediction interval, residual analysis, heteroscedasticity, White, HC1, CEF]
+  publicado: "2026-11-27"
+
 - slug: probabilidade
   tema: variaveis-aleatorias
   titulo: Distribuições normal e t
